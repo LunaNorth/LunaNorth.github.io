@@ -1,0 +1,275 @@
+.layout{
+    width: 100%;
+    max-width:1400px;
+}
+/* 重新定义宽度 */
+
+.layout > div:first-child {
+    width: 100%;
+}
+#post {
+    width: 78%;
+}
+.aside-content {
+    max-width: 312px;
+    min-width: 300px;
+}
+.layout.hide-aside {
+    max-width: 1400px;
+}
+/* 定义是否侧边栏的宽度 */
+
+#recent-posts > .recent-post-item {
+    height: 19em;
+    border: var(--style-border);
+}
+#recent-posts > .recent-post-item >.recent-post-info {
+    padding: 0 56px;
+    width: 64%;
+}
+@media screen and (max-width: 768px) {
+    #recent-posts > .recent-post-item {
+        height: auto;
+    }
+    #recent-posts > .recent-post-item >.recent-post-info {
+        padding: 20px 20px 30px;
+        width: 100%;
+        text-align: center;
+    }
+}
+/* 主页文章列表图片宽度 */
+
+[data-theme="light"] #aside-content > .card-widget.card-info {
+    background-image: url(https://s11.ax1x.com/2023/05/02/p9GWEin.jpg);
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: 100%;
+}
+[data-theme="dark"] #aside-content > .card-widget.card-info {
+    background-image: url(https://s11.ax1x.com/2023/05/02/p9GWVGq.jpg);
+    background-repeat: no-repeat;
+    background-attachment: inherit;
+    background-size: 100%;
+}
+
+/* 个人信息卡片背景图 */
+
+#page:has(#icat_page) {
+    border: 0;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  #web_bg ~ .page:has(#icat_page) {
+    background: var(--card-bg);
+  }
+  /* page背景调整 */
+  
+  .icat-content.icat-content-item.icatPage {
+    height: 19rem;
+    color: var(--icat-white);
+    overflow: hidden;
+    margin-top: 0;
+    border-radius: 12px;
+    border: var(--style-border-always);
+    box-shadow: var(--icat-shadow-border);
+  }
+  .icat-content-item .icat-card-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+  }
+  .icat-content-item .icat-content-item-tips {
+    opacity: .8;
+    font-size: .6rem;
+    margin-bottom: .5rem;
+  }
+  .icat-content-item .icat-card-content .icat-content-item-title {
+    margin-bottom: .5rem;
+  }
+  .icat-content-item .icat-content-item-title {
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1;
+  }
+  .icat-content-item .icat-content-bottom {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .icat-content-item .icat-content-bottom .icat-tips {
+    font-weight: bold;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button {
+    height: 40px;
+    width: auto;
+    padding: 0 22px;
+    border-radius: 20px;
+    justify-content: center;
+    background: var(--icat-white);
+    color: var(--icat-black);
+    display: flex;
+    align-items: center;
+    transition: .3s;
+    cursor: pointer;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateZ(0);
+    box-shadow: 0 8px 16px -4px var(--icat-black-op);
+  }
+  .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button i {
+    margin-right: 4px;
+    font-weight: bold;
+  }
+  #page:has(#icat_page) .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button:hover {
+    background: var(--icat-blue);
+    color: var(--icat-white);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .icat-content-item .icat-card-content {
+      padding: 1rem 1rem;
+    }
+    .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button {
+      width: 60px;
+    }
+    .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button i {
+      margin-right: -3px;
+    }
+    .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button-text {
+      display: none;
+    }
+  }
+  /* 响应式 */
+  
+  /* icat-page顶部样式 */
+
+  #recent-posts > .recent-post-item .post_cover {
+    position: relative;
+}
+#recent-posts>.recent-post-item .post_cover::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,.5);
+    content: '';
+    -webkit-transition: -webkit-transform .3s;
+    -moz-transition: -moz-transform .3s;
+    -o-transition: -o-transform .3s;
+    -ms-transition: -ms-transform .3s;
+    transition: transform .3s;
+    -webkit-transform: scale3d(2,1,1) rotate(60deg) translate3d(15%,-150%,0);
+    -moz-transform: scale3d(2,1,1) rotate(60deg) translate3d(15%,-150%,0);
+    -o-transform: scale3d(2,1,1) rotate(60deg) translate3d(15%,-150%,0);
+    -ms-transform: scale3d(2,1,1) rotate(60deg) translate3d(15%,-150%,0);
+    transform: scale3d(2,1,1) rotate(60deg) translate3d(15%,-150%,0);
+}
+#recent-posts>.recent-post-item .post_cover:hover::after {
+    -webkit-transform: scale3d(2,1,1) rotate(60deg) translate3d(0,130%,0);
+    -moz-transform: scale3d(2,1,1) rotate(60deg) translate3d(0,130%,0);
+    -o-transform: scale3d(2,1,1) rotate(60deg) translate3d(0,130%,0);
+    -ms-transform: scale3d(2,1,1) rotate(60deg) translate3d(0,130%,0);
+    transform: scale3d(2,1,1) rotate(60deg) translate3d(0,130%,0);
+}
+
+/* 文章卡片擦亮动画 */
+
+/* 波浪css */
+.main-hero-waves-area {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -11px;
+    z-index: 5;
+  }
+  .waves-area .waves-svg {
+    width: 100%;
+    height: 5rem;
+  }
+  /* Animation */
+  
+  .parallax > use {
+    animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+  }
+  .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+    fill: #f7f9febd;
+  }
+  .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+    fill: #f7f9fe82;
+  }
+  .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+    fill: #f7f9fe36;
+  }
+  .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+    fill: #f7f9fe;
+  }
+  /* 黑色模式背景 */
+  [data-theme="dark"] .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+    fill: #18171dc8;
+  }
+  [data-theme="dark"] .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+    fill: #18171d80;
+  }
+  [data-theme="dark"] .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+    fill: #18171d3e;
+  }
+  [data-theme="dark"] .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+    fill: #18171d;
+  }
+  
+  @keyframes move-forever {
+    0% {
+      transform: translate3d(-90px, 0, 0);
+    }
+    100% {
+      transform: translate3d(85px, 0, 0);
+    }
+  }
+  /*Shrinking for mobile*/
+  @media (max-width: 768px) {
+    .waves-area .waves-svg {
+      height: 40px;
+      min-height: 40px;
+    }
+  }
+  #page-header:not(.not-top-img):before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--mark-bg);
+    content: '';
+    backdrop-filter: blur(20px) saturate(1.5) !important;
+}
+
+
+/* 翻页按钮居中 */
+#pagination {
+  width: 100%;
+  margin: auto;
+}
+
