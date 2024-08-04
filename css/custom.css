@@ -257,13 +257,18 @@
       min-height: 40px;
     }
   }
-  #page-header:not(.not-top-img):before {
+
+  /* #page-header:not(.not-top-img):before {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: var(--mark-bg);
     content: '';
-    backdrop-filter: blur(20px) saturate(1.5) !important;
+    backdrop-filter: blur(20px) saturate(1.5) ;
+} */
+
+#page-header.post-bg::before {
+  backdrop-filter: blur(20px) saturate(1.5) !important;
 }
 
 
@@ -273,3 +278,30 @@
   margin: auto;
 }
 
+/* 文章标题 */
+#page-header #post-info {
+  position: absolute;
+  bottom: 160px;
+  padding: 0 8%;
+  width: 100%;
+  text-align: center;
+}
+
+body {
+  font-family: 'HarmonyOS_Sans_SC_Medium';
+}
+
+
+@font-face {
+  font-family:HarmonyOS_Sans_SC_Medium;font-style: normal;font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/irozhi/HarmonyOS-Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/irozhi/HarmonyOS-Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff') format('woff');
+}
+/* *{font-family:HarmonyOS_Sans_SC_Medium;} */
+
+/* 文章行间距 */
+#article-container p {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 2.3;
+}
