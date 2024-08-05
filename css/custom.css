@@ -61,7 +61,7 @@
     background: transparent !important;
   }
   #web_bg ~ .page:has(#icat_page) {
-    background: var(--card-bg);
+    background: #fff;
   }
   /* page背景调整 */
   
@@ -304,4 +304,262 @@ body {
   margin: 0 0 16px;
   font-size: 16px;
   line-height: 2.3;
+}
+
+/* 个人卡片信息 */
+#aside-content .card-widget {
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+  padding: 24px 24px;
+}
+
+
+/* 页脚 */
+
+#post .post-copyright {
+  background: var(--icat-card-bg);
+  padding: 1rem 1.3rem;
+  overflow: hidden;
+  border: var(--style-border);
+  border-width: 1px;
+  transition: 0.3s;
+  position: relative;
+  margin: 1.5rem 0px 0.5rem;
+  border-radius: 8px;
+}
+#post .post-copyright:before {
+  position: absolute;
+  right: 22px;
+  top: -77px;
+  content: "\e039";
+  font-size: 180px;
+  font-family: "iconfont";
+  color: var(--icat-fontcolor);
+  opacity: 0.1;
+  filter: blur(7px);
+}
+
+/* 版权样式调整 */
+
+/* 文章页H1-H6图标样式效果 */
+h1::before,
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+  -webkit-animation: ccc 1.6s linear infinite;
+  animation: ccc 1.6s linear infinite;
+}
+@-webkit-keyframes ccc {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-1turn);
+    transform: rotate(-1turn);
+  }
+}
+@keyframes ccc {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(-1turn);
+    transform: rotate(-1turn);
+  }
+}
+
+#content-inner.layout h1::before {
+  color: #ef50a8;
+  margin-left: -1.55rem;
+  font-size: 1.3rem;
+  margin-top: -0.23rem;
+}
+#content-inner.layout h2::before {
+  color: #fb7061;
+  margin-left: -1.35rem;
+  font-size: 1.1rem;
+  margin-top: -0.12rem;
+}
+#content-inner.layout h3::before {
+  color: #ffbf00;
+  margin-left: -1.22rem;
+  font-size: 0.95rem;
+  margin-top: -0.09rem;
+}
+#content-inner.layout h4::before {
+  color: #a9e000;
+  margin-left: -1.05rem;
+  font-size: 0.8rem;
+  margin-top: -0.09rem;
+}
+#content-inner.layout h5::before {
+  color: #57c850;
+  margin-left: -0.9rem;
+  font-size: 0.7rem;
+  margin-top: 0rem;
+}
+#content-inner.layout h6::before {
+  color: #5ec1e0;
+  margin-left: -0.9rem;
+  font-size: 0.66rem;
+  margin-top: 0rem;
+}
+
+#content-inner.layout h1:hover,
+#content-inner.layout h2:hover,
+#content-inner.layout h3:hover,
+#content-inner.layout h4:hover,
+#content-inner.layout h5:hover,
+#content-inner.layout h6:hover {
+  color: #3b70fc;
+}
+#content-inner.layout h1:hover::before,
+#content-inner.layout h2:hover::before,
+#content-inner.layout h3:hover::before,
+#content-inner.layout h4:hover::before,
+#content-inner.layout h5:hover::before,
+#content-inner.layout h6:hover::before {
+  color: #3b70fc;
+  -webkit-animation: ccc 3.2s linear infinite;
+  animation: ccc 3.2s linear infinite;
+}
+
+/* 页面设置icon转动速度调整 */
+#rightside_config i.fas.fa-cog.fa-spin {
+  animation: fa-spin 5s linear infinite;
+}
+
+#aside-content .card-archives ul.card-archive-list, #aside-content .card-categories ul.card-category-list {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  -o-box-lines: multiple;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-pack: justify;
+}
+#aside-content .card-archives ul.card-archive-list > .card-archive-list-item, #aside-content .card-categories ul.card-category-list > .card-category-list-item {
+  width: 48%;
+  margin: 3px 0;
+}
+#aside-content .card-archives ul.card-archive-list > .card-archive-list-item a, #aside-content .card-categories ul.card-category-list > .card-category-list-item a {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  padding: 3px 10px;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -o-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  color: var(--font-color);
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  transition: all 0.4s;
+  border: 1px solid #cbcbcb;
+  border-radius: 6px;
+  -webkit-box-orient: vertical;
+}
+
+/* 侧边栏分类（标签）样式调整 */
+
+
+.category-lists .category-list {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  margin: 5em 0 3em;
+}
+.category-lists ul {
+  padding: 0;
+}
+.category-lists ul li {
+  display: flex;
+  width: fit-content;
+  font-size: 1.2em !important;
+  padding: 0.2em 0.5em;
+  background: #fff;
+  margin: 0.5em 0.5em;
+  border-radius: 12px;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  border: 1.5px solid #e3e8f7;
+  box-shadow: 0 8px 16px -4px #2c2d300c !important;
+  align-items: center;
+  font-size: 18px !important;
+}
+.category-lists .category-list a {
+  color: #363636 !important;
+}
+.category-lists .category-list a:hover {
+  color:  #425AEF !important;
+}
+
+.category-lists ul li:before {
+  position: unset;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: 0;
+  color: #363636 !important;
+  cursor: pointer;
+  content: "\e038" !important;
+  opacity: 0.4;
+  padding-top: 2px;
+  padding-right: 2px;
+  display: none;
+}
+.category-lists .category-list .category-list-count {
+  background: #f7f7f9;
+  padding: 4px 4px;
+  border-radius: 6px;
+  color: rgba(60, 60, 67, 0.8);
+  line-height: 1;
+  text-align: center;
+  min-width: 35px;
+  display: inline-block;
+  font-size: 1rem;
+  box-shadow: 0 8px 16px -4px #2c2d300c;
+}
+.category-lists .category-list .category-list-count:before,
+.category-lists .category-list .category-list-count:after {
+  content: '';
+}
+
+/* 分类页样式 */
+
+/* 分类banner边框样式 */
+.icat-content-item .icat-card-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  border: 1px solid #ccc;
 }
