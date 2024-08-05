@@ -583,6 +583,17 @@ h6::before {
   border: 1.5px solid #ccc;
 }
 
+.icat-content.icat-content-item.icatPage {
+  height: 400px;
+  color: var(--icat-white);
+  overflow: hidden;
+  margin-top: 0;
+  border-radius: 12px;
+  border: var(--style-border-always);
+  box-shadow: var(--icat-shadow-border);
+  background-position-y: -1px !important;
+}
+
 /* 页脚部分 */
 #footer-wrap {
   position: relative;
@@ -840,4 +851,32 @@ h1.post-title {
   transition: all 0.3s;
   /* margin-top: 100px; */
   margin: 3em 0.5em 3em;
+}
+
+.cardHover,
+.error404 #error-wrap .error-content,
+.layout > div:first-child:not(.recent-posts),
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+.layout > .recent-posts .pagination > *:not(.space) {
+  border-radius: 8px;
+  background: var(--card-bg);
+  -webkit-box-shadow: var(--card-box-shadow);
+  box-shadow: var(--card-box-shadow);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+.cardHover:hover,
+.error404 #error-wrap .error-content:hover,
+.layout > div:first-child:not(.recent-posts):hover,
+#recent-posts > .recent-post-item:hover,
+#aside-content .card-widget:hover,
+.layout > .recent-posts .pagination > *:not(.space):hover {
+  -webkit-box-shadow: var(--card-hover-box-shadow);
+  box-shadow: var(--card-hover-box-shadow);
+  border: 1px solid #425AEF;
 }
