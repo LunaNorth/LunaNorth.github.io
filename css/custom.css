@@ -1,4 +1,23 @@
-.layout{
+/* 全局宽度 */
+.layout {
+  width: 100%;
+  max-width: 1460px;
+}
+
+/* 侧边卡片栏宽度 */
+.aside-content {
+  max-width: 318px;
+  min-width: 300px;
+}
+
+/* 平板尺寸自适应(不启用侧边栏宽度限制) */
+@media screen and (max-width: 900px) {
+  .aside-content {
+    max-width: none !important;
+    padding: 0 5px 0 5px;
+  }
+}
+/* .layout{
     width: 100%;
     max-width:1400px;
 }
@@ -36,7 +55,7 @@
         width: 100%;
         text-align: center;
     }
-}
+} */
 /* 主页文章列表图片宽度 */
 
 [data-theme="light"] #aside-content > .card-widget.card-info {
@@ -313,11 +332,7 @@ body {
   margin-top: 20px;
   padding: 24px 24px;
 }
-
-
-/* 页脚 */
-
-#post .post-copyright {
+/* #post .post-copyright {
   background: var(--icat-card-bg);
   padding: 1rem 1.3rem;
   overflow: hidden;
@@ -338,7 +353,7 @@ body {
   color: var(--icat-fontcolor);
   opacity: 0.1;
   filter: blur(7px);
-}
+} */
 
 /* 版权样式调整 */
 
@@ -561,7 +576,7 @@ h6::before {
   display: flex;
   flex-direction: column;
   padding: 1rem 2rem;
-  border: 1px solid #ccc;
+  border: 1.5px solid #ccc;
 }
 
 /* 页脚部分 */
@@ -805,3 +820,20 @@ h1.post-title {
   font-size: 23px !important;
 }
 
+
+#recent-posts > .recent-post-item:not(:first-child) {
+  margin-top: 1rem;
+}
+
+/* 标签距离 */
+.tag-cloud-list a {
+  display: inline-block;
+  padding: 0 8px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+  /* margin-top: 100px; */
+  margin: 3em 0.5em 3em;
+}
