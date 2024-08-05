@@ -17,6 +17,11 @@
     padding: 0 5px 0 5px;
   }
 }
+
+.layout.hide-aside {
+  max-width: 1400px;
+}
+
 /* .layout{
     width: 100%;
     max-width:1400px;
@@ -287,7 +292,7 @@
 } */
 
 #page-header.post-bg::before {
-  backdrop-filter: blur(20px) saturate(1.5) !important;
+  backdrop-filter: blur(9px) saturate(1.5) !important;
 }
 
 
