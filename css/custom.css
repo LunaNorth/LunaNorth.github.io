@@ -174,8 +174,7 @@
   /* 响应式 */
   
   /* icat-page顶部样式 */
-
-  #recent-posts > .recent-post-item .post_cover {
+#recent-posts > .recent-post-item .post_cover {
     position: relative;
 }
 #recent-posts>.recent-post-item .post_cover::after {
