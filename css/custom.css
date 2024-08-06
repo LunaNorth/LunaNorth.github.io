@@ -1005,3 +1005,22 @@ button#go-up:hover i {
 button#go-up:hover #percent {
   display: none !important;
 }
+
+
+svg.icon {
+  /* 这里定义svg.icon，避免和Butterfly自带的note标签冲突 */
+   width: 1em; height: 1em;
+   /* width和height定义图标的默认宽度和高度*/
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
+
+/* 生肖大小 */
+svg.icon {
+  width: 4em;
+  height: 2em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
