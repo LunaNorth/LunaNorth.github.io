@@ -934,25 +934,8 @@ h1.post-title {
   margin-top: 1rem;
 }
 
-/* 标签距离 */
-/* .tag-cloud-list a {
-  display: inline-block;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  transition: all 0.3s;
-  margin-top: 2em;
-  margin-right: 0.5em;
-  margin-bottom: 2em;
-  margin-left: 0.5em;
 
-  padding-top: 1em;
-  padding-right: 0.5em;
-  padding-bottom: 1em;
-  padding-left: 0.5em
-} */
-
+/* 标签 */
 .tag-cloud-list a {
   width: fit-content;
   font-size: 1.2em !important;
