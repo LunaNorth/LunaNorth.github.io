@@ -23,6 +23,9 @@
 }
 
 
+#page-header.post-bg {
+  height: 460px !important;
+}
 
 /* .layout{
     width: 100%;
