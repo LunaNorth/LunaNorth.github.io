@@ -935,9 +935,8 @@ h1.post-title {
 }
 
 /* 标签距离 */
-.tag-cloud-list a {
+/* .tag-cloud-list a {
   display: inline-block;
-  /* padding: 0 8px; */
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -952,6 +951,29 @@ h1.post-title {
   padding-right: 0.5em;
   padding-bottom: 1em;
   padding-left: 0.5em
+} */
+
+.tag-cloud-list a {
+  width: fit-content;
+  font-size: 1.2em !important;
+  padding: 0.2em 0.5em;
+  background: #fff;
+  margin: 0.5em 0.5em;
+  border-radius: 12px;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  border: 1.5px solid #e3e8f7;
+  box-shadow: 0 8px 16px -4px #2c2d300c !important;
+  align-items: center;
+  font-size: 18px !important;
+}
+.is-center {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  margin: 5em 0 3em;
 }
 
 .cardHover,
