@@ -1042,3 +1042,10 @@ svg.icon {
   padding: 0 4px;
   font-size: 16px !important;
 }
+
+/* 有序列表 */
+#article-container ol li, #article-container ul li {
+  margin: 4px 0;
+  font-size: 16px;
+  line-height: 2.3;
+}
