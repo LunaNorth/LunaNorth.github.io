@@ -1049,3 +1049,11 @@ svg.icon {
   font-size: 16px;
   line-height: 2.3;
 }
+
+/* 副标题字体大小 */
+#page-header #site-subtitle {
+  color: #fff;
+  font-size: 1.15em;
+  font-size: 20px !important;
+  font-family: 'HarmonyOS_Sans_SC_Medium';
+}
