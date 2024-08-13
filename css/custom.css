@@ -657,7 +657,7 @@ h6::before {
 }
 
 /* 页脚部分 */
-#footer-wrap {
+[data-theme=light] #footer-wrap {
   position: relative;
   padding: 40px 20px;
   color: #000;
@@ -666,7 +666,21 @@ h6::before {
   border-top: 1px solid #e3e8f7;
 }
 
-#footer-wrap a {
+[data-theme=light] #footer-wrap a {
+  color: #008eff;
+}
+
+[data-theme=dark] #footer-wrap {
+  position: relative;
+  padding: 40px 20px;
+  color: #bfbfbf;
+  text-align: center;
+  background: #121212;
+  border-top: 1px solid #2b2b2b;
+  /* background-color: rgba(0, 0, 255, 0); */
+}
+
+[data-theme=dark] #footer-wrap a {
   color: #008eff;
 }
 
@@ -1064,3 +1078,6 @@ svg.icon {
   height: 23px;
   vertical-align: middle;
 }
+
+
+
