@@ -1093,3 +1093,9 @@ svg.icon {
   transition: filter 375ms ease-in 0.2s;
   border: 1.5px solid #cbcbcb;
 } */
+
+/* 加粗文字样式 */
+b, strong {
+  font-weight: bolder;
+  color: #425AEF;
+}
