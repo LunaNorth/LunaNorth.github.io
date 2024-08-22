@@ -10,6 +10,15 @@
   min-width: 300px;
 }
 
+.layout>div:first-child {
+  width: calc(100% - 318px);
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -o-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s
+}
+
 /* 平板尺寸自适应(不启用侧边栏宽度限制) */
 @media screen and (max-width: 900px) {
   .aside-content {
