@@ -410,6 +410,33 @@ body {
 } */
 
 /* 版权样式调整 */
+#post .post-copyright {
+  position: relative;
+  margin: 40px 0 10px;
+  padding: 10px 16px;
+  border: 1px solid #e3e8f7 !important;
+  transition: box-shadow 0.3s ease-in-out;
+  overflow: hidden;
+  border-radius: 12px !important;
+  background: #f7f7f9 !important;
+  box-shadow: 0 3px 8px 6px rgba(242, 238, 238, 0.05) !important;
+}
+
+#post .post-copyright:before {
+  background: var(--heo-post-blockquote-bg);
+  position: absolute;
+  right: -40px;
+  top: -120px;
+  content: '\f25e';
+  font-size: 200px;
+  font-family: 'Font Awesome 5 Brands';
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity = 20);
+  filter: blur(4px) !important;
+  top: -80px;
+  height: 210px !important;
+}
 
 /* 文章页H1-H6图标样式效果 */
 h1::before,
@@ -991,6 +1018,7 @@ h1.post-title {
 .cardHover,
 .error404 #error-wrap .error-content,
 .layout>div:first-child:not(.recent-posts),
+#post .post-copyright,
 #recent-posts>.recent-post-item,
 #aside-content .card-widget,
 .layout>.recent-posts .pagination>*:not(.space) {
@@ -1009,12 +1037,13 @@ h1.post-title {
 .cardHover:hover,
 .error404 #error-wrap .error-content:hover,
 .layout>div:first-child:not(.recent-posts):hover,
+#post .post-copyright:hover,
 #recent-posts>.recent-post-item:hover,
 #aside-content .card-widget:hover,
 .layout>.recent-posts .pagination>*:not(.space):hover {
   -webkit-box-shadow: var(--card-hover-box-shadow);
   box-shadow: var(--card-hover-box-shadow);
-  border: 1px solid #425AEF;
+  border: 1px solid #425AEF !important;
 }
 
 
