@@ -438,6 +438,25 @@ body {
   height: 210px !important;
 }
 
+#post .post-copyright {
+  border-radius: 8px;
+  background: var(--card-bg);
+  -webkit-box-shadow: var(--card-box-shadow);
+  box-shadow: var(--card-box-shadow);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+#post .post-copyright:hover {
+  -webkit-box-shadow: var(--card-hover-box-shadow);
+  box-shadow: var(--card-hover-box-shadow);
+  border: 1px solid #425AEF !important;
+}
+
 /* 文章页H1-H6图标样式效果 */
 h1::before,
 h2::before,
@@ -1018,7 +1037,6 @@ h1.post-title {
 .cardHover,
 .error404 #error-wrap .error-content,
 .layout>div:first-child:not(.recent-posts),
-#post .post-copyright,
 #recent-posts>.recent-post-item,
 #aside-content .card-widget,
 .layout>.recent-posts .pagination>*:not(.space) {
@@ -1037,13 +1055,12 @@ h1.post-title {
 .cardHover:hover,
 .error404 #error-wrap .error-content:hover,
 .layout>div:first-child:not(.recent-posts):hover,
-#post .post-copyright:hover,
 #recent-posts>.recent-post-item:hover,
 #aside-content .card-widget:hover,
 .layout>.recent-posts .pagination>*:not(.space):hover {
   -webkit-box-shadow: var(--card-hover-box-shadow);
   box-shadow: var(--card-hover-box-shadow);
-  border: 1px solid #425AEF !important;
+  border: 1px solid #425AEF;
 }
 
 
