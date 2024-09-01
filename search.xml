@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>本地无法连接Mysql的原因</title>
+      <link href="/posts/17760.html"/>
+      <url>/posts/17760.html</url>
+      
+        <content type="html"><![CDATA[<ol><li>重启 <wavy>docker systemctl restart docker</wavy></li><li>查看docker中的容器 ：<wavy>docker ps</wavy></li><li>启动指定容器 <wavy>docker start mysql</wavy> 再次查看其中的容器</li><li>进行连接</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>1. 初识算法</title>
       <link href="/posts/43711.html"/>
       <url>/posts/43711.html</url>
