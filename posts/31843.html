@@ -161,7 +161,7 @@
 <h3 id="1、什么是-maven-？"><a href="#1、什么是-maven-？" class="headerlink" title="1、什么是 maven ？"></a>1、什么是 maven ？</h3><p>maven 主要服务于基于 java 平台的项目构建，依赖管理和项目信息管理。</p>
 <p>maven 项目对象模型（POM），可以通过一小段描述信息来管理项目的构建，报告和文档的项目管理工具软件。它包含了一个项目对象模型，一组标准集合，一个项目生命周期，一个依赖管理系统和用来运行定义在生命周期阶段中插件目标的逻辑。当使用 Maven 的时候，你用一个明确定义的项对象模型来描述你的项目，然后 Maven 可以应用横切的逻辑，这些逻辑来自于一组共享的（或自定义的）插件。</p>
 <h3 id="2、Maven-能为我们解决什么问题？"><a href="#2、Maven-能为我们解决什么问题？" class="headerlink" title="2、Maven 能为我们解决什么问题？"></a>2、Maven 能为我们解决什么问题？</h3><p>①添加第三方 jar 包</p>
-<p>按照最原始的做法，我们是手动复制 jar 包到项目 WEB-INF &#x2F; lib 下，每个项目都会有一份，造成大量重复文件。而 Maven 将 jar 包放在本地仓库中统一管理，需要jar包只需要用坐标的方式引用即可。</p>
+<p>按照最原始的做法，我们是手动复制 jar 包到项目 WEB-INF / lib 下，每个项目都会有一份，造成大量重复文件。而 Maven 将 jar 包放在本地仓库中统一管理，需要jar包只需要用坐标的方式引用即可。</p>
 <p>②jar 包之间的依赖关系</p>
 <p>jar 包之间往往不是独立的，很多 jar 需要在其他jar包的支持下才能够正常工作，称为 jar 包之间的依赖关系。如果我们手动去导入，要知道 jar 包之间的依赖关系并一一导入是及其麻烦而且容易出错的。如果使用 Maven，它能够将当前 jar 包所依赖的其他所有 jar 包全部导入。</p>
 <p>③获取第三方 jar 包开发过程中我们需要用到很多 jar 包，每个jar包在官网获取的方式不尽相同，给工作带来了额外困难。但是使用Maven 可以以坐标的方式依赖一个 jar 包，Maven 从中央仓库进行下载，并同时下载这个 jar 包依赖的其他 jar 包。</p>
@@ -183,8 +183,9 @@
 <h3 id="4、什么是-Maven-的坐标？"><a href="#4、什么是-Maven-的坐标？" class="headerlink" title="4、什么是 Maven 的坐标？"></a>4、什么是 Maven 的坐标？</h3><p>Maven 其中一个核心的作用就是管理项目的依赖，引入我们所需的各种 jar 包等。为了能自动化的解析任何一个 Java 构件，Maven 必须将这些Jar包或者其他资源进行唯一标识，这是管理项目的依赖的基础，也就是我们要说的坐标。包括我们自己开发的项目，也是要通过坐标进行唯一标识的，这样才能才其它项目中进行依赖引用。</p>
 <p>maven 的坐标通过 groupId，artifactId，version 唯一标志一个构件。groupId 通常为公司或组织名字，artifactId 通常为项目名称，versionId 为版本号。</p>
 <h3 id="5、讲一下-maven-的生命周期"><a href="#5、讲一下-maven-的生命周期" class="headerlink" title="5、讲一下 maven 的生命周期"></a>5、讲一下 maven 的生命周期</h3><p>Maven 的生命周期：从我们的项目构建，一直到项目发布的这个过程。</p>
-<p><img src="https://i0.hdslb.com/bfs/article/bae9346c4e26f178421a2d0c578eec95645325325.png">​</p>
+<p><img src="https://i0.hdslb.com/bfs/article/bae9346c4e26f178421a2d0c578eec95645325325.png" alt="">​</p>
 <p>每个阶段的说明</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -193,7 +194,8 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>validate</td>
 <td>验证项目</td>
 <td>验证项目是否正确且所有必须信息是可用的</td>
@@ -211,7 +213,7 @@
 <tr>
 <td>package</td>
 <td>打包</td>
-<td>创建 JAR &#x2F; WAR 包如在 pom.xml 中定义提及的包</td>
+<td>创建 JAR / WAR 包如在 pom.xml 中定义提及的包</td>
 </tr>
 <tr>
 <td>verify</td>
@@ -228,7 +230,9 @@
 <td>部署</td>
 <td>拷贝最终的工程包到远程仓库中，以共享给其他开发人员和工程</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="6、说说你熟悉哪些-maven-命令？"><a href="#6、说说你熟悉哪些-maven-命令？" class="headerlink" title="6、说说你熟悉哪些 maven 命令？"></a>6、说说你熟悉哪些 maven 命令？</h3><p>mvn archetype:generate 创建 Maven 项目</p>
 <p>mvn compile 编译源代码</p>
 <p>mvn deploy 发布项目</p>
@@ -241,7 +245,7 @@
 <p>mvn eclipse:eclipse 生成 eclipse 项目文件</p>
 <p>mvnjetty:run 启动 jetty 服务</p>
 <p>mvntomcat:run 启动 tomcat 服务</p>
-<p>mvn clean package -Dmaven.test.skip&#x3D;true: 清除以前的包后重新打包，跳过测试类</p>
+<p>mvn clean package -Dmaven.test.skip=true: 清除以前的包后重新打包，跳过测试类</p>
 <h3 id="7、如何解决依赖传递引起的版本冲突？"><a href="#7、如何解决依赖传递引起的版本冲突？" class="headerlink" title="7、如何解决依赖传递引起的版本冲突？"></a>7、如何解决依赖传递引起的版本冲突？</h3><p>可通过 dependency 的 exclusion 元素排除掉依赖。</p>
 <h3 id="8、说说-maven-的依赖原则"><a href="#8、说说-maven-的依赖原则" class="headerlink" title="8、说说 maven 的依赖原则"></a>8、说说 maven 的依赖原则</h3><ul>
 <li>最短路径原则（依赖传递的路径越短越优先）</li>
@@ -252,7 +256,7 @@
 <h3 id="9、说说依赖的解析机制？"><a href="#9、说说依赖的解析机制？" class="headerlink" title="9、说说依赖的解析机制？"></a>9、说说依赖的解析机制？</h3><p>当依赖的范围是 system 的时候，Maven 直接从本地文件系统中解析构件。</p>
 <p>根据依赖坐标计算仓库路径，尝试直接从本地仓库寻找构件，如果发现对应的构件，就解析成功。</p>
 <p>如果在本地仓库不存在相应的构件，就遍历所有的远程仓库，发现后，下载并解析使用。</p>
-<p>如果依赖的版本是 RELEASE 或 LATEST，就基于更新策略读取所有远程仓库的元数据文件（groupId&#x2F;artifactId&#x2F;maven-metadata.xml），将其与本地仓库的对应元合并后，计算出 RELEASE 或者 LATEST 真实的值，然后基于该值检查本地仓库，或者从远程仓库下载。</p>
+<p>如果依赖的版本是 RELEASE 或 LATEST，就基于更新策略读取所有远程仓库的元数据文件（groupId/artifactId/maven-metadata.xml），将其与本地仓库的对应元合并后，计算出 RELEASE 或者 LATEST 真实的值，然后基于该值检查本地仓库，或者从远程仓库下载。</p>
 <p>如果依赖的版本是 SNAPSHOT，就基于更新策略读取所有远程仓库的元数据文件，将它与本地仓库</p>
 <p>对应的元数据合并，得到最新快照版本的值，然后根据该值检查本地仓库，或从远程仓库下载。</p>
 <p>如果最后解析得到的构件版本包含有时间戳，先将该文件下载下来，再将文件名中时间戳信息删除，剩下 SNAPSHOT 并使用（以非时间戳的形式使用）。</p>
@@ -328,7 +332,7 @@
   </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
   function butterfly_swiper_injector_config(){
     var parent_div_git = document.getElementById('recent-posts');
-    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/8ebfad52.html" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/08/pkzZNWD.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-01</span><a class="blog-slider__title" href="posts/8ebfad52.html" alt="">轻语时光</a><div class="blog-slider__text">我大抵是真的眼花了，竟把一个人的落日，看成了两个人的黄昏</div><a class="blog-slider__button" href="posts/8ebfad52.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/facab7a2.html" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/11/pASTNY8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-20</span><a class="blog-slider__title" href="posts/facab7a2.html" alt="">我在人间凑数的日子</a><div class="blog-slider__text">什么家国仇恨浩然正气的，都不要急。先挑起清风明月，杨柳依依和草长莺飞</div><a class="blog-slider__button" href="posts/facab7a2.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/37820.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-24</span><a class="blog-slider__title" href="posts/37820.html" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" href="posts/37820.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/5413be0e.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-11</span><a class="blog-slider__title" href="posts/5413be0e.html" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" href="posts/5413be0e.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/17639.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-16</span><a class="blog-slider__title" href="posts/17639.html" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="posts/17639.html" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/8ebfad52.html" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/08/pkzZNWD.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-01</span><a class="blog-slider__title" href="posts/8ebfad52.html" alt="">轻语时光</a><div class="blog-slider__text">我大抵是真的眼花了，竟把一个人的落日，看成了两个人的黄昏</div><a class="blog-slider__button" href="posts/8ebfad52.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/37820.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-24</span><a class="blog-slider__title" href="posts/37820.html" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" href="posts/37820.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/facab7a2.html" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/11/pASTNY8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-20</span><a class="blog-slider__title" href="posts/facab7a2.html" alt="">我在人间凑数的日子</a><div class="blog-slider__text">什么家国仇恨浩然正气的，都不要急。先挑起清风明月，杨柳依依和草长莺飞</div><a class="blog-slider__button" href="posts/facab7a2.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/5413be0e.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-11</span><a class="blog-slider__title" href="posts/5413be0e.html" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" href="posts/5413be0e.html" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="posts/17639.html" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-16</span><a class="blog-slider__title" href="posts/17639.html" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="posts/17639.html" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
     console.log('已挂载butterfly_swiper')
     parent_div_git.insertAdjacentHTML("afterbegin",item_html)
     }
