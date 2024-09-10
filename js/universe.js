@@ -49,41 +49,36 @@ function replaceAll(e, n, t) {
 }
 var june = {
     diffDate: function (d, more = false) {
-      const dateNow = new Date();
-      const datePost = new Date(d);
-      if (isNaN(datePost.getTime())) { // 检查日期是否有效
-          console.error("Invalid date:", d);
-          return "Invalid Date";
-      }
-  
-      const dateDiff = dateNow.getTime() - datePost.getTime();
-      const minute = 1000 * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const month = day * 30;
-  
-      let result;
-      if (more) {
-          const monthCount = dateDiff / month;
-          const dayCount = dateDiff / day;
-          const hourCount = dateDiff / hour;
-          const minuteCount = dateDiff / minute;
-  
-          if (monthCount >= 1) {
-              result = datePost.toLocaleDateString().replace(/\//g, "-");
-          } else if (dayCount >= 1) {
-              result = parseInt(dayCount) + " " + (GLOBAL_CONFIG?.date_suffix?.day || "days");
-          } else if (hourCount >= 1) {
-              result = parseInt(hourCount) + " " + (GLOBAL_CONFIG?.date_suffix?.hour || "hours");
-          } else if (minuteCount >= 1) {
-              result = parseInt(minuteCount) + " " + (GLOBAL_CONFIG?.date_suffix?.min || "minutes");
-          } else {
-              result = (GLOBAL_CONFIG?.date_suffix?.just || "Just now");
-          }
-      } else {
-          result = parseInt(dateDiff / day);
-      }
-      return result;
+        const dateNow = new Date();
+        const datePost = new Date(d);
+        const dateDiff = dateNow.getTime() - datePost.getTime();
+        const minute = 1000 * 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+        const month = day * 30;
+
+        let result;
+        if (more) {
+            const monthCount = dateDiff / month;
+            const dayCount = dateDiff / day;
+            const hourCount = dateDiff / hour;
+            const minuteCount = dateDiff / minute;
+
+            if (monthCount >= 1) {
+                result = datePost.toLocaleDateString().replace(/\//g, "-");
+            } else if (dayCount >= 1) {
+                result = parseInt(dayCount) + " " + GLOBAL_CONFIG.date_suffix.day;
+            } else if (hourCount >= 1) {
+                result = parseInt(hourCount) + " " + GLOBAL_CONFIG.date_suffix.hour;
+            } else if (minuteCount >= 1) {
+                result = parseInt(minuteCount) + " " + GLOBAL_CONFIG.date_suffix.min;
+            } else {
+                result = GLOBAL_CONFIG.date_suffix.just;
+            }
+        } else {
+            result = parseInt(dateDiff / day);
+        }
+        return result;
     },
     changeTimeInEssay: function () {
         document.querySelector("#bber") &&
@@ -157,62 +152,62 @@ window.addEventListener("scroll", essayScroll);
 
 
 function waterfall(a) {
-  function b(a, b) {
-      var c = window.getComputedStyle(b);
-      return parseFloat(c["margin" + a]) || 0;
-  }
-  function c(a) {
-      return a + "px";
-  }
-  function d(a) {
-      return parseFloat(a.style.top);
-  }
-  function e(a) {
-      return parseFloat(a.style.left);
-  }
-  function f(a) {
-      return a.clientWidth;
-  }
-  function g(a) {
-      return a.clientHeight;
-  }
-  function h(a) {
-      return d(a) + g(a) + b("Bottom", a);
-  }
-  function i(a) {
-      return e(a) + f(a) + b("Right", a);
-  }
-  function j(a) {
-      a = a.sort(function (a, b) {
-          return h(a) === h(b) ? e(b) - e(a) : h(b) - h(a);
-      });
-  }
-  function k(b) {
-      f(a) != t && (b.target.removeEventListener(b.type, arguments.callee), waterfall(a));
-  }
-  "string" == typeof a && (a = document.querySelector(a));
-  var l = [].map.call(a.children, function (a) {
-      return (a.style.position = "absolute"), a;
-  });
-  a.style.position = "relative";
-  var m = [];
-  l.length && ((l[0].style.top = "0px"), (l[0].style.left = c(b("Left", l[0]))), m.push(l[0]));
-  for (var n = 1; n < l.length; n++) {
-      var o = l[n - 1],
-          p = l[n],
-          q = i(o) + f(p) <= f(a);
-      if (!q) break;
-      (p.style.top = o.style.top), (p.style.left = c(i(o) + b("Left", p))), m.push(p);
-  }
-  for (; n < l.length; n++) {
-      j(m);
-      var p = l[n],
-          r = m.pop();
-      (p.style.top = c(h(r) + b("Top", p))), (p.style.left = c(e(r))), m.push(p);
-  }
-  j(m);
-  var s = m[0];
-  a.style.height = c(h(s) + b("Bottom", s));
-  var t = f(a);
-  window.addEventListener ? window.addEventListener("resize", k) : (document.body.onresize = k);
+    function b(a, b) {
+        var c = window.getComputedStyle(b);
+        return parseFloat(c["margin" + a]) || 0;
+    }
+    function c(a) {
+        return a + "px";
+    }
+    function d(a) {
+        return parseFloat(a.style.top);
+    }
+    function e(a) {
+        return parseFloat(a.style.left);
+    }
+    function f(a) {
+        return a.clientWidth;
+    }
+    function g(a) {
+        return a.clientHeight;
+    }
+    function h(a) {
+        return d(a) + g(a) + b("Bottom", a);
+    }
+    function i(a) {
+        return e(a) + f(a) + b("Right", a);
+    }
+    function j(a) {
+        a = a.sort(function (a, b) {
+            return h(a) === h(b) ? e(b) - e(a) : h(b) - h(a);
+        });
+    }
+    function k(b) {
+        f(a) != t && (b.target.removeEventListener(b.type, arguments.callee), waterfall(a));
+    }
+    "string" == typeof a && (a = document.querySelector(a));
+    var l = [].map.call(a.children, function (a) {
+        return (a.style.position = "absolute"), a;
+    });
+    a.style.position = "relative";
+    var m = [];
+    l.length && ((l[0].style.top = "0px"), (l[0].style.left = c(b("Left", l[0]))), m.push(l[0]));
+    for (var n = 1; n < l.length; n++) {
+        var o = l[n - 1],
+            p = l[n],
+            q = i(o) + f(p) <= f(a);
+        if (!q) break;
+        (p.style.top = o.style.top), (p.style.left = c(i(o) + b("Left", p))), m.push(p);
+    }
+    for (; n < l.length; n++) {
+        j(m);
+        var p = l[n],
+            r = m.pop();
+        (p.style.top = c(h(r) + b("Top", p))), (p.style.left = c(e(r))), m.push(p);
+    }
+    j(m);
+    var s = m[0];
+    a.style.height = c(h(s) + b("Bottom", s));
+    var t = f(a);
+    window.addEventListener ? window.addEventListener("resize", k) : (document.body.onresize = k);
 }
