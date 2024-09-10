@@ -299,12 +299,13 @@
 }
 
 #bber .timeline #waterfall.show {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 #bber .timeline #waterfall {
   opacity: 0;
   transition: all 0.3s ease 0s;
+  opacity: 1 !important;
 }
 
 #bber ul.list {
