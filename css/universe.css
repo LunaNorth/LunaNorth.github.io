@@ -294,7 +294,7 @@
   opacity: 1;
 }
 #bber .timeline #waterfall {
-  opacity: 0;
+  opacity: 1;
   transition: all 0.3s ease 0s;
 }
 #bber ul.list {
