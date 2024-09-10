@@ -29,9 +29,9 @@
 /* 去掉原来自带的before */
 
 #article-container .flink .flink-list>.flink-list-item:hover {
-  background-color: #49B1F5;
+  background-color: #e68282;
   box-shadow: 0 0 20px rgba(0, 0, 0, .3);
-  transition: 0.8s;
+  transition: 1s;
 }
 
 
