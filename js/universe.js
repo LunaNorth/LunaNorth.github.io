@@ -69,7 +69,7 @@ var june = {
             } else if (dayCount >= 1) {
                 result = parseInt(dayCount) + " " + GLOBAL_CONFIG.date_suffix.day;
             } else if (hourCount >= 1) {
-                result = parseInt(hourCount) + " " + GLOBAL_CONFIG.date_suffix.hour;
+                result = parseInt(hourCount) + " " + GLOBAL_CONFIG.date_suffix.hour || "hours";
             } else if (minuteCount >= 1) {
                 result = parseInt(minuteCount) + " " + GLOBAL_CONFIG.date_suffix.min;
             } else {
