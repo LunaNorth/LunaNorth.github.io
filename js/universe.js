@@ -51,35 +51,40 @@ var june = {
     diffDate: function (d, more = false) {
         const dateNow = new Date();
         const datePost = new Date(d);
+        if (isNaN(datePost.getTime())) { // 检查日期是否有效
+            console.error("Invalid date:", d);
+            return "Invalid Date";
+        }
+    
         const dateDiff = dateNow.getTime() - datePost.getTime();
         const minute = 1000 * 60;
         const hour = minute * 60;
         const day = hour * 24;
         const month = day * 30;
-
+    
         let result;
         if (more) {
             const monthCount = dateDiff / month;
             const dayCount = dateDiff / day;
             const hourCount = dateDiff / hour;
             const minuteCount = dateDiff / minute;
-
+    
             if (monthCount >= 1) {
                 result = datePost.toLocaleDateString().replace(/\//g, "-");
             } else if (dayCount >= 1) {
-                result = parseInt(dayCount) + " " + GLOBAL_CONFIG.date_suffix.day;
+                result = parseInt(dayCount) + " " + (GLOBAL_CONFIG?.date_suffix?.day || "days");
             } else if (hourCount >= 1) {
-                result = parseInt(hourCount) + " " + GLOBAL_CONFIG.date_suffix.hour || "hours";
+                result = parseInt(hourCount) + " " + (GLOBAL_CONFIG?.date_suffix?.hour || "hours");
             } else if (minuteCount >= 1) {
-                result = parseInt(minuteCount) + " " + GLOBAL_CONFIG.date_suffix.min;
+                result = parseInt(minuteCount) + " " + (GLOBAL_CONFIG?.date_suffix?.min || "minutes");
             } else {
-                result = GLOBAL_CONFIG.date_suffix.just;
+                result = (GLOBAL_CONFIG?.date_suffix?.just || "Just now");
             }
         } else {
             result = parseInt(dateDiff / day);
         }
         return result;
-    },
+      },
     changeTimeInEssay: function () {
         document.querySelector("#bber") &&
         document.querySelectorAll("#bber time").forEach(function (e) {
