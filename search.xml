@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>使用Obsidian管理Hexo</title>
+      <link href="/posts/51056.html"/>
+      <url>/posts/51056.html</url>
+      
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>以后不管遇到什么，你都不要对这个世界失去希望</p></div><h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><p>去官网下载<a href="https://obsidian.md/">Obsidian</a> , 然后再进行安装</p><h2 id="软件设置"><a href="#软件设置" class="headerlink" title="软件设置"></a>软件设置</h2><h3 id="编辑器相关设置"><a href="#编辑器相关设置" class="headerlink" title="编辑器相关设置"></a>编辑器相关设置</h3><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/image-20240922082054-r90hn7k.png" alt="image">​</p><h3 id="文件与连接设置"><a href="#文件与连接设置" class="headerlink" title="文件与连接设置"></a>文件与连接设置</h3><p>‍</p><blockquote><p>这里使用Obsidian打卡Blog这个文件夹 ，然后将其不重要的给忽略掉</p></blockquote><p>‍</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/image-20240922082128-qdbntij.png" alt="image">​</p><h3 id="外观设置这个根据自己的喜好进行设置"><a href="#外观设置这个根据自己的喜好进行设置" class="headerlink" title="外观设置这个根据自己的喜好进行设置"></a>外观设置这个根据自己的喜好进行设置</h3><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/image-20240922082312-ctet2pp.png" alt="image">​</p><h2 id="模板设置"><a href="#模板设置" class="headerlink" title="模板设置"></a>模板设置</h2><p>找到<code>scaffolds</code>​这个文件夹 ，打开page这个文件夹 ，填写以下内容</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123;title&#125;&#125;</span><br><span class="line">date: &#123;&#123;date&#125;&#125; &#123;&#123;time&#125;&#125;</span><br><span class="line">author: 捞月亮の小北</span><br><span class="line">tags: </span><br><span class="line">categories: </span><br><span class="line"><span class="section">cover: </span></span><br><span class="line"><span class="section">---</span></span><br></pre></td></tr></table></figure><h2 id="发布方案"><a href="#发布方案" class="headerlink" title="发布方案"></a>发布方案</h2><p>在blog文件夹下新建<code>deploy.bat</code>​文件并填写以下内容</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure><p>以后每次发布文章的时候 ，只需点击<code>deploy.bat</code>​进行发布即可</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Butterfly主题 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>百天打卡</title>
       <link href="/posts/56917.html"/>
       <url>/posts/56917.html</url>
