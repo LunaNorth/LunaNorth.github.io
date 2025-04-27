@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java实现协同过滤算法 | 捞月亮の小北</title><meta name="author" content="捞月亮の小北"><meta name="copyright" content="捞月亮の小北"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="点赞或收藏指标的“隐形评分”算法实现数据库层面的设计在设计一个系统来记录收藏和点赞这两种用户行为作为评分指标时，你不需要创建一个传统的“评分”字段来存储一个具体的数字值（如1到5的评分）。相反，你可以使用两个独立的字段或表来分别跟踪收藏和点赞的数量或状态。  数据库的设计用户表（Users） 用户ID（UserID，主键） 用户名（Username） 其他用户相关信息    物品表（Items）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java实现协同过滤算法">
+<meta property="og:url" content="https://lunanorth.github.io/posts/32104.html">
+<meta property="og:site_name" content="捞月亮の小北">
+<meta property="og:description" content="点赞或收藏指标的“隐形评分”算法实现数据库层面的设计在设计一个系统来记录收藏和点赞这两种用户行为作为评分指标时，你不需要创建一个传统的“评分”字段来存储一个具体的数字值（如1到5的评分）。相反，你可以使用两个独立的字段或表来分别跟踪收藏和点赞的数量或状态。  数据库的设计用户表（Users） 用户ID（UserID，主键） 用户名（Username） 其他用户相关信息    物品表（Items）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2025/04/27/pET1pNT.jpg">
+<meta property="article:published_time" content="2025-04-27T01:55:21.000Z">
+<meta property="article:modified_time" content="2025-04-27T01:56:40.071Z">
+<meta property="article:author" content="捞月亮の小北">
+<meta property="article:tag" content="协同过滤">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2025/04/27/pET1pNT.jpg"><link rel="shortcut icon" href="/img/moon.png"><link rel="canonical" href="https://lunanorth.github.io/posts/32104.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java实现协同过滤算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-27 09:56:40'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/navigation.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s21.ax1x.com/2025/04/27/pET1pNT.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="捞月亮の小北"><img class="site-icon" src="/img/moon.png"/><span class="site-name">捞月亮の小北</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java实现协同过滤算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-27T01:55:21.000Z" title="发表于 2025-04-27 09:55:21">2025-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-27T01:56:40.071Z" title="更新于 2025-04-27 09:56:40">2025-04-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%90%8E%E7%AB%AF/">Java后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java实现协同过滤算法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="点赞或收藏指标的“隐形评分”算法实现"><a href="#点赞或收藏指标的“隐形评分”算法实现" class="headerlink" title="点赞或收藏指标的“隐形评分”算法实现"></a><font style="color:#000000;">点赞或收藏指标的“隐形评分”算法实现</font></h1><h2 id="数据库层面的设计"><a href="#数据库层面的设计" class="headerlink" title="数据库层面的设计"></a><font style="color:#000000;">数据库层面的设计</font></h2><font style="color:#000000;">在设计一个系统来记录收藏和点赞这两种用户行为作为评分指标时，你不需要创建一个传统的“评分”字段来存储一个具体的数字值（如1到5的评分）。相反，你可以使用两个独立的字段或表来分别跟踪收藏和点赞的数量或状态。</font>
+
+<h2 id="数据库的设计"><a href="#数据库的设计" class="headerlink" title="数据库的设计"></a><font style="color:#000000;">数据库</font><font style="color:#000000;">的设计</font></h2><h3 id="用户表（Users）"><a href="#用户表（Users）" class="headerlink" title="用户表（Users）"></a><font style="color:#000000;">用户表（Users）</font></h3><ul>
+<li><font style="color:#000000;">用户ID（UserID，主键）</font></li>
+<li><font style="color:#000000;">用户名（Username）</font></li>
+<li><font style="color:#000000;">其他用户相关信息</font>
+
+</li>
+</ul>
+<h3 id="物品表（Items）"><a href="#物品表（Items）" class="headerlink" title="物品表（Items）"></a><font style="color:#000000;">物品表（Items）</font></h3><ul>
+<li><font style="color:#000000;">物品ID（ItemID，主键）</font></li>
+<li><font style="color:#000000;">物品名称（ItemName）</font></li>
+<li><font style="color:#000000;">其他物品相关信息</font>
+
+</li>
+</ul>
+<h3 id="收藏记录表（Favorites）"><a href="#收藏记录表（Favorites）" class="headerlink" title="收藏记录表（Favorites）"></a><font style="color:#000000;">收藏记录表（Favorites）</font></h3><ul>
+<li><font style="color:#000000;">记录ID（RecordID，主键，自增）</font></li>
+<li><font style="color:#000000;">用户ID（UserID，外键，引用Users表）</font></li>
+<li><font style="color:#000000;">物品ID（ItemID，外键，引用Items表）</font></li>
+<li><font style="color:#000000;">收藏时间（FavoriteTime，记录收藏的时间戳）</font>
+
+</li>
+</ul>
+<h3 id="点赞记录表（Likes）"><a href="#点赞记录表（Likes）" class="headerlink" title="点赞记录表（Likes）"></a><font style="color:#000000;">点赞记录表（Likes）</font></h3><ul>
+<li><font style="color:#000000;">记录ID（RecordID，主键，自增）</font></li>
+<li><font style="color:#000000;">用户ID（UserID，外键，引用Users表）</font></li>
+<li><font style="color:#000000;">物品ID（ItemID，外键，引用Items表）</font></li>
+<li><font style="color:#000000;">点赞时间（LikeTime，记录点赞的时间戳）</font>
+
+</li>
+</ul>
+<h2 id="评分计算"><a href="#评分计算" class="headerlink" title="评分计算"></a><font style="color:#000000;">评分计算</font></h2><font style="color:#000000;">在这个设计中，你没有一个直接的“评分”字段。相反，你可以通过计算收藏和点赞的数量来间接地得到某种形式的“评分”。例如：</font>
+
+<ul>
+<li><strong><font style="color:#000000;">收藏评分</font></strong><font style="color:#000000;">：对于某个物品，你可以通过查询Favorites表来计算有多少用户收藏了它。这个数量可以作为一个指标来表示物品的受欢迎程度。</font></li>
+<li><strong><font style="color:#000000;">点赞评分</font></strong><font style="color:#000000;">：同样地，对于某个物品，你可以通过查询Likes表来计算有多少用户点赞了它。这个数量也可以作为一个指标。</font></li>
+</ul>
+<h2 id="取消收藏和点赞"><a href="#取消收藏和点赞" class="headerlink" title="取消收藏和点赞"></a><font style="color:#000000;">取消收藏和点赞</font></h2><font style="color:#000000;">当用户取消收藏或点赞时，你应该从相应的表中删除对应的记录。这样，当你计算评分时，你会得到准确的收藏和点赞数量。</font>
+
+<ul>
+<li><strong><font style="color:#000000;">取消收藏</font></strong><font style="color:#000000;">：从Favorites表中删除具有特定用户ID和物品ID的记录。</font></li>
+<li><strong><font style="color:#000000;">取消点赞</font></strong><font style="color:#000000;">：从Likes表中删除具有特定用户ID和物品ID的记录。</font></li>
+</ul>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a><font style="color:#000000;">注意事项</font></h2><ul>
+<li><strong><font style="color:#000000;">索引</font></strong><font style="color:#000000;">：为了提高查询效率，你应该在Favorites和Likes表的用户ID和物品ID字段上创建索引。</font></li>
+<li><strong><font style="color:#000000;">一致性</font></strong><font style="color:#000000;">：确保在用户进行收藏、点赞、取消收藏或取消点赞操作时，数据库的状态保持一致。这可能需要使用事务来确保操作的原子性。</font></li>
+<li><strong><font style="color:#000000;">扩展性</font></strong><font style="color:#000000;">：如果你的系统需要支持更多的用户行为作为评分指标（如评论、分享等），你可以按照类似的模式添加更多的记录表。</font></li>
+</ul>
+<font style="color:#000000;">总之，通过分别跟踪收藏和点赞的数量，你可以得到一种形式的“评分”，这种评分反映了用户对物品的喜爱程度和物品的受欢迎程度。当用户取消收藏或点赞时，你应该从相应的表中删除记录以保持数据的准确性。</font>
+
+<h2 id="代码层面的操作"><a href="#代码层面的操作" class="headerlink" title="代码层面的操作"></a><font style="color:#000000;">代码层面的操作</font></h2><font style="color:#000000;">在Java中实现协同过滤（Collaborative Filtering）算法，基于你提供的数据库设计（用户表、物品表、收藏记录表、点赞记录表），通常涉及以下几个步骤：</font>
+
+<ol>
+<li><strong><font style="color:#000000;">数据准备</font></strong><font style="color:#000000;">：从数据库中提取用户-物品交互数据（收藏和点赞）。</font></li>
+<li><strong><font style="color:#000000;">构建用户-物品矩阵</font></strong><font style="color:#000000;">：根据提取的数据，构建一个表示用户与物品之间交互的矩阵。</font></li>
+<li><strong><font style="color:#000000;">计算相似度</font></strong><font style="color:#000000;">：使用某种相似度度量（如余弦相似度、皮尔逊相关系数等）来计算用户或物品之间的相似度。</font></li>
+<li><strong><font style="color:#000000;">生成推荐</font></strong><font style="color:#000000;">：基于相似度矩阵，为目标用户生成推荐列表。</font></li>
+</ol>
+<font style="color:#000000;">以下是一个简化的Java代码示例，展示了如何开始这个过程。请注意，这个示例省略了数据库连接和查询的具体实现，因为那将依赖于你使用的具体数据库和Java持久化框架（如JDBC、Hibernate等）。</font>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">java复制代码</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 假设我们已经有了一个方法从数据库中提取数据</span></span><br><span class="line"><span class="comment">// Map&lt;UserID, Set&lt;ItemID&gt;&gt; getUserFavorites(Collection&lt;UserID&gt; userIDs);</span></span><br><span class="line"><span class="comment">// Map&lt;UserID, Set&lt;ItemID&gt;&gt; getUserLikes(Collection&lt;UserID&gt; userIDs);</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 示例数据（在实际应用中，这些数据将从数据库中提取）</span></span><br><span class="line">Map&lt;Integer, Set&lt;Integer&gt;&gt; favorites = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">Map&lt;Integer, Set&lt;Integer&gt;&gt; likes = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 填充示例数据</span></span><br><span class="line">favorites.put(<span class="number">1</span>, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;(Arrays.asList(<span class="number">101</span>, <span class="number">102</span>)));</span><br><span class="line">favorites.put(<span class="number">2</span>, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;(Arrays.asList(<span class="number">102</span>, <span class="number">103</span>)));</span><br><span class="line">likes.put(<span class="number">1</span>, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;(Arrays.asList(<span class="number">101</span>, <span class="number">104</span>)));</span><br><span class="line">likes.put(<span class="number">2</span>, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;(Arrays.asList(<span class="number">103</span>, <span class="number">104</span>)));</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 合并收藏和点赞为用户-物品交互矩阵</span></span><br><span class="line">Map&lt;Integer, Set&lt;Integer&gt;&gt; userItemInteractions = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;Integer, Set&lt;Integer&gt;&gt; entry : favorites.entrySet()) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">userID</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">    Set&lt;Integer&gt; items = entry.getValue();</span><br><span class="line">    userItemInteractions.putIfAbsent(userID, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;());</span><br><span class="line">    userItemInteractions.get(userID).addAll(items);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;Integer, Set&lt;Integer&gt;&gt; entry : likes.entrySet()) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">userID</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">    Set&lt;Integer&gt; items = entry.getValue();</span><br><span class="line">    userItemInteractions.putIfAbsent(userID, <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;());</span><br><span class="line">    userItemInteractions.get(userID).addAll(items);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 计算用户相似度（以余弦相似度为例）</span></span><br><span class="line">Map&lt;Integer, Map&lt;Integer, Double&gt;&gt; userSimilarity = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> userID1 : userItemInteractions.keySet()) &#123;</span><br><span class="line">    Set&lt;Integer&gt; items1 = userItemInteractions.get(userID1);</span><br><span class="line">    userSimilarity.put(userID1, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> userID2 : userItemInteractions.keySet()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (userID1 != userID2) &#123;</span><br><span class="line">            Set&lt;Integer&gt; items2 = userItemInteractions.get(userID2);</span><br><span class="line">            Set&lt;Integer&gt; commonItems = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;(items1);</span><br><span class="line">            commonItems.retainAll(items2);</span><br><span class="line">            <span class="type">double</span> <span class="variable">numerator</span> <span class="operator">=</span> commonItems.size();</span><br><span class="line">            <span class="type">double</span> <span class="variable">denominator</span> <span class="operator">=</span> Math.sqrt(items1.size() * items2.size());</span><br><span class="line">            <span class="type">double</span> <span class="variable">similarity</span> <span class="operator">=</span> numerator / denominator;</span><br><span class="line">            userSimilarity.get(userID1).put(userID2, similarity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 基于用户相似度生成推荐（这里只是一个简单的示例，没有考虑性能优化）</span></span><br><span class="line"><span class="type">int</span> <span class="variable">targetUserID</span> <span class="operator">=</span> <span class="number">1</span>; <span class="comment">// 假设我们要为用户ID为1的用户生成推荐</span></span><br><span class="line">Set&lt;Integer&gt; recommendedItems = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (Map.Entry&lt;Integer, Double&gt; entry : userSimilarity.get(targetUserID).entrySet()) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">similarUserID</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">    <span class="type">double</span> <span class="variable">similarity</span> <span class="operator">=</span> entry.getValue();</span><br><span class="line">    Set&lt;Integer&gt; similarUserItems = userItemInteractions.get(similarUserID);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> itemID : similarUserItems) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!userItemInteractions.get(targetUserID).contains(itemID)) &#123;</span><br><span class="line">            recommendedItems.add(itemID);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这里可以根据相似度对推荐物品进行排序或过滤（例如，只选择相似度高于某个阈值的物品）</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 输出推荐结果</span></span><br><span class="line">System.out.println(<span class="string">&quot;Recommended items for user &quot;</span> + targetUserID + <span class="string">&quot;: &quot;</span> + recommendedItems);</span><br></pre></td></tr></table></figure>
+<p><strong><font style="color:#000000;">注意</font></strong><font style="color:#000000;">：</font></p>
+<ol>
+<li><font style="color:#000000;">这个示例代码没有处理数据库连接和查询，你需要根据自己的数据库设计来实现这部分逻辑。</font></li>
+<li><font style="color:#000000;">相似度计算部分使用了简单的余弦相似度公式，但实际应用中可能需要更复杂的相似度度量方法。</font></li>
+<li><font style="color:#000000;">推荐生成部分只是一个简单的示例，没有考虑性能优化和推荐质量提升的策略（如考虑时间因素、物品流行度等）。</font></li>
+<li><font style="color:#000000;">在实际应用中，你还需要处理冷启动问题（即新用户或新物品没有足够交互数据的情况）。</font>
+
+</li>
+</ol>
+<font style="color:#000000;">这个示例代码提供了一个基本的框架，你可以在此基础上进行扩展和优化，以适应你的具体需求。</font>
+
+<h2 id="这种形式的一些介绍"><a href="#这种形式的一些介绍" class="headerlink" title="这种形式的一些介绍"></a><font style="color:#000000;">这种形式的一些介绍</font></h2><font style="color:#000000;background-color:rgb(253, 253, 254);">在上述Java代码示例中，我们并没有直接处理一个显式的“评分”字段。</font>**<u><font style="color:#000000;background-color:rgb(253, 253, 254);">相反，我们基于用户的收藏和点赞行为构建了一个用户-物品交互矩阵，然后计算了用户之间的相似度，并基于这些相似度生成了推荐。</font></u>**<font style="color:#000000;background-color:rgb(253, 253, 254);">这里的“评分”概念是隐含的，体现在用户对物品的收藏和点赞行为上。</font>
+
+<font style="color:#000000;background-color:rgb(253, 253, 254);">这些行为可以被视为用户对物品的正面反馈，类似于在传统推荐系统中用户给物品打分（如1到5星）的行为。然而，在这个例子中，我们没有将收藏和点赞转换为具体的数字评分，而是直接使用了这些行为的存在与否来构建交互矩阵。因此，这个示例中的数据可以被视为一种“隐式反馈”数据，而不是传统的“显式评分”数据。隐式反馈数据通常更容易从用户行为中收集，但也可能更难以准确解释和建模，因为不同用户可能对同一行为有不同的解释或重视程度。</font>
+
+<font style="color:#000000;background-color:rgb(253, 253, 254);">在实际应用中，你可能需要根据自己的业务需求和用户行为特点来选择使用隐式反馈还是显式评分数据，或者结合两者来构建推荐系统。</font>
+
+<h1 id="（教程使用的方式）用户-物品评分实现（Apache-Mahut）"><a href="#（教程使用的方式）用户-物品评分实现（Apache-Mahut）" class="headerlink" title="（教程使用的方式）用户-物品评分实现（Apache Mahut）"></a><font style="color:#000000;background-color:rgb(253, 253, 254);">（教程使用的方式）用户-物品评分实现（Apache Mahut）</font></h1><font style="color:#000000;background-color:rgb(253, 253, 254);">下边提供的</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">MahoutUtils</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">类中的</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">recommender</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">方法实现了一个基于用户的协同过滤（User-Based Collaborative Filtering）算法。这是通过以下步骤和组件来体现的：</font>
+
+<ol>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">数据准备</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">方法接受一个</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">List<RatingDTO></font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">作为输入，这个列表包含了用户对物品的评分信息。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">这些评分信息被转换成</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">Preference</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">对象，并添加到一个列表中。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">构建数据模型</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">使用</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">buildDataModel</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">方法，将</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">Preference</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">列表转换成一个</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">DataModel</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">对象。这个模型是Apache Mahout推荐算法所需的输入格式。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">在</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">buildDataModel</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">方法中，偏好被按用户ID分组，并存储在一个</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">FastByIDMap<PreferenceArray></font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">中，其中每个</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">PreferenceArray</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">包含了特定用户的所有偏好。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">计算用户相似度</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">使用</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">PearsonCorrelationSimilarity</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">类来计算用户之间的相似度。Pearson相关系数是一种衡量两个变量之间线性相关程度的统计量，在这里用于衡量用户偏好之间的相似性。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">选择邻居用户</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">使用</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">NearestNUserNeighborhood</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">类来选择与目标用户最相似的邻居用户。这里指定了邻居数量为2（尽管在实际应用中，这个值可能需要根据具体情况进行调整）。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">生成推荐</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">使用</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">GenericUserBasedRecommender</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">类，结合之前构建的数据模型、用户相似度和邻居用户信息，来为目标用户生成推荐。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">调用</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">recommend</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">方法，传入目标用户ID和推荐的物品数量，返回一个</font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">List<RecommendedItem></font>`<font style="color:#000000;background-color:rgb(253, 253, 254);">，包含了推荐给目标用户的物品列表。</font>
+
+</li>
+</ul>
+</li>
+</ol>
+<font style="color:#000000;background-color:rgb(253, 253, 254);">我们的实现是基于Apache Mahout库中的组件，采用Pearson相关系数作为相似度度量（</font>**<u><font style="color:#000000;background-color:rgb(253, 253, 254);">皮尔逊相关系数</font></u>**<font style="color:#000000;background-color:rgb(253, 253, 254);">），通过选择与目标用户最相似的邻居用户来为目标用户生成推荐的基于用户的协同过滤算法。</font>
+
+<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a><font style="color:#000000;background-color:rgb(253, 253, 254);">实现步骤</font></h2><h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a><font style="color:#000000;">依赖</font></h3><ol>
+<li><font style="color:#000000;">pom.xml文件里边，导入Apache Mahut的项目依赖。</font>
+
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.mahout<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mahout-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>14.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a><font style="color:#000000;">实体类</font></h3><font style="color:#000000;">定义评分的DTO类（用到了Lombok插件），三项属性：</font>**<u><font style="color:#000000;">用户ID、物品ID、评分</font></u>**<font style="color:#000000;">：</font>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package cn.kmbeast.entity.dto;</span><br><span class="line"></span><br><span class="line">import lombok.AllArgsConstructor;</span><br><span class="line">import lombok.Data;</span><br><span class="line">import lombok.NoArgsConstructor;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 评分DTO类</span><br><span class="line"> */</span><br><span class="line">@Data</span><br><span class="line">@AllArgsConstructor</span><br><span class="line">@NoArgsConstructor</span><br><span class="line">public class RatingDTO &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 用户ID</span><br><span class="line">     */</span><br><span class="line">    private Integer userId;</span><br><span class="line">    /**</span><br><span class="line">     * 物品ID</span><br><span class="line">     */</span><br><span class="line">    private Integer itemId;</span><br><span class="line">    /**</span><br><span class="line">     * 评分</span><br><span class="line">     */</span><br><span class="line">    private Integer score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a><font style="color:#000000;">工具类</font></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.kmbeast.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.kmbeast.entity.dto.RatingDTO;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.common.TasteException;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.common.FastByIDMap;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.model.GenericDataModel;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.model.GenericItemPreferenceArray;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.model.GenericPreference;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.model.GenericUserPreferenceArray;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.model.DataModel;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.model.Preference;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.model.PreferenceArray;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.recommender.RecommendedItem;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.recommender.UserBasedRecommender;</span><br><span class="line"><span class="keyword">import</span> org.apache.mahout.cf.taste.similarity.UserSimilarity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Mahout工具类，用以实现协同过滤推荐</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MahoutUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 为用户生成指定推荐的用户参数</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ratingDTOS   评分实体，描述的是什么用户（用户ID）对什么物品（物品ID）进行了怎样的评分（分值）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> targetUserId 被推荐者用户ID：向谁推荐的，就是本次调用查看者</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> targetItems  推荐的物品条数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> List&lt;RecommendedItem&gt; 返回的推荐列表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;RecommendedItem&gt; <span class="title function_">recommender</span><span class="params">(List&lt;RatingDTO&gt; ratingDTOS,</span></span><br><span class="line"><span class="params">                                                    Long targetUserId,</span></span><br><span class="line"><span class="params">                                                    <span class="type">int</span> targetItems)</span> &#123;</span><br><span class="line">        List&lt;Preference&gt; preferences = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (RatingDTO ratingDTO : ratingDTOS) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">userId</span> <span class="operator">=</span> ratingDTO.getUserId().longValue(); <span class="comment">// 确保转换为Long类型</span></span><br><span class="line">            <span class="type">long</span> <span class="variable">itemId</span> <span class="operator">=</span> ratingDTO.getItemId().longValue(); <span class="comment">// 确保转换为Long类型</span></span><br><span class="line">            <span class="type">float</span> <span class="variable">score</span> <span class="operator">=</span> ratingDTO.getScore();</span><br><span class="line">            preferences.add(<span class="keyword">new</span> <span class="title class_">GenericPreference</span>(userId, itemId, score));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">DataModel</span> <span class="variable">model</span> <span class="operator">=</span> buildDataModel(preferences);</span><br><span class="line">            <span class="type">UserSimilarity</span> <span class="variable">similarity</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PearsonCorrelationSimilarity</span>(model);</span><br><span class="line">            <span class="type">UserNeighborhood</span> <span class="variable">neighborhood</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NearestNUserNeighborhood</span>(<span class="number">2</span>, similarity, model);</span><br><span class="line">            <span class="type">UserBasedRecommender</span> <span class="variable">recommender</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GenericUserBasedRecommender</span>(model, neighborhood, similarity);</span><br><span class="line">            <span class="keyword">return</span> recommender.recommend(targetUserId, targetItems);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (TasteException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> Collections.emptyList();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DataModel <span class="title function_">buildDataModel</span><span class="params">(List&lt;Preference&gt; preferences)</span> <span class="keyword">throws</span> TasteException &#123;</span><br><span class="line">        Map&lt;Long, List&lt;Preference&gt;&gt; groupedByUserID = preferences.stream()</span><br><span class="line">        .collect(Collectors.groupingBy(Preference::getUserID));</span><br><span class="line"></span><br><span class="line">        FastByIDMap&lt;PreferenceArray&gt; userPreferences = <span class="keyword">new</span> <span class="title class_">FastByIDMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;Long, List&lt;Preference&gt;&gt; entry : groupedByUserID.entrySet()) &#123;</span><br><span class="line">            <span class="type">Long</span> <span class="variable">userID</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            List&lt;Preference&gt; userPrefs = entry.getValue();</span><br><span class="line">            <span class="type">PreferenceArray</span> <span class="variable">preferenceArray</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GenericUserPreferenceArray</span>(userPrefs);</span><br><span class="line">            userPreferences.put(userID, preferenceArray);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">GenericDataModel</span>(userPreferences);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a><font style="color:#000000;">使用</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/32649796/1732176386415-5f5b7d70-7f68-4c4a-a4d7-ec7e8e35198c.png" alt=""></p>
+<ol>
+<li><font style="color:#000000;">将用户对于物品的评分查询回来，转成List<RatingDTO>集合</font></li>
+<li><font style="color:#000000;">调用算法工具类，结果返回推荐的物品ID集合（</font>**<u><font style="color:#000000;">依赖大的数据集，回来的可能为空</font></u>**<font style="color:#000000;">）。</font></li>
+<li><font style="color:#000000;">拿着ID去查询指定的物品信息返回即可。（如果算出来没有，可以默认推最新的数据）</font>
+
+</li>
+</ol>
+<h2 id="可能的情况"><a href="#可能的情况" class="headerlink" title="可能的情况"></a><font style="color:#000000;">可能的情况</font></h2><h3 id="一、返回结果为空的处理"><a href="#一、返回结果为空的处理" class="headerlink" title="一、返回结果为空的处理"></a><font style="color:#000000;background-color:rgb(253, 253, 254);">一、返回结果为空的处理</font></h3><ol>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">检查数据完整性</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">确保用户-物品评分矩阵或其他相关数据集是完整的，没有缺失值或异常值。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">检查数据预处理步骤，确保没有误删或误改数据。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">调整相似度计算方法</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">协同过滤算法的核心是计算相似度。如果当前使用的相似度计算方法（如余弦相似度、</font>**<u><font style="color:#000000;background-color:rgb(253, 253, 254);">皮尔逊相关系数</font></u>**<font style="color:#000000;background-color:rgb(253, 253, 254);">等）效果不佳，可以尝试更换其他方法。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">调整相似度计算中的参数，如阈值、权重等，以优化结果。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">增加数据集</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">如果</font>**<u><font style="color:#000000;background-color:rgb(253, 253, 254);">数据集过小</font></u>**<font style="color:#000000;background-color:rgb(253, 253, 254);">，可能导致算法无法有效学习用户或物品之间的相似性。此时，可以尝试增加数据集的大小，以提高算法的准确性。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">处理冷启动问题</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">对于</font><strong><u><font style="color:#000000;background-color:rgb(253, 253, 254);">新用户或新物品，由于缺乏历史数据，协同过滤算法可能无法为其推荐合适的物品。</font></u></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">此时，可以考虑使用基于内容的推荐或其他混合推荐策略来补充。</font><strong><u><font style="color:#000000;background-color:rgb(253, 253, 254);">（推荐直接查询</font></u>**</strong><u><font style="color:#000000;background-color:#FBDE28;">热度最高</font></u><strong>**<u><font style="color:#000000;background-color:rgb(253, 253, 254);">的物品替代）</font></u></strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="二、返回结果数量不满足指定要求的处理"><a href="#二、返回结果数量不满足指定要求的处理" class="headerlink" title="二、返回结果数量不满足指定要求的处理"></a><font style="color:#000000;background-color:rgb(253, 253, 254);">二、返回结果数量不满足指定要求的处理</font></h3><ol>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">调整推荐策略</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">根据实际需求调整推荐策略。例如，如果希望返回更多结果，可以放宽相似度阈值或增加推荐物品的多样性。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">如果希望返回的结果更加精准，可以收紧相似度阈值并增加对推荐结果的筛选条件。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">使用Top-N推荐</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">在协同过滤算法的基础上，结合Top-N推荐策略。即根据计算出的相似度或评分，选择前N个最相似的物品或用户进行推荐。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">可以通过调整N的值来控制返回结果的数量。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">结合其他推荐算法</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">如果协同过滤算法单独使用时效果不佳，可以考虑结合其他推荐算法（如基于内容的推荐、关联规则推荐等）来提高推荐效果。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">通过混合推荐策略，可以充分利用各种算法的优势，提高推荐的准确性和多样性。</font></li>
+</ul>
+</li>
+<li><strong><font style="color:#000000;background-color:rgb(253, 253, 254);">优化算法实现</font></strong><font style="color:#000000;background-color:rgb(253, 253, 254);">：</font><ul>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">对算法实现进行优化，提高计算效率和准确性。例如，使用更高效的数据结构来存储和计算相似度矩阵。</font></li>
+<li><font style="color:#000000;background-color:rgb(253, 253, 254);">对算法进行并行化处理，以缩短计算时间并提高响应速度。</font>
+
+</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>Java实现协同过滤算法</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://lunanorth.github.io/posts/32104.html">https://lunanorth.github.io/posts/32104.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>捞月亮の小北</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-04-27</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-04-27</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4/">协同过滤</a></div><div class="post_share"><div class="social-share" data-image="https://s21.ax1x.com/2025/04/27/pET1pNT.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/56917.html" title="百天打卡"><img class="cover" src="https://s21.ax1x.com/2024/09/19/pAKRcZV.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">百天打卡</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">捞月亮の小北</div><div class="author-info__description">言念君子 ，温其如玉</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" href="https://lunanorth.github.io/"><i class="fab fa-github"></i><span>剑气长安</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%82%B9%E8%B5%9E%E6%88%96%E6%94%B6%E8%97%8F%E6%8C%87%E6%A0%87%E7%9A%84%E2%80%9C%E9%9A%90%E5%BD%A2%E8%AF%84%E5%88%86%E2%80%9D%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">点赞或收藏指标的“隐形评分”算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B1%82%E9%9D%A2%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">数据库层面的设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">数据库的设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%A8%EF%BC%88Users%EF%BC%89"><span class="toc-text">用户表（Users）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E5%93%81%E8%A1%A8%EF%BC%88Items%EF%BC%89"><span class="toc-text">物品表（Items）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B6%E8%97%8F%E8%AE%B0%E5%BD%95%E8%A1%A8%EF%BC%88Favorites%EF%BC%89"><span class="toc-text">收藏记录表（Favorites）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E8%B5%9E%E8%AE%B0%E5%BD%95%E8%A1%A8%EF%BC%88Likes%EF%BC%89"><span class="toc-text">点赞记录表（Likes）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E5%88%86%E8%AE%A1%E7%AE%97"><span class="toc-text">评分计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E6%94%B6%E8%97%8F%E5%92%8C%E7%82%B9%E8%B5%9E"><span class="toc-text">取消收藏和点赞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%82%E9%9D%A2%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-text">代码层面的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E7%A7%8D%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BB%8B%E7%BB%8D"><span class="toc-text">这种形式的一些介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E6%95%99%E7%A8%8B%E4%BD%BF%E7%94%A8%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%89%E7%94%A8%E6%88%B7-%E7%89%A9%E5%93%81%E8%AF%84%E5%88%86%E5%AE%9E%E7%8E%B0%EF%BC%88Apache-Mahut%EF%BC%89"><span class="toc-text">（教程使用的方式）用户-物品评分实现（Apache Mahut）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96"><span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-text">实体类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-text">工具类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-text">可能的情况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E4%B8%BA%E7%A9%BA%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text">一、返回结果为空的处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E6%95%B0%E9%87%8F%E4%B8%8D%E6%BB%A1%E8%B6%B3%E6%8C%87%E5%AE%9A%E8%A6%81%E6%B1%82%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text">二、返回结果数量不满足指定要求的处理</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By 捞月亮の小北</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">言念君子 ，温其如玉<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: 'Ov23livb5sxAzXC5FAOj',
+      clientSecret: '901c2a65d4b136d295133e9a8176b8650d782c41',
+      repo: 'blog-gitalk',
+      owner: 'LunaNorth',
+      admin: ['LunaNorth'],
+      id: '0853250362370bc19b3f06a60c9f2c86',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas id="universe"></canvas><script async data-pjax src="/js/universe.js"></script><script defer data-pjax src="/js/readPercent.js"></script><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = '81efe4afadcd49fc93bcfb1aa5d42b3c';
+  var gaud_map_key = 'ea946ee5b69e4a4fe76909e6537b883d';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '112.982279,28.19409';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/08/pkzZNWD.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">轻语时光</a><div class="blog-slider__text">我大抵是真的眼花了，竟把一个人的落日，看成了两个人的黄昏</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/09/19/pAKRcZV.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-18</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">百天打卡</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/11/pASTNY8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">我在人间凑数的日子</a><div class="blog-slider__text">什么家国仇恨浩然正气的，都不要急。先挑起清风明月，杨柳依依和草长莺飞</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-24</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-16</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-16</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
