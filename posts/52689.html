@@ -175,7 +175,7 @@
 <p><img src="https://i0.hdslb.com/bfs/article/2429c653c72005c1ae56d5b7e9c079c7645325325.png" alt="img"></p>
 <p>接下来，按照提示完成卸载操作即可。</p>
 <p>卸载完成后，还需要看看VMware的安装目录是否有旧数据，一并清理掉。</p>
-<p>比如安装在<strong>C盘的**<strong>Program Files</strong></strong>(<strong><strong>x86</strong></strong>)**：</p>
+<p>比如安装在<strong>C盘的**</strong>Program Files<strong><strong>(</strong></strong>x86<strong>**)</strong>：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/f74a9a058a13ff6f345250521430b995645325325.png" alt="img"></p>
 <p>则需要直接删除整个VMware目录：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/e62dec4be580eb55b4b987fafcbaeaea645325325.png" alt="img"></p>
@@ -184,7 +184,7 @@
 <p><img src="https://i0.hdslb.com/bfs/article/511f204c591f912420076a3136959127645325325.png" alt="img"></p>
 <p>进入注册表编辑器，如图：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/e3c3479f3c586d386d7fcd135204ea0b645325325.png" alt="img"></p>
-<p>打开**<code>HKEY_CURRENT_USER</code><strong>文件夹，找到</strong><code>Software</code>**文件夹并打开</p>
+<p>打开<strong><code>HKEY_CURRENT_USER</code></strong>文件夹，找到<strong><code>Software</code></strong>文件夹并打开</p>
 <p><img src="https://i0.hdslb.com/bfs/article/1dc6a671248fbb962659da34c3baaa58645325325.png" alt="img"></p>
 <p>找到“VMware.Inc”，右键删除：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/b1b1b6f38220f71dbb6c019a774b22f1645325325.png" alt="img"></p>
@@ -246,7 +246,7 @@
 <p><img src="https://i0.hdslb.com/bfs/article/4b606ca23f9883671bec903e380b0805645325325.png" alt="img"></p>
 <p>点击配置按钮后，我们需要把网卡地址改为静态IP，这样可以避免每次启动虚拟机IP都变化。所有配置照搬你自己截图的网络信息填写，不要照抄我的：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/4980c7eda43c85ef5068141675a2e875645325325.png" alt="img"></p>
-<p>上图中的四个信息参考之前的<strong>以太网</strong>**(ens33)**<strong>网卡</strong>的截图，不要照搬我的来写。</p>
+<p>上图中的四个信息参考之前的<strong>以太网**</strong>(ens33)<strong>**网卡</strong>的截图，不要照搬我的来写。</p>
 <p>最后，点击完成按钮：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/67b63d5713f45dcde2ada79cd6f1dac8645325325.png" alt="img"></p>
 <p>回到配置界面后，点击<code>开始安装</code>：</p>
@@ -267,12 +267,11 @@
 <p><img src="https://i0.hdslb.com/bfs/article/2749ce3f2a244a0552e5db4d46649322645325325.png" alt="img"></p>
 <p>只要密码输入正确，就可以正常登录。此时可以用命令测试虚拟机网络是否畅通：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping www.baidu.com</span><br></pre></td></tr></table></figure>
-
 <p>如果看到这样的结果代表网络畅通：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/fd4a5a4773d616a9fa8576384e7916ec645325325.png" alt="img"></p>
-<p>默认ping命令会持续执行，按下<code>CTRL </code>+ <code>C</code>后命令即可停止。</p>
+<p>默认ping命令会持续执行，按下<code>CTRL</code>+ <code>C</code>后命令即可停止。</p>
 <h2 id="1-4-设置虚拟机快照"><a href="#1-4-设置虚拟机快照" class="headerlink" title="1.4.设置虚拟机快照"></a>1.4.设置虚拟机快照</h2><p>在虚拟机安装完成后，最好立刻设置一个快照，这样一旦将来虚拟机出现问题，可以快速恢复。</p>
-<p>我们先停止虚拟机，点击VMware顶部菜单中的<code>暂停</code>**<code>下拉选框</code>**，选择<code>关闭客户机</code>：</p>
+<p>我们先停止虚拟机，点击VMware顶部菜单中的<code>暂停</code><strong><code>下拉选框</code></strong>，选择<code>关闭客户机</code>：</p>
 <p><img src="https://i0.hdslb.com/bfs/article/5649db35099ce698f827733446ddd8a7645325325.png" alt="img"></p>
 <p>接着，点击VMware菜单中的🔧按钮:</p>
 <p><img src="https://i0.hdslb.com/bfs/article/1c860ae7b7fb84fbe0528e2d7639de7c645325325.png" alt="img"></p>
