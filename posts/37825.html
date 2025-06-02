@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>面试题总结1 | 枕月听风</title><meta name="author" content="枕月听风"><meta name="copyright" content="枕月听风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ArrayList 和 linkedList 的区别首先：ArrayList 增删慢 ，查询快。LinkedList 增删快 ，查询慢  看到了一个比较好的回答： ArrayList 基于动态数组实现，底层的数据结构是数组，并且支持随机访问，有扩容机制LinkedList 基于双向链表实现，只能顺序访问，也可以作为栈或队列  ArrayList ： 底层结构是基于动态数组实现的，对内存的要求比较高">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题总结1">
+<meta property="og:url" content="https://lunanorth.github.io/posts/37825.html">
+<meta property="og:site_name" content="枕月听风">
+<meta property="og:description" content="ArrayList 和 linkedList 的区别首先：ArrayList 增删慢 ，查询快。LinkedList 增删快 ，查询慢  看到了一个比较好的回答： ArrayList 基于动态数组实现，底层的数据结构是数组，并且支持随机访问，有扩容机制LinkedList 基于双向链表实现，只能顺序访问，也可以作为栈或队列  ArrayList ： 底层结构是基于动态数组实现的，对内存的要求比较高">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202506021521248.png">
+<meta property="article:published_time" content="2025-06-02T07:02:42.000Z">
+<meta property="article:modified_time" content="2025-06-02T07:22:36.783Z">
+<meta property="article:author" content="枕月听风">
+<meta property="article:tag" content="面试题">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202506021521248.png"><link rel="shortcut icon" href="/img/moon.png"><link rel="canonical" href="https://lunanorth.github.io/posts/37825.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '面试题总结1',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-02 15:22:36'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/navigation.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202506021521248.png')"><nav id="nav"><span id="blog-info"><a href="/" title="枕月听风"><img class="site-icon" src="/img/moon.png"/><span class="site-name">枕月听风</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">面试题总结1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-02T07:02:42.000Z" title="发表于 2025-06-02 15:02:42">2025-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-02T07:22:36.783Z" title="更新于 2025-06-02 15:22:36">2025-06-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/">面试总结</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="面试题总结1"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="ArrayList-和-linkedList-的区别"><a href="#ArrayList-和-linkedList-的区别" class="headerlink" title="ArrayList 和 linkedList 的区别"></a>ArrayList 和 linkedList 的区别</h4><p>首先：ArrayList 增删慢 ，查询快。LinkedList 增删快 ，查询慢</p>
+<blockquote>
+<p><strong>看到了一个比较好的回答：</strong></p>
+<p>ArrayList 基于动态数组实现，底层的数据结构是数组，并且支持随机访问，有扩容机制<br>LinkedList 基于双向链表实现，只能顺序访问，也可以作为栈或队列</p>
+</blockquote>
+<p><strong>ArrayList</strong> <strong>：</strong> 底层结构是基于动态数组实现的，对内存的要求比较高，需要连续的内存空间，ArrayLsit一般用于查询，它可以根据下标查询，查询比较快，时间复杂度是O(1)，但因为它是连续的空间，增删需要移动index后面的数据所以增删比较慢，时间复杂度O(N)。</p>
+<p><strong>LinkedList</strong> <strong>:</strong>  底层结构是双向链表数据结构，不需要连续的内存空间，对内存的要求不是很高，LinkedList一般用于增删，因为它是基于双向链表实现的，增删的时候只要断开两个节点的指针，重新建立链路，就能很快插入或删除，时间复杂度是O(1)，<u>但是LinkedList是线性的数据存储方式，需要移动指针从前往后依次查找，所有查询起来就比较慢，时间复杂度O(N)。</u></p>
+<p>ArrayList在扩容的时候需要申请新的空间，拷贝原数组的数据，释放旧空间。会有不小的消耗。</p>
+<p>你数组只有100的空间时，满了数组扩充到200，此时你只需要存储102个数据，就会浪费98个空间，造成空间的剩余。但是对于链表来说，我们存一个数据，才开辟一个空间给我们存储数据，就避免了空间上的浪费。</p>
+<p><span data-type="text" style="color: var(--b3-font-color7);">使用场景：</span></p>
+<ul>
+<li>如果应用程序对各个索引位置的元素进行大量的存取或删除操作，ArrayList对象要远优于LinkedList对象；</li>
+<li>如果应用程序主要是对列表进行循环，并且循环时候进行插入或者删除操作，LinkedList对象要远优于ArrayList对象。</li>
+</ul>
+<h4 id="创建线程的方式"><a href="#创建线程的方式" class="headerlink" title="创建线程的方式"></a>创建线程的方式</h4><ol>
+<li>继承Thread类</li>
+<li>实现Runnable接口</li>
+<li>实现Callable接口</li>
+<li>线程池创建线程</li>
+</ol>
+<h4 id="redis-有哪些数据结构"><a href="#redis-有哪些数据结构" class="headerlink" title="redis 有哪些数据结构"></a>redis 有哪些数据结构</h4><p>Redis 提供了丰富的数据类型，常见的有五种数据类型：<u>String（字符串），Hash（哈希），List（列表），Set（集合）、Zset（有序集合）。</u></p>
+<h4 id="mysql-的-sql-优化的思路："><a href="#mysql-的-sql-优化的思路：" class="headerlink" title="mysql 的 sql 优化的思路："></a>mysql 的 sql 优化的思路：</h4><p>优化的思路：</p>
+<p>第一步：先要确定哪些SQL需要优化，<u>需要借助MySQL提供的本地慢查询日志</u></p>
+<p>第二步：需要借助<code>explain</code>​ 或 <code>show profiles</code>​工具进行慢查询的检测</p>
+<p>第三步：根据诊断的情况进行相应的优化</p>
+<p>第四步：DBA进行MySQL参数调优</p>
+<h5 id="SQL优化的军规"><a href="#SQL优化的军规" class="headerlink" title="SQL优化的军规"></a>SQL优化的军规</h5><p><u>最左前缀法则：主要是针对联合索引，要求查询的条件中必须包含索引字段最左侧的值范围右侧索引失效</u></p>
+<p>不要在索引列上做函数计算，否则索引失效，左模糊索引失效</p>
+<p>字符串不加单引号会造成索引失效</p>
+<p>不等于条件判断索引失效</p>
+<p>分组查询：分组中包含了排序</p>
+<h4 id="索引失效的原因："><a href="#索引失效的原因：" class="headerlink" title="索引失效的原因："></a>索引失效的原因：</h4><ol>
+<li>符合索引没有遵循最左原则</li>
+<li>索引包含类型转换</li>
+<li>对索引使用了函数比如sum(),round()等</li>
+<li>对索引进行了+、-、*、&#x2F;、!=、&lt;&gt;、is null、is not null、or等计算</li>
+</ol>
+<h4 id="模糊查询索引失效有什么解决办法"><a href="#模糊查询索引失效有什么解决办法" class="headerlink" title="模糊查询索引失效有什么解决办法"></a>模糊查询索引失效有什么解决办法</h4><h4 id="ThreadLocal-讲一下"><a href="#ThreadLocal-讲一下" class="headerlink" title="ThreadLocal 讲一下"></a>ThreadLocal 讲一下</h4><h4 id="Synchronized-和-Lock-的区别"><a href="#Synchronized-和-Lock-的区别" class="headerlink" title="Synchronized 和 Lock 的区别"></a>Synchronized 和 Lock 的区别</h4><p><u>synchronized 是 JVM 提供的一个关键字，他能对某个代码块或方法自动的加锁解锁，但只能有一个锁对象，而且无法知道是否成功获取锁。</u><br>Lock 是 JUC 包下提供的接口，它可以调用 lock、unlock 方法来加锁和解锁，并且 Lock 里面还存在读写锁，锁的灵活性更高，并且可以调用 trylock 来查看锁是否成功获取</p>
+<h4 id="它们是悲观锁还是乐观锁"><a href="#它们是悲观锁还是乐观锁" class="headerlink" title="它们是悲观锁还是乐观锁"></a>它们是悲观锁还是乐观锁</h4><p>synchronize 和 Lock 都是悲观锁。因为在访问共享资源时，都要先加锁，确保其他线程无法访问。至于 JVM 对 synchronized 有个锁升级的过程，但 synchronized 的设计思想还是悲观锁的。<strong>锁升级的本质是为了减少加锁的开销</strong></p>
+<h4 id="ThreadLocal-讲一下-1"><a href="#ThreadLocal-讲一下-1" class="headerlink" title="ThreadLocal 讲一下"></a>ThreadLocal 讲一下</h4><p><u>ThreadLocal 是通过线程隔离的方式防止任务在共享资源上产生冲突</u>，他是一种本地化存储机制。内部是通过 ThreadLocalMap 实现的，</p>
+<p>防止面试的时候追问学习的时候需要学一下：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lingyejun/p/13380348.html" title="理清ThreadLocal、ThreadLocalMap、Thread之间的关系">理清ThreadLocal、ThreadLocalMap、Thread之间的关系</a></p>
+<h4 id="为什么-ThreadLocal-会出现内存泄露的现象，如何解决"><a href="#为什么-ThreadLocal-会出现内存泄露的现象，如何解决" class="headerlink" title="为什么 ThreadLocal 会出现内存泄露的现象，如何解决"></a>为什么 ThreadLocal 会出现内存泄露的现象，如何解决</h4><p>如果用线程池来操作 ThreadLocal 对象就会造成内存泄露，因为线程池在达到核心线程数后，他就会复用创建好的线程。那线程中的 ThreadLocalValuable 对象因为强引用也会一直存在。所以就造成了内存泄露。</p>
+<p>解决：ThreadLocal 提供了一个 remove 方法，内部调用 ThreadLocalMap 的 remove 方法，<span data-type="text" style="background-color: var(--b3-font-background1);">首先找到 key 对应的 entry 也就是 ThreadLocak 对象，然后清除，之后清除没有引用的 key 就好了。</span></p>
+<h4 id="讲一下-MySQL-的隔离级别"><a href="#讲一下-MySQL-的隔离级别" class="headerlink" title="讲一下 MySQL 的隔离级别"></a>讲一下 MySQL 的隔离级别</h4><p>MySQL 有四种隔离级别：读未提交、读已提交、可重复读和串行化。<u>读未提交有脏读、不可重复读和幻读问题，读已提交解决了脏读的问题，可重复读解决的是不可重复的问题，串行化就解决了幻读问题</u></p>
+<h4 id="读已提交为什么不能解决不可重复读的问题？"><a href="#读已提交为什么不能解决不可重复读的问题？" class="headerlink" title="读已提交为什么不能解决不可重复读的问题？"></a>读已提交为什么不能解决不可重复读的问题？</h4><p>读已提交他只能读已经提交的数据，但是不能保证每次读的数据都是一样的，因为可能有其他事务已经修改数据并提交了。</p>
+<p>这时读的数据就和之前的不一样。</p>
+<p>原理就是在读已提交级别下，每次查都会生成一个 readView。其他事务也会生成一个 readvirew，事务就会通过这个 undolog 的版本链去找数据。如果其他事务提交后，undolog 也会更新，那么原先事务读到的数据就是提交了的，所以就有不可重复读的问题。在可重复读隔离级别下事务会比较 undolog 中的事务 id，如果大于当前事务的 id，他就会顺着链找到下一个版本，知道事务 id=当前事务 id，这样就解决了不可重复读的问题。那为什么不可重复读了还不能解决幻读问题呢？幻读主要是在插入数据时，如果有唯一索引，要先检查这个数据是否存在。问题就出现在这里，如果不存在，当要执行插入操作时，其他事务先插入了这个位置，那当前事务就插入失败了。这就是幻读。为了解决幻读问题，mysql 就有了临间锁。</p>
+<h4 id="有联合索引（a-b-c）使用查询-where-b-1-and-c-2的方式，这条索引会失效吗？"><a href="#有联合索引（a-b-c）使用查询-where-b-1-and-c-2的方式，这条索引会失效吗？" class="headerlink" title="有联合索引（a,b,c）使用查询 where b=1 and c=2的方式，这条索引会失效吗？"></a>有联合索引（a,b,c）使用查询 where b=1 and c=2的方式，这条索引会失效吗？</h4><p>根据最左前缀匹配来看，条件不包含左列 a，可能会导致索引失效，<u>可以查看执行计划看有没有用到索引。如果条件为 where b&#x3D;1 and c&#x3D;2 and a&#x3D;1。就会用到索引，mysql 有个优化器会重新排列查询条件，使他匹配索引的最左前缀。</u></p>
+<h4 id="什么叫聚集索引和非聚集索引有什么区别"><a href="#什么叫聚集索引和非聚集索引有什么区别" class="headerlink" title="什么叫聚集索引和非聚集索引有什么区别"></a>什么叫聚集索引和非聚集索引有什么区别</h4><p>聚簇索引通常只有一个索引列，主键是聚簇索引的默认选择，非聚簇索引就是除聚簇索引外创建的索引</p>
+<h4 id="B-树的叶子节点的数据结构是什么，保存的是什么"><a href="#B-树的叶子节点的数据结构是什么，保存的是什么" class="headerlink" title="B+树的叶子节点的数据结构是什么，保存的是什么"></a>B+树的叶子节点的数据结构是什么，保存的是什么</h4><p>B+树叶子节点存储的是实际的数据，非聚簇索引保存的就是聚簇索引的关键字的值。叶子节点之间形成的是一个单向链表。</p>
+<h4 id="Redis-有哪些数据结构"><a href="#Redis-有哪些数据结构" class="headerlink" title="Redis 有哪些数据结构"></a>Redis 有哪些数据结构</h4><p>redis 的数据结构有 String、List、set、Zset、Hash、btimap、HyperLoglogs、Stream。</p>
+<h4 id="Redis-的过期策略有哪些"><a href="#Redis-的过期策略有哪些" class="headerlink" title="Redis 的过期策略有哪些"></a>Redis 的过期策略有哪些</h4><p>redis 有两种过期策略，定期删除和惰性删除：<u>惰性删除就是服务器不会主动删除过期 key，只有当客户端查询某个数据才判断 ttl 是否过期，如果过期则删除。</u>定期删除就是服务区执行一个定时任务从数据中随机选一些 key 去判断是否过期，如果过期 key 占的比例达到 25%，那么再选一些 key 去判断，<span data-type="text" style="color: var(--b3-font-color1);">重复 5 次之后就结束。</span></p>
+<h4 id="Spring-里面他的的作用域有哪些？没说全"><a href="#Spring-里面他的的作用域有哪些？没说全" class="headerlink" title="Spring 里面他的的作用域有哪些？没说全"></a>Spring 里面他的的作用域有哪些？没说全</h4><p>Spring 的作用域：单例，prototype 原型 ：每次请求 bean 都会创建一个新的实例，Request 请求：每个 Http请求都会创建一个 bean，session 会话：每个 Http 会话都会创建一个实例，global-session 全局 session。</p>
+<h4 id="Spring-Boot-自动装配的原理了解吗？"><a href="#Spring-Boot-自动装配的原理了解吗？" class="headerlink" title="Spring Boot 自动装配的原理了解吗？"></a>Spring Boot 自动装配的原理了解吗？</h4><p> <strong>@SpringBootApplication</strong> 会触发自动装配 或者<span data-type="text" style="color: var(--b3-font-color6);">@</span><strong>EnableAutoConfiguration</strong>会自动去maven中读取每个starter中的spring.factories文件，该文件里配置了所有需要被创建的Spring容器中的bean</p>
+<h4 id="在启动-SpringBoot-项目前，我想做一些初始化操作，有哪一些方式？我说-AOP，但不知道怎么实现"><a href="#在启动-SpringBoot-项目前，我想做一些初始化操作，有哪一些方式？我说-AOP，但不知道怎么实现" class="headerlink" title="在启动 SpringBoot 项目前，我想做一些初始化操作，有哪一些方式？我说 AOP，但不知道怎么实现"></a>在启动 SpringBoot 项目前，我想做一些初始化操作，有哪一些方式？我说 AOP，但不知道怎么实现</h4><p>使用 @PostConstruct 注解标识 spring 容器初始化时要执行该方法。或者@bean 可以在初始化时调用方法的名字。</p>
+<h4 id="MyBatis-的一级缓存和二级缓存的原理或区别讲一下？没了解过"><a href="#MyBatis-的一级缓存和二级缓存的原理或区别讲一下？没了解过" class="headerlink" title="MyBatis 的一级缓存和二级缓存的原理或区别讲一下？没了解过"></a>MyBatis 的一级缓存和二级缓存的原理或区别讲一下？没了解过</h4><p>一级缓存就是在每次会话中，mybatis 会将每次的查询的结果放入 SqlSession 对象的缓存中保存，当下一次查询的时候，如果和之前的查询条件是一样的，那就直接调用缓存返回结果，这样就避免了查询数据库。</p>
+<p>二级缓存和一级缓存差不多，他是在 Application 级别的缓存。</p>
+<h4 id="MQ-如何保证消息的可靠性"><a href="#MQ-如何保证消息的可靠性" class="headerlink" title="MQ 如何保证消息的可靠性"></a>MQ 如何保证消息的可靠性</h4><p>消息可靠性就是，生产者发送消息给服务端的时候，<u>MQ 就会给生产者返回一个 ACK 回执，生产者拿到 ACK 后就知道服务端收到了消息</u>。消费者去拉去消息时，他不会立刻返回 ack，而是消费者消费完消息后，再返回 ack 确认</p>
+<h4 id="JVM-的内存结构"><a href="#JVM-的内存结构" class="headerlink" title="JVM 的内存结构"></a>JVM 的内存结构</h4><p>JVM 内存结构分为<span data-type="text" style="background-color: var(--b3-font-background2);">线程私有的是虚拟机栈，本地方法栈，程序计数器。线程共享的是堆和方法区。</span></p>
+<h4 id="堆和方法区是线程安全的吗？不是"><a href="#堆和方法区是线程安全的吗？不是" class="headerlink" title="堆和方法区是线程安全的吗？不是"></a>堆和方法区是线程安全的吗？不是</h4><p>堆和方法区是线程共享的，所以他不是线程安全的。</p>
+<h4 id="说一下类加载机制"><a href="#说一下类加载机制" class="headerlink" title="说一下类加载机制"></a>说一下类加载机制</h4><p>类加载机制就是类由一个类加载器负责某个类，类加载器收到一个类的加载请求后，不会立马去加载他，而是将这个请求委托给父类加载器。只有在父类加载器无法加载该类时，才会尝试从当类路径加载。然后他还有一个双亲委派机制，就是他这个请求会一直委托给顶级加载器也就是启动类加载启，启动类加载起无法加载就交给下一级扩展类加载器然后一直向下，应用程序类加载来加载。</p>
+<h4 id="最近有没有学习新的技术"><a href="#最近有没有学习新的技术" class="headerlink" title="最近有没有学习新的技术"></a>最近有没有学习新的技术</h4><h4 id="对未来的规划"><a href="#对未来的规划" class="headerlink" title="对未来的规划"></a>对未来的规划</h4><h4 id="反问环节"><a href="#反问环节" class="headerlink" title="反问环节"></a>反问环节</h4></article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>面试题总结1</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://lunanorth.github.io/posts/37825.html">https://lunanorth.github.io/posts/37825.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>枕月听风</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-06-02</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-06-02</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></div><div class="post_share"><div class="social-share" data-image="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202506021521248.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/4.html" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info"></div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/50629.html" title="面试指北"><img class="cover" src="https://s21.ax1x.com/2025/02/20/pEQsH9x.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-20</div><div class="title">面试指北</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">枕月听风</div><div class="author-info__description">言念君子 ，温其如玉</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" href="https://lunanorth.github.io/"><i class="fab fa-github"></i><span>剑气长安</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-linkedList-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">ArrayList 和 linkedList 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">创建线程的方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">redis 有哪些数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysql-%E7%9A%84-sql-%E4%BC%98%E5%8C%96%E7%9A%84%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-text">mysql 的 sql 优化的思路：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SQL%E4%BC%98%E5%8C%96%E7%9A%84%E5%86%9B%E8%A7%84"><span class="toc-text">SQL优化的军规</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">索引失效的原因：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E6%9C%89%E4%BB%80%E4%B9%88%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">模糊查询索引失效有什么解决办法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="toc-text">ThreadLocal 讲一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Synchronized-%E5%92%8C-Lock-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Synchronized 和 Lock 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%83%E4%BB%AC%E6%98%AF%E6%82%B2%E8%A7%82%E9%94%81%E8%BF%98%E6%98%AF%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-text">它们是悲观锁还是乐观锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-%E8%AE%B2%E4%B8%80%E4%B8%8B-1"><span class="toc-text">ThreadLocal 讲一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ThreadLocal-%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E7%8E%B0%E8%B1%A1%EF%BC%8C%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="toc-text">为什么 ThreadLocal 会出现内存泄露的现象，如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%B2%E4%B8%80%E4%B8%8B-MySQL-%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">讲一下 MySQL 的隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%B7%B2%E6%8F%90%E4%BA%A4%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">读已提交为什么不能解决不可重复读的问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%EF%BC%88a-b-c%EF%BC%89%E4%BD%BF%E7%94%A8%E6%9F%A5%E8%AF%A2-where-b-1-and-c-2%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E8%BF%99%E6%9D%A1%E7%B4%A2%E5%BC%95%E4%BC%9A%E5%A4%B1%E6%95%88%E5%90%97%EF%BC%9F"><span class="toc-text">有联合索引（a,b,c）使用查询 where b&#x3D;1 and c&#x3D;2的方式，这条索引会失效吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E5%8F%AB%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">什么叫聚集索引和非聚集索引有什么区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-%E6%A0%91%E7%9A%84%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BF%9D%E5%AD%98%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">B+树的叶子节点的数据结构是什么，保存的是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">Redis 有哪些数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-%E7%9A%84%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-text">Redis 的过期策略有哪些</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Spring-%E9%87%8C%E9%9D%A2%E4%BB%96%E7%9A%84%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E6%B2%A1%E8%AF%B4%E5%85%A8"><span class="toc-text">Spring 里面他的的作用域有哪些？没说全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Spring-Boot-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84%E5%8E%9F%E7%90%86%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">Spring Boot 自动装配的原理了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E5%90%AF%E5%8A%A8-SpringBoot-%E9%A1%B9%E7%9B%AE%E5%89%8D%EF%BC%8C%E6%88%91%E6%83%B3%E5%81%9A%E4%B8%80%E4%BA%9B%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C%EF%BC%8C%E6%9C%89%E5%93%AA%E4%B8%80%E4%BA%9B%E6%96%B9%E5%BC%8F%EF%BC%9F%E6%88%91%E8%AF%B4-AOP%EF%BC%8C%E4%BD%86%E4%B8%8D%E7%9F%A5%E9%81%93%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0"><span class="toc-text">在启动 SpringBoot 项目前，我想做一些初始化操作，有哪一些方式？我说 AOP，但不知道怎么实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyBatis-%E7%9A%84%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%E5%92%8C%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E6%88%96%E5%8C%BA%E5%88%AB%E8%AE%B2%E4%B8%80%E4%B8%8B%EF%BC%9F%E6%B2%A1%E4%BA%86%E8%A7%A3%E8%BF%87"><span class="toc-text">MyBatis 的一级缓存和二级缓存的原理或区别讲一下？没了解过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MQ-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">MQ 如何保证消息的可靠性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM-%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-text">JVM 的内存结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%96%B9%E6%B3%95%E5%8C%BA%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F%E4%B8%8D%E6%98%AF"><span class="toc-text">堆和方法区是线程安全的吗？不是</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-text">说一下类加载机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E8%BF%91%E6%9C%89%E6%B2%A1%E6%9C%89%E5%AD%A6%E4%B9%A0%E6%96%B0%E7%9A%84%E6%8A%80%E6%9C%AF"><span class="toc-text">最近有没有学习新的技术</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%9C%AA%E6%9D%A5%E7%9A%84%E8%A7%84%E5%88%92"><span class="toc-text">对未来的规划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%97%AE%E7%8E%AF%E8%8A%82"><span class="toc-text">反问环节</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By 枕月听风</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">言念君子 ，温其如玉<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: 'Ov23livb5sxAzXC5FAOj',
+      clientSecret: '901c2a65d4b136d295133e9a8176b8650d782c41',
+      repo: 'blog-gitalk',
+      owner: 'LunaNorth',
+      admin: ['LunaNorth'],
+      id: '08cb92815f3ab480acb92e551deb337f',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas id="universe"></canvas><script async data-pjax src="/js/universe.js"></script><script defer data-pjax src="/js/readPercent.js"></script><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = '81efe4afadcd49fc93bcfb1aa5d42b3c';
+  var gaud_map_key = 'ea946ee5b69e4a4fe76909e6537b883d';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '112.982279,28.19409';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/08/pkzZNWD.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">轻语时光</a><div class="blog-slider__text">我大抵是真的眼花了，竟把一个人的落日，看成了两个人的黄昏</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://a1.boltp.com/2025/05/07/681a9ec1020c7.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">百天打卡</a><div class="blog-slider__text">有目的的人才会迷路 ，我只是来这个世界散步</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/11/pASTNY8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">我在人间凑数的日子</a><div class="blog-slider__text">什么家国仇恨浩然正气的，都不要急。先挑起清风明月，杨柳依依和草长莺飞</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-24</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-16</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
