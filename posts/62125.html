@@ -162,7 +162,9 @@
 <li>它的存储空间很大，可以存放百万条、千万条、上亿条数据。</li>
 <li>数据库并不是随意地将数据进行存放，是有一定的规则的，否则查询的效率会很低。</li>
 <li>当今世界是一个充满着数据的互联网世界，充斥着大量的数据。即这个互联网世界就是数据世界。数据的来源有很多，比如出行记录、消费记录、浏览的网页、发送的消息等等。除了文本类型的数据，图像、音乐、声音都是数据。</li>
-<li><font style="color:#117CEE;">数据库对应的英文单词是DataBase，简称DB。</font></li>
+<li><font style="color:#117CEE;">数据库对应的英文单词是DataBase，简称DB。</font>
+
+</li>
 </ul>
 <h1 id="数据库类型"><a href="#数据库类型" class="headerlink" title="数据库类型"></a>数据库类型</h1><ul>
 <li><font style="color:#117CEE;">关系型数据库</font><ul>
@@ -188,33 +190,21 @@
 <li><font style="color:#117CEE;">结构化查询语言（Structured Query Language）简称SQL，是一种特殊目的的编程语言，是一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统。</font></li>
 <li><font style="color:#5C8D07;">结构化查询语言是高级的非过程化编程语言，允许用户在高层数据结构上工作</font><font style="color:rgb(38, 38, 38);">。它不要求用户指定对数据的存放方法，也不需要用户了解具体的数据存放方式，所以具有完全不同底层结构的不同数据库系统, 可以使用相同的结构化查询语言作为数据输入与管理的接口。结构化查询语言语句可以嵌套，这使它具有极大的灵活性和强大的功能。</font></li>
 <li><strong><font style="color:rgb(38, 38, 38);">SQL的分类</font></strong><ul>
-<li><font style="color:#117CEE;">DQL</font><ul>
-<li><font style="color:#DF2A3F;">数据查询语言（Data Query Language, DQL）</font><font style="color:rgb(38, 38, 38);">是SQL语言中，负责进行数据查询而不会对数据本身进行修改的语句，这是最基本的SQL语句。</font><font style="color:rgb(38, 38, 38);background-color:#81DFE4;">保留字SELECT是DQL（也是所有SQL）用得最多的动词，其他DQL常用的保留字有FROM，WHERE，GROUP BY，HAVING和ORDER BY</font><font style="color:rgb(38, 38, 38);">。这些DQL保留字常与其他类型的SQL语句一起使用。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">DDL</font><ul>
-<li><font style="color:#DF2A3F;">数据定义语言 (Data Definition Language, DDL) </font><font style="color:rgb(38, 38, 38);">是SQL语言集中，负责数据结构定义与数据库对象定义的语言，</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">由CREATE、ALTER与DROP三个语法所组成</font><font style="color:rgb(38, 38, 38);">，最早是由 Codasyl (Conference on Data Systems Languages) 数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">DML</font><ul>
-<li><font style="color:#DF2A3F;">数据操纵语言（Data Manipulation Language, DML）</font><font style="color:rgb(38, 38, 38);">是SQL语言中，负责对数据库对象运行数据访问工作的指令集，</font><font style="color:rgb(38, 38, 38);background-color:#81BBF8;">以INSERT、UPDATE、DELETE三种指令为核心，分别代表插入、更新与删除。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">DCL</font><ul>
-<li><font style="color:#DF2A3F;">数据控制语言 (Data Control Language) </font><font style="color:rgb(38, 38, 38);">在SQL语言中，是一种可对数据访问权进行控制的指令，它可以控制特定用户账户对数据表、查看表、预存程序、用户自定义函数等数据库对象的控制权。</font><font style="color:rgb(38, 38, 38);background-color:#F5D480;">由 GRANT 和 REVOKE 两个指令组成。DCL以控制用户的访问权限为主，GRANT为授权语句，对应的REVOKE是撤销授权语句。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">TPL</font><ul>
-<li><font style="color:#DF2A3F;">数据事务管理语言（Transaction Processing Language）</font><font style="color:rgb(38, 38, 38);">它的语句能确保被DML语句影响的表的所有行及时得以更新。</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">TPL语句包括BEGIN TRANSACTION，COMMIT和ROLLBACK。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">CCL</font><ul>
-<li><font style="color:#DF2A3F;">指针控制语言（Cursor Control Language）</font><font style="color:rgb(38, 38, 38);">，它的语句，</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">像DECLARE CURSOR，FETCH INTO和UPDATE WHERE CURRENT用于对一个或多个表单独行的操作。</font></li>
-</ul>
-</li>
-<li><font style="color:#117CEE;">DBMS、SQL、DB之间的关系</font><ul>
-<li><font style="color:rgb(38, 38, 38);background-color:#81DFE4;">DBMS通过执行SQL来操作DB中的数据。</font></li>
-</ul>
+<li><font style="color:#117CEE;">DQL</font>
+  * <font style="color:#DF2A3F;">数据查询语言（Data Query Language, DQL）</font><font style="color:rgb(38, 38, 38);">是SQL语言中，负责进行数据查询而不会对数据本身进行修改的语句，这是最基本的SQL语句。</font><font style="color:rgb(38, 38, 38);background-color:#81DFE4;">保留字SELECT是DQL（也是所有SQL）用得最多的动词，其他DQL常用的保留字有FROM，WHERE，GROUP BY，HAVING和ORDER BY</font><font style="color:rgb(38, 38, 38);">。这些DQL保留字常与其他类型的SQL语句一起使用。</font></li>
+<li><font style="color:#117CEE;">DDL</font>
+  * <font style="color:#DF2A3F;">数据定义语言 (Data Definition Language, DDL) </font><font style="color:rgb(38, 38, 38);">是SQL语言集中，负责数据结构定义与数据库对象定义的语言，</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">由CREATE、ALTER与DROP三个语法所组成</font><font style="color:rgb(38, 38, 38);">，最早是由 Codasyl (Conference on Data Systems Languages) 数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。</font></li>
+<li><font style="color:#117CEE;">DML</font>
+  * <font style="color:#DF2A3F;">数据操纵语言（Data Manipulation Language, DML）</font><font style="color:rgb(38, 38, 38);">是SQL语言中，负责对数据库对象运行数据访问工作的指令集，</font><font style="color:rgb(38, 38, 38);background-color:#81BBF8;">以INSERT、UPDATE、DELETE三种指令为核心，分别代表插入、更新与删除。</font></li>
+<li><font style="color:#117CEE;">DCL</font>
+  * <font style="color:#DF2A3F;">数据控制语言 (Data Control Language) </font><font style="color:rgb(38, 38, 38);">在SQL语言中，是一种可对数据访问权进行控制的指令，它可以控制特定用户账户对数据表、查看表、预存程序、用户自定义函数等数据库对象的控制权。</font><font style="color:rgb(38, 38, 38);background-color:#F5D480;">由 GRANT 和 REVOKE 两个指令组成。DCL以控制用户的访问权限为主，GRANT为授权语句，对应的REVOKE是撤销授权语句。</font></li>
+<li><font style="color:#117CEE;">TPL</font>
+  * <font style="color:#DF2A3F;">数据事务管理语言（Transaction Processing Language）</font><font style="color:rgb(38, 38, 38);">它的语句能确保被DML语句影响的表的所有行及时得以更新。</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">TPL语句包括BEGIN TRANSACTION，COMMIT和ROLLBACK。</font></li>
+<li><font style="color:#117CEE;">CCL</font>
+  * <font style="color:#DF2A3F;">指针控制语言（Cursor Control Language）</font><font style="color:rgb(38, 38, 38);">，它的语句，</font><font style="color:rgb(38, 38, 38);background-color:#C1E77E;">像DECLARE CURSOR，FETCH INTO和UPDATE WHERE CURRENT用于对一个或多个表单独行的操作。</font></li>
+<li><font style="color:#117CEE;">DBMS、SQL、DB之间的关系</font>
+  * <font style="color:rgb(38, 38, 38);background-color:#81DFE4;">DBMS通过执行SQL来操作DB中的数据。</font>
+
 </li>
 </ul>
 </li>
