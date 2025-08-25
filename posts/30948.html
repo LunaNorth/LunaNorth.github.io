@@ -1,0 +1,698 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPF常用控件 | 枕月听风</title><meta name="author" content="枕月听风"><meta name="copyright" content="枕月听风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 布局控件Canvas、DockPanel、Grid、StackPanel、TabPanel、ToolBarOverflowPanel、ToolBarPanel、 UniformGrid、VirtualizingPanel、VirtualizingStackPanel 和 WrapPanel 都是 WPF 中的布局控件，它们都继承自 Panel 类，可以容纳多个子控件或者嵌套其他布局控件，用于在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF常用控件">
+<meta property="og:url" content="https://lunanorth.github.io/posts/30948.html">
+<meta property="og:site_name" content="枕月听风">
+<meta property="og:description" content="1 布局控件Canvas、DockPanel、Grid、StackPanel、TabPanel、ToolBarOverflowPanel、ToolBarPanel、 UniformGrid、VirtualizingPanel、VirtualizingStackPanel 和 WrapPanel 都是 WPF 中的布局控件，它们都继承自 Panel 类，可以容纳多个子控件或者嵌套其他布局控件，用于在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202508251526210.jpg">
+<meta property="article:published_time" content="2025-08-25T07:26:03.000Z">
+<meta property="article:modified_time" content="2025-08-25T07:27:23.552Z">
+<meta property="article:author" content="枕月听风">
+<meta property="article:tag" content="Winform知识理解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202508251526210.jpg"><link rel="shortcut icon" href="/img/moon.png"><link rel="canonical" href="https://lunanorth.github.io/posts/30948.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WPF常用控件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-08-25 15:27:23'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/navigation.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202508251526210.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="枕月听风"><img class="site-icon" src="/img/moon.png"/><span class="site-name">枕月听风</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WPF常用控件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-08-25T07:26:03.000Z" title="发表于 2025-08-25 15:26:03">2025-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-08-25T07:27:23.552Z" title="更新于 2025-08-25 15:27:23">2025-08-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/WPF%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">WPF相关知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WPF常用控件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-布局控件"><a href="#1-布局控件" class="headerlink" title="1 布局控件"></a>1 布局控件</h2><p>Canvas、DockPanel、Grid、StackPanel、TabPanel、ToolBarOverflowPanel、ToolBarPanel、 UniformGrid、VirtualizingPanel、VirtualizingStackPanel 和 WrapPanel 都是 WPF 中的布局控件，它们都继承自 Panel 类，可以容纳多个子控件或者嵌套其他布局控件，用于在 UI 中组织和排列控件。它们的作用和常用特征及特征值如下：</p>
+<ul>
+<li><p>Canvas：画布，可以使用以像素为单位的绝对坐标来定位子控件，类似于 Windows Form 的布局方式。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Canvas.Left：指定子控件相对于画布左边缘的距离，可以是具体的数值或者 Binding 表达式。 </li>
+<li>Canvas.Top：指定子控件相对于画布上边缘的距离，同上。 </li>
+<li>Canvas.ZIndex：指定子控件在画布中的层次顺序，数值越大越靠上。</li>
+</ul>
+</li>
+<li><p>DockPanel：泊靠式面板，可以将子控件按照指定的方向停靠在父容器的边缘，类似于 Winform 中设置控件的 Dock 属性。常用的特征有：</p>
+</li>
+<li><ul>
+<li>DockPanel.Dock：指定子控件停靠在父容器的哪一边，可以是 Left（左）、 Right（右）、Top（上）、Bottom（下）或None（不停靠）。 </li>
+<li>DockPanel.LastChildFill：指定是否让最后一个子控件填充剩余空间，默认为 True。</li>
+</ul>
+</li>
+<li><p>Grid：网格，可以自定义行和列，并通过行列的数量、行高列宽来调整子控件的布 局，近似于 HTML 中的 table。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Grid.RowDefinitions：定义网格的行集合，每个 RowDefinition 可以指定 Height  属性为具体的数值、比例值（*）或 Auto（自适应内容高度）。 </li>
+<li>Grid.ColumnDefinitions：定义网格的列集合，每个 ColumnDefinition 可以指定 Width 属性为具体的数值、比例值（*）或Auto（自适应内容宽度）。 </li>
+<li>Grid.Row：指定子控件所在的行索引，从0开始。 </li>
+<li>Grid.Column：指定子控件所在的列索引，从0开始。</li>
+<li>Grid.RowSpan：指定子控件横跨几行，默认为1。 </li>
+<li>Grid.ColumnSpan：指定子控件纵跨几列，默认为1。</li>
+</ul>
+</li>
+<li><p>StackPanel：栈式面板，可以将子控件按照水平或垂直方向进行排列。常用的特征有：</p>
+</li>
+<li><ul>
+<li>StackPanel.Orientation：指定子控件的排列方向，可以是 Horizontal（水平） 或Vertical（垂直）。</li>
+</ul>
+</li>
+<li><p>TabPanel：选项卡面板，可以将子控件按照选项卡的形式进行排列。常用的特征有： </p>
+</li>
+<li><ul>
+<li>TabPanel.IsSharedSizeScope：指定是否共享同一组尺寸范围，默认为 False。</li>
+</ul>
+</li>
+<li><p>ToolBarOverflowPanel：工具栏溢出面板，可以将工具栏中多余的子控件放入一个下 拉菜单中。常用的特征有： </p>
+</li>
+<li><ul>
+<li>ToolBarOverflowPanel.WrapWidth：指定工具栏溢出面板中每一行的最大宽 度，默认为无穷大。</li>
+</ul>
+</li>
+<li><p>ToolBarPanel：工具栏面板，可以将工具栏中的子控件按照水平或垂直方向进行排列， 并自动换行。常用的特征有： </p>
+</li>
+<li><ul>
+<li>ToolBarPanel.Orientation：指定工具栏面板中子控件的排列方向，可以是 Horizontal（水平）或 Vertical（垂直）。</li>
+</ul>
+</li>
+<li><p>UniformGrid：均匀网格，可以将子控件按照相同大小和间距进行排列。常用的特征 有： </p>
+</li>
+<li><ul>
+<li>UniformGrid.Rows：指定均匀网格的行数，默认为 1。 </li>
+<li>UniformGrid.Columns：指定均匀网格的列数，默认为无穷大。</li>
+</ul>
+</li>
+<li><p>VirtualizingPanel：虚拟化面板，是一个抽象类，可以提供子控件的虚拟化功能，即 只创建可见的子控件，从而提高性能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>VirtualizingPanel.IsVirtualizing：指定是否启用虚拟化功能，默认为 True。 </li>
+<li>VirtualizingPanel.VirtualizationMode：指定虚拟化的模式，可以是 Standard（标 准）或 Recycling（回收）。</li>
+</ul>
+</li>
+<li><p>VirtualizingStackPanel：虚拟化栈式面板，继承自 VirtualizingPanel，可以将子控件按 照水平或垂直方向进行排列，并提供虚拟化功能。常用的特征有： </p>
+</li>
+<li><ul>
+<li>VirtualizingStackPanel.Orientation：指定子控件的排列方向，可以是 Horizontal （水平）或Vertical（垂直）。</li>
+</ul>
+</li>
+<li><p>WrapPanel：自动换行面板，可以将子控件按照水平或垂直方向进行排列，并在排满 一行或一列后自动换行或换列。常用的特征有：</p>
+</li>
+<li><ul>
+<li>WrapPanel.Orientation：指定子控件的排列方向，可以是 Horizontal（水平） 或Vertical（垂直）。 </li>
+<li>WrapPanel.ItemHeight：指定子控件的高度，默认为 Auto（自适应内容高度）。</li>
+<li>WrapPanel.ItemWidth：指定子控件的宽度，默认为 Auto（自适应内容宽度）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-内容控件"><a href="#2-内容控件" class="headerlink" title="2 内容控件"></a>2 内容控件</h2><p>BaseButton、Button、ToggleButton、CheckBox、ComboBoxItem、Frame、GridViewColumnHeader、 GroupItem、Label、ListBoxItem、ListViewItem、NavigationWindow、PasswordBox、RadioButton、 RepeatButton、StatusBarItem、ScrollViewer、ToolTip、UserControl 和 Window 都是 WPF 中的内容控件，它们都继承自 ContentControl 类，可以包含一个任意对象作为它们的内容。它 们的作用和常用特征及特征值如下：</p>
+<ul>
+<li><p>BaseButton：按钮基类，是一个抽象类，不能直接使用，提供了按钮的基本功能和属 性，如 Click 事件和 IsPressed 属性。继承自 BaseButton的控件有 Button、ToggleButton、 CheckBox 和 RadioButton 等。</p>
+</li>
+<li><p>Button：按钮，可以显示文本或图像，并在用户单击时触发 Click 事件。常用的特征 有： </p>
+</li>
+<li><ul>
+<li>Content：指定按钮的内容，可以是任意对象。 </li>
+<li>IsDefault：指定按钮是否是默认按钮，如果为 True，则在用户按下回车键时触发 Click 事件，默认为 False。 </li>
+<li>IsCancel：指定按钮是否是取消按钮，如果为 True，则在用户按下Esc 键时 触发 Click 事件，默认为 False。</li>
+</ul>
+</li>
+<li><p>ToggleButton：切换按钮，可以显示文本或图像，并在用户单击时切换其 IsChecked 属性的值。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Content：指定切换按钮的内容，可以是任意对象。</li>
+<li>IsChecked：指定切换按钮是否被选中，可以是 True（选中）、False（未选中） 或Null（不确定），默认为False。</li>
+<li>IsThreeState：指定切换按钮是否支持三种状态，如果为 True，则IsChecked 属性可以为 Null，否则只能为 True 或 False，默认为False。</li>
+</ul>
+</li>
+<li><p>CheckBox：复选框，继承自 ToggleButton，可以显示文本或图像，并在用户单击时 切换其IsChecked 属性的值。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定复选框的内容，可以是任意对象。</li>
+<li>IsChecked：指定复选框是否被选中，可以是 True（选中）、False（未选中） 或Null（不确定），默认为False。</li>
+<li>IsThreeState：指定复选框是否支持三种状态，如果为 True，则 IsChecked 属性可以为Null，否则只能为 True 或 False，默认为False。</li>
+</ul>
+</li>
+<li><p>RadioButton：单选按钮，继承自 ToggleButton，可以显示文本或图像，并在用户单击时切换其 IsChecked 属性的值。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定单选按钮的内容，可以是任意对象。</li>
+<li>IsChecked：指定单选按钮是否被选中，只能是 True（选中）或False（未选 中），默认为 False。</li>
+<li>GroupName：指定单选按钮所属的组名，只有同一组名的单选按钮之间才会 互斥，默认为空字符串。</li>
+</ul>
+</li>
+<li><p>ComboBoxItem：组合框项，继承自 ContentControl，可以显示文本或图像，并在用 3 户选择时触发 Selected 事件。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定组合框项的内容，可以是任意对象。 </li>
+<li>IsSelected：指定组合框项是否被选中，默认为 False。</li>
+</ul>
+</li>
+<li><p>Frame：框架，继承自 ContentControl，可以显示一个页面（Page）或者一个导航窗 口（NavigationWindow），并提供导航功能。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Source：指定要显示的页面或导航窗口的URI地址。 </li>
+<li>NavigationUIVisibility：指定导航界面的可见性，可以是Automatic（自动）、 Hidden（隐藏）或 Visible（可见），默认为Automatic。</li>
+</ul>
+</li>
+<li><p>GridViewColumnHeader：网格视图列头，继承自 ButtonBase，可以显示文本或图像， 并提供排序和拖动功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定网格视图列头的内容，可以是任意对象。 </li>
+<li>Role：指定网格视图列头的角色，可以是 Normal（普通）、Floating（浮动）、 Padding（填充）或None（无），默认为Normal。</li>
+</ul>
+</li>
+<li><p>GroupItem：分组项，继承自 ContentControl，可以显示一个分组的内容，并提供展开 和折叠功能。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Content：指定分组项的内容，可以是任意对象。</li>
+<li>IsExpanded：指定分组项是否展开，默认为 True。</li>
+</ul>
+</li>
+<li><p>Label：标签，继承自 ContentControl，可以显示文本或图像，并提供快捷键和焦点功 能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定标签的内容，可以是任意对象。</li>
+<li>Target：指定标签关联的控件，可以使用快捷键来激活该控件。</li>
+</ul>
+</li>
+<li><p>ListBoxItem：列表框项，继承自 ContentControl，可以显示文本或图像，并在用户选 择时触发 Selected 事件。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定列表框项的内容，可以是任意对象。</li>
+<li>IsSelected：指定列表框项是否被选中，默认为False。</li>
+</ul>
+</li>
+<li><p>ListViewItem：列表视图项，继承自 ListBoxItem，可以显示文本或图像，并在用户选 择时触发 Selected 事件。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Content：指定列表视图项的内容，可以是任意对象。</li>
+<li>IsSelected：指定列表视图项是否被选中，默认为 False。</li>
+</ul>
+</li>
+<li><p>NavigationWindow：导航窗口，继承自 ContentControl，可以显示一个页面（Page） 或者一个框架（Frame），并提供导航功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Source：指定要显示的页面或框架的 URI 地址。</li>
+<li>ShowsNavigationUI：指定是否显示导航界面，默认为 True。</li>
+</ul>
+</li>
+<li><p>PasswordBox：密码框，继承自 ContentControl，可以让用户输入密码，并提供安全 4 和验证功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Password：指定密码框中的密码字符串。 </li>
+<li>PasswordChar：指定密码框中用于隐藏密码的字符，默认为“●”。</li>
+</ul>
+</li>
+<li><p>RadioButton：单选按钮，继承自 ToggleButton，可以显示文本或图像，并在用户单击 时切换其 IsChecked 属性的值。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定单选按钮的内容，可以是任意对象。</li>
+<li>IsChecked：指定单选按钮是否被选中，只能是 True（选中）或False（未选 中），默认为 False。 </li>
+<li>GroupName：指定单选按钮所属的组名，只有同一组名的单选按钮之间才会 互斥，默认为空字符串。</li>
+</ul>
+</li>
+<li><p>RepeatButton：重复按钮，继承自 ButtonBase，可以显示文本或图像，并在用户按住 时重复触发 Click 事件。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定重复按钮的内容，可以是任意对象。</li>
+<li>Delay：指定重复按钮第一次触发Click 事件之前等待的时间（毫秒），默认为 600。 </li>
+<li>Interval：指定重复按钮连续触发 Click 事件之间间隔的时间（毫秒），默认为 33。</li>
+</ul>
+</li>
+<li><p>StatusBarItem：状态栏项，继承自 ContentControl，可以显示文本或图像，并在状态 栏中占据一定空间。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定状态栏项的内容，可以是任意对象。 </li>
+<li>HorizontalContentAlignment：指定状态栏项内容相对于水平方向的对齐方式， 默认为 Stretch（拉伸）。</li>
+</ul>
+</li>
+<li><p>ScrollViewer：滚动视图器，继承自 ContentControl，可以显示一个可滚动的内容，并 提供滚动条和缩放功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定滚动视图器要显示的内容，可以是任意对象。</li>
+<li>HorizontalScrollBarVisibility：指定水平滚动条的可见性，可以是 Disabled（禁 用）、Auto（自动）、Hidden（隐藏）或 Visible（可见），默认为 Hidden。</li>
+<li>VerticalScrollBarVisibility：指定垂直滚动条的可见性，同上，默认为Visible。</li>
+</ul>
+</li>
+<li><p>ToolTip：工具提示，继承自 ContentControl，可以显示一个简短的文本或图像，用于 描述其他控件的功能或用法。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定工具提示的内容，可以是任意对象。</li>
+<li>Placement：指定工具提示相对于目标控件的位置，可以是 Bottom（下）、Top （上）、Left（左）、Right（右）、Mouse（鼠标位置）、MousePoint（鼠标点）、 Center（中心）、Absolute（绝对位置）或Relative（相对位置），默认为 Mouse。</li>
+<li>IsOpen：指定工具提示是否打开，默认为 False。</li>
+</ul>
+</li>
+<li><p>UserControl：用户控件，继承自 ContentControl，可以自定义一个复合控件，包含多个子控件，并提供一致的外观和行为。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Content：指定用户控件的内容，可以是任意对象。</li>
+</ul>
+</li>
+<li><p>Window：窗口，继承自 ContentControl，可以显示一个独立的窗口，并提供标题栏、 边框、菜单、工具栏等功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Content：指定窗口的内容，可以是任意对象。 </li>
+<li>Title：指定窗口的标题，可以是任意字符串。 </li>
+<li>WindowStyle：指定窗口的样式，可以是 None（无边框）、SingleBorderWindow （单边框窗口）、ThreeDBorderWindow（三维边框窗口）或ToolWindow（工 具窗口），默认为SingleBorderWindow。 </li>
+<li>WindowState：指定窗口的状态，可以是 Normal（正常）、Minimized（最小 化）或 Maximized（最大化），默认为Normal。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-带标题内容控件"><a href="#3-带标题内容控件" class="headerlink" title="3 带标题内容控件"></a>3 带标题内容控件</h2><p>Expander 和 GroupBox 都是 WPF 中的带标题内容控件，它们都继承自HeaderedContentControl 类，可以显示一个标题（Header）和一个内容（Content）。它们的作用和常用特征及特征值 如下： </p>
+<ul>
+<li><p>Expander：扩展器，可以显示一个可展开或折叠的内容区域。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Header：指定扩展器的标题，可以是任意对象。</li>
+<li>Content：指定扩展器的内容，可以是任意对象。</li>
+<li>IsExpanded：指定扩展器是否展开，默认为 False。</li>
+<li>ExpandDirection：指定扩展器的展开方向，可以是 Left（左）、Right（右）、 Up（上）或Down（下），默认为Down。</li>
+</ul>
+</li>
+<li><p>GroupBox：分组框，可以显示一个带边框的内容区域。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Header：指定分组框的标题，可以是任意对象。</li>
+<li>Content：指定分组框的内容，可以是任意对象。</li>
+<li>HeaderAlignment：指定分组框标题相对于边框的对齐方式，可以是Left（左）、 Center（中）或Right（右），默认为Left。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-条目控件"><a href="#4-条目控件" class="headerlink" title="4 条目控件"></a>4 条目控件</h2><p>ComboBox、ContextMenu、DataGrid、HeaderedItemsControl、ListBox、ListView、Menu 和 ToolBar 都是  WPF 中的条目控件，它们都继承自 ItemsControl 类，可以显示一列数据，一般情况下这列数据的类型是相同的。它们的作用和常用特征及特征值如下： </p>
+<ul>
+<li><p>ComboBox：组合框，可以显示一个可下拉的列表，并让用户从中选择或输入一个选 项。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Items：指定组合框的数据集合，可以是任意对象的集合。</li>
+<li>SelectedItem：指定组合框当前选中的项，可以是任意对象。</li>
+<li>SelectedIndex：指定组合框当前选中项的索引，从 0 开始，如果没有选中项 则为 -1。 </li>
+<li>Text：指定组合框当前显示的文本，可以是任意字符串。</li>
+<li>IsEditable：指定组合框是否可编辑，如果为 True，则用户可以在组合框中输 入文本，否则只能从列表中选择，默认为False。</li>
+</ul>
+</li>
+<li><p>ContextMenu：上下文菜单，可以显示一个弹出式的菜单，并让用户从中选择一个命 令或选项。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Items：指定上下文菜单的数据集合，通常是 MenuItem 的集合。</li>
+<li>PlacementTarget：指定上下文菜单相对于哪个控件弹出，默认为触发上下文 菜单的控件。</li>
+<li>Placement：指定上下文菜单相对于目标控件的位置，可以是 Bottom（下）、 Top（上）、Left（左）、Right（右）、Mouse（鼠标位置）、MousePoint（鼠标 点）、Center（中心）、Absolute（绝对位置）或 Relative（相对位置），默认为 MousePoint。</li>
+</ul>
+</li>
+<li><p>DataGrid：数据网格，可以显示一个表格形式的数据，并提供排序、分组、编辑等功 能。常用的特征有： </p>
+</li>
+<li><ul>
+<li>ItemsSource：指定数据网格的数据源，通常是一个实现了 IEnumerable 接口 的对象，如ObservableCollection 等。</li>
+<li>AutoGenerateColumns：指定是否自动根据数据源生成列，默认为True。</li>
+<li>Columns：指定数据网格的列集合，每个 DataGridColumn 可以指定 Header （列头）、Binding（绑定字段）、Width（列宽）等属性。</li>
+<li>SelectedItem：指定数据网格当前选中的行，可以是任意对象。</li>
+<li>SelectedIndex：指定数据网格当前选中行的索引，从0开始，如果没有选中 行则为-1。</li>
+<li>SelectionMode：指定数据网格的选择模式，可以是Single（单选）或Extended （多选），默认为Extended。</li>
+</ul>
+</li>
+<li><p>HeaderedItemsControl：带标题条目控件，继承自ItemsControl，可以显示一个标题和 一列数据。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Header：指定带标题条目控件的标题，可以是任意对象。 </li>
+<li>Items：指定带标题条目控件的数据集合，可以是任意对象的集合。</li>
+</ul>
+</li>
+<li><p>ListBox：列表框，继承自 ItemsControl，可以显示一列可选择的数据，并提供滚动条 和虚拟化功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>ItemsSource：指定列表框的数据源，通常是一个实现了 IEnumerable 接口的 对象，如ObservableCollection 等。</li>
+<li>SelectedItem：指定列表框当前选中的项，可以是任意对象。</li>
+<li>SelectedIndex：指定列表框当前选中项的索引，从 0 开始，如果没有选中项 则为 -1。 </li>
+<li>SelectionMode：指定列表框的选择模式，可以是 Single（单选）、Multiple（多 选）或Extended（多选），默认为 Single。</li>
+</ul>
+</li>
+<li><p>ListView：列表视图，继承自 ListBox，可以显示一列可选择的数据，并提供不同的 视图模式和分组功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>ItemsSource：指定列表视图的数据源，通常是一个实现了 IEnumerable 接口 的对象，如ObservableCollection 等。</li>
+<li>SelectedItem：指定列表视图当前选中的项，可以是任意对象。 </li>
+<li>SelectedIndex：指定列表视图当前选中项的索引，从 0 开始，如果没有选中 项则为 -1。</li>
+<li>SelectionMode：指定列表视图的选择模式，可以是 Single（单选）、Multiple （多选）或Extended（多选），默认为 Single。</li>
+<li>View：指定列表视图的视图模式，可以是 GridView（网格视图）、IconView （图标视图）、TileView（平铺视图）或 DetailView（详细视图）等。</li>
+</ul>
+</li>
+<li><p>Menu：菜单，继承自 ItemsControl，可以显示一个水平或垂直的菜单栏，并让用户从 中选择一个命令或选项。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Items：指定菜单的数据集合，通常是 MenuItem 的集合。 </li>
+<li>IsMainMenu：指定菜单是否是主菜单，如果为 True，则菜单会自动获取焦点 和键盘输入，默认为 False。</li>
+</ul>
+</li>
+<li><p>ToolBar：工具栏，继承自 ItemsControl，可以显示一行或多行的工具按钮，并提供拖 动和溢出功能。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Items：指定工具栏的数据集合，通常是 Button、ToggleButton、Separator 等 控件的集合。 </li>
+<li>Band：指定工具栏所在的行索引，从 0 开始，默认为 0。 </li>
+<li>BandIndex：指定工具栏在同一行中的位置索引，从 0 开始，默认为 0。</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-带标题条目控件"><a href="#5-带标题条目控件" class="headerlink" title="5 带标题条目控件"></a>5 带标题条目控件</h2><p>TabControl 和 TreeView 都是 WPF 中的带标题条目控件，它们都继承自 ItemsControl 类，可以显示一列数据，一般情况下这列数据的类型是相同的。它们的作用和常用特征及特征值如 下： </p>
+<ul>
+<li><p>TabControl：选项卡控件，可以显示一个可切换的选项卡集合，并让用户从中选择一 个显示不同的内容。常用的特征有：</p>
+</li>
+<li><ul>
+<li>Items：指定选项卡控件的数据集合，通常是 TabPage 的集合。 </li>
+<li>SelectedItem：指定选项卡控件当前选中的选项卡，可以是任意对象。 </li>
+<li>SelectedIndex：指定选项卡控件当前选中选项卡的索引，从 0 开始，如果没有选中选项卡则为 -1。 </li>
+<li>Alignment：指定选项卡控件的选项卡位置，可以是 Top（上）、Bottom（下）、 Left（左）或Right（右），默认为 Top。 </li>
+<li>SizeMode：指定选项卡控件的大小模式，可以是 Fixed（固定）、FillToRight （填充到右边）或Normal（正常），默认为 Normal。</li>
+</ul>
+</li>
+<li><p>TreeView：树形视图控件，可以显示一个分层结构的数据，并让用户展开或折叠各 个节点。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Items：指定树形视图控件的数据集合，通常是TreeNode的集合。</li>
+<li>SelectedItem：指定树形视图控件当前选中的节点，可以是任意对象。 </li>
+<li>SelectedIndex：指定树形视图控件当前选中节点的索引，从 0 开始，如果没有选中节点则为-1。 </li>
+<li>ShowRootLines：指定树形视图控件是否显示根节点的连接线，默认为 True。</li>
+<li>ShowPlusMinus：指定树形视图控件是否显示展开或折叠按钮，默认为 True。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-特殊内容控件"><a href="#6-特殊内容控件" class="headerlink" title="6 特殊内容控件"></a>6 特殊内容控件</h2><p>TextBox、TextBlock 和 Image 都是 WPF 中的特殊内容控件，它们不属于 ContentControl 类， 但也有Content 属性。它们的作用和常用特征及特征值如下： </p>
+<ul>
+<li><p>TextBox：文本框，可以让用户输入和编辑文本，并提供撤销、重做、剪切、复制、 粘贴等功能。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Text：指定文本框中的文本内容，可以是任意字符串。 </li>
+<li>TextWrapping：指定文本框是否自动换行，可以是 NoWrap（不换行）、Wrap （换行）或WrapWithOverflow（超出边界时换行），默认为 NoWrap。</li>
+<li>TextAlignment：指定文本框中的文本对齐方式，可以是 Left（左对齐）、Center （居中）、Right（右对齐）或Justify（两端对齐），默认为 Left。 </li>
+<li>AcceptsReturn：指定文本框是否接受回车键输入，如果为 True，则用户可以 在文本框中输入多行文本，否则回车键无效，默认为 False。</li>
+<li>AcceptsTab：指定文本框是否接受制表键输入，如果为 True，则用户可以在文本框中输入制表符，否则制表键无效，默认为 False。</li>
+</ul>
+</li>
+<li><p>TextBlock：文本块，可以显示一段可自由控制格式的文本，并支持内联元素和绑定。 常用的特征有： </p>
+</li>
+<li><ul>
+<li>Text：指定文本块中的文本内容，可以是任意字符串。</li>
+<li>TextWrapping：指定文本块是否自动换行，可以是 NoWrap（不换行）、Wrap （换行）或WrapWithOverflow（超出边界时换行），默认为 NoWrap。</li>
+<li>TextAlignment：指定文本块中的文本对齐方式，可以是 Left（左对齐）、Center （居中）、Right（右对齐）或 Justify（两端对齐），默认为 Left。 </li>
+<li>Inlines：指定文本块中的内联元素集合，可以是 Run（普通文本）、Bold（加 粗文本）、Italic（斜体文本）、Underline（下划线文本）、Hyperlink（超链接 文本）等。</li>
+</ul>
+</li>
+<li><p>Image：图像，可以显示一个图像，并支持缩放和旋转。常用的特征有： </p>
+</li>
+<li><ul>
+<li>Source：指定图像的源地址，可以是一个 URI 字符串或者一个 BitmapImage 对象。 </li>
+<li>Stretch：指定图像的缩放模式，可以是 None（不缩放）、Fill（填充）、Uniform （等比例缩放）或UniformToFill（等比例填充），默认为Uniform。</li>
+<li>RenderTransform：指定图像的渲染变换，可以是一个 Transform 对象，如 RotateTransform（旋转变换）、ScaleTransform（缩放变换）、SkewTransform （倾斜变换）或TranslateTransform（平移变换）等。</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>WPF常用控件</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://lunanorth.github.io/posts/30948.html">https://lunanorth.github.io/posts/30948.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>枕月听风</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-08-25</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-08-25</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Winform%E7%9F%A5%E8%AF%86%E7%90%86%E8%A7%A3/">Winform知识理解</a></div><div class="post_share"><div class="social-share" data-image="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202508251526210.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/36658.html" title="WPF MVVM 入门学习笔记：从零开始理解 CommunityToolkit 与 ObservableObject 详解"><img class="cover" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202508010013528.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">WPF MVVM 入门学习笔记：从零开始理解 CommunityToolkit 与 ObservableObject 详解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/9447.html" title="Winform 多线程刷新代码片段理解"><img class="cover" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202507112226219.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-11</div><div class="title">Winform 多线程刷新代码片段理解</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">枕月听风</div><div class="author-info__description">言念君子 ，温其如玉</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" href="https://lunanorth.github.io/"><i class="fab fa-github"></i><span>剑气长安</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B8%83%E5%B1%80%E6%8E%A7%E4%BB%B6"><span class="toc-text">1 布局控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%86%85%E5%AE%B9%E6%8E%A7%E4%BB%B6"><span class="toc-text">2 内容控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B8%A6%E6%A0%87%E9%A2%98%E5%86%85%E5%AE%B9%E6%8E%A7%E4%BB%B6"><span class="toc-text">3 带标题内容控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9D%A1%E7%9B%AE%E6%8E%A7%E4%BB%B6"><span class="toc-text">4 条目控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B8%A6%E6%A0%87%E9%A2%98%E6%9D%A1%E7%9B%AE%E6%8E%A7%E4%BB%B6"><span class="toc-text">5 带标题条目控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%89%B9%E6%AE%8A%E5%86%85%E5%AE%B9%E6%8E%A7%E4%BB%B6"><span class="toc-text">6 特殊内容控件</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By 枕月听风</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">言念君子 ，温其如玉<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: 'Ov23livb5sxAzXC5FAOj',
+      clientSecret: '901c2a65d4b136d295133e9a8176b8650d782c41',
+      repo: 'blog-gitalk',
+      owner: 'LunaNorth',
+      admin: ['LunaNorth'],
+      id: 'c2a520f3d0774bdef347484f1a76363b',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas id="universe"></canvas><script async data-pjax src="/js/universe.js"></script><script defer data-pjax src="/js/readPercent.js"></script><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = '81efe4afadcd49fc93bcfb1aa5d42b3c';
+  var gaud_map_key = 'ea946ee5b69e4a4fe76909e6537b883d';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '112.982279,28.19409';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202507182329401.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">轻语时光</a><div class="blog-slider__text">我大抵是真的眼花了，竟把一个人的落日，看成了两个人的黄昏</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/8ebfad52.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202506030829430.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-07-18</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">百天打卡</a><div class="blog-slider__text">有目的的人才会迷路 ，我只是来这个世界散步</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s21.ax1x.com/2024/08/11/pASTNY8.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">我在人间凑数的日子</a><div class="blog-slider__text">什么家国仇恨浩然正气的，都不要急。先挑起清风明月，杨柳依依和草长莺飞</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/facab7a2.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/5413be0e.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-24</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/37820.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-08-16</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
