@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>WinForm引入项目资源文件</title>
+      <link href="/posts/51417.html"/>
+      <url>/posts/51417.html</url>
+      
+        <content type="html"><![CDATA[<ol><li>以Buttom按钮为例去引入 ，在Debug文件目录下 ， 新建一个<code>images</code>文件夹 ，然后把要使用的资源(图片)拖进去<br> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202509211212190.png" alt="image">​</li><li>将资源加载到项目中去 ，点击 <code>Properties</code>下面的<code>Resoures.resx</code>  , 然后把图片直接拖进去<br> 效果如下：<br> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202509211212346.png" alt="image">​</li><li>这个时候就可以去进行一个使用了<br> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202509211212058.png" alt="image">​</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> WinForm相关 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> WinForm基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>思源笔记同步记录</title>
       <link href="/posts/45033.html"/>
       <url>/posts/45033.html</url>
