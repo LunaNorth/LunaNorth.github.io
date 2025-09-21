@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>思源笔记同步记录</title>
+      <link href="/posts/45033.html"/>
+      <url>/posts/45033.html</url>
+      
+        <content type="html"><![CDATA[<ol><li>新建空间 ，设置存储空间名称 ，访问控制设为私有</li><li>在思源笔记设置中 ，云端选项中选择S3​存储 ，填写相关配置<ol><li>Endpoint：就是 S3协议的外网访问地址​ 去掉空间名称，<a href="http://s3.cn-south-1.qiniucs.com/">http://s3.cn-south-1.qiniucs.com</a></li><li>Access Key：<a href="https://portal.qiniu.com/developer/user/key">七牛云 - 密钥管理</a> 的 AK 值</li><li>Secret Key：<a href="https://portal.qiniu.com/developer/user/key">七牛云 - 密钥管理</a> 的 SK 值</li><li>Bucket：在七牛云创建的空间名称，比如我的就是 siyun-date</li><li>Region：填写域名中显示的区域名字，即 cn-south-1</li><li>Timeout (s)、Addressing、保持默认就行(前面两项) ，TLS Verify 选择：Verify</li></ol></li><li>选择云端同步 ，同步冲突时生成冲突文档</li><li>云端同步模式：手动同步</li><li>设置快捷键 —&gt; ctrl + S​</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 思源笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 思源笔记相关记录 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>思源笔记现用代码片段记录</title>
       <link href="/posts/58560.html"/>
       <url>/posts/58560.html</url>
