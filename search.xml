@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>多状态循环泵控件开发</title>
+      <link href="/posts/62088.html"/>
+      <url>/posts/62088.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="所遇问题"><a href="#所遇问题" class="headerlink" title="所遇问题"></a>所遇问题</h3><p>描述：在使用定时器设置泵的运行状态时 ，可以成功运行 ，但是会一卡一卡的</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510062025836.png" alt="image"></p><p>这里猜测的是定时器时间设置过短导致它本身一个周期还未运行完成就重新开启下一轮的运行</p><p>但是将时间设置大了之后 ，结果并不是这样子的 ，还是会出现一卡一卡的状态</p><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>对其进行一个变化更新 ，也就是拿它的当前值与上次值去进行一个对比 ，如果不一样 ，就说明值发生了 ，这个时候再去进行一个更新</p><p>代码展示：</p><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateTimer_Tick</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 模拟从PLC读取一个泵的状态数据</span></span><br><span class="line">    <span class="built_in">bool</span> state = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">this</span>.pump1.PumpState = state ? NorthControLib.PumpState.运行 : NorthControLib.PumpState.停止;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Browsable(true)</span>] <span class="comment">// 是否显示属性</span></span><br><span class="line">[<span class="meta">Category(<span class="string">&quot;自定义属性&quot;</span>)</span>] <span class="comment">// 属性分组</span></span><br><span class="line">[<span class="meta">Description(<span class="string">&quot;设置或获取泵的当前状态&quot;</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> PumpState PumpState</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; <span class="keyword">return</span> pumpState; &#125;</span><br><span class="line">    <span class="keyword">set</span> </span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">if</span> (pumpState != <span class="keyword">value</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            pumpState = <span class="keyword">value</span>;</span><br><span class="line">            <span class="keyword">switch</span> (pumpState)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> PumpState.运行:</span><br><span class="line">                    <span class="keyword">this</span>.pic_Pump.Image = Properties.Resources.PumpRun;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> PumpState.停止:</span><br><span class="line">                    <span class="keyword">this</span>.pic_Pump.Image = Properties.Resources.PumpStop;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> PumpState.故障:</span><br><span class="line">                    <span class="keyword">this</span>.pic_Pump.Image = Properties.Resources.PumpFault;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> PumpState.备用:</span><br><span class="line">                    <span class="keyword">this</span>.pic_Pump.Image = Properties.Resources.PumpSpare;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><hr><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510062026820.png" alt="image"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> WinForm相关 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> WinForm基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
       <link href="/posts/56539.html"/>
       <url>/posts/56539.html</url>
