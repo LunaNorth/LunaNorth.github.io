@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Nuget安装以及西门子PLC通信 | 枕月听风</title><meta name="author" content="枕月听风"><meta name="copyright" content="枕月听风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="安装S7NetPlus库    添加命名空间 ，using S7.Net​  创建一个西门子PLC通信对象——成员变量  实例化 ，this:表示的是当前对象  建立简介 ，对象名.方法名 , this.siemens.Open()​  读取变量 ， 装箱的一个过程 ，  解析变量 ，拆箱的一个过程   代码演示： 12345678910111213141516171819202122232">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Nuget安装以及西门子PLC通信 | 枕月听风</title><meta name="author" content="枕月听风"><meta name="copyright" content="枕月听风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="安装S7NetPlus库    添加命名空间 ，using S7.Net​ 创建一个西门子PLC通信对象——成员变量 实例化 ，this:表示的是当前对象 建立简介 ，对象名.方法名 , this.siemens.Open()​ 读取变量 ， 装箱的一个过程 ， 解析变量 ，拆箱的一个过程  代码演示： 12345678910111213141516171819202122232425262">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nuget安装以及西门子PLC通信">
 <meta property="og:url" content="https://lunanorth.github.io/posts/6575.html">
 <meta property="og:site_name" content="枕月听风">
-<meta property="og:description" content="安装S7NetPlus库    添加命名空间 ，using S7.Net​  创建一个西门子PLC通信对象——成员变量  实例化 ，this:表示的是当前对象  建立简介 ，对象名.方法名 , this.siemens.Open()​  读取变量 ， 装箱的一个过程 ，  解析变量 ，拆箱的一个过程   代码演示： 12345678910111213141516171819202122232">
+<meta property="og:description" content="安装S7NetPlus库    添加命名空间 ，using S7.Net​ 创建一个西门子PLC通信对象——成员变量 实例化 ，this:表示的是当前对象 建立简介 ，对象名.方法名 , this.siemens.Open()​ 读取变量 ， 装箱的一个过程 ， 解析变量 ，拆箱的一个过程  代码演示： 12345678910111213141516171819202122232425262">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/202507081125648.png">
 <meta property="article:published_time" content="2025-09-22T14:41:38.000Z">
@@ -162,22 +162,15 @@
 <li><p>安装<code>S7NetPlus</code>库</p>
 <p> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202509222239653.png" alt="image"></p>
 </li>
-<li><p>添加命名空间 ，<code>using S7.Net</code>​</p>
-</li>
-<li><p>创建一个西门子PLC通信对象——成员变量</p>
-</li>
-<li><p>实例化 ，<code>this</code>:表示的是当前对象</p>
-</li>
-<li><p>建立简介 ，<code>对象名.方法名</code> , <code>this.siemens.Open()</code>​</p>
-</li>
-<li><p>读取变量 ， 装箱的一个过程 ，</p>
-</li>
-<li><p>解析变量 ，拆箱的一个过程</p>
-</li>
+<li>添加命名空间 ，<code>using S7.Net</code>​</li>
+<li>创建一个西门子PLC通信对象——成员变量</li>
+<li>实例化 ，<code>this</code>:表示的是当前对象</li>
+<li>建立简介 ，<code>对象名.方法名</code> , <code>this.siemens.Open()</code>​</li>
+<li>读取变量 ， 装箱的一个过程 ，</li>
+<li>解析变量 ，拆箱的一个过程</li>
 </ol>
 <p>代码演示：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个私有的 Siemens S7 PLC 通信对象，初始值为 null</span></span><br><span class="line"><span class="comment">// 使用 S7NetPlus 库中的 Plc 类来实现与西门子 PLC 的通信</span></span><br><span class="line"><span class="keyword">private</span> Plc siemens = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个名为 S7Test 的公共方法，用于测试与西门子 PLC 的连接和数据读取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">S7Test</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 创建一个新的 Plc 实例，指定 CPU 类型为 S7-1500</span></span><br><span class="line">    <span class="comment">// 参数说明：</span></span><br><span class="line">    <span class="comment">//   CpuType.S71500: 指定 PLC 的 CPU 类型为 S7-1500</span></span><br><span class="line">    <span class="comment">//   &quot;127.0.0.1&quot;: PLC 的 IP 地址（此处为本地回环地址，实际使用时需改为真实 PLC 的 IP）</span></span><br><span class="line">    <span class="comment">//   0: 槽号（Rack），通常 S7-1500 默认为 0</span></span><br><span class="line">    <span class="comment">//   0: 机架号（Slot），S7-1500 在博图中通常设置为 2，但默认也可能为 0（需根据实际项目配置）</span></span><br><span class="line">    <span class="keyword">this</span>.siemens = <span class="keyword">new</span> Plc(CpuType.S71500, <span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打开与 PLC 的连接</span></span><br><span class="line">    <span class="comment">// 如果 IP、槽号或机架号配置错误，或网络不通，连接将失败</span></span><br><span class="line">    <span class="keyword">this</span>.siemens.Open();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取 PLC 中地址为 &quot;M200.0&quot; 的位（M 标志位寄存器的第 200 字节的第 0 位）</span></span><br><span class="line">    <span class="comment">// 返回值为 object 类型，具体值可能是 bool、int 等，取决于实际读取的数据类型</span></span><br><span class="line">    <span class="built_in">object</span> <span class="keyword">value</span> = <span class="keyword">this</span>.siemens.Read(<span class="string">&quot;M200.0&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将读取到的对象转换为布尔值（bool）</span></span><br><span class="line">    <span class="comment">// M200.0 是一个位地址，因此预期值为 true 或 false</span></span><br><span class="line">    <span class="built_in">bool</span> result = Convert.ToBoolean(<span class="keyword">value</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 弹出一个消息框，显示转换后的布尔值（true 或 false）</span></span><br><span class="line">    <span class="comment">// 用于测试和验证是否成功读取到数据</span></span><br><span class="line">    MessageBox.Show(result.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>注意：需要注意的是 ，在连接的时候需要使用S7来进行模拟</p>
 <p>这里我使用的是：</p>
 <p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202509222240337.png" alt="image"></p>
