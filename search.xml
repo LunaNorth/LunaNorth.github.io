@@ -33,7 +33,7 @@
       <link href="/posts/32243.html"/>
       <url>/posts/32243.html</url>
       
-        <content type="html"><![CDATA[<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>edge浏览器的这个圆角我看着不太习惯 ，特别是在看一些博客文章的时候 ，总感觉不太舒服 ，所以想给他关闭掉</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112130602.png" alt="image"></p><h3 id="关闭或者开启设置"><a href="#关闭或者开启设置" class="headerlink" title="关闭或者开启设置"></a>关闭或者开启设置</h3><ol><li><p>在浏览器搜索框输入<code>edge://flags</code></p></li><li><p>然后再在页面的搜索框中输入<code>Microsoft Edge rounded corners</code></p><p> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112131018.png" alt="image"></p></li><li><p>开启圆角：它默认是<code>Default</code>​ 效果和<code>Enable一样</code> ，会开启圆角</p></li><li><p>关闭圆角：选择 <code>Disable</code> 即可</p></li><li><p>然后重启浏览器就行了</p></li></ol>]]></content>
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>edge浏览器的这个圆角我看着不太习惯 ，特别是在看一些博客文章的时候 ，总感觉不太舒服 ，所以想给他关闭掉</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112130602.png" alt="image"></p><h3 id="关闭或者开启设置"><a href="#关闭或者开启设置" class="headerlink" title="关闭或者开启设置"></a>关闭或者开启设置</h3><ol><li><p>在浏览器搜索框输入<code>edge://flags</code></p></li><li><p>然后再在页面的搜索框中输入<code>Microsoft Edge rounded corners</code></p><p> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112131018.png" alt="image"></p></li><li><p>开启圆角：它默认是<code>Default</code>​ 效果和<code>Enable一样</code> ，会开启圆角</p></li><li><p>关闭圆角：选择 <code>Disable</code> 即可</p></li><li><p>然后重启浏览器就行了</p></li></ol>]]></content>
       
       
       <categories>
