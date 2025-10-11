@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>Win11光标变白的解决方案</title>
+      <link href="/posts/31402.html"/>
+      <url>/posts/31402.html</url>
+      
+        <content type="html"><![CDATA[<p>新建文件 ，以<code>.reg</code> 结尾 ，名字随便 ，然后插入下面代码即可</p><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm]</span><br><span class="line">&quot;OverlayTestMode&quot;=dword:00000005</span><br></pre></td></tr></table></figure><div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>最后记得要重启电脑才可以</p></div>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编程之外 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>关闭Edge浏览器页面的圆角效果</title>
+      <link href="/posts/32243.html"/>
+      <url>/posts/32243.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>edge浏览器的这个圆角我看着不太习惯 ，特别是在看一些博客文章的时候 ，总感觉不太舒服 ，所以想给他关闭掉</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112130602.png" alt="image"></p><h3 id="关闭或者开启设置"><a href="#关闭或者开启设置" class="headerlink" title="关闭或者开启设置"></a>关闭或者开启设置</h3><ol><li><p>在浏览器搜索框输入<code>edge://flags</code></p></li><li><p>然后再在页面的搜索框中输入<code>Microsoft Edge rounded corners</code></p><p> <img src="https://gitee.com/NorthCJ/north-img/raw/master/images/202510112131018.png" alt="image"></p></li><li><p>开启圆角：它默认是<code>Default</code>​ 效果和<code>Enable一样</code> ，会开启圆角</p></li><li><p>关闭圆角：选择 <code>Disable</code> 即可</p></li><li><p>然后重启浏览器就行了</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编程之外 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>观五行以明道</title>
       <link href="/posts/22532.html"/>
       <url>/posts/22532.html</url>
