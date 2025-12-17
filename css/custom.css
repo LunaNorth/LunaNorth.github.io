@@ -77,6 +77,13 @@
         text-align: center;
     }
 } */
+
+
+[data-theme="light"] {
+
+  --text-bg-hover: #425AEF;
+}
+
 /* 主页文章列表图片宽度 */
 
 [data-theme="light"] #aside-content>.card-widget.card-info {
@@ -375,7 +382,7 @@ body {
 #article-container p {
   margin: 0 0 9px;
   font-size: 16px;
-  line-height: 2.3;
+  line-height: 2;
 }
 
 /* 个人卡片信息 */
