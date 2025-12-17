@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Gitee图床搭建</title>
+      <link href="/posts/7811.html"/>
+      <url>/posts/7811.html</url>
+      
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h2 id="Gitee-设置相关"><a href="#Gitee-设置相关" class="headerlink" title="Gitee 设置相关"></a>Gitee 设置相关</h2><ol><li><p>注册Gitee账号</p></li><li><p>创建仓库 ，名字任意 , 设为公开</p></li><li><p>进入账号设置 ，创建私人令牌 ，记得将生成的Token复制下来</p></li></ol><h2 id="PicGo-设置相关"><a href="#PicGo-设置相关" class="headerlink" title="PicGo 设置相关"></a>PicGo 设置相关</h2><ol><li><p>安装插件 <a href="https://github.com/lizhuangs/picgo-plugin-gitee-uploader">picgo-plugin-gitee-uploader</a></p></li><li><p>配置图床 ，仓库名选择你的<code>Gitee名称/仓库名称</code>​</p></li><li><p>分支默认 ：master</p></li><li><p>token选择从Gitee上复制下来的Token</p></li><li><p>path : 文件夹名称 ，名字任意</p></li><li><p>customPath : 这里我选择的年月</p></li><li><p>没有说到的就是不填</p></li></ol><h2 id="防盗链解决"><a href="#防盗链解决" class="headerlink" title="防盗链解决"></a>防盗链解决</h2><p>上述设置好之后 ，图片可以上传也可以访问 ，但是却不能在博客中展示 ，图片解决方案</p><p>在文章第一行添加代码：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>图片测试：</p><p><img src="https://gitee.com/NorthCJ/north-img/raw/master/images/x-9.jpg" alt="">​</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图床搭建 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>关闭Edge浏览器页面的圆角效果</title>
       <link href="/posts/32243.html"/>
       <url>/posts/32243.html</url>
