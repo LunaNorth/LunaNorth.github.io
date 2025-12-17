@@ -84,6 +84,67 @@
   --text-bg-hover: #425AEF;
 }
 
+#aside-content .card-archives ul.card-archive-list > .card-archive-list-item a:hover,
+#aside-content .card-categories ul.card-category-list > .card-category-list-item a:hover {
+  color: #ffffff !important; /* 纯白 */
+  /* 或者使用以下任意一种白色变体： */
+  /* color: #f8f9fa !important; */ /* 稍微偏灰的白 */
+  /* color: #e9ecef !important; */ /* 更灰的白 */
+  /* color: #fefefe !important; */ /* 略带蓝调的白 */
+}
+
+/* 智能折叠效果 - 根据行数判断 */
+.card-tag-cloud {
+  --max-lines: 10; /* 最多显示3行 */
+  --line-height: 28px; /* 每行高度 */
+  position: relative;
+  overflow: hidden;
+  
+  /* 放慢速度，使用更柔和的贝塞尔曲线 */
+  transition: max-height 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 计算最大高度 - 折叠状态 */
+.card-tag-cloud:not(.expanded) {
+  max-height: calc(var(--max-lines) * var(--line-height));
+}
+
+/* 鼠标悬停时自动展开 - 更慢更自然 */
+.card-tag-cloud:not(.expanded):hover {
+  max-height: 500px; /* 足够大的值来显示所有内容 */
+}
+
+/* 移除悬停时的遮罩 */
+.card-tag-cloud:not(.expanded):hover::after,
+.card-tag-cloud.expanded::after {
+  opacity: 0;
+}
+
+/* 渐变遮罩 - 速度与展开动画匹配 */
+.card-tag-cloud:not(.expanded)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--card-bg) 90%
+  );
+  pointer-events: none;
+  transition: opacity 0.5s ease-out;
+}
+
+/* 标签样式优化 */
+.tag-cloud-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  line-height: var(--line-height);
+}
+
 /* 主页文章列表图片宽度 */
 
 [data-theme="light"] #aside-content>.card-widget.card-info {
@@ -1354,70 +1415,3 @@ tbody tr:last-child td {
 }
 
 
-/* 标题 */
-
-/* 确保样式仅应用于 #post 下的标题 */
-#post h1, #post h2, #post h3, #post h4, #post h5, #post h6 {
-    position: relative;
-    margin: 20px 0 14px;
-    font-weight: bold;
-}
-
-/* 设置不同级别标题的字体大小、颜色，并添加全宽下划线 */
-#post h1 {
-    color: #e74c3c; /* 红色系 */
-    text-align: center;
-    font-size: 2.5em;
-}
-
-#post h1::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #e74c3c;
-    margin-top: 8px;
-}
-
-#post h2 {
-    color: #3b70fc; /* 新颜色：蓝色 */
-    font-size: 2em;
-}
-
-#post h2::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #3b70fc; /* 与文本颜色一致 */
-    margin-top: 6px;
-}
-
-#post h3 {
-    color: #3498db; /* 新颜色：蓝色 */
-    font-size: 1.75em;
-}
-
-#post h3::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #3498db; /* 与文本颜色一致 */
-    margin-top: 5px;
-}
-
-#post h4 {
-    color: #f39c12; /* 橙色系 */
-    font-size: 1.5em;
-}
-
-#post h5 {
-    color: #9b59b6; /* 紫色系 */
-    font-size: 1.25em;
-}
-
-#post h6 {
-    color: #1abc9c; /* 青绿色系 */
-    font-size: 1.1em;
-}
