@@ -4,34 +4,9 @@
   
     
     <entry>
-      <title>如何使用bilibili图床</title>
-      <link href="/posts/62197.html"/>
-      <url>/posts/62197.html</url>
-      
-        <content type="html"><![CDATA[<p><meta name="referrer" content="no-referrer"></p><h2 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h2><ol><li>安装<a href="https://github.com/Molunerfinn/PicGo">PicGo</a> , 打开然后再安装bilibili图床插件</li><li>bilibili图床设置<ol><li>图床配置名可修改</li><li>获取SESSDATA和csrf 保持默认</li></ol></li><li>获取B站SESSDATA<ol><li>登录<a href="https://www.bilibili.com/">B站</a></li><li>按<code>F12</code>打开控制台</li><li>点击应用程序 ，选择Cookie , 点击第一个哔哩哔哩网址</li><li>到<code>SESSDATA</code>​还有<code>bli_jct</code>​复制即可 ， 这里bli_jct 对应的就是<code>csrf</code></li></ol></li></ol><p><img src="https://i0.hdslb.com/bfs/openplatform/e9790c0704b95b356c880afeefd2784e02bcf48a.png" alt=""></p><p>这里图片样式就不说了 ，我好像并没有怎么去使用过</p><h2 id="解决防盗链问题"><a href="#解决防盗链问题" class="headerlink" title="解决防盗链问题"></a>解决防盗链问题</h2><blockquote><p>B站开启了防盗链，利用的是HTTP的Referer属性做判断。如果Referer是他白名单之外的网站，就会返回403</p></blockquote><h3 id="全站图片使用"><a href="#全站图片使用" class="headerlink" title="全站图片使用"></a>全站图片使用</h3><p>在html的head标签中设置如下标志，那么全站资源引用都不会携带referrer</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure><h3 id="新窗口打开"><a href="#新窗口打开" class="headerlink" title="新窗口打开"></a>新窗口打开</h3><p>主要设置<code>rel=&quot;noreferrer&quot;</code>​，使用<code>window.open</code>​打开的话是会默认携带<code>referrer</code>的，第一次还是会403</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">rel</span>=<span class="string">&quot;noreferrer&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure><p>图片测试：</p><p><img src="https://i0.hdslb.com/bfs/openplatform/5ed3e06045f3eaf221126986a9444c7ec4c59bc0.jpg" alt=""></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 经验分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 图床搭建 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title></title>
-      <link href="/posts/0.html"/>
-      <url>/posts/0.html</url>
+      <link href="/posts/1.html"/>
+      <url>/posts/1.html</url>
       
         <content type="html"><![CDATA[<h1 id="如何使用bilibili图床"><a href="#如何使用bilibili图床" class="headerlink" title="如何使用bilibili图床"></a>如何使用bilibili图床</h1><h2 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h2><ol><li>安装<a href="https://github.com/Molunerfinn/PicGo">PicGo</a> , 打开然后再安装bilibili图床插件</li><li><p>bilibili图床设置</p><ol><li>图床配置名可修改</li><li>获取SESSDATA和csrf 保持默认</li></ol></li><li><p>获取B站SESSDATA</p><ol><li>登录<a href="https://www.bilibili.com/">B站</a></li><li>按<code>F12</code>打开控制台</li><li>点击应用程序 ，选择Cookie , 点击第一个哔哩哔哩网址</li><li>到<code>SESSDATA</code>​还有<code>bli_jct</code>​复制即可 ， 这里bli_jct 对应的就是<code>csrf</code></li></ol></li></ol><p><img src="https://i0.hdslb.com/bfs/openplatform/e9790c0704b95b356c880afeefd2784e02bcf48a.png" alt=""></p><p>这里图片样式就不说了 ，我好像并没有怎么去使用过</p><h2 id="解决防盗链问题"><a href="#解决防盗链问题" class="headerlink" title="解决防盗链问题"></a>解决防盗链问题</h2><blockquote><p>B站开启了防盗链，利用的是HTTP的Referer属性做判断。如果Referer是他白名单之外的网站，就会返回403</p></blockquote><h3 id="全站图片使用"><a href="#全站图片使用" class="headerlink" title="全站图片使用"></a>全站图片使用</h3><p>在html的head标签中设置如下标志，那么全站资源引用都不会携带referrer</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure><h3 id="新窗口打开"><a href="#新窗口打开" class="headerlink" title="新窗口打开"></a>新窗口打开</h3><p>主要设置<code>rel=&quot;noreferrer&quot;</code>​，使用<code>window.open</code>​打开的话是会默认携带<code>referrer</code>的，第一次还是会403</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">rel</span>=<span class="string">&quot;noreferrer&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure><p>图片测试：</p><p><img src="https://i0.hdslb.com/bfs/openplatform/5ed3e06045f3eaf221126986a9444c7ec4c59bc0.jpg" alt=""></p>]]></content>
       
