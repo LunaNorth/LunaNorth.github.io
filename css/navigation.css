@@ -1,19 +1,58 @@
-/* 渐变文字颜色标题样式 - 禁用悬停变色 */
+/* 渐变文字颜色标题样式 - 完全禁用悬停变色 */
 #post h1, #post h2, #post h3, #post h4, #post h5, #post h6 {
     position: relative;
     font-weight: 600;
     line-height: 1.3;
     margin: 0;
     padding: 0;
-    /* 文字渐变色设置 */
-    background: none;
-    -webkit-text-fill-color: unset;
+    /* 确保文字可以被选择和复制 */
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    /* 设置默认文字颜色（备用） */
+    color: inherit;
+    /* 确保正常交互 */
+    pointer-events: auto;
+    /* 继承背景定位 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 100% 100%;
+    background-attachment: scroll;
+}
+
+/* 使用伪元素创建渐变背景，这样悬停时不会变化 */
+#post h1::before,
+#post h2::before,
+#post h3::before,
+#post h4::before,
+#post h5::before,
+#post h6::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 渐变色设置 */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    z-index: -1;
+}
+
+/* 实际显示的文字 */
+#post h1,
+#post h2,
+#post h3,
+#post h4,
+#post h5,
+#post h6 {
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-    /* 禁止悬停变色 */
-    pointer-events: none;
-    user-select: none;
+    -webkit-text-fill-color: transparent;
 }
 
 /* 一级标题 - 红色系渐变 */
@@ -24,11 +63,17 @@
     background-image: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
     letter-spacing: -0.5px;
 }
+#post h1::before {
+    background-image: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+}
 
 /* 二级标题 - 蓝色渐变 */
 #post h2 {
     font-size: 1.9em;
     margin: 0.8em 0 0.3em;
+    background-image: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+#post h2::before {
     background-image: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
 }
 
@@ -38,11 +83,17 @@
     margin: 0.6em 0 0.2em;
     background-image: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
 }
+#post h3::before {
+    background-image: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+}
 
 /* 四级标题 - 橙色渐变 */
 #post h4 {
     font-size: 1.45em;
     margin: 0.5em 0 0.15em;
+    background-image: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+}
+#post h4::before {
     background-image: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
 }
 
@@ -52,11 +103,17 @@
     margin: 0.4em 0 0.1em;
     background-image: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
 }
+#post h5::before {
+    background-image: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+}
 
 /* 六级标题 - 紫色渐变 */
 #post h6 {
     font-size: 1.1em;
     margin: 0.3em 0 0.1em;
+    background-image: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+}
+#post h6::before {
     background-image: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
 }
 
@@ -87,71 +144,3 @@
         margin: 0.25em 0 0.1em;
     }
 }
-
-/* 备用方案：不支持渐变文字的浏览器 */
-@supports not (background-clip: text) {
-    #post h1 {
-        color: #dc2626 !important; /* 红色 */
-        background-image: none !important;
-    }
-    #post h2 {
-        color: #3b82f6 !important; /* 蓝色 */
-        background-image: none !important;
-    }
-    #post h3 {
-        color: #06b6d4 !important;
-        background-image: none !important;
-    }
-    #post h4 {
-        color: #f59e0b !important;
-        background-image: none !important;
-    }
-    #post h5 {
-        color: #ec4899 !important;
-        background-image: none !important;
-    }
-    #post h6 {
-        color: #8b5cf6 !important;
-        background-image: none !important;
-    }
-}
-
-/* 深色模式优化 */
-@media (prefers-color-scheme: dark) {
-    #post h1 {
-        background-image: linear-gradient(135deg, #f87171 0%, #dc2626 50%, #991b1b 100%);
-    }
-    #post h2 {
-        background-image: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-    }
-    #post h3 {
-        background-image: linear-gradient(135deg, #22d3ee 0%, #34d399 100%);
-    }
-    #post h4 {
-        background-image: linear-gradient(135deg, #fbbf24 0%, #fb923c 100%);
-    }
-    #post h5 {
-        background-image: linear-gradient(135deg, #f472b6 0%, #e879f9 100%);
-    }
-    #post h6 {
-        background-image: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
-    }
-}
-
-/* 打印样式优化 */
-@media print {
-    #post h1, #post h2, #post h3, #post h4, #post h5, #post h6 {
-        background-image: none !important;
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
-        margin: 0.2em 0 !important;
-        pointer-events: auto !important;
-    }
-}
-
-/* 目录跟随效果 */
-#aside-content #card-toc .toc-content .toc-link {
-    border-radius: 4px; /* 添加轻微圆角 */
-}
-
-
