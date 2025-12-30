@@ -826,6 +826,7 @@ h6::before {
 #aside-content #card-toc .toc-content .toc-link.active {
   background: #425AEF;
   color: #fff;
+  border-radius: 5px;
 }
 
 .fa-github:before {
