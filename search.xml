@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Modbus调试软件推荐</title>
+      <link href="/posts/35883.html"/>
+      <url>/posts/35883.html</url>
+      
+        <content type="html"><![CDATA[<div class='checkbox plus green checked'><input type="checkbox" checked="checked"/>            <p>ModbusPloo : Modbus主站或Modbus客户端</p>            </div><div class='checkbox plus green checked'><input type="checkbox" checked="checked"/>            <p>ModbusSlave : Modbus从站或Modbus服务器</p>            </div><div class='checkbox plus green checked'><input type="checkbox" checked="checked"/>            <p>VSPD ： 虚拟串口软件 ——&gt; 虚拟出一对串口</p>            </div><div class='checkbox plus green checked'><input type="checkbox" checked="checked"/>            <p>串口调试助手</p>            </div><div class='checkbox plus green checked'><input type="checkbox" checked="checked"/>            <p>网络调试助手</p>            </div>]]></content>
+      
+      
+      <categories>
+          
+          <category> Modbus </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编程工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ADO.NET APP配置文件使用</title>
       <link href="/posts/335.html"/>
       <url>/posts/335.html</url>
