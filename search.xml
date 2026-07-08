@@ -8,7 +8,7 @@
       <link href="/posts/24332.html"/>
       <url>/posts/24332.html</url>
       
-        <content type="html"><![CDATA[<blockquote><p>起因：今天安装了下Navicat ，想着使用Navicat去进行操作的话会更加的方便些</p></blockquote><p>第一步：选择文件 -&gt; 新建连接 -&gt; 选择SQL Server</p><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708091959741.png" alt="image" style="zoom:50%;" /><p>第二步：输入连接名 ，主机这里需要复制SQL Server 中的服务器名称</p><ul><li>然后输入用户名 ，密码去</li><li>用户名：SQLServer 中的登录名</li></ul><p>然后测试连接这个时候就能够发现连接上了</p><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092008125.png" alt="image" style="zoom:50%;" /><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092012085.png" alt="image" style="zoom:50%;" /><hr><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092015814.png" alt="image" style="zoom:50%;" /><p>后续就能够使用Navicat去进行一个操作了</p>]]></content>
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><blockquote><p>起因：今天安装了下Navicat ，想着使用Navicat去进行操作的话会更加的方便些</p></blockquote><p>第一步：选择文件 -&gt; 新建连接 -&gt; 选择SQL Server</p><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708091959741.png" alt="image" style="zoom:50%;" /><p>第二步：输入连接名 ，主机这里需要复制SQL Server 中的服务器名称</p><ul><li>然后输入用户名 ，密码去</li><li>用户名：SQLServer 中的登录名</li></ul><p>然后测试连接这个时候就能够发现连接上了</p><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092008125.png" alt="image" style="zoom:50%;" /><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092012085.png" alt="image" style="zoom:50%;" /><hr><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260708092015814.png" alt="image" style="zoom:50%;" /><p>后续就能够使用Navicat去进行一个操作了</p>]]></content>
       
       
       <categories>
@@ -170,9 +170,9 @@
       
         <tags>
             
-            <tag> 坚持 </tag>
-            
             <tag> 碎碎念 </tag>
+            
+            <tag> 坚持 </tag>
             
         </tags>
       
