@@ -316,17 +316,22 @@
   max-width: 300px;        /* 清风 single 宽 300 */
 }
 #bber .bber-container-img.single .bber-content-img {
-  width: 100%;
+  display: block;
+  width: fit-content;        /* 收缩贴合图片实际尺寸,小图不留灰块空白 */
+  max-width: 100%;
   aspect-ratio: auto;
   height: auto;
   border-radius: 2px;
+  overflow: hidden;
+  background: transparent;   /* 去掉网格单元的灰底 */
 }
 #bber .bber-container-img.single .bber-content-img img {
+  display: block;            /* 块级化,消除行内基线间隙 */
   aspect-ratio: auto;
   width: auto;
   height: auto;
-  max-width: 100%;
-  max-height: 280px;       /* 清风 single 高 280,竖图不再被无限拉长 */
+  max-width: 300px;          /* 清风 single 宽 300 */
+  max-height: 280px;         /* 清风 single 高 280,竖图不再被无限拉长 */
 }
 /* 网格单元:正方形,图片 cover 填满(固定尺寸,不会溢出) */
 #bber .bber-content-img {
