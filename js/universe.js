@@ -42,7 +42,7 @@ function essayScroll() {
     const r = window.scrollY + document.documentElement.clientHeight;
     let p = document.getElementById("post-comment") || document.getElementById("footer");
 
-    (p.offsetTop + p.offsetHeight / 2 < r || 90 < result) && (percentFlag = true);
+    (p.offsetTop + p.offsetHeight / 2 < r) && (percentFlag = true);
 }
 function replaceAll(e, n, t) {
     return e.split(n).join(t);
@@ -153,10 +153,76 @@ june.initIndexEssay();
 june.changeTimeInEssay();
 june.reflashEssayWaterFall();
 
+// ===== bber 短文分页(客户端分页:全部条目渲染进 DOM,JS 按页显隐) =====
+function bberPagination() {
+    var waterfallEl = document.getElementById("waterfall");
+    var paginationEl = document.getElementById("bber-pagination");
+    var tipsEl = document.getElementById("bber-tips");
+    if (!waterfallEl || !paginationEl) return;
+    var items = Array.prototype.slice.call(waterfallEl.querySelectorAll("li.bber-item"));
+    var total = items.length;
+    var pageSize = parseInt(waterfallEl.getAttribute("data-page-size"), 10) || 9;
+    if (pageSize < 1) pageSize = 9;
+    var pageCount = Math.max(1, Math.ceil(total / pageSize));
+    var current = 1;
+
+    function renderNav() {
+        var html = "";
+        html += current > 1
+            ? '<a class="extend prev" href="javascript:;" data-page="' + (current - 1) + '"><i class="fa-solid fa-chevron-left fa-fw"></i></a>'
+            : '<span class="extend prev disabled"><i class="fa-solid fa-chevron-left fa-fw"></i></span>';
+        for (var p = 1; p <= pageCount; p++) {
+            if (pageCount <= 9 || p === 1 || p === pageCount || Math.abs(p - current) <= 2) {
+                if (p === current) {
+                    html += '<span class="page-number current">' + p + '</span>';
+                } else {
+                    html += '<a class="page-number" href="javascript:;" data-page="' + p + '">' + p + '</a>';
+                }
+            } else if (p === 2 || p === pageCount - 1) {
+                html += '<span class="page-number">…</span>';
+            }
+        }
+        html += current < pageCount
+            ? '<a class="extend next" href="javascript:;" data-page="' + (current + 1) + '"><i class="fa-solid fa-chevron-right fa-fw"></i></a>'
+            : '<span class="extend next disabled"><i class="fa-solid fa-chevron-right fa-fw"></i></span>';
+        paginationEl.innerHTML = html;
+    }
+
+    function showPage(page, doScroll) {
+        current = Math.min(Math.max(1, page), pageCount);
+        items.forEach(function (el, i) {
+            el.classList.toggle("bber-hidden", Math.floor(i / pageSize) + 1 !== current);
+        });
+        renderNav();
+        if (tipsEl) {
+            tipsEl.innerText = "- 第 " + current + " / " + pageCount + " 页 · 共 " + total + " 条短文 · 每页 " + pageSize + " 条 -";
+        }
+        if (doScroll) {
+            var essayPage = document.getElementById("essay_page");
+            if (essayPage) {
+                window.scrollTo({ top: essayPage.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+            }
+        }
+    }
+
+    paginationEl.addEventListener("click", function (e) {
+        var t = e.target;
+        while (t && t !== paginationEl && !t.getAttribute("data-page")) { t = t.parentNode; }
+        if (!t || t === paginationEl) return;
+        var p = parseInt(t.getAttribute("data-page"), 10);
+        if (!isNaN(p) && p !== current) showPage(p, true);
+    });
+
+    showPage(1);
+}
+bberPagination();
+
 window.addEventListener("scroll", essayScroll);
 
 
 function waterfall(a) {
+    // essay 页禁用瀑布流,改由 CSS 单列堆叠(max-width 居中,li 一行一条)
+    if (location.pathname.indexOf('/essay') !== -1) return;
     function b(a, b) {
         var c = window.getComputedStyle(b);
         return parseFloat(c["margin" + a]) || 0;
@@ -220,6 +286,8 @@ function waterfall(a) {
 
 // 清单
 function waterfall(a) {
+	// essay 页禁用瀑布流,改由 CSS 单列堆叠
+	if (location.pathname.indexOf('/essay') !== -1) return;
 	function b(a, b) {
 		var c = window.getComputedStyle(b);
 		return parseFloat(c["margin" + a]) || 0

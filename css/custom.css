@@ -632,55 +632,6 @@ h6::before {
   animation: ccc 3.2s linear infinite;
 }
 
-/* ============================================================
-   文章正文标题（H1–H6）优化
-   - 舒适均匀的字号层级（基准 14px）
-   - 合理的上下间距，形成清晰阅读节奏
-   - 冷色系协调配色，柔和易读
-   作用域：#article-container（即文章正文，也含 #post）
-   ============================================================ */
-
-/* 1. 基础：行高与字重，保证多行标题也易读 */
-#article-container h1,
-#article-container h2,
-#article-container h3,
-#article-container h4,
-#article-container h5,
-#article-container h6 {
-  line-height: 1.4;
-  font-weight: 700;
-  transition: color .25s ease, padding-left .25s ease;
-}
-
-/* 2. 字号 + 间距（自上而下均匀递减，留足段间呼吸感） */
-#article-container h1 { font-size: 1.95em; margin: 1.8em 0 0.9em; }
-#article-container h2 { font-size: 1.60em; margin: 1.7em 0 0.8em; }
-#article-container h3 { font-size: 1.35em; margin: 1.45em 0 0.7em; }
-#article-container h4 { font-size: 1.15em; margin: 1.25em 0 0.6em; }
-#article-container h5 { font-size: 1.02em; margin: 1.15em 0 0.5em; }
-#article-container h6 {
-  font-size: 0.92em;
-  margin: 1.10em 0 0.5em;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-}
-
-/* 3. 配色：统一冷色系（深蓝 → 青 → 绿），和谐且不刺眼 */
-#article-container h1 { color: #1c5d99; }
-#article-container h2 { color: #0f7b8a; }
-#article-container h3 { color: #1c8a6e; }
-#article-container h4 { color: #356a9c; }
-#article-container h5 { color: #4a739c; }
-#article-container h6 { color: #5b7aa3; }
-
-/* 4. 装饰图标配色同步（替换原彩虹色，保留旋转动画） */
-#content-inner.layout h1::before { color: #1c5d99; }
-#content-inner.layout h2::before { color: #0f7b8a; }
-#content-inner.layout h3::before { color: #1c8a6e; }
-#content-inner.layout h4::before { color: #356a9c; }
-#content-inner.layout h5::before { color: #4a739c; }
-#content-inner.layout h6::before { color: #5b7aa3; }
-
 /* 页面设置icon转动速度调整 */
 #rightside_config i.fas.fa-cog.fa-spin {
   animation: fa-spin 5s linear infinite;
@@ -824,7 +775,6 @@ h6::before {
   display: flex;
   flex-direction: column;
   padding: 1rem 2rem;
-  border: 1.5px solid #ccc;
 }
 
 .icat-content.icat-content-item.icatPage {
@@ -1446,25 +1396,20 @@ tbody tr:last-child td {
 
 
 #article-container code {
-    color: #e05d44;
-    background-color: rgba(244, 184, 176, 0.15);
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    font-size: 0.92em;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, 'Courier New', monospace;
+    font-size: 0.88em;
     line-height: 1.5;
-    /* 移除或修改下面这行 */
-    white-space: pre-wrap; /* 允许代码换行 */
-    word-wrap: break-word; /* 长单词或URL换行 */
-    word-break: break-all; /* 强制换行 */
-    box-shadow: inset 0 -1px 0 rgba(244, 116, 102, 0.2);
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* 可选：鼠标悬停时高亮（增强交互感） */
-#article-container code:hover {
-  background-color: rgba(244, 116, 102, 0.2);
-  color: #d04a32;
+    padding: 0.15em 0.42em;
+    color: #c75f4a;
+    background-color: rgba(244, 116, 102, 0.14);
+    /* 顶部一层高光，让底色更通透 */
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+    border: 1px solid rgba(244, 116, 102, 0.22);
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 

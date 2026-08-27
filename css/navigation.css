@@ -55,92 +55,92 @@
     -webkit-text-fill-color: transparent;
 }
 
-/* 一级标题 - 红色系渐变 */
+/* 一级标题 - 柔和玫红 */
 #post h1 {
-    font-size: 2.3em;
+    font-size: 1.85em;
     font-weight: 700;
-    margin: 0.3em 0 0.4em;
-    background-image: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+    margin: 0.5em 0 0.5em;
+    background-image: linear-gradient(135deg, #d97474 0%, #c25b5b 100%);
     letter-spacing: -0.5px;
 }
 #post h1::before {
-    background-image: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+    background-image: linear-gradient(135deg, #d97474 0%, #c25b5b 100%);
 }
 
-/* 二级标题 - 蓝色渐变 */
+/* 二级标题 - 柔和蓝紫 */
 #post h2 {
-    font-size: 1.9em;
-    margin: 0.8em 0 0.3em;
-    background-image: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    font-size: 1.55em;
+    margin: 1.1em 0 0.55em;
+    background-image: linear-gradient(135deg, #5b8fd6 0%, #7b6fc4 100%);
 }
 #post h2::before {
-    background-image: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    background-image: linear-gradient(135deg, #5b8fd6 0%, #7b6fc4 100%);
 }
 
-/* 三级标题 - 青色渐变 */
+/* 三级标题 - 柔和青绿 */
 #post h3 {
-    font-size: 1.65em;
-    margin: 0.6em 0 0.2em;
-    background-image: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+    font-size: 1.38em;
+    margin: 0.9em 0 0.5em;
+    background-image: linear-gradient(135deg, #3fa8ad 0%, #46a883 100%);
 }
 #post h3::before {
-    background-image: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+    background-image: linear-gradient(135deg, #3fa8ad 0%, #46a883 100%);
 }
 
-/* 四级标题 - 橙色渐变 */
+/* 四级标题 - 柔和琥珀 */
 #post h4 {
-    font-size: 1.45em;
-    margin: 0.5em 0 0.15em;
-    background-image: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    font-size: 1.22em;
+    margin: 0.8em 0 0.45em;
+    background-image: linear-gradient(135deg, #e0a85c 0%, #e08a4a 100%);
 }
 #post h4::before {
-    background-image: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    background-image: linear-gradient(135deg, #e0a85c 0%, #e08a4a 100%);
 }
 
-/* 五级标题 - 粉色渐变 */
+/* 五级标题 - 柔和粉紫 */
 #post h5 {
-    font-size: 1.25em;
-    margin: 0.4em 0 0.1em;
-    background-image: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+    font-size: 1.1em;
+    margin: 0.7em 0 0.4em;
+    background-image: linear-gradient(135deg, #d982b3 0%, #b877c9 100%);
 }
 #post h5::before {
-    background-image: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+    background-image: linear-gradient(135deg, #d982b3 0%, #b877c9 100%);
 }
 
-/* 六级标题 - 紫色渐变 */
+/* 六级标题 - 柔和长春花 */
 #post h6 {
-    font-size: 1.1em;
-    margin: 0.3em 0 0.1em;
-    background-image: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    font-size: 1.0em;
+    margin: 0.6em 0 0.35em;
+    background-image: linear-gradient(135deg, #8a7fd0 0%, #6f7bc4 100%);
 }
 #post h6::before {
-    background-image: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    background-image: linear-gradient(135deg, #8a7fd0 0%, #6f7bc4 100%);
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
     #post h1 {
-        font-size: 2em;
-        margin: 0.25em 0 0.35em;
+        font-size: 1.6em;
+        margin: 0.4em 0 0.45em;
     }
     #post h2 {
-        font-size: 1.7em;
-        margin: 0.7em 0 0.25em;
+        font-size: 1.4em;
+        margin: 0.95em 0 0.5em;
     }
     #post h3 {
-        font-size: 1.5em;
-        margin: 0.55em 0 0.2em;
+        font-size: 1.25em;
+        margin: 0.8em 0 0.45em;
     }
     #post h4 {
-        font-size: 1.3em;
-        margin: 0.45em 0 0.15em;
+        font-size: 1.12em;
+        margin: 0.7em 0 0.4em;
     }
     #post h5 {
-        font-size: 1.15em;
-        margin: 0.35em 0 0.1em;
+        font-size: 1.0em;
+        margin: 0.6em 0 0.35em;
     }
     #post h6 {
-        font-size: 1.05em;
-        margin: 0.25em 0 0.1em;
+        font-size: 0.95em;
+        margin: 0.5em 0 0.3em;
     }
 }

@@ -17,40 +17,26 @@
 
 .flink-item-icon {
   margin-right: 0 !important;
-  transition: .5s !important;
+  transition: .3s ease !important;
 }
 
 /* 头像微调 */
-
 #article-container .flink .flink-list>.flink-list-item::before {
   content: none;
 }
 
-/* 去掉原来自带的before */
-
+/* 卡片：默认浅边框；hover 仅边框变蓝紫，其余不变 */
+#article-container .flink .flink-list>.flink-list-item {
+  transition: border-color .3s ease;
+}
 #article-container .flink .flink-list>.flink-list-item:hover {
-  background-color: #e68282 !important;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
-  transition: 1s;
+  border-color: #3b70fc !important;
 }
 
-
-/* 鼠标经过改变背景 */
-
-#article-container .flink .flink-list>.flink-list-item:hover a {
-  color: white !important;
-}
-
-/* 鼠标经过改变文字颜色 */
-
+/* 抵消主题自带的 hover 头像收起/左移（width:0 + margin-left:-10px） */
 #article-container .flink .flink-list>.flink-list-item:hover .flink-item-icon {
-  width: 60px;
-  margin-left: -70px;
-  -webkit-transform: rotate(-180deg);
-  -moz-transform: rotate(-180deg);
-  -o-transform: rotate(-180deg);
-  -ms-transform: rotate(-180deg);
-  transform: rotate(-180deg);
+  width: 66px !important;
+  margin-left: 21px !important;
 }
 
 @media screen and (max-width: 900px) {
@@ -58,11 +44,7 @@
     width: 90px;
     height: 90px;
     border-radius: 20px;
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
+    transform: translate(35%, 30%);
   }
 
   #article-container .flink .flink-list>.flink-list-item:hover .flink-item-tag {
@@ -102,15 +84,13 @@
   right: 12px;
   padding: 2px 6px;
   color: #fff;
+  background-image: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  box-shadow: 0 2px 6px -1px rgba(59, 112, 252, 0.4);
   z-index: 1;
   border-radius: 6px;
-  -webkit-transition: .3s;
-  -moz-transition: .3s;
-  -o-transition: .3s;
-  -ms-transition: .3s;
   transition: 0.3s;
   font-size: 0.6rem;
-  opacity: .8;
+  opacity: .9;
 }
 
 /* 友联推荐Tag */
@@ -131,7 +111,7 @@
 }
 
 #article-container .flink .flink-list>.flink-list-item {
-  border: 1px solid #f7f7f9 !important;
+  border: 1px solid #e8ebf2 !important;
   background: #fff;
   height: 120px;
   margin: 8px 8px;
@@ -211,186 +191,180 @@
 #web_bg ~ .page:has(#essay_page) {
   background: var(--june-background);
 }
-#bber .bber-container-img {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-  flex-wrap: wrap;
-  margin-bottom: 0.3rem;
-}
-#bber .bber-container-img .bber-content-noimg {
-  width: calc(100% / 4 - 5px);
-}
+/* ============================================================
+   碎碎念(bber) —— 微信朋友圈风格
+   - 单列堆叠卡片
+   - 头部:头像 + 作者横排
+   - 底部:日期 + 地点纯灰字
+   ============================================================ */
 
-#bber .bber-content-img img,
-#bber .bber-content-img-one img {
-  object-fit: cover;
-  max-height: 100%;
-  border-radius: 12px;
-  width: 100%;
-}
+/* 容器:全宽单列(覆盖原 32% 瀑布流) */
+#bber { margin-top: 1rem; width: 100%; }
+#bber ul.list { display: block; }
 
-#bber .bber-content-img {
-  height: 100px;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  position: relative;
-  width: calc(100% / 4 - 5px);
-  margin-bottom: 10px;
-}
-
-#bber .bber-content-img-one {
-  height: auto;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  position: relative;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-
-#bber .bber-content .datacont {
-  order: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--font-color);
-  width: 100%;
-  line-height: 1.38;
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  text-align: justify;
-}
-#bber p {
-  margin: 0px;
-}
-#bber div.bber-content {
-  display: flex;
-  flex-flow: wrap;
-  border-radius: 12px;
-  width: 100%;
-  height: 100%;
-}
+/* 卡片: flex 两栏(头像左列 + 内容右列),昵称/文字/日期全部在右列,从上到下自然排列 */
 #bber .timeline ul li.bber-item {
   position: relative;
-  width: 32%;
-  border: var(--style-border-always);
-  border-radius: 12px;
-  padding: 1rem 1rem 0.5rem;
-  transition: all 0.3s ease 0s;
+  width: 100% !important;
+  max-width: 930px;
+  margin: 0 auto 14px !important;
+  padding: 20px 22px 16px !important;
+  border: 1px solid #ebeef5 !important;
+  border-radius: 10px !important;
+  background: var(--june-card-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color .3s ease, box-shadow .3s ease;
+  display: flex !important;
+  align-items: flex-start;   /* 头像与昵称顶部对齐 */
+}
+/* 分页隐藏态:必须比上面 display:flex !important 特异性更高才能压住 */
+#bber .timeline ul li.bber-item.bber-hidden {
+  display: none !important;
+}
+#bber .timeline ul li.bber-item:hover {
+  border-color: #c8d2ee !important;
+  box-shadow: 0 4px 12px -4px rgba(59, 112, 252, 0.12);
+}
+[data-theme="dark"] #bber .timeline ul li.bber-item { border-color: #2c2c30 !important; background: #1d1d1f; }
+
+#bber .bber-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: #f5f5f7;
+}
+#bber .bber-content {
+  flex: 1;
+  min-width: 0;
+}
+#bber .bber-author {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin: 2px 0 6px;       /* 与头像顶稍下移,与文字拉开间距 */
+}
+[data-theme="dark"] #bber .bber-author { color: #f0f0f0; }
+#bber .bber-content .datacont {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--june-fontcolor, #4c4948);
+  line-height: 1.7;
+  text-align: left;
+  margin: 0 0 8px;
+  border-radius: 0;
+  display: block;
+  width: auto;
+}
+#bber p { margin: 0; }
+
+/* 隐藏旧 hr / 旧胶囊 */
+#bber .timeline ul li.bber-item hr { display: none; }
+#bber .bber-info-from,
+#bber .bber-info-time,
+#bber .bber-content-link { display: none !important; }
+
+/* 底部 meta 行(日期 · 地点) - 在右列内,自然从内容左边缘开始 */
+#bber .bber-meta {
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  background: var(--june-card-bg);
-  box-shadow: var(--june-shadow-border);
-  margin-right: 2%;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #999;
+  letter-spacing: 0.02em;
 }
-#bber .timeline #waterfall.show {
-  opacity: 1;
-}
-#bber .timeline #waterfall {
-  opacity: 0;
-  transition: all 0.3s ease 0s;
-}
-#bber ul.list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-#bber {
-  margin-top: 1rem;
+#bber .bber-time,
+#bber .bber-loc,
+#bber .bber-dot { color: #999; }
+
+/* 日期 / 地点前的 Font Awesome 图标已去除(目标样式为纯灰字) */
+
+/* 图片网格:仿 轻语·清风视图(north-breeze-image-grid)按数量分态
+   - 单张:原比例,限宽 300px / 限高 280px
+   - 默认(多图/grid-2):限宽 400px
+   - 4 张(四宫格 grid-4):保持原样 300px
+   - single 单图:保持原样 300px(见下方单独规则)  */
+#bber .bber-container-img {
+  display: grid;
+  gap: 4px;
   width: 100%;
+  max-width: 400px;        /* 多图/grid-2 放大到 400px */
+  margin: 6px 0 4px;
 }
-#bber > section > ul > li.bber-item {
-  margin-bottom: 1rem;
+/* 默认多图:3 列(3 / 5 / 6 / 7 / 8 / 9+ 张都用它) */
+#bber .bber-container-img.multi {
+  grid-template-columns: repeat(3, 1fr);
+}
+/* 2 张:2 列 */
+#bber .bber-container-img.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+/* 4 张:2×2,保持原样 300px 不动 */
+#bber .bber-container-img.grid-4 {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 300px;
+}
+/* 单张:block,按原始比例显示(不裁成正方形),限绝对宽高 */
+#bber .bber-container-img.single {
+  display: block;
+  max-width: 300px;        /* 清风 single 宽 300 */
+}
+#bber .bber-container-img.single .bber-content-img {
+  width: 100%;
+  aspect-ratio: auto;
+  height: auto;
+  border-radius: 2px;
+}
+#bber .bber-container-img.single .bber-content-img img {
+  aspect-ratio: auto;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 280px;       /* 清风 single 高 280,竖图不再被无限拉长 */
+}
+/* 网格单元:正方形,图片 cover 填满(固定尺寸,不会溢出) */
+#bber .bber-content-img {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0;
+  background: #f0f0f0;
+}
+#bber .bber-content-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
 }
 
+/* 评论按钮:浮动右侧小图标(朋友圈右下角) */
+/* 评论按钮已隐藏(目标样式不带评论) */
+#bber .bber-reply { display: none !important; }
+#bber .bber-reply i.fa-comment::before { content: none !important; }
+#bber .bber-reply::after { content: "评论"; }
+
+/* waterfall 淡入 */
+#bber .timeline #waterfall { opacity: 0; transition: opacity .3s ease; }
+#bber .timeline #waterfall.show { opacity: 1; }
+
+/* 尾部提示 */
 #bber-tips {
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  color: #b5b5b5;
 }
 
-#bber .timeline ul li.bber-item hr {
-  display: flex;
-  position: relative;
-  margin: 8px 0px;
-  border: 1px dashed var(--june-theme-op);
-  width: 100%;
-  content: linear-gradient(to right, var(--june-theme), var(--june-theme));
-}
-
-#bber .bber-info {
-  display: flex;
-  align-items: center;
-}
-
-#bber > section > ul > li > div .bber-info-time,
-#bber > section > ul > li > div .bber-info-from {
-  color: var(--june-fontcolor);
-  font-size: 0.7rem;
-  background-color: var(--june-gray-op);
-  padding: 0px 8px;
-  border-radius: 20px;
-  cursor: default;
-  display: flex;
-  align-items: center;
-}
-
-#bber .bber-info .far.fa-clock {
-  margin-right: 4px;
-}
-#bber > section > ul > li > div .bber-info-from span,
-#bber > section > ul > li > div .bber-info-from {
-  margin-left: 4px;
-}
-
-#bber .bber-bottom {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
-}
-
-#bber .bber-bottom .bber-reply {
-  cursor: pointer;
-}
-
-#bber .bber-bottom .bber-reply :hover{
-  color: var(--june);
-}
-
-#bber .timeline ul li.bber-item:hover {
-  border: var(--style-border-hover);
-}
-
-#bber .bber-content-link {
-  display: flex;
-  margin-left: 0.5rem;
-  font-size: 0.7rem;
-  align-items: center;
-  background-color: rgba(245, 108, 108, 0.13);
-  color: rgb(245, 108, 108);
-  padding: 0px 8px;
-  border-radius: 20px;
-}
-#bber .bber-content-link i {
-  margin-right: 3px;
-}
-#bber .bber-content-link:hover {
-  background-color: var(--june-main);
-  color: var(--june-white);
-}
-#bber .bber-music {
-  width: 100%;
-  height: 90px;
-  margin: 0.5rem 0;
   border-radius: 8px;
   overflow: hidden;
   border: var(--style-border-always);
@@ -464,16 +438,28 @@
 }
 
 /* 响应式 */
-@media screen and (max-width: 1300px) {
-  #bber .timeline ul li.bber-item {
-      width: 49%;
-      margin-right: 1%;
-  }
-}
 @media screen and (max-width: 768px) {
+  /* 移动端:清掉 bber 容器自身左右内边距(ul 默认 40px 左内边距 + section),否则卡片全屏出血算不到视口边 */
+  #bber .timeline,
+  #bber .timeline #waterfall {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* 移动端 bber 卡片顶满屏幕两端(突破 #content 左右内边距) */
   #bber .timeline ul li.bber-item {
-      width: 100%;
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
       margin-right: 0px;
+  }
+  /* 移动端:图片网格放宽,避免单图过小 */
+  #bber .bber-container-img,
+  #bber .bber-container-img.grid-2,
+  #bber .bber-container-img.grid-4 {
+    max-width: 90%;
+  }
+  #bber .bber-container-img.single {
+    max-width: 60%;
   }
 }
 [data-theme="dark"] #bber .bber-music .aplayer,
@@ -588,6 +574,114 @@
   --june-border: #c8c8c8
 }
 
+/* ============================================================
+   碎碎念页朋友圈 banner(仿 lumina .lumina-moments-cover)
+   - 全宽 320px,无边角/边框
+   - 大图 object-fit: cover
+   - 右下 user 块悬挂出 banner (头像 70px 圆角矩形, 昵称与头像基线对齐)
+   - 签名独立一行在 banner 外靠右
+   ============================================================ */
+#essay-banner.essay-banner {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  margin: 1rem 0 0;
+  overflow: visible;
+  background: linear-gradient(135deg, #1a2980 0%, #26d0ce 50%, #1a2980 100%);
+  cursor: default;
+}
+#essay-banner .essay-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  background: linear-gradient(135deg, #c7d2fe 0%, #e0c3fc 50%, #fbc2eb 100%);
+}
+
+#essay-banner .essay-banner-user {
+  position: absolute;
+  bottom: -24px;
+  right: 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 10;
+}
+#essay-banner .essay-banner-name {
+  font-size: 1.05rem;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 26px;
+}
+#essay-banner .essay-banner-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 6px;
+  object-fit: cover;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.essay-banner-signature {
+  text-align: right;
+  padding: 32px 16px 4px;
+  color: #909399;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.essay-banner-signature-text {
+  line-height: 1.5;
+}
+
+/* 响应式 */
+@media screen and (max-width: 768px) {
+  /* 移动端 banner 顶满屏幕两端(突破 #content 左右内边距的全屏出血) */
+  #essay-banner.essay-banner {
+    height: 220px;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+  #essay-banner .essay-banner-avatar { width: 56px; height: 56px; }
+  #essay-banner .essay-banner-user { bottom: -18px; right: 12px; gap: 8px; }
+  #essay-banner .essay-banner-name { font-size: 0.95rem; margin-bottom: 20px; }
+  .essay-banner-signature { padding: 26px 12px 4px; font-size: 12px; }
+}
 
 
 
+
+
+/* ===== bber 分页按钮(复用主题 #pagination 结构,补 .extend 与悬停态) ===== */
+#bber-pagination .page-number,
+#bber-pagination .extend {
+  display: inline-block;
+  margin: 0 4px;
+  min-width: 28px;
+  height: 28px;
+  line-height: 28px;
+  padding: 0 6px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--text-color, #4c4948);
+  font-size: 14px;
+  transition: all 0.2s;
+}
+#bber-pagination .page-number.current {
+  background: #3b70fc;
+  color: #fff;
+}
+#bber-pagination .page-number:not(.current):hover,
+#bber-pagination .extend:not(.disabled):hover {
+  background: rgba(59, 112, 252, 0.12);
+  color: #3b70fc;
+}
+#bber-pagination .extend.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
