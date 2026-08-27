@@ -225,6 +225,13 @@
   white-space: nowrap;
 }
 
+/* icat 卡片文字暗色适配:覆盖页面内联 <style> 里的 #cfcfcf(特异性需更高) */
+[data-theme='dark'] .icat-content-item .icat-card-content .icat-content-item-title,
+[data-theme='dark'] .icat-content-item .icat-content-item-tips,
+[data-theme='dark'] .icat-content-item .icat-content-bottom .icat-tips {
+  color: #e3e3e6;
+}
+
 .icat-content-item .icat-card-content .icat-change-button-group .icat-change-button {
   height: 40px;
   width: auto;
@@ -766,6 +773,24 @@ h6::before {
   content: '';
 }
 
+/* 分类页暗色模式适配(白底浅边 → 深底深边,深灰文字 → 浅灰) */
+[data-theme='dark'] .category-lists ul li {
+  background: #1d1d1f;
+  border-color: #2c2c30;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.35) !important;
+}
+[data-theme='dark'] .category-lists .category-list a {
+  color: #bfbfbf !important;
+}
+[data-theme='dark'] .category-lists ul li:before {
+  color: #bfbfbf !important;
+}
+[data-theme='dark'] .category-lists .category-list .category-list-count {
+  background: #26262a;
+  color: rgba(200, 200, 215, 0.8);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.35);
+}
+
 /* 分类页样式 */
 
 /* 分类banner边框样式 */
@@ -789,12 +814,18 @@ h6::before {
 }
 
 /* 页脚部分 */
+/* 背景透明:露出全局背景(暗色模式下的 #universe 星空 canvas),与 .layout 主体区域视觉一致 */
+/* 同时覆盖外层 #footer(主题默认 background:#49b1f5 主题蓝),否则内层 #footer-wrap 透掉也没用
+   注意:只移除背景色(透出星空),绝不能动 background-image(会抹掉 footer 配置的背景图) */
+#footer {
+  background-color: transparent !important;
+}
 [data-theme=light] #footer-wrap {
   position: relative;
   padding: 40px 20px;
   color: #000;
   text-align: center;
-  background: #fff;
+  background: transparent;
   border-top: 1px solid #e3e8f7;
 }
 
@@ -807,8 +838,8 @@ h6::before {
   padding: 40px 20px;
   color: #bfbfbf;
   text-align: center;
-  background: #121212;
-  border-top: 1px solid #2b2b2b;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   /* background-color: rgba(0, 0, 255, 0); */
 }
 
@@ -817,6 +848,127 @@ h6::before {
 }
 
 /* 页面美化 */
+/* 引述块 blockquote:clip-path 挖掉左上角(露页面背景) + 纯色背景 + 0.5px 内描边 */
+#article-container blockquote {
+  position: relative;
+  margin: 16px 0 20px;
+  padding: 20px 22px;
+  border: none;
+  border-radius: 6px;
+  background: #f5f5f7;
+  color: var(--blockquote-color, #4c4948);
+  /* 0.5px 内描边 + 极淡外阴影 */
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.10) inset, 0 1px 2px rgba(0, 0, 0, 0.04);
+  /* clip-path 挖掉左上 22x22 三角(缺角位置直接透出页面背景) */
+  clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+}
+/* 斜边阴影:纯色三角(clip-path 会裁掉圆角,故用 linear-gradient 画三角 + border-radius 圆角) */
+#article-container blockquote::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.10) 50%);
+  border-radius: 0 0 7.1428571429px 0;
+  pointer-events: none;
+}
+/* 暗色模式 */
+[data-theme='dark'] #article-container blockquote {
+  background: #1d1d1f;
+  color: #cfcfcf;
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.10) inset, 0 1px 2px rgba(0, 0, 0, 0.2);
+  clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+}
+[data-theme='dark'] #article-container blockquote::after {
+  background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.10) 50%);
+}
+
+/* 正文分隔线 hr:改为主色蓝紫虚线(默认浏览器实线太生硬) */
+#article-container hr {
+  border: none;
+  border-top: 2px dashed #3b70fc;
+  margin: 24px auto;
+  width: 100%;
+}
+
+/* 行内代码 code:改为键盘按键(kbd)风格 */
+#article-container code {
+  display: inline-block;
+  color: #666;
+  font: bold 9pt arial;
+  text-decoration: none;
+  text-align: center;
+  padding: 2px 5px;
+  margin: 0 5px;
+  background: #eff0f2;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-top: 1px solid #f5f5f5;
+  -webkit-box-shadow: inset 0 0 20px #e8e8e8, 0 1px 0 #c3c3c3, 0 1px 0 #c9c9c9, 0 1px 2px #333;
+  -moz-box-shadow: inset 0 0 20px #e8e8e8, 0 1px 0 #c3c3c3, 0 1px 0 #c9c9c9, 0 1px 2px #333;
+  box-shadow: inset 0 0 20px #e8e8e8, 0 1px 0 #c3c3c3, 0 1px 0 #c9c9c9, 0 1px 2px #333;
+  text-shadow: 0 1px 0 #f5f5f5;
+}
+/* 标题内的行内 code:不应用按键(kbd)风格,还原为普通文字(跟随标题颜色/字号) */
+#article-container h1 code,
+#article-container h2 code,
+#article-container h3 code,
+#article-container h4 code,
+#article-container h5 code,
+#article-container h6 code {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+/* 暗色模式适配:深灰按键(需特异性 ≥ 主题 [data-theme='dark'] #article-container code) */
+[data-theme='dark'] #article-container code {
+  color: #cfcfcf;
+  background: #2d2d30;
+  border-top-color: #3a3a3f;
+  box-shadow: inset 0 0 20px #232326, 0 1px 0 #1c1c1e, 0 1px 0 #1c1c1e, 0 1px 2px #000;
+  text-shadow: none;
+}
+
+/* 全局滚动条:极细 2px + 低调灰色,去掉主题蓝(原 #49b1f5 太显眼) */
+::-webkit-scrollbar {
+  width: 2px !important;
+  height: 2px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(60, 60, 67, 0.35) !important;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(60, 60, 67, 0.55) !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(200, 200, 215, 0.3) !important;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 200, 215, 0.5) !important;
+}
+/* Firefox 兼容:细滚动条 + 灰条(webkit 选择器对 FF 无效) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(60, 60, 67, 0.35) transparent;
+}
+[data-theme="dark"] * {
+  scrollbar-color: rgba(200, 200, 215, 0.3) transparent;
+}
+
 *::selection {
   background: #425AEF;
   color: #f7f7f7;
@@ -1112,6 +1264,13 @@ h1.post-title {
   margin: 5em 0 3em;
 }
 
+/* 标签云暗色模式适配(白底浅边 → 深底深边) */
+[data-theme='dark'] .tag-cloud-list a {
+  background: #1d1d1f;
+  border-color: #2c2c30;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.35) !important;
+}
+
 .cardHover,
 .error404 #error-wrap .error-content,
 .layout>div:first-child:not(.recent-posts),
@@ -1227,10 +1386,11 @@ svg.icon {
   border: 1.5px solid #cbcbcb;
 } */
 
-/* 加粗文字样式 */
+/* 加粗文字样式(600 太粗、500 太细 → 500 + 0.1px 描边,只稍微粗一丢丢) */
 b, strong {
-  font-weight: bolder;
+  font-weight: 500;
   color: #425AEF;
+  -webkit-text-stroke: 0.1px currentColor;
 }
 
 
@@ -1349,14 +1509,14 @@ table {
   overflow: hidden;
 }
 
-/* 表头 */
+/* 表头(灰底黑字,低调) */
 thead th {
-  background-color: #4a6cf7; /* 现代蓝 */
-  color: white;
+  background-color: #f0f0f2;
+  color: #333;
   font-weight: 600;
   padding: 14px 16px;
   text-align: left;
-  border-bottom: 2px solid #3a5be0;
+  border-bottom: 1px solid #e0e0e4;
 }
 
 /* 表格主体单元格 */
@@ -1371,15 +1531,35 @@ tbody tr:nth-child(even) {
   background-color: #f9fafb;
 }
 
-/* 悬停高亮效果 */
+/* 悬停高亮效果(仅普通 markdown 表格;代码高亮块内的表格不应用) */
 tbody tr:hover {
   background-color: #f0f4ff;
   transition: background-color 0.2s ease;
+}
+#article-container figure.highlight table tbody tr:hover {
+  background-color: transparent;
 }
 
 /* 可选：最后一行去掉底部边框 */
 tbody tr:last-child td {
   border-bottom: none;
+}
+
+/* 暗色模式表格 */
+[data-theme='dark'] thead th {
+  background-color: #2a2a2e;
+  color: #e6e6e8;
+  border-bottom-color: #3a3a40;
+}
+[data-theme='dark'] tbody td {
+  color: #cfcfcf;
+  border-bottom-color: #2c2c30;
+}
+[data-theme='dark'] tbody tr:nth-child(even) {
+  background-color: #1a1a1e;
+}
+[data-theme='dark'] tbody tr:hover {
+  background-color: #232338;
 }
 
 /* 响应式小屏幕优化（可选） */
@@ -1394,22 +1574,7 @@ tbody tr:last-child td {
 }
 
 
-
-#article-container code {
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, 'Courier New', monospace;
-    font-size: 0.88em;
-    line-height: 1.5;
-    padding: 0.15em 0.42em;
-    color: #c75f4a;
-    background-color: rgba(244, 116, 102, 0.14);
-    /* 顶部一层高光，让底色更通透 */
-    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
-    border: 1px solid rgba(244, 116, 102, 0.22);
-    border-radius: 5px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-word;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
+/* 旧行内 code 样式已删除:行内 code 统一使用上方「键盘按键(kbd)风格」规则
+   (此旧规则在文件后段会覆盖前面的 #article-container code,故移除) */
 
 

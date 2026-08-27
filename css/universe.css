@@ -118,6 +118,15 @@
   width: calc(100% / 4 - 16px);
 }
 
+/* 暗色模式适配 */
+[data-theme="dark"] #article-container .flink .flink-list>.flink-list-item {
+  background: var(--card-bg, #1d1d1f);
+  border-color: #2c2c30 !important;
+}
+[data-theme="dark"] #article-container .flink .flink-desc {
+  color: rgba(169, 172, 182, 0.8);
+}
+
 @media screen and (max-width: 900px) {
   #article-container .flink .flink-list>.flink-list-item {
     height: 110px;
