@@ -542,6 +542,17 @@ u {
   border: 1px solid #425AEF !important;
 }
 
+/* 版权卡 暗色模式适配（覆盖上方 #f7f7f9 浅色硬编码，与主题其他卡片统一用 --card-bg） */
+[data-theme="dark"] #post .post-copyright {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 3px 8px 6px rgba(0, 0, 0, 0.3) !important;
+}
+/* 暗色下 hover 保持阴影不变，仅边框变主题蓝 */
+[data-theme="dark"] #post .post-copyright:hover {
+  box-shadow: 0 3px 8px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
 /* 文章页H1-H6图标样式效果 */
 h1::before,
 h2::before,
@@ -1531,11 +1542,12 @@ tbody tr:nth-child(even) {
   background-color: #f9fafb;
 }
 
-/* 悬停高亮效果(仅普通 markdown 表格;代码高亮块内的表格不应用) */
+/* 悬停高亮效果(仅普通 markdown 表格;代码高亮块内的表格不应用)
+   已按用户要求移除:鼠标移上去保持原斑马纹颜色,无颜色变化
 tbody tr:hover {
   background-color: #f0f4ff;
   transition: background-color 0.2s ease;
-}
+} */
 #article-container figure.highlight table tbody tr:hover {
   background-color: transparent;
 }
@@ -1558,9 +1570,10 @@ tbody tr:last-child td {
 [data-theme='dark'] tbody tr:nth-child(even) {
   background-color: #1a1a1e;
 }
+/* 暗色模式 hover 已一并移除,与亮色模式一致
 [data-theme='dark'] tbody tr:hover {
   background-color: #232338;
-}
+} */
 
 /* 响应式小屏幕优化（可选） */
 @media (max-width: 600px) {
@@ -1576,5 +1589,86 @@ tbody tr:last-child td {
 
 /* 旧行内 code 样式已删除:行内 code 统一使用上方「键盘按键(kbd)风格」规则
    (此旧规则在文件后段会覆盖前面的 #article-container code,故移除) */
+
+/* 自定义主题色 CSS 变量(Butterfly 的 $theme-color 是 stylus 编译时变量,编译后是字面值,
+   编译产物里没有 --theme-color 这个 CSS 变量,所以 var(--theme-color) 会失效)
+   用户在 _config.butterfly.yml 改 theme_color.main 后,这里要同步改主色值 */
+:root {
+  --my-theme-color: #3b70fc;
+  --my-theme-color-soft: rgba(59, 112, 252, 0.12);
+  --my-pagination-border: #e3e8f7;          /* 分页按钮默认淡边框 */
+  --my-pagination-border-hover: #3b70fc;    /* 分页按钮 hover 蓝边框 */
+}
+
+
+/* 置顶文章标签：把主题默认的红色图钉(.fas.fa-thumbtack.sticky)改为蓝色"置顶"文字标签
+   原理：不改主题/插件 pug/styl，仅用 CSS 覆盖。
+   注意：hexo-butterfly-article-double-row 注入的 #recent-posts > .recent-post-item >.recent-post-info > .article-title .sticky
+   特异性是 1,4,0(1 ID + 4 类)!必须用 1,4,1 及以上(加元素 i)才能压过;且要覆盖全套带前缀 transform */
+#recent-posts > .recent-post-item > .recent-post-info > .article-title i.sticky,
+#recent-posts > .recent-post-item > .recent-post-info > .article-title .sticky {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 6px;            /* 紧凑一些,不抢标题风头 */
+  background: #3b70fc;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 0.65em;           /* 明显小于标题字号,作为小印章 */
+  font-style: normal;
+  font-weight: 400;            /* 字重稍轻,更柔和 */
+  line-height: 1.6;            /* 与父标题行高接近,垂直对齐更自然 */
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+  vertical-align: baseline;   /* 与标题文字基线(底部)对齐,不再垂直居中贴顶 */
+}
+#recent-posts > .recent-post-item > .recent-post-info > .article-title i.sticky::before,
+#recent-posts > .recent-post-item > .recent-post-info > .article-title .sticky::before {
+  content: "置顶";
+  font-family: inherit;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* 分页按钮:圆角矩形 + 淡边框,hover 变蓝边框 + 蓝字、保持白底
+   主题 _layout/pagination.styl 只给了 .current 背景色,没给通用 hover 和边框样式;
+   碎碎念 #bber-pagination 在 universe.css 里给了圆角但没给边框和通用 hover。
+   颜色全部用 --my-theme-color(顶部 :root 定义),便于统一改色。 */
+#pagination .pagination .page-number,
+#pagination .pagination .extend,
+#bber-pagination .page-number,
+#bber-pagination .extend {
+  border: 1px solid var(--my-pagination-border);
+  background: #fff;
+  border-radius: 8px;
+}
+/* 当前页:蓝底白字 + 蓝边框 */
+#pagination .pagination .page-number.current,
+#bber-pagination .page-number.current {
+  background: var(--my-theme-color);
+  border-color: var(--my-theme-color);
+  color: var(--white);
+}
+/* hover:蓝边框 + 蓝字,保持白底 */
+#pagination .pagination .page-number:not(.current):hover,
+#pagination .pagination .extend:not(.disabled):hover,
+#bber-pagination .page-number:not(.current):hover,
+#bber-pagination .extend:not(.disabled):hover {
+  border-color: var(--my-theme-color);
+  color: var(--my-theme-color);
+  background: #fff;
+}
+#pagination .pagination-info {
+  color: var(--my-theme-color);
+}
+/* 禁用态(extend.disabled,例如没有下一页) */
+#pagination .pagination .extend.disabled,
+#bber-pagination .extend.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 

@@ -90,7 +90,8 @@ var june = {
         document.querySelectorAll("#bber time").forEach(function (e) {
             var t = e,
                 datetime = t.getAttribute("datetime");
-            (t.innerText = june.diffDate(datetime, true)), (t.style.display = "inline");
+            // 直接显示原始日期(如 2026-08-20),不做相对时间换算
+            (t.innerText = datetime || t.innerText), (t.style.display = "inline");
         });
     },
     reflashEssayWaterFall: function () {
