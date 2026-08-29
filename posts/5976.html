@@ -1,0 +1,836 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>04-Modbus RTU通信测试软件开发 | 春熙景明</title><meta name="author" content="春熙景明"><meta name="copyright" content="春熙景明"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前一部分我们写好了一个 Modbus RTU 通信库，但那个库是”没有脸”的——你只能在代码里写死参数去调用，看不到也摸不着。这一部分，我们给它配上一张”脸”：做一个图形界面软件，让你在窗口里点按钮、看数据，真正体验”上位机”是什么感觉。 这一部分用的是 WinForm（而不是 WPF）。WinForm 的特点是”拖控件 + 写代码”，不需要写 XAML，非常适合刚入门的你。我们一边拖控件设计界面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="04-Modbus RTU通信测试软件开发">
+<meta property="og:url" content="https://lunanorth.github.io/posts/5976.html">
+<meta property="og:site_name" content="春熙景明">
+<meta property="og:description" content="前一部分我们写好了一个 Modbus RTU 通信库，但那个库是”没有脸”的——你只能在代码里写死参数去调用，看不到也摸不着。这一部分，我们给它配上一张”脸”：做一个图形界面软件，让你在窗口里点按钮、看数据，真正体验”上位机”是什么感觉。 这一部分用的是 WinForm（而不是 WPF）。WinForm 的特点是”拖控件 + 写代码”，不需要写 XAML，非常适合刚入门的你。我们一边拖控件设计界面">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829144054037.jpg">
+<meta property="article:published_time" content="2026-08-29T06:39:45.000Z">
+<meta property="article:modified_time" content="2026-08-29T06:41:00.941Z">
+<meta property="article:author" content="春熙景明">
+<meta property="article:tag" content="WinForm相关">
+<meta property="article:tag" content="Modbus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829144054037.jpg"><link rel="shortcut icon" href="/img/moon.png"><link rel="canonical" href="https://lunanorth.github.io/posts/5976.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '04-Modbus RTU通信测试软件开发',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-08-29 14:41:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/navigation.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><meta name="referrer" content="no-referrer"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829144054037.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="春熙景明"><img class="site-icon" src="/img/moon.png"/><span class="site-name">春熙景明</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">04-Modbus RTU通信测试软件开发</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-29T06:39:45.000Z" title="发表于 2026-08-29 14:39:45">2026-08-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-29T06:41:00.941Z" title="更新于 2026-08-29 14:41:00">2026-08-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Modbus/">Modbus</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="04-Modbus RTU通信测试软件开发"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>前一部分我们写好了一个 Modbus RTU 通信库，但那个库是”没有脸”的——你只能在代码里写死参数去调用，看不到也摸不着。这一部分，我们给它配上一张”脸”：做一个图形界面软件，让你在窗口里点按钮、看数据，真正体验”上位机”是什么感觉。</p>
+<p>这一部分用的是 <strong>WinForm</strong>（而不是 WPF）。WinForm 的特点是”拖控件 + 写代码”，不需要写 XAML，非常适合刚入门的你。我们一边拖控件设计界面，一边写事件代码，把这个测试软件一点点做出来。</p>
+<div class="note info 这一部分怎么学 flat"><ol>
+<li>先新建一个 WinForm 项目；</li>
+<li>把上一部分的通信库加进来（直接复用，不用重写）；</li>
+<li>拖控件设计界面（4.1）；</li>
+<li>写”参数初始化 + 串口连接”代码（4.2）；</li>
+<li>逐个功能写测试代码（4.3 到 4.9）；</li>
+<li>用 Modbus Slave 模拟从站，跑起来看效果。</li>
+</ol>
+</div>
+
+<div class="note warning 你需要准备什么 flat"><ul>
+<li>Visual Studio（推荐 2022）；</li>
+<li>已经会一点第 3 部分的内容（知道怎么开串口、怎么调读写方法）；</li>
+<li>最好装一个 Modbus Slave 软件，用来模拟从站，方便测试。</li>
+</ul>
+</div>
+
+<hr>
+<h2 id="准备工作：新建-WinForm-项目"><a href="#准备工作：新建-WinForm-项目" class="headerlink" title="准备工作：新建 WinForm 项目"></a>准备工作：新建 WinForm 项目</h2><h3 id="第一步：用-Visual-Studio-新建项目"><a href="#第一步：用-Visual-Studio-新建项目" class="headerlink" title="第一步：用 Visual Studio 新建项目"></a>第一步：用 Visual Studio 新建项目</h3><ol>
+<li>打开 Visual Studio，点击”创建新项目”；</li>
+<li>搜索”窗体”，选择”<strong>Windows 窗体应用</strong>“（语言选 C#，框架选 .NET 8 或更高）；</li>
+<li>项目名称填 <code>ModbusRTUTest</code>，位置选你找得到的地方，点”创建”。</li>
+</ol>
+<p>创建完成后，你会看到设计器里有一个空白窗体（默认叫 Form1），这就是我们软件的主窗口。</p>
+<h3 id="第二步：安装串口依赖包"><a href="#第二步：安装串口依赖包" class="headerlink" title="第二步：安装串口依赖包"></a>第二步：安装串口依赖包</h3><p>和第 3 部分一样，需要装 <code>System.IO.Ports</code>：</p>
+<ol>
+<li>右键项目名 <code>ModbusRTUTest</code>；</li>
+<li>选择”管理 NuGet 程序包”；</li>
+<li>浏览搜 <code>System.IO.Ports</code>，安装。</li>
+</ol>
+<h3 id="第三步：把通信库加进来"><a href="#第三步：把通信库加进来" class="headerlink" title="第三步：把通信库加进来"></a>第三步：把通信库加进来</h3><p>第 3 部分我们已经写好了三个库文件（SerialBase.cs、IModbusRW.cs、ModbusRTU.cs），现在直接复用，不用重写：</p>
+<ol>
+<li>右键项目名 <code>ModbusRTUTest</code>；</li>
+<li>选择”添加”，然后”<strong>现有项</strong>“；</li>
+<li>找到第 3 部分项目文件夹里的这三个文件，选中加进来。</li>
+</ol>
+<div class="note success 加进来之后 flat"><p>你的项目里就有了开串口、读线圈、读寄存器等全部能力。接下来我们只需要专心做界面，用这些能力就行。</p>
+</div>
+
+<h3 id="第四步：认识-WinForm-的三个窗口"><a href="#第四步：认识-WinForm-的三个窗口" class="headerlink" title="第四步：认识 WinForm 的三个窗口"></a>第四步：认识 WinForm 的三个窗口</h3><div class="note no-icon flat"><p>左边是”工具箱”，里面装满了各种控件（按钮、文本框、下拉框等），我们要拖的就是它们。</p>
+</div>
+
+<div class="note blue no-icon flat"><p>中间是”窗体设计器”，显示窗体的样子，拖进去的控件会实时显示。</p>
+</div>
+
+<div class="note green no-icon flat"><p>右边是”属性”窗口，选中某个控件后，在这里改它的名字、显示文字、大小等。</p>
+</div>
+
+<hr>
+<h2 id="4-1-Modbus-RTU-软件-UI-界面设计"><a href="#4-1-Modbus-RTU-软件-UI-界面设计" class="headerlink" title="4.1 Modbus RTU 软件 UI 界面设计"></a>4.1 Modbus RTU 软件 UI 界面设计</h2><h3 id="这一节要做什么"><a href="#这一节要做什么" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>设计软件的界面。我们的界面分三块：顶部”串口连接”、中间”功能测试”（7 个标签页）、底部”日志”。</p>
+<h3 id="整体布局"><a href="#整体布局" class="headerlink" title="整体布局"></a>整体布局</h3><table>
+<thead>
+<tr>
+<th>区域</th>
+<th>控件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>顶部</td>
+<td>GroupBox（串口连接）</td>
+<td>放串口号、波特率等参数，以及打开&#x2F;关闭按钮</td>
+</tr>
+<tr>
+<td>中间</td>
+<td>TabControl（7 个标签页）</td>
+<td>每个功能一个页，互不干扰</td>
+</tr>
+<tr>
+<td>底部</td>
+<td>GroupBox（日志）</td>
+<td>显示操作记录</td>
+</tr>
+</tbody></table>
+<h3 id="认识我们要用的几种控件"><a href="#认识我们要用的几种控件" class="headerlink" title="认识我们要用的几种控件"></a>认识我们要用的几种控件</h3><div class="note no-icon flat"><p>Label：标签，就是一行说明文字，比如”串口号”。</p>
+</div>
+
+<div class="note blue no-icon flat"><p>ComboBox：下拉框，点一下能选一个选项，比如选波特率。</p>
+</div>
+
+<div class="note green no-icon flat"><p>TextBox：文本框，用来输入内容，比如输入从站地址、寄存器地址。</p>
+</div>
+
+<div class="note orange no-icon flat"><p>Button：按钮，点一下触发一个动作，比如”打开串口”、”读取”。</p>
+</div>
+
+<div class="note purple no-icon flat"><p>GroupBox：分组框，一个带标题的框，把一组相关控件框起来。</p>
+</div>
+
+<div class="note red no-icon flat"><p>TabControl：标签页容器，顶部有一排标签，点不同标签切换不同页面。</p>
+</div>
+
+<h3 id="手把手：拖控件、设属性"><a href="#手把手：拖控件、设属性" class="headerlink" title="手把手：拖控件、设属性"></a>手把手：拖控件、设属性</h3><p>下面以”串口连接区”为例，演示完整的拖控件流程。其它区域的做法完全一样，照着类推即可。</p>
+<p><strong>第一步：拖一个 GroupBox。</strong></p>
+<p>在工具箱里找到 GroupBox（在”容器”分类下），按住鼠标左键把它拖到窗体上，松开。它的默认标题是 groupBox1，我们在属性窗口把它的 <code>Text</code> 改成”串口连接”。</p>
+<p><strong>第二步：拖 Label 和 ComboBox。</strong></p>
+<ul>
+<li>拖一个 Label 到 GroupBox 里，属性 <code>Text</code> 改成”串口号”，<code>Name</code> 改成 <code>lblPort</code>；</li>
+<li>拖一个 ComboBox 到它旁边，<code>Name</code> 改成 <code>cboPort</code>。</li>
+</ul>
+<p><strong>第三步：照这个套路拖完其它参数。</strong></p>
+<p>依次拖出：波特率、校验位、数据位、停止位、从站地址，一共 5 组 Label 加输入控件。它们的 Name 建议按下面的清单来，这样后面写代码时一眼就知道是谁。</p>
+<p><strong>第四步：拖两个按钮。</strong></p>
+<p>拖两个 Button，Text 分别改成”打开串口”和”关闭串口”，Name 改成 <code>btnOpen</code> 和 <code>btnClose</code>。</p>
+<div class="note danger 两个必须搞懂的属性 flat"><ul>
+<li><code>Name</code>：控件的”内部代号”，代码里用它来操作这个控件，比如 <code>txtSlave.Text</code>。这个必须自己起一个好记的名字。</li>
+<li><code>Text</code>：控件”显示出来的文字”，是给用户看的，比如”打开串口”。</li>
+</ul>
+<p>新手最容易混淆这两个。记住：<strong>Name 是给代码用的，Text 是给人看的。</strong></p>
+</div>
+
+<h3 id="完整控件清单"><a href="#完整控件清单" class="headerlink" title="完整控件清单"></a>完整控件清单</h3><p>下面是整个软件用到的所有控件，你可以照着这个清单一个个拖出来，并设置好 Name（Text 也照填）。这是本部分最重要的一张表，建议边拖边对照。</p>
+<p><strong>串口连接区（GroupBox：grpConnect）</strong></p>
+<table>
+<thead>
+<tr>
+<th>控件类型</th>
+<th>Name</th>
+<th>Text（默认显示）</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Label</td>
+<td>lblPort</td>
+<td>串口号</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>ComboBox</td>
+<td>cboPort</td>
+<td>空</td>
+<td>选串口号</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>lblBaud</td>
+<td>波特率</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>ComboBox</td>
+<td>cboBaud</td>
+<td>空</td>
+<td>选波特率</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>lblParity</td>
+<td>校验位</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>ComboBox</td>
+<td>cboParity</td>
+<td>空</td>
+<td>选校验位</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>lblDataBits</td>
+<td>数据位</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>ComboBox</td>
+<td>cboDataBits</td>
+<td>空</td>
+<td>选数据位</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>lblStopBits</td>
+<td>停止位</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>ComboBox</td>
+<td>cboStopBits</td>
+<td>空</td>
+<td>选停止位</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>lblSlave</td>
+<td>从站地址</td>
+<td>说明文字</td>
+</tr>
+<tr>
+<td>TextBox</td>
+<td>txtSlave</td>
+<td>1</td>
+<td>填从站地址</td>
+</tr>
+<tr>
+<td>Button</td>
+<td>btnOpen</td>
+<td>打开串口</td>
+<td>打开串口</td>
+</tr>
+<tr>
+<td>Button</td>
+<td>btnClose</td>
+<td>关闭串口</td>
+<td>关闭串口</td>
+</tr>
+</tbody></table>
+<p><strong>功能测试区（TabControl：tabMain，含 7 个 TabPage）</strong></p>
+<table>
+<thead>
+<tr>
+<th>标签页</th>
+<th>页内控件</th>
+<th>Name</th>
+<th>Text</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读线圈</td>
+<td>Label</td>
+<td>lblReadCoilAddr</td>
+<td>起始地址</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>读线圈</td>
+<td>TextBox</td>
+<td>txtReadCoilAddr</td>
+<td>0</td>
+<td>起始地址</td>
+</tr>
+<tr>
+<td>读线圈</td>
+<td>Label</td>
+<td>lblReadCoilCount</td>
+<td>数量</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>读线圈</td>
+<td>TextBox</td>
+<td>txtReadCoilCount</td>
+<td>8</td>
+<td>数量</td>
+</tr>
+<tr>
+<td>读线圈</td>
+<td>Button</td>
+<td>btnReadCoil</td>
+<td>读取</td>
+<td>执行读取</td>
+</tr>
+<tr>
+<td>读线圈</td>
+<td>TextBox</td>
+<td>txtReadCoilResult</td>
+<td>空</td>
+<td>显示结果（多行）</td>
+</tr>
+<tr>
+<td>读寄存器</td>
+<td>Label &#x2F; TextBox &#x2F; Button</td>
+<td>lblReadRegAddr &#x2F; txtReadRegAddr &#x2F; lblReadRegCount &#x2F; txtReadRegCount &#x2F; btnReadReg &#x2F; txtReadRegResult</td>
+<td>同读线圈</td>
+<td>读寄存器</td>
+</tr>
+<tr>
+<td>写单线圈</td>
+<td>Label &#x2F; TextBox</td>
+<td>lblWriteCoilAddr &#x2F; txtWriteCoilAddr</td>
+<td>线圈地址</td>
+<td>地址</td>
+</tr>
+<tr>
+<td>写单线圈</td>
+<td>Label &#x2F; ComboBox</td>
+<td>lblWriteCoilValue &#x2F; cboWriteCoilValue</td>
+<td>值</td>
+<td>选开&#x2F;关</td>
+</tr>
+<tr>
+<td>写单线圈</td>
+<td>Button</td>
+<td>btnWriteCoil</td>
+<td>写入</td>
+<td>执行写入</td>
+</tr>
+<tr>
+<td>写多线圈</td>
+<td>Label &#x2F; TextBox</td>
+<td>lblWriteCoilsAddr &#x2F; txtWriteCoilsAddr</td>
+<td>起始地址</td>
+<td>地址</td>
+</tr>
+<tr>
+<td>写多线圈</td>
+<td>Label &#x2F; TextBox</td>
+<td>lblWriteCoilsValues &#x2F; txtWriteCoilsValues</td>
+<td>值(逗号分隔)</td>
+<td>值</td>
+</tr>
+<tr>
+<td>写多线圈</td>
+<td>Button</td>
+<td>btnWriteCoils</td>
+<td>写入</td>
+<td>执行写入</td>
+</tr>
+<tr>
+<td>写单寄存器</td>
+<td>Label &#x2F; TextBox &#x2F; Button</td>
+<td>lblWriteRegAddr &#x2F; txtWriteRegAddr &#x2F; lblWriteRegValue &#x2F; txtWriteRegValue &#x2F; btnWriteReg</td>
+<td>寄存器地址 &#x2F; 值 &#x2F; 写入</td>
+<td>写单寄存器</td>
+</tr>
+<tr>
+<td>写多寄存器</td>
+<td>Label &#x2F; TextBox &#x2F; Button</td>
+<td>lblWriteRegsAddr &#x2F; txtWriteRegsAddr &#x2F; lblWriteRegsValues &#x2F; txtWriteRegsValues &#x2F; btnWriteRegs</td>
+<td>起始地址 &#x2F; 值(逗号分隔) &#x2F; 写入</td>
+<td>写多寄存器</td>
+</tr>
+<tr>
+<td>写寄存器位</td>
+<td>Label &#x2F; TextBox</td>
+<td>lblWriteBitAddr &#x2F; txtWriteBitAddr</td>
+<td>寄存器地址</td>
+<td>地址</td>
+</tr>
+<tr>
+<td>写寄存器位</td>
+<td>Label &#x2F; TextBox</td>
+<td>lblWriteBitIndex &#x2F; txtWriteBitIndex</td>
+<td>位号(0-15)</td>
+<td>第几位</td>
+</tr>
+<tr>
+<td>写寄存器位</td>
+<td>Label &#x2F; ComboBox</td>
+<td>lblWriteBitValue &#x2F; cboWriteBitValue</td>
+<td>值</td>
+<td>选开&#x2F;关</td>
+</tr>
+<tr>
+<td>写寄存器位</td>
+<td>Button</td>
+<td>btnWriteBit</td>
+<td>写入</td>
+<td>执行写入</td>
+</tr>
+</tbody></table>
+<p><strong>日志区（GroupBox：grpLog）</strong></p>
+<table>
+<thead>
+<tr>
+<th>控件类型</th>
+<th>Name</th>
+<th>Text</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TextBox</td>
+<td>txtLog</td>
+<td>空</td>
+<td>显示日志（多行、只读）</td>
+</tr>
+</tbody></table>
+<div class="note info 结果框和日志框怎么设置 flat"><p>读线圈、读寄存器的结果框，以及日志框，都要设成”多行只读”：选中控件，在属性窗口里把 <code>Multiline</code> 设为 True、<code>ReadOnly</code> 设为 True、<code>ScrollBars</code> 设为 Vertical。这样它们只显示内容，不能被用户乱改，内容多了还能滚动。</p>
+</div>
+
+<div class="note warning 布局小技巧 flat"><p>TabControl 默认没有标签页，需要点它右上角的小三角，选”添加选项卡”来添加 TabPage，并把每个 TabPage 的 Text 改成”读线圈””读寄存器”等。标签页里的控件要拖到对应的页里，而不是拖到窗体空白处。</p>
+</div>
+
+<div class="tip "><p>如果你觉得拖控件太繁琐，我也准备了一份”参考答案”：把整份界面代码（Form1.Designer.cs）放在了项目里，你直接看它就知道每个控件长什么样、摆在哪里。但强烈建议你先自己拖一遍，拖控件是 WinForm 的基本功。</p>
+</div>
+
+<hr>
+<p>界面：</p>
+<p><img src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829143910794.png" alt="image-20260829143903489"></p>
+<hr>
+<h2 id="4-2-通信参数初始化及串口连接"><a href="#4-2-通信参数初始化及串口连接" class="headerlink" title="4.2 通信参数初始化及串口连接"></a>4.2 通信参数初始化及串口连接</h2><p>界面搭好了，现在开始写代码。这一节做两件事：一是给界面上的下拉框填好选项和默认值（参数初始化），二是实现”打开&#x2F;关闭串口”。</p>
+<h3 id="先引入库和通信对象"><a href="#先引入库和通信对象" class="headerlink" title="先引入库和通信对象"></a>先引入库和通信对象</h3><p>打开 Form1.cs，在文件顶部加一句 <code>using ModbusRTULib;</code>，然后在类里声明一个通信对象：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.IO.Ports;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">using</span> ModbusRTULib;   <span class="comment">// 引入我们的通信库</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ModbusRTUTest</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Form1</span> : <span class="title">Form</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 通信对象，后面所有操作都靠它</span></span><br><span class="line">    <span class="keyword">private</span> ModbusRTU modbus = <span class="keyword">new</span> ModbusRTU();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Form1</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        InitializeComponent();</span><br><span class="line">        InitControls();   <span class="comment">// 初始化参数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note info 关键一句 flat"><p><code>private ModbusRTU modbus = new ModbusRTU();</code> 是造一个通信对象。以后所有读写，都是 <code>modbus.某个方法(...)</code> 这样调用。这个对象是整个软件的”发动机”。</p>
+</div>
+
+<h3 id="写参数初始化方法-InitControls"><a href="#写参数初始化方法-InitControls" class="headerlink" title="写参数初始化方法 InitControls"></a>写参数初始化方法 InitControls</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitControls</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 波特率选项</span></span><br><span class="line">    cboBaud.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;9600&quot;</span>, <span class="string">&quot;19200&quot;</span>, <span class="string">&quot;38400&quot;</span>, <span class="string">&quot;57600&quot;</span>, <span class="string">&quot;115200&quot;</span> &#125;);</span><br><span class="line">    cboBaud.SelectedIndex = <span class="number">0</span>;   <span class="comment">// 默认选第一项 9600</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 校验位选项</span></span><br><span class="line">    cboParity.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;None&quot;</span>, <span class="string">&quot;Odd&quot;</span>, <span class="string">&quot;Even&quot;</span> &#125;);</span><br><span class="line">    cboParity.SelectedIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据位选项</span></span><br><span class="line">    cboDataBits.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;8&quot;</span>, <span class="string">&quot;7&quot;</span> &#125;);</span><br><span class="line">    cboDataBits.SelectedIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 停止位选项</span></span><br><span class="line">    cboStopBits.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span> &#125;);</span><br><span class="line">    cboStopBits.SelectedIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 串口号：动态获取当前电脑有哪些串口</span></span><br><span class="line">    cboPort.Items.Clear();</span><br><span class="line">    <span class="built_in">string</span>[] ports = SerialPort.GetPortNames();</span><br><span class="line">    <span class="keyword">if</span> (ports.Length &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cboPort.Items.AddRange(ports);</span><br><span class="line">        cboPort.SelectedIndex = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 写单线圈 / 写寄存器位的&quot;值&quot;下拉框</span></span><br><span class="line">    cboWriteCoilValue.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;开&quot;</span>, <span class="string">&quot;关&quot;</span> &#125;);</span><br><span class="line">    cboWriteCoilValue.SelectedIndex = <span class="number">0</span>;</span><br><span class="line">    cboWriteBitValue.Items.AddRange(<span class="keyword">new</span> <span class="built_in">object</span>[] &#123; <span class="string">&quot;开&quot;</span>, <span class="string">&quot;关&quot;</span> &#125;);</span><br><span class="line">    cboWriteBitValue.SelectedIndex = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逐段讲解：</p>
+<ul>
+<li><code>cboBaud.Items.AddRange(...)</code>：给下拉框”塞”进去几个选项。<code>Items</code> 是下拉框的选项集合，<code>AddRange</code> 是一次性加一串。</li>
+<li><code>cboBaud.SelectedIndex = 0</code>：默认选中第 0 项（第一项）。</li>
+<li><code>SerialPort.GetPortNames()</code>：这是系统接口，能自动查出电脑上现在有哪些串口，比我们写死 COM1、COM2 更聪明。查出来填进 <code>cboPort</code>，用户直接选就行。</li>
+</ul>
+<div class="note success 为什么要动态获取串口 flat"><p>串口号不是固定的，插不同的 USB 转串口线，串口号会变。用 <code>GetPortNames()</code> 自动列出来，用户就不会选错。这是上位机软件的常见做法。</p>
+</div>
+
+<h3 id="写”打开串口”和”关闭串口”"><a href="#写”打开串口”和”关闭串口”" class="headerlink" title="写”打开串口”和”关闭串口”"></a>写”打开串口”和”关闭串口”</h3><p>回到设计器，双击”打开串口”按钮，Visual Studio 会自动生成一个事件方法 <code>btnOpen_Click</code>。在里面写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnOpen_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 从下拉框读参数</span></span><br><span class="line">        <span class="built_in">string</span> port = cboPort.Text;</span><br><span class="line">        <span class="built_in">int</span> baud = Convert.ToInt32(cboBaud.Text);</span><br><span class="line">        Parity parity = (Parity)Enum.Parse(<span class="keyword">typeof</span>(Parity), cboParity.Text);</span><br><span class="line">        <span class="built_in">int</span> dataBits = Convert.ToInt32(cboDataBits.Text);</span><br><span class="line">        StopBits stopBits = (StopBits)Enum.Parse(<span class="keyword">typeof</span>(StopBits), cboStopBits.Text);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库打开串口</span></span><br><span class="line">        modbus.Open(port, baud, parity, dataBits, stopBits);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;串口 &quot;</span> + port + <span class="string">&quot; 打开成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;打开失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逐段讲解：</p>
+<ul>
+<li><code>cboPort.Text</code>：取下拉框当前选中的文字（就是串口号）。</li>
+<li><code>Convert.ToInt32(cboBaud.Text)</code>：把”9600”这样的文字转成数字 9600。</li>
+<li><code>(Parity)Enum.Parse(typeof(Parity), cboParity.Text)</code>：把”None”这样的文字转成枚举值 Parity.None。<code>Enum.Parse</code> 是”把文字转成枚举”，前面加 <code>(Parity)</code> 是类型转换。</li>
+<li><code>modbus.Open(...)</code>：调用我们库里的开串口方法。</li>
+<li><code>try catch</code>：万一出错（比如串口被占用），不崩溃，而是弹窗提示。</li>
+</ul>
+<p>“关闭串口”按钮同理，双击它写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnClose_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        modbus.Close();</span><br><span class="line">        Log(<span class="string">&quot;串口已关闭&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;关闭失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写一个日志辅助方法"><a href="#写一个日志辅助方法" class="headerlink" title="写一个日志辅助方法"></a>写一个日志辅助方法</h3><p>后面每个功能都要往日志框写一行字，所以先写一个 <code>Log</code> 方法复用：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Log</span>(<span class="params"><span class="built_in">string</span> msg</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    txtLog.AppendText(msg + <span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>AppendText</code> 是”在文本框末尾追加文字”，<code>\r\n</code> 是换行。</p>
+<h3 id="写一个取从站地址的辅助方法"><a href="#写一个取从站地址的辅助方法" class="headerlink" title="写一个取从站地址的辅助方法"></a>写一个取从站地址的辅助方法</h3><p>每个功能都要读”从站地址”输入框，并且要检查它合不合法（1 到 247）。写一个公共方法，避免每个按钮里重复写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="built_in">bool</span> <span class="title">GetSlaveAddr</span>(<span class="params"><span class="keyword">out</span> <span class="built_in">byte</span> slaveAddr</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    slaveAddr = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">byte</span>.TryParse(txtSlave.Text.Trim(), <span class="keyword">out</span> slaveAddr) || slaveAddr &lt; <span class="number">1</span> || slaveAddr &gt; <span class="number">247</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;从站地址不对，请填 1 到 247 之间的数字&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逐段讲解：</p>
+<ul>
+<li><code>byte.TryParse(文字, out slaveAddr)</code>：尝试把文字转成 byte，成功就 true，并把结果放进 slaveAddr；失败就 false。</li>
+<li><code>out</code>：表示”这个方法会把结果传出来”。这是 C# 里返回多个值的一种方式。</li>
+<li>后面判断范围 1 到 247，不合法就弹窗并返回 false。</li>
+</ul>
+<div class="note success 为什么要有这两个辅助方法 flat"><p>Log 和 GetSlaveAddr 都是”会被反复用到的小工具”。把它们单独写成方法，后面 7 个功能测试里直接调用，代码就干净多了，不用复制粘贴几十遍。</p>
+</div>
+
+<hr>
+<h2 id="4-3-读取输入输出线圈方法测试"><a href="#4-3-读取输入输出线圈方法测试" class="headerlink" title="4.3 读取输入输出线圈方法测试"></a>4.3 读取输入输出线圈方法测试</h2><h3 id="这一节要做什么-1"><a href="#这一节要做什么-1" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”读线圈”标签页实现：用户填好起始地址和数量，点”读取”，就把线圈状态读出来显示在结果框里。</p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p>双击”读线圈”页里的”读取”按钮，写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnReadCoil_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 1. 取从站地址，不合法就退出</span></span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 取起始地址和数量</span></span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtReadCoilAddr.Text.Trim());</span><br><span class="line">        <span class="built_in">ushort</span> count = Convert.ToUInt16(txtReadCoilCount.Text.Trim());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 调用库读取输出线圈</span></span><br><span class="line">        <span class="built_in">bool</span>[] result = modbus.ReadOutputCoil(slave, addr, count);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 把结果拼成 0/1，每 8 个换一行，方便看</span></span><br><span class="line">        <span class="built_in">string</span> text = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; result.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            text += result[i] ? <span class="string">&quot;1&quot;</span> : <span class="string">&quot;0&quot;</span>;</span><br><span class="line">            <span class="keyword">if</span> ((i + <span class="number">1</span>) % <span class="number">8</span> == <span class="number">0</span>) text += <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        txtReadCoilResult.Text = text;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 记日志</span></span><br><span class="line">        Log(<span class="string">&quot;读线圈成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，数量 &quot;</span> + count);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;读取失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解"><a href="#逐段讲解" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><ul>
+<li><code>Convert.ToUInt16(...)</code>：把文字转成 ushort 类型（16 位无符号整数）。</li>
+<li><code>modbus.ReadOutputCoil(slave, addr, count)</code>：调用库方法，返回一个 bool 数组，每个元素是”开(true)或关(false)”。</li>
+<li>显示时把 true 拼成 “1”、false 拼成 “0”，每 8 个换一行，看起来清楚。<code>(i + 1) % 8 == 0</code> 表示”每满 8 个就换行”。</li>
+</ul>
+<div class="note info 为什么读的是"输出线圈" flat"><p><code>ReadOutputCoil</code> 对应功能码 01（读输出线圈）。如果你想测输入线圈（功能码 02），把方法换成 <code>modbus.ReadInputCoil(slave, addr, count)</code> 就行，其它一模一样。我们界面上这个按钮默认测输出线圈，方便演示。</p>
+</div>
+
+<hr>
+<h2 id="4-4-读取输入输出寄存器方法测试"><a href="#4-4-读取输入输出寄存器方法测试" class="headerlink" title="4.4 读取输入输出寄存器方法测试"></a>4.4 读取输入输出寄存器方法测试</h2><h3 id="这一节要做什么-2"><a href="#这一节要做什么-2" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”读寄存器”页，读保持寄存器的值，显示在结果框。</p>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnReadReg_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtReadRegAddr.Text.Trim());</span><br><span class="line">        <span class="built_in">ushort</span> count = Convert.ToUInt16(txtReadRegCount.Text.Trim());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库读取保持寄存器</span></span><br><span class="line">        <span class="built_in">ushort</span>[] result = modbus.ReadOutputRegister(slave, addr, count);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 逐行显示每个寄存器的值</span></span><br><span class="line">        <span class="built_in">string</span> text = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; result.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            text += <span class="string">&quot;寄存器[&quot;</span> + (addr + i) + <span class="string">&quot;] = &quot;</span> + result[i] + <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        txtReadRegResult.Text = text;</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;读寄存器成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，数量 &quot;</span> + count);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;读取失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-1"><a href="#逐段讲解-1" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><p>和读线圈几乎一样，区别在于：</p>
+<ul>
+<li>方法换成 <code>ReadOutputRegister</code>（对应功能码 03）；</li>
+<li>返回的是 <code>ushort[]</code>（一队数字）；</li>
+<li>显示时把每个寄存器连地址一起打印，比如”寄存器[5] &#x3D; 100”，更直观。</li>
+</ul>
+<div class="note info 对应输入寄存器 flat"><p>想测输入寄存器（功能码 04），换成 <code>modbus.ReadInputRegister(slave, addr, count)</code>。</p>
+</div>
+
+<hr>
+<h2 id="4-5-写入单输出线圈方法测试"><a href="#4-5-写入单输出线圈方法测试" class="headerlink" title="4.5 写入单输出线圈方法测试"></a>4.5 写入单输出线圈方法测试</h2><h3 id="这一节要做什么-3"><a href="#这一节要做什么-3" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”写单线圈”页，把某个线圈打开或关闭。</p>
+<h3 id="完整代码-2"><a href="#完整代码-2" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnWriteCoil_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtWriteCoilAddr.Text.Trim());</span><br><span class="line">        <span class="built_in">bool</span> <span class="keyword">value</span> = cboWriteCoilValue.Text == <span class="string">&quot;开&quot;</span>;   <span class="comment">// 下拉框选&quot;开&quot;就是 true</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库写单个线圈</span></span><br><span class="line">        modbus.WriteSingleCoil(slave, addr, <span class="keyword">value</span>);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;写单线圈成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，值 &quot;</span> + (<span class="keyword">value</span> ? <span class="string">&quot;开&quot;</span> : <span class="string">&quot;关&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;写入失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-2"><a href="#逐段讲解-2" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><ul>
+<li><code>cboWriteCoilValue.Text == &quot;开&quot;</code>：下拉框选的是”开”还是”关”，转成 bool（开是 true，关是 false）。</li>
+<li><code>modbus.WriteSingleCoil(slave, addr, value)</code>：调用库方法写入。</li>
+<li>写操作没有返回值，所以成功后写一行日志即可。</li>
+</ul>
+<hr>
+<h2 id="4-6-写入多输出线圈方法测试"><a href="#4-6-写入多输出线圈方法测试" class="headerlink" title="4.6 写入多输出线圈方法测试"></a>4.6 写入多输出线圈方法测试</h2><h3 id="这一节要做什么-4"><a href="#这一节要做什么-4" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”写多线圈”页，一次性写一串线圈。值用逗号分隔的 0&#x2F;1 输入，比如”1,0,1,0,1,0,1,0”。</p>
+<h3 id="完整代码-3"><a href="#完整代码-3" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnWriteCoils_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtWriteCoilsAddr.Text.Trim());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 把 &quot;1,0,1,0&quot; 这样的字符串拆成 bool 数组</span></span><br><span class="line">        <span class="built_in">string</span>[] parts = txtWriteCoilsValues.Text.Split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="built_in">bool</span>[] values = <span class="keyword">new</span> <span class="built_in">bool</span>[parts.Length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; parts.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            values[i] = parts[i].Trim() == <span class="string">&quot;1&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库写多个线圈</span></span><br><span class="line">        modbus.WriteMultiCoils(slave, addr, values);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;写多线圈成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，数量 &quot;</span> + values.Length);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;写入失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-3"><a href="#逐段讲解-3" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><p>这段唯一的新东西是”把字符串拆成数组”：</p>
+<ul>
+<li><code>txtWriteCoilsValues.Text.Split(&#39;,&#39;)</code>：按逗号把字符串切开，得到一串小字符串，比如”1,0,1”切成”1”、”0”、”1”。</li>
+<li>循环里 <code>parts[i].Trim() == &quot;1&quot;</code>：去掉空格后判断是不是”1”，是就是 true，否则 false。</li>
+</ul>
+<div class="tip "><p><code>Split</code> 是”拆分”的意思，是处理”逗号分隔”这类输入的常用方法。写多寄存器那里还会用到它。</p>
+</div>
+
+<hr>
+<h2 id="4-7-写入单个寄存器方法测试"><a href="#4-7-写入单个寄存器方法测试" class="headerlink" title="4.7 写入单个寄存器方法测试"></a>4.7 写入单个寄存器方法测试</h2><h3 id="这一节要做什么-5"><a href="#这一节要做什么-5" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”写单寄存器”页，把某个寄存器的值改成指定的数字。</p>
+<h3 id="完整代码-4"><a href="#完整代码-4" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnWriteReg_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtWriteRegAddr.Text.Trim());</span><br><span class="line">        <span class="built_in">ushort</span> <span class="keyword">value</span> = Convert.ToUInt16(txtWriteRegValue.Text.Trim());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库写单个寄存器</span></span><br><span class="line">        modbus.WriteSingleRegister(slave, addr, <span class="keyword">value</span>);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;写单寄存器成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，值 &quot;</span> + <span class="keyword">value</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;写入失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-4"><a href="#逐段讲解-4" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><p>和写单线圈几乎一样，区别在于：写入的值是一个数字（ushort），直接从文本框转过来即可，不需要”开&#x2F;关”下拉框。</p>
+<hr>
+<h2 id="4-8-写入多个寄存器方法测试"><a href="#4-8-写入多个寄存器方法测试" class="headerlink" title="4.8 写入多个寄存器方法测试"></a>4.8 写入多个寄存器方法测试</h2><h3 id="这一节要做什么-6"><a href="#这一节要做什么-6" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”写多寄存器”页，一次性写多个寄存器。值用逗号分隔的数字输入，比如”100,200,300”。</p>
+<h3 id="完整代码-5"><a href="#完整代码-5" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnWriteRegs_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtWriteRegsAddr.Text.Trim());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 把 &quot;100,200,300&quot; 这样的字符串拆成 ushort 数组</span></span><br><span class="line">        <span class="built_in">string</span>[] parts = txtWriteRegsValues.Text.Split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="built_in">ushort</span>[] values = <span class="keyword">new</span> <span class="built_in">ushort</span>[parts.Length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; parts.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            values[i] = Convert.ToUInt16(parts[i].Trim());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库写多个寄存器</span></span><br><span class="line">        modbus.WriteMultiRegisters(slave, addr, values);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;写多寄存器成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，数量 &quot;</span> + values.Length);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;写入失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-5"><a href="#逐段讲解-5" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><p>和写多线圈结构一样，区别是：每个小字符串 <code>parts[i]</code> 用 <code>Convert.ToUInt16</code> 转成数字（而不是判断是否等于”1”）。</p>
+<hr>
+<h2 id="4-9-写入寄存器位地址方法测试"><a href="#4-9-写入寄存器位地址方法测试" class="headerlink" title="4.9 写入寄存器位地址方法测试"></a>4.9 写入寄存器位地址方法测试</h2><h3 id="这一节要做什么-7"><a href="#这一节要做什么-7" class="headerlink" title="这一节要做什么"></a>这一节要做什么</h3><p>在”写寄存器位”页，只修改某个寄存器的某一位（0 到 15），其它位保持不变。</p>
+<h3 id="完整代码-6"><a href="#完整代码-6" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">btnWriteBit_Click</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetSlaveAddr(<span class="keyword">out</span> <span class="built_in">byte</span> slave)) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">ushort</span> addr = Convert.ToUInt16(txtWriteBitAddr.Text.Trim());</span><br><span class="line">        <span class="built_in">int</span> bitIndex = Convert.ToInt32(txtWriteBitIndex.Text.Trim());</span><br><span class="line">        <span class="built_in">bool</span> <span class="keyword">value</span> = cboWriteBitValue.Text == <span class="string">&quot;开&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用库写寄存器某一位（内部是&quot;读-改-写&quot;）</span></span><br><span class="line">        modbus.WriteRegisterBit(slave, addr, bitIndex, <span class="keyword">value</span>);</span><br><span class="line"></span><br><span class="line">        Log(<span class="string">&quot;写寄存器位成功：从站 &quot;</span> + slave + <span class="string">&quot;，地址 &quot;</span> + addr + <span class="string">&quot;，第 &quot;</span> + bitIndex + <span class="string">&quot; 位 = &quot;</span> + (<span class="keyword">value</span> ? <span class="string">&quot;1&quot;</span> : <span class="string">&quot;0&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.Show(<span class="string">&quot;写入失败：&quot;</span> + ex.Message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="逐段讲解-6"><a href="#逐段讲解-6" class="headerlink" title="逐段讲解"></a>逐段讲解</h3><ul>
+<li>输入有三样：寄存器地址、位号（0 到 15）、值（开&#x2F;关）。</li>
+<li><code>modbus.WriteRegisterBit(slave, addr, bitIndex, value)</code>：调用库方法。还记得第 3 部分吗？这个方法内部是”先读、再改位、再写回”，所以我们界面上只管传”改哪一位、改成什么”，剩下的它自己搞定。</li>
+</ul>
+<div class="note success 全部 9 个功能完成 flat"><p>到这里，读线圈、读寄存器、写单线圈、写多线圈、写单寄存器、写多寄存器、写寄存器位，7 个功能测试全部写完。整个测试软件就成型了。</p>
+</div>
+
+<hr>
+<h2 id="运行测试：用-Modbus-Slave-模拟从站"><a href="#运行测试：用-Modbus-Slave-模拟从站" class="headerlink" title="运行测试：用 Modbus Slave 模拟从站"></a>运行测试：用 Modbus Slave 模拟从站</h2><p>软件写好了，但”读”需要有设备回应才有数据。手头没有真实 PLC 也没关系，用 Modbus Slave 软件模拟一个从站即可。</p>
+<h3 id="测试步骤"><a href="#测试步骤" class="headerlink" title="测试步骤"></a>测试步骤</h3><ol>
+<li>打开 Modbus Slave 软件，建立一个从站（比如站号 1，功能码 03 读保持寄存器）；</li>
+<li>在 Modbus Slave 里设置几个寄存器，填上一些值（比如地址 0 填 100，地址 1 填 200）；</li>
+<li>如果用串口，先用 VSPD 虚拟一对串口（比如 COM3 和 COM4），Modbus Slave 连 COM4，我们的软件连 COM3；</li>
+<li>回到我们自己的软件，选好串口和参数，点”打开串口”；</li>
+<li>切到”读寄存器”页，从站地址填 1，起始地址 0，数量 2，点”读取”，结果框里应该出现 100 和 200；</li>
+<li>再切到”写单寄存器”页，把地址 0 的值改成 300，点”写入”，然后回到 Modbus Slave 看，那个值已经变成 300 了。</li>
+</ol>
+<div class="note success 看到数据的那一刻 flat"><p>当你在自己写的软件里点一下”读取”，结果框里蹦出真实的寄存器数值时，你就完整走通了”上位机软件”的全过程：界面、串口、协议、数据，全都打通了。</p>
+</div>
+
+<hr>
+<h2 id="第四部分小结"><a href="#第四部分小结" class="headerlink" title="第四部分小结"></a>第四部分小结</h2><p>这一部分我们把通信库真正用了起来，做出了一个有界面的 Modbus RTU 测试软件。</p>
+<div class="note primary 你学到了什么 flat"><ol>
+<li>怎么新建 WinForm 项目，怎么拖控件、设属性；</li>
+<li>Name（给代码用）和 Text（给人看）的区别；</li>
+<li>用 ComboBox 做参数选择，用 SerialPort.GetPortNames 动态获取串口；</li>
+<li>用 try catch 处理异常，避免程序崩溃；</li>
+<li>把界面输入（文字）转成程序需要的数据类型（数字、bool、数组）；</li>
+<li>把上一部分的库方法接上按钮事件，做出完整功能。</li>
+</ol>
+</div>
+
+<div class="note success 自检清单：对着勾一遍 flat"><div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我能新建一个 WinForm 项目并装好 System.IO.Ports</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我能把上一部分的 3 个库文件加进新项目</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我能拖控件并设置 Name 和 Text</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我理解 InitControls 是干嘛的</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我能解释 try catch 的作用</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我照着写完了 7 个功能的按钮事件</p>
+            </div>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/>
+            <p>我能用 Modbus Slave 模拟从站并读到数据</p>
+            </div></div>
+
+<div class="note info 下一步 flat"><p>这一部分我们做的是”测试软件”，界面还比较朴素，输入要靠手动填。下一部分（或后续阶段），我们会做一个更实用的”串口助手”或”数据看板”，加入定时自动读取、数据显示、甚至曲线图表，让上位机软件真正”用起来”。有任何一步卡住，把报错发给我，我陪你一起查。</p>
+</div>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>04-Modbus RTU通信测试软件开发</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://lunanorth.github.io/posts/5976.html">https://lunanorth.github.io/posts/5976.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>春熙景明</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2026-08-29</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2026-08-29</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/WinForm%E7%9B%B8%E5%85%B3/">WinForm相关</a><a class="post-meta__tags" href="/tags/Modbus/">Modbus</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829144054037.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/39261.html" title="03-C#开发Modbus RTU通信库"><img class="cover" src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829141644157.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">03-C#开发Modbus RTU通信库</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/56539.html" title="使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案"><img class="cover" src="https://s2.loli.net/2025/12/30/py3xq6RvDSs4BTN.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-30</div><div class="title">使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</div></div></a></div><div><a href="/posts/55763.html" title="this.Invoke学习笔记"><img class="cover" src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829085635892.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-29</div><div class="title">this.Invoke学习笔记</div></div></a></div><div><a href="/posts/61746.html" title="01-Modbus通信协议基础知识"><img class="cover" src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829132148672.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-29</div><div class="title">01-Modbus通信协议基础知识</div></div></a></div><div><a href="/posts/39261.html" title="03-C#开发Modbus RTU通信库"><img class="cover" src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829141644157.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-29</div><div class="title">03-C#开发Modbus RTU通信库</div></div></a></div><div><a href="/posts/20192.html" title="02-Modbus RTU通信报文分析"><img class="cover" src="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260829133031875.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-29</div><div class="title">02-Modbus RTU通信报文分析</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">春熙景明</div><div class="author-info__description">言念君子 ，温其如玉</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" href="https://lunanorth.github.io/"><i class="fab fa-github"></i><span>剑气长安</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C%EF%BC%9A%E6%96%B0%E5%BB%BA-WinForm-%E9%A1%B9%E7%9B%AE"><span class="toc-text">准备工作：新建 WinForm 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%94%A8-Visual-Studio-%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-text">第一步：用 Visual Studio 新建项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%AE%89%E8%A3%85%E4%B8%B2%E5%8F%A3%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="toc-text">第二步：安装串口依赖包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E6%8A%8A%E9%80%9A%E4%BF%A1%E5%BA%93%E5%8A%A0%E8%BF%9B%E6%9D%A5"><span class="toc-text">第三步：把通信库加进来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E8%AE%A4%E8%AF%86-WinForm-%E7%9A%84%E4%B8%89%E4%B8%AA%E7%AA%97%E5%8F%A3"><span class="toc-text">第四步：认识 WinForm 的三个窗口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-Modbus-RTU-%E8%BD%AF%E4%BB%B6-UI-%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.1 Modbus RTU 软件 UI 界面设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E5%B8%83%E5%B1%80"><span class="toc-text">整体布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E6%88%91%E4%BB%AC%E8%A6%81%E7%94%A8%E7%9A%84%E5%87%A0%E7%A7%8D%E6%8E%A7%E4%BB%B6"><span class="toc-text">认识我们要用的几种控件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E6%8A%8A%E6%89%8B%EF%BC%9A%E6%8B%96%E6%8E%A7%E4%BB%B6%E3%80%81%E8%AE%BE%E5%B1%9E%E6%80%A7"><span class="toc-text">手把手：拖控件、设属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E6%8E%A7%E4%BB%B6%E6%B8%85%E5%8D%95"><span class="toc-text">完整控件清单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E9%80%9A%E4%BF%A1%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E5%8F%8A%E4%B8%B2%E5%8F%A3%E8%BF%9E%E6%8E%A5"><span class="toc-text">4.2 通信参数初始化及串口连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E5%BC%95%E5%85%A5%E5%BA%93%E5%92%8C%E9%80%9A%E4%BF%A1%E5%AF%B9%E8%B1%A1"><span class="toc-text">先引入库和通信对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%8F%82%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95-InitControls"><span class="toc-text">写参数初始化方法 InitControls</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E2%80%9D%E6%89%93%E5%BC%80%E4%B8%B2%E5%8F%A3%E2%80%9D%E5%92%8C%E2%80%9D%E5%85%B3%E9%97%AD%E4%B8%B2%E5%8F%A3%E2%80%9D"><span class="toc-text">写”打开串口”和”关闭串口”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E6%97%A5%E5%BF%97%E8%BE%85%E5%8A%A9%E6%96%B9%E6%B3%95"><span class="toc-text">写一个日志辅助方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E5%8F%96%E4%BB%8E%E7%AB%99%E5%9C%B0%E5%9D%80%E7%9A%84%E8%BE%85%E5%8A%A9%E6%96%B9%E6%B3%95"><span class="toc-text">写一个取从站地址的辅助方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E8%AF%BB%E5%8F%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%BA%BF%E5%9C%88%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.3 读取输入输出线圈方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-1"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E8%AF%BB%E5%8F%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%AF%84%E5%AD%98%E5%99%A8%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.4 读取输入输出寄存器方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-2"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-1"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-1"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-%E5%86%99%E5%85%A5%E5%8D%95%E8%BE%93%E5%87%BA%E7%BA%BF%E5%9C%88%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.5 写入单输出线圈方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-3"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-2"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-2"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-%E5%86%99%E5%85%A5%E5%A4%9A%E8%BE%93%E5%87%BA%E7%BA%BF%E5%9C%88%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.6 写入多输出线圈方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-4"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-3"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-3"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-%E5%86%99%E5%85%A5%E5%8D%95%E4%B8%AA%E5%AF%84%E5%AD%98%E5%99%A8%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.7 写入单个寄存器方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-5"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-4"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-4"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8-%E5%86%99%E5%85%A5%E5%A4%9A%E4%B8%AA%E5%AF%84%E5%AD%98%E5%99%A8%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.8 写入多个寄存器方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-6"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-5"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-5"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-9-%E5%86%99%E5%85%A5%E5%AF%84%E5%AD%98%E5%99%A8%E4%BD%8D%E5%9C%B0%E5%9D%80%E6%96%B9%E6%B3%95%E6%B5%8B%E8%AF%95"><span class="toc-text">4.9 写入寄存器位地址方法测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%8A%82%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88-7"><span class="toc-text">这一节要做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-6"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E6%AE%B5%E8%AE%B2%E8%A7%A3-6"><span class="toc-text">逐段讲解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%EF%BC%9A%E7%94%A8-Modbus-Slave-%E6%A8%A1%E6%8B%9F%E4%BB%8E%E7%AB%99"><span class="toc-text">运行测试：用 Modbus Slave 模拟从站</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%AD%A5%E9%AA%A4"><span class="toc-text">测试步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%E5%B0%8F%E7%BB%93"><span class="toc-text">第四部分小结</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By 春熙景明</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">言念君子 ，温其如玉<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a> &nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&logo=Codio" title="本站采用双线部署，联通线路托管于Coding"></a>&nbsp;<a target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: 'Ov23livb5sxAzXC5FAOj',
+      clientSecret: '901c2a65d4b136d295133e9a8176b8650d782c41',
+      repo: 'blog-gitalk',
+      owner: 'LunaNorth',
+      admin: ['LunaNorth'],
+      id: '1c80d871d92c758fd0dfa2079aa7a5ce',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><canvas id="universe"></canvas><script async data-pjax src="/js/universe.js"></script><script defer data-pjax src="/js/readPercent.js"></script><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/6423.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images20251218080002549.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-12-17</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/6423.html&quot;);" href="javascript:void(0);" alt="">轻语时光</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/6423.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-12-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">Tag Plugins Plus 的日常使用</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/17639.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20260706072313708.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-07-13</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">百天打卡</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/56917.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/27830.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy06.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-12-25</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/27830.html&quot;);" href="javascript:void(0);" alt="">健身日记</a><div class="blog-slider__text">请不要把陌生人的些许善意，视为珍稀的瑰宝，却把身边亲近人的全部付出，当做天经地义的事情，对其视而不见。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/27830.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/5541.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://testingcf.jsdelivr.net/gh/LunaNorth/img-cloud/images/sy14.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-12-17</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/5541.html&quot;);" href="javascript:void(0);" alt="">博客日志</a><div class="blog-slider__text">对该博客进行一个简单的记录</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/5541.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
