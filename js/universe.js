@@ -167,6 +167,14 @@ function bberPagination() {
     var pageCount = Math.max(1, Math.ceil(total / pageSize));
     var current = 1;
 
+    // 全部显示模式(每页条数 >= 总条数,即 page_size 未填或填的值不小于总数):不渲染分页器,只显示总条数
+    if (pageSize >= total) {
+        paginationEl.innerHTML = "";
+        if (tipsEl) tipsEl.innerText = "- 共 " + total + " 条短文 -";
+        items.forEach(function (el) { el.classList.remove("bber-hidden"); });
+        return;
+    }
+
     function renderNav() {
         var html = "";
         html += current > 1

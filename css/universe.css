@@ -234,6 +234,12 @@
   border-color: #c8d2ee !important;
   box-shadow: 0 4px 12px -4px rgba(59, 112, 252, 0.12);
 }
+/* 卡片边框/阴影总开关(essay.yml 顶层 bber_border: false 时关闭;默认 true) */
+#bber.bber-noborder .timeline ul li.bber-item,
+#bber.bber-noborder .timeline ul li.bber-item:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
 [data-theme="dark"] #bber .timeline ul li.bber-item { border-color: #2c2c30 !important; background: #1d1d1f; }
 
 #bber .bber-avatar {
@@ -365,6 +371,52 @@
 #bber .bber-reply { display: none !important; }
 #bber .bber-reply i.fa-comment::before { content: none !important; }
 #bber .bber-reply::after { content: "评论"; }
+
+/* bber 卡片内嵌评论列表(浅灰容器 + 蓝昵称) */
+#bber .bber-comments {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #f7f7f9;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+[data-theme="dark"] #bber .bber-comments {
+  background: #323238;
+}
+#bber .bber-comment-item {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  word-break: break-word;
+}
+#bber .bber-comment-item + .bber-comment-item {
+  margin-top: 4px;
+}
+#bber .bber-comment-name {
+  color: #3b70fc;
+  -webkit-text-stroke: 0.2px currentColor;
+  flex-shrink: 0;
+  margin-right: 0;
+}
+#bber .bber-comment-sep {
+  color: #3b70fc;
+  font-weight: 700;
+  margin: 0 4px 0 2px;
+  flex-shrink: 0;
+}
+#bber .bber-comment-text {
+  color: var(--june-fontcolor, #4c4948);
+  flex: 1;
+  min-width: 0;
+}
+[data-theme="dark"] #bber .bber-comment-name,
+[data-theme="dark"] #bber .bber-comment-sep {
+  color: #4d8bfd;
+}
+[data-theme="dark"] #bber .bber-comment-text {
+  color: #c8c8d0;
+}
 
 /* waterfall 淡入 */
 #bber .timeline #waterfall { opacity: 0; transition: opacity .3s ease; }
