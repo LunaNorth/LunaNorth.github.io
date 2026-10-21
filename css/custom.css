@@ -1250,6 +1250,60 @@ h1.post-title {
 }
 
 
+/* ============================================================
+   文章卡片列数 index_card_columns（配置在 _config.butterfly.yml）
+   2 = 双栏（默认）/ 3 = 三栏 / 4 = 四栏，整体内容宽度不变
+   pug 会把列数输出成 #recent-posts 上的 cards-N class，这里用 grid 接管排版。
+   原来插件是 flex + width:49%，只能双栏，且最后一行不满时卡片会两端散开；
+   grid 按列数均分宽度、自动 gap，最后一行也左对齐。
+   ============================================================ */
+#recent-posts.cards-2,
+#recent-posts.cards-3,
+#recent-posts.cards-4 {
+  display: grid;
+  margin-top: 0;      /* item 的 margin-top 收进 gap，避免首行多出一段空白 */
+  gap: 1rem 2%;       /* 行间距 1rem、列间距 2%，与原来 49% + 2% 的手感一致 */
+}
+#recent-posts.cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#recent-posts.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#recent-posts.cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* 宽度交给 grid 均分，抹掉插件的固定 49% 和自带上下 margin */
+#recent-posts.cards-2 > .recent-post-item,
+#recent-posts.cards-3 > .recent-post-item,
+#recent-posts.cards-4 > .recent-post-item {
+  width: auto;
+  margin-top: 0;
+}
+
+/* 三列：卡片窄了，封面压矮一档、内边距收窄、标题略缩，免得头重脚轻 */
+#recent-posts.cards-3 > .recent-post-item > .post_cover { height: 155px; }
+#recent-posts.cards-3 > .recent-post-item > .recent-post-info { padding: 0 22px; }
+#recent-posts.cards-3 > .recent-post-item > .recent-post-info > .article-title { font-size: 1.1em; }
+
+/* 四列：再收一档 */
+#recent-posts.cards-4 > .recent-post-item > .post_cover { height: 128px; }
+#recent-posts.cards-4 > .recent-post-item > .recent-post-info { padding: 0 16px; }
+#recent-posts.cards-4 > .recent-post-item > .recent-post-info > .article-title { font-size: 1em; }
+
+/* 移动端一律单列（要压过插件自带的 max-width:768px 规则） */
+@media screen and (max-width: 768px) {
+  #recent-posts.cards-2,
+  #recent-posts.cards-3,
+  #recent-posts.cards-4 {
+    grid-template-columns: 1fr;
+  }
+  #recent-posts.cards-3 > .recent-post-item > .post_cover,
+  #recent-posts.cards-4 > .recent-post-item > .post_cover {
+    height: 200px;
+  }
+  #recent-posts.cards-3 > .recent-post-item > .recent-post-info,
+  #recent-posts.cards-4 > .recent-post-item > .recent-post-info {
+    padding: 0 40px;
+  }
+}
+
+
 /* 标签 */
 .tag-cloud-list a {
   width: fit-content;
