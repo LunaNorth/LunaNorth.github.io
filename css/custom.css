@@ -1808,4 +1808,33 @@ tbody tr:last-child td {
   cursor: not-allowed;
 }
 
+/* ---- 暗色模式适配 ----
+   上面写死了 background: #fff，暗色下会变成一排刺眼的白色方块，
+   这里改成跟卡片一致的深底 + 浅灰文字，hover / 当前页也分别提亮。
+   特异性 [data-theme="dark"] + 原选择器 = 1 ID + 3 类，压得过亮色规则。 */
+[data-theme="dark"] #pagination .pagination .page-number,
+[data-theme="dark"] #pagination .pagination .extend,
+[data-theme="dark"] #bber-pagination .page-number,
+[data-theme="dark"] #bber-pagination .extend {
+  background: #1d1d1f;
+  border-color: #2c2c30;
+  color: #c4c9d4;
+}
+/* 暗色 hover：保持深底，只亮边框和文字 */
+[data-theme="dark"] #pagination .pagination .page-number:not(.current):hover,
+[data-theme="dark"] #pagination .pagination .extend:not(.disabled):hover,
+[data-theme="dark"] #bber-pagination .page-number:not(.current):hover,
+[data-theme="dark"] #bber-pagination .extend:not(.disabled):hover {
+  background: #26262a;
+  border-color: #6b97ff;
+  color: #6b97ff;
+}
+/* 暗色当前页：主题蓝 #3b70fc 在深底上略闷，提亮一档 */
+[data-theme="dark"] #pagination .pagination .page-number.current,
+[data-theme="dark"] #bber-pagination .page-number.current {
+  background: #4c7dff;
+  border-color: #4c7dff;
+  color: #fff;
+}
+
 
