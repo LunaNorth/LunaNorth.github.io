@@ -1253,28 +1253,24 @@ h1.post-title {
 /* ============================================================
    文章卡片列数 index_card_columns（配置在 _config.butterfly.yml）
    2 = 双栏（默认）/ 3 = 三栏 / 4 = 四栏，整体内容宽度不变
-   pug 会把列数输出成 #recent-posts 上的 cards-N class，这里用 grid 接管排版。
-   原来插件是 flex + width:49%，只能双栏，且最后一行不满时卡片会两端散开；
-   grid 按列数均分宽度、自动 gap，最后一行也左对齐。
+   pug 会把列数输出成 #recent-posts 上的 cards-N class，这里只改卡片宽度。
+   为什么用 flex 而不用 grid：
+     #recent-posts 里不只有文章卡片，首页的 swiper 轮播（外层也是 .recent-post-item，
+     内联 width:100%）和 #pagination 都是它的子元素。用 grid 会把这两者当成普通格子
+     挤成一列宽；保持插件的 flex 换行流，它们靠 width:100% 自然独占一行。
+   列间距用 column-gap（不改 row-gap），行间距仍由原有的 margin-top 控制。
    ============================================================ */
 #recent-posts.cards-2,
 #recent-posts.cards-3,
 #recent-posts.cards-4 {
-  display: grid;
-  margin-top: 0;      /* item 的 margin-top 收进 gap，避免首行多出一段空白 */
-  gap: 1rem 2%;       /* 行间距 1rem、列间距 2%，与原来 49% + 2% 的手感一致 */
+  justify-content: flex-start;   /* 最后一行不满时靠左，不会两端散开 */
+  column-gap: 2%;
 }
-#recent-posts.cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-#recent-posts.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-#recent-posts.cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-/* 宽度交给 grid 均分，抹掉插件的固定 49% 和自带上下 margin */
-#recent-posts.cards-2 > .recent-post-item,
-#recent-posts.cards-3 > .recent-post-item,
-#recent-posts.cards-4 > .recent-post-item {
-  width: auto;
-  margin-top: 0;
-}
+/* 列宽：n 列 = (100% - 2% × (n-1)) / n，加起来正好 100%，不会提前换行 */
+#recent-posts.cards-2 > .recent-post-item { width: calc((100% - 2%) / 2); }
+#recent-posts.cards-3 > .recent-post-item { width: calc((100% - 2% * 2) / 3); }
+#recent-posts.cards-4 > .recent-post-item { width: calc((100% - 2% * 3) / 4); }
 
 /* 三列：卡片窄了，封面压矮一档、内边距收窄、标题略缩，免得头重脚轻 */
 #recent-posts.cards-3 > .recent-post-item > .post_cover { height: 155px; }
@@ -1288,10 +1284,10 @@ h1.post-title {
 
 /* 移动端一律单列（要压过插件自带的 max-width:768px 规则） */
 @media screen and (max-width: 768px) {
-  #recent-posts.cards-2,
-  #recent-posts.cards-3,
-  #recent-posts.cards-4 {
-    grid-template-columns: 1fr;
+  #recent-posts.cards-2 > .recent-post-item,
+  #recent-posts.cards-3 > .recent-post-item,
+  #recent-posts.cards-4 > .recent-post-item {
+    width: 100%;
   }
   #recent-posts.cards-3 > .recent-post-item > .post_cover,
   #recent-posts.cards-4 > .recent-post-item > .post_cover {
