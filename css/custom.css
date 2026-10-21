@@ -1633,6 +1633,57 @@ tbody tr:last-child td {
 }
 
 
+/* ============================================================
+   学习状态标记徽章 (study badge)
+   front-matter 写 study: 已学习 / 学习中 / 待学习 / 未学习
+   位置：仅首页/分类页的卡片标题前（跟「置顶」并排）
+   样式与「置顶」标签同款（实心小圆角印章），但四种状态各一色，
+   并刻意避开置顶的蓝色 #3b70fc，避免和置顶混淆。
+   注意：它只是标记，不参与排序/置顶（置顶仍由 sticky/top 控制）。
+   模板：themes/butterfly/layout/includes/mixins/study-badge.pug
+   ============================================================ */
+
+/* 基础印章样式：跟随卡片标题字号缩放 */
+#recent-posts > .recent-post-item > .recent-post-info > .article-title .study-badge {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #fff;
+  /* 标题用的是手写体 ZhuZiAYuanJWD，徽章强制回正文字体，字才清晰 */
+  font-family: 'HarmonyOS_Sans_SC_Medium', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 0.65em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: baseline;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+
+/* ---- 四种状态配色 ---- */
+.study-badge.study-done { background-color: #21a675; }   /* 已学习 —— 绿 */
+.study-badge.study-doing { background-color: #ef8b00; }  /* 学习中 —— 橙 */
+.study-badge.study-todo { background-color: #7c5cff; }   /* 待学习 —— 紫 */
+.study-badge.study-none { background-color: #9aa4b2; }   /* 未学习 —— 灰 */
+
+/* 兜底：写了别名表里没有的值（如 study: 复习中）时用中性灰蓝，标记不丢 */
+.study-badge.study-default { background-color: #6b7f9e; }
+
+/* 暗色模式：整体提亮一档，避免在深背景上发闷 */
+[data-theme="dark"] .study-badge.study-done { background-color: #2bbd86; }
+[data-theme="dark"] .study-badge.study-doing { background-color: #ff9f1a; }
+[data-theme="dark"] .study-badge.study-todo { background-color: #8f74ff; }
+[data-theme="dark"] .study-badge.study-none { background-color: #a8b2c0; }
+[data-theme="dark"] .study-badge.study-default { background-color: #7d90ad; }
+
+
+
 /* 分页按钮:圆角矩形 + 淡边框,hover 变蓝边框 + 蓝字、保持白底
    主题 _layout/pagination.styl 只给了 .current 背景色,没给通用 hover 和边框样式;
    碎碎念 #bber-pagination 在 universe.css 里给了圆角但没给边框和通用 hover。
