@@ -1667,9 +1667,10 @@ tbody tr:last-child td {
   transform: none;
 }
 
-/* 归档页标题比首页卡片小一档，徽章适当放大些才看得清 */
+/* 归档页：徽章放在标题后面，标题更连贯；标题只有 1.1em，徽章适当放大才看得清 */
 .article-sort .article-sort-item-title .study-badge {
-  margin-right: 7px;
+  margin-right: 0;
+  margin-left: 7px;
   padding: 1px 7px;
   font-size: 0.78em;
 }
