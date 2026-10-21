@@ -1263,22 +1263,44 @@ h1.post-title {
 #recent-posts.cards-2,
 #recent-posts.cards-3,
 #recent-posts.cards-4 {
-  justify-content: flex-start;   /* 最后一行不满时靠左，不会两端散开 */
+  justify-content: center;   /* 只剩一张卡片时居中，不满行也不偏左 */
   column-gap: 2%;
 }
 
-/* 列宽：n 列 = (100% - 2% × (n-1)) / n，加起来正好 100%，不会提前换行 */
-#recent-posts.cards-2 > .recent-post-item { width: calc((100% - 2%) / 2); }
-#recent-posts.cards-3 > .recent-post-item { width: calc((100% - 2% * 2) / 3); }
-#recent-posts.cards-4 > .recent-post-item { width: calc((100% - 2% * 3) / 4); }
+/* 列宽按列数算，用 width 作 flex-basis（不能设 basis:0，否则浏览器会把所有卡片
+   硬塞进同一行）。末尾留 0.05% 余量，避免浮点误差把第三张挤到下一行；
+   最后一行不满时（比如 14 篇排 3 列，尾行 2 张），剩下的卡片靠 flex-grow
+   按剩余空间等分长大，把整行填满，不留下空格子。
+   max-width 兜住极端情况：尾行只剩 1 张时最多长到「两列宽」，
+   不会撑成一张巨幅横卡。 */
+#recent-posts.cards-2 > .recent-post-item,
+#recent-posts.cards-3 > .recent-post-item,
+#recent-posts.cards-4 > .recent-post-item {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc((100% - 2%) / 2);
+}
+#recent-posts.cards-2 > .recent-post-item { width: calc((100% - 2%) / 2 - 0.05%); }
+#recent-posts.cards-3 > .recent-post-item { width: calc((100% - 2% * 2) / 3 - 0.05%); }
+#recent-posts.cards-4 > .recent-post-item { width: calc((100% - 2% * 3) / 4 - 0.05%); }
 
-/* 三列：卡片窄了，封面压矮一档、内边距收窄、标题略缩，免得头重脚轻 */
-#recent-posts.cards-3 > .recent-post-item > .post_cover { height: 155px; }
+/* 首页 swiper 轮播的外层也是 .recent-post-item（带内联 width:100%），
+   必须让它独占整行，不受上面的均分规则影响。
+   放在卡片规则之后，保证同特异性时后者生效。 */
+#recent-posts > .recent-post-item:has(#swiper_container),
+#recent-posts > .recent-post-item[style*="width: 100%"] {
+  flex: 0 0 100%;
+  max-width: none;
+}
+
+/* 三列：卡片窄了，封面压矮一档、内边距收窄、标题略缩，免得头重脚轻
+   封面用宽高比而不是固定高度：尾行卡片被拉宽时封面同步变高，不会压成扁带 */
+#recent-posts.cards-3 > .recent-post-item > .post_cover { height: auto; aspect-ratio: 2.2 / 1; }
 #recent-posts.cards-3 > .recent-post-item > .recent-post-info { padding: 0 22px; }
 #recent-posts.cards-3 > .recent-post-item > .recent-post-info > .article-title { font-size: 1.1em; }
 
 /* 四列：再收一档 */
-#recent-posts.cards-4 > .recent-post-item > .post_cover { height: 128px; }
+#recent-posts.cards-4 > .recent-post-item > .post_cover { height: auto; aspect-ratio: 2 / 1; }
 #recent-posts.cards-4 > .recent-post-item > .recent-post-info { padding: 0 16px; }
 #recent-posts.cards-4 > .recent-post-item > .recent-post-info > .article-title { font-size: 1em; }
 
@@ -1287,11 +1309,13 @@ h1.post-title {
   #recent-posts.cards-2 > .recent-post-item,
   #recent-posts.cards-3 > .recent-post-item,
   #recent-posts.cards-4 > .recent-post-item {
-    width: 100%;
+    flex: 1 1 100%;
+    max-width: none;
   }
   #recent-posts.cards-3 > .recent-post-item > .post_cover,
   #recent-posts.cards-4 > .recent-post-item > .post_cover {
     height: 200px;
+    aspect-ratio: auto;
   }
   #recent-posts.cards-3 > .recent-post-item > .recent-post-info,
   #recent-posts.cards-4 > .recent-post-item > .recent-post-info {
