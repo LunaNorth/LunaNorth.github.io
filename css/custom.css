@@ -1263,13 +1263,16 @@ h1.post-title {
 #recent-posts.cards-2,
 #recent-posts.cards-3,
 #recent-posts.cards-4 {
+  /* 卡片间隙：左右列间距与上下行距（卡片自身 margin-top: 1rem）取相近值，
+     常规内容宽度下四边看起来一致。改这一个变量，卡片宽度计算会自动跟着走 */
+  --card-gap: 1.5%;
   justify-content: center;   /* 只剩一张卡片时居中，不满行也不偏左 */
-  column-gap: 2%;
+  column-gap: var(--card-gap);
 }
 
 /* 列宽按列数算，用 width 作 flex-basis（不能设 basis:0，否则浏览器会把所有卡片
    硬塞进同一行）。末尾留 0.05% 余量，避免浮点误差把第三张挤到下一行；
-   最后一行不满时（比如 14 篇排 3 列，尾行 2 张），剩下的卡片靠 flex-grow
+   最后一行不满时（比如文章数除不尽列数），剩下的卡片靠 flex-grow
    按剩余空间等分长大，把整行填满，不留下空格子。
    max-width 兜住极端情况：尾行只剩 1 张时最多长到「两列宽」，
    不会撑成一张巨幅横卡。 */
@@ -1278,11 +1281,11 @@ h1.post-title {
 #recent-posts.cards-4 > .recent-post-item {
   flex: 1 1 auto;
   min-width: 0;
-  max-width: calc((100% - 2%) / 2);
+  max-width: calc((100% - var(--card-gap)) / 2);
 }
-#recent-posts.cards-2 > .recent-post-item { width: calc((100% - 2%) / 2 - 0.05%); }
-#recent-posts.cards-3 > .recent-post-item { width: calc((100% - 2% * 2) / 3 - 0.05%); }
-#recent-posts.cards-4 > .recent-post-item { width: calc((100% - 2% * 3) / 4 - 0.05%); }
+#recent-posts.cards-2 > .recent-post-item { width: calc((100% - var(--card-gap)) / 2 - 0.05%); }
+#recent-posts.cards-3 > .recent-post-item { width: calc((100% - var(--card-gap) * 2) / 3 - 0.05%); }
+#recent-posts.cards-4 > .recent-post-item { width: calc((100% - var(--card-gap) * 3) / 4 - 0.05%); }
 
 /* 首页 swiper 轮播的外层也是 .recent-post-item（带内联 width:100%），
    必须让它独占整行，不受上面的均分规则影响。

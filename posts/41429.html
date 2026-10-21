@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CSharp常用的基础数值类型 | 春熙景明</title><meta name="author" content="春熙景明"><meta name="copyright" content="春熙景明"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C# 数值类型 装数字的十二只杯子  上一篇我们知道了「数据类型就是装数据的杯子」。这一篇专门讲其中的一大类——数值类型，也就是「能装数字」的类型。把 8 种整数 + 2 种小数吃透，上位机读数据、换算工程量就全通了。   本篇目标：看到 int、double、byte 这些词，能马上说出——是整数还是小数、大概能装多大、上位机里用在哪。    一、先认识两个基础词：位 和 字节理解数值类型，绕不">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CSharp常用的基础数值类型 | 春熙景明</title><meta name="author" content="春熙景明"><meta name="copyright" content="春熙景明"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C# 数值类型 装数字的十二只杯子 上一篇我们知道了「数据类型就是装数据的杯子」。这一篇专门讲其中的一大类——数值类型，也就是「能装数字」的类型。把 8 种整数 + 2 种小数吃透，上位机读数据、换算工程量就全通了。  本篇目标：看到 int、double、byte 这些词，能马上说出——是整数还是小数、大概能装多大、上位机里用在哪。   一、先认识两个基础词：位 和 字节理解数值类型，绕不开两个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSharp常用的基础数值类型">
 <meta property="og:url" content="https://lunanorth.github.io/posts/41429.html">
 <meta property="og:site_name" content="春熙景明">
-<meta property="og:description" content="C# 数值类型 装数字的十二只杯子  上一篇我们知道了「数据类型就是装数据的杯子」。这一篇专门讲其中的一大类——数值类型，也就是「能装数字」的类型。把 8 种整数 + 2 种小数吃透，上位机读数据、换算工程量就全通了。   本篇目标：看到 int、double、byte 这些词，能马上说出——是整数还是小数、大概能装多大、上位机里用在哪。    一、先认识两个基础词：位 和 字节理解数值类型，绕不">
+<meta property="og:description" content="C# 数值类型 装数字的十二只杯子 上一篇我们知道了「数据类型就是装数据的杯子」。这一篇专门讲其中的一大类——数值类型，也就是「能装数字」的类型。把 8 种整数 + 2 种小数吃透，上位机读数据、换算工程量就全通了。  本篇目标：看到 int、double、byte 这些词，能马上说出——是整数还是小数、大概能装多大、上位机里用在哪。   一、先认识两个基础词：位 和 字节理解数值类型，绕不开两个">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260902213525390.jpg">
 <meta property="article:published_time" content="2026-09-02T13:33:23.000Z">
@@ -156,49 +156,41 @@
     })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/navigation.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><meta name="referrer" content="no-referrer"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
 <style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
   white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
-<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260902213525390.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="春熙景明"><img class="site-icon" src="/img/moon.png"/><span class="site-name">春熙景明</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSharp常用的基础数值类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-02T13:33:23.000Z" title="发表于 2026-09-02 21:33:23">2026-09-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-02T13:35:45.143Z" title="更新于 2026-09-02 21:35:45">2026-09-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CSharp/">CSharp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSharp常用的基础数值类型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><span class='p center logo large'>C# 数值类型</span>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260902213525390.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="春熙景明"><img class="site-icon" src="/img/moon.png"/><span class="site-name">春熙景明</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSharp常用的基础数值类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-02T13:33:23.000Z" title="发表于 2026-09-02 21:33:23">2026-09-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-02T13:35:45.143Z" title="更新于 2026-09-02 21:35:45">2026-09-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CSharp/">CSharp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSharp常用的基础数值类型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><span class='p center logo large'>C# 数值类型</span>
 <span class='p center small'>装数字的十二只杯子</span>
-
 <div class="note blue no-icon flat"><p>上一篇我们知道了「数据类型就是装数据的杯子」。这一篇专门讲其中的一大类——<span class='p red'>数值类型</span>，也就是「能装数字」的类型。把 8 种整数 + 2 种小数吃透，上位机读数据、换算工程量就全通了。</p>
 </div>
-
 <div class="tip info"><p>本篇目标：看到 <span class='p cyan'>int</span>、<span class='p cyan'>double</span>、<span class='p cyan'>byte</span> 这些词，能马上说出——是整数还是小数、大概能装多大、上位机里用在哪。</p>
 </div>
-
 <hr>
 <h2 id="一、先认识两个基础词：位-和-字节"><a href="#一、先认识两个基础词：位-和-字节" class="headerlink" title="一、先认识两个基础词：位 和 字节"></a>一、先认识两个基础词：位 和 字节</h2><div class="note green no-icon flat"><p>理解数值类型，绕不开两个词。它们不复杂，就是「存储空间」的度量单位。</p>
 </div>
-
 <ul>
 <li><span class='p red'>位</span>（bit）：电脑里最小的单位，只能存 0 或 1，就像一盏只能「开」或「关」的灯。</li>
 <li><span class='p blue'>字节</span>（byte）：把 8 个位打包成一组，就是 1 个字节。</li>
 </ul>
 <details class="folding-tag" cyan open><summary> 位和字节到底啥关系？ </summary>
               <div class='content'>
-              <p>把 8 盏灯排成一排，每盏灯都是 0 或 1，这一整排 8 盏灯就是一个字节。</p><ul><li>1 个字节 &#x3D; 8 个位，能表示 2 的 8 次方 &#x3D; 256 种组合。</li><li>2 个字节 &#x3D; 16 个位，能表示 2 的 16 次方 &#x3D; 65536 种组合。</li><li>4 个字节 &#x3D; 32 个位，能表示 2 的 32 次方 &#x3D; 约 42 亿种组合。</li></ul><p>所以字节越多，能装的数越大。下面所有整型的范围，都是这么算出来的。</p>
+              <p>把 8 盏灯排成一排，每盏灯都是 0 或 1，这一整排 8 盏灯就是一个字节。</p><ul><li>1 个字节 = 8 个位，能表示 2 的 8 次方 = 256 种组合。</li><li>2 个字节 = 16 个位，能表示 2 的 16 次方 = 65536 种组合。</li><li>4 个字节 = 32 个位，能表示 2 的 32 次方 = 约 42 亿种组合。</li></ul><p>所以字节越多，能装的数越大。下面所有整型的范围，都是这么算出来的。</p>
               </div>
             </details>
-
 <hr>
-<h2 id="二、为什么整数要分这么多？（8-种整型）"><a href="#二、为什么整数要分这么多？（8-种整型）" class="headerlink" title="二、为什么整数要分这么多？（8 种整型）"></a>二、为什么整数要分这么多？（8 种整型）</h2><div class="note orange no-icon flat"><p>你可能会问：装个整数而已，怎么搞出 <span class='p red'>byte &#x2F; short &#x2F; int &#x2F; long</span> 一大堆？答案是两条理由。</p>
+<h2 id="二、为什么整数要分这么多？（8-种整型）"><a href="#二、为什么整数要分这么多？（8-种整型）" class="headerlink" title="二、为什么整数要分这么多？（8 种整型）"></a>二、为什么整数要分这么多？（8 种整型）</h2><div class="note orange no-icon flat"><p>你可能会问：装个整数而已，怎么搞出 <span class='p red'>byte / short / int / long</span> 一大堆？答案是两条理由。</p>
 </div>
-
 <details class="folding-tag" yellow open><summary> 理由一：内存大小不同 </summary>
               <div class='content'>
               <p>上位机里有些数据很小（比如阀门开度 0~255），有些很大（比如累计电量、时间戳）。</p><p>如果所有整数都用最大的 8 字节来装，就会浪费内存。所以 C# 准备了不同大小的「杯子」，小的用小杯，大的用大杯，内存才不浪费。</p>
               </div>
             </details>
-
 <details class="folding-tag" yellow><summary> 理由二：有符号 和 无符号 </summary>
               <div class='content'>
               <p>同样是 1 个字节：</p><ul><li><span class='p gray'>无符号</span>（前面没有 S）：只装正数，比如 <span class='p cyan'>byte</span> 是 0 到 255。</li><li><span class='p gray'>有符号</span>（前面带 S）：留一半空间给负数，比如 <span class='p cyan'>sbyte</span> 是 -128 到 127。</li></ul><p>一句话：<span class='p red'>有 S 能负数</span>，<span class='p red'>没 S 全正数</span>。</p>
               </div>
             </details>
-
 <hr>
 <h2 id="三、8-种整型逐个看"><a href="#三、8-种整型逐个看" class="headerlink" title="三、8 种整型逐个看"></a>三、8 种整型逐个看</h2><div class="note blue no-icon flat"><p>下面这张表就是整型全家桶，从最小到最大排好。不用背，先混个脸熟，用到时回来翻。</p>
 </div>
-
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -208,7 +200,8 @@
 <th>占字节</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><code>sbyte</code></td>
 <td>有符号字节</td>
 <td>-128 到 127</td>
@@ -256,49 +249,41 @@
 <td>0 到 约 1.8 后面 19 个零</td>
 <td>8</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="最小的一对：sbyte-和-byte"><a href="#最小的一对：sbyte-和-byte" class="headerlink" title="最小的一对：sbyte 和 byte"></a>最小的一对：sbyte 和 byte</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sbyte</span> temperature = <span class="number">-10</span>;   <span class="comment">// 温度可以是负的</span></span><br><span class="line"><span class="built_in">byte</span>  valveOpen  = <span class="number">200</span>;    <span class="comment">// 阀门开度 0~255，没负数</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(temperature);</span><br><span class="line">Console.WriteLine(valveOpen);</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" green><summary> 上位机里用在哪 </summary>
               <div class='content'>
               <ul><li><span class='p cyan'>byte</span> 最常出现在串口、Modbus 报文里，一个字节一个字节地处理。</li><li><span class='p cyan'>sbyte</span> 可以装带负号的温度、角度这类小量。</li></ul>
               </div>
             </details>
-
 <h3 id="稍大一点：short-和-ushort"><a href="#稍大一点：short-和-ushort" class="headerlink" title="稍大一点：short 和 ushort"></a>稍大一点：short 和 ushort</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">short</span>  errorCode = <span class="number">-5000</span>;     <span class="comment">// 错误码可以是负数</span></span><br><span class="line"><span class="built_in">ushort</span> deviceId  = <span class="number">60000</span>;     <span class="comment">// 设备编号从 0 起算</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(errorCode);</span><br><span class="line">Console.WriteLine(deviceId);</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" green><summary> 上位机里用在哪 </summary>
               <div class='content'>
               <p>老式 PLC（如西门子 S7-200）的单个模拟量通道就是 16 位（2 字节），读上来正好用 <span class='p cyan'>short</span> 接。</p>
               </div>
             </details>
-
 <h3 id="最常用的主力：int-和-uint"><a href="#最常用的主力：int-和-uint" class="headerlink" title="最常用的主力：int 和 uint"></a>最常用的主力：int 和 uint</h3><div class="tip success"><p><span class='p red'>int</span> 是整型里最常用的，绝大多数「普通整数」都用它。没特殊理由，整数就默认写 <span class='p cyan'>int</span>。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span>  productCount = <span class="number">12345</span>;     <span class="comment">// 今天生产了 12345 个</span></span><br><span class="line"><span class="built_in">uint</span> totalPower  = <span class="number">4000000000</span>; <span class="comment">// 累计用电量，不会为负</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(productCount);</span><br><span class="line">Console.WriteLine(totalPower);</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" green><summary> 上位机里用在哪 </summary>
               <div class='content'>
               <ul><li>计件数、扫码枪的物料编号、生产班次号，基本都写 <span class='p cyan'>int</span>。</li><li>确认不会为负的（数量、用电量），用 <span class='p cyan'>uint</span> 表达更清楚。</li></ul>
               </div>
             </details>
-
 <h3 id="最大的：long-和-ulong"><a href="#最大的：long-和-ulong" class="headerlink" title="最大的：long 和 ulong"></a>最大的：long 和 ulong</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">long</span>  timestamp = <span class="number">1735872000123L</span>;  <span class="comment">// 时间戳，非常大，加 L 后缀</span></span><br><span class="line"><span class="built_in">ulong</span> fileSize  = <span class="number">5000000000U</span>L;    <span class="comment">// 文件 5G 字节大小</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(timestamp);</span><br><span class="line">Console.WriteLine(fileSize);</span><br></pre></td></tr></table></figure>
-
-<div class="tip error"><p>看数字后面的 <span class='p red'>L</span> 和 <span class='p red'>UL</span> 没？没加的话，C# 默认按 int 处理，数字一大就报错。加后缀就是告诉电脑「这是 long &#x2F; ulong」。</p>
+<div class="tip error"><p>看数字后面的 <span class='p red'>L</span> 和 <span class='p red'>UL</span> 没？没加的话，C# 默认按 int 处理，数字一大就报错。加后缀就是告诉电脑「这是 long / ulong」。</p>
 </div>
-
 <details class="folding-tag" green><summary> 上位机里用在哪 </summary>
               <div class='content'>
               <ul><li>时间戳（从 1970 年 1 月 1 日到现在的毫秒数）必须用 <span class='p cyan'>long</span>。</li><li>累计流量、开机总时长这类「特别大」的数，也要用 <span class='p cyan'>long</span>。</li></ul>
               </div>
             </details>
-
 <hr>
 <h2 id="四、带小数的浮点型：float-和-double"><a href="#四、带小数的浮点型：float-和-double" class="headerlink" title="四、带小数的浮点型：float 和 double"></a>四、带小数的浮点型：float 和 double</h2><div class="note purple no-icon flat"><p>整数只能装 1、2、3 这种干干净净的数，要装 3.14、25.6 这种带小数点的，就得用浮点型。浮点型有 2 个常用的，外加 1 个算钱的。</p>
 </div>
-
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -309,7 +294,8 @@
 <th>后缀</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><code>float</code></td>
 <td>单精度浮点</td>
 <td>约 ±3.4 后面 38 个零</td>
@@ -330,38 +316,31 @@
 <td>28~29 位有效数字</td>
 <td>必须加 M</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="float：必须加-F"><a href="#float：必须加-F" class="headerlink" title="float：必须加 F"></a>float：必须加 F</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> temperature = <span class="number">36.5F</span>;   <span class="comment">// 加 F，表示这是 float</span></span><br><span class="line"><span class="built_in">float</span> voltage     = <span class="number">3.3F</span>;    <span class="comment">// 电压 3.3V</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(temperature);</span><br><span class="line">Console.WriteLine(voltage);</span><br></pre></td></tr></table></figure>
-
 <div class="tip warning"><p><span class='p cyan'>float</span> 的数字后面必须加 <span class='p red'>F</span>，比如 <code>36.5F</code>。不加 F，C# 会把它当成 double，塞进 float 里就报错。</p>
 </div>
-
 <h3 id="double：默认的小数类型"><a href="#double：默认的小数类型" class="headerlink" title="double：默认的小数类型"></a>double：默认的小数类型</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">double</span> pressure = <span class="number">101.325</span>;   <span class="comment">// 什么都不用加</span></span><br><span class="line"><span class="built_in">double</span> ratio    = <span class="number">0.6180339887</span>;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(pressure);</span><br><span class="line">Console.WriteLine(ratio);</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" cyan open><summary> 上位机里最常用的换算 </summary>
               <div class='content'>
               <p>很多 PLC 的模拟量原始值是 0~27648，要换算成工程量，就用 <span class='p cyan'>double</span>：</p><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">double</span> rawValue  = <span class="number">13824</span>;              <span class="comment">// PLC 读上来的原始值</span></span><br><span class="line"><span class="built_in">double</span> realValue = rawValue / <span class="number">27648.0</span> * <span class="number">100.0</span>;  <span class="comment">// 注意用了 .0</span></span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;实际温度：&quot;</span> + realValue + <span class="string">&quot; °C&quot;</span>);</span><br></pre></td></tr></table></figure><p>除数和倍数写成 <span class='p red'>27648.0</span>、<span class='p red'>100.0</span>（带小数点），结果才保证是小数。输出会是「实际温度：50 °C」。</p>
               </div>
             </details>
-
-<h3 id="decimal：算钱才用它"><a href="#decimal：算钱才用它" class="headerlink" title="decimal：算钱才用它"></a>decimal：算钱才用它</h3><div class="note green no-icon flat"><p><span class='p cyan'>decimal</span> 不在这次截图里，但先记个脸熟：金额、计费这种「一分都不能差」的场景，用 <span class='p red'>decimal</span> 而不是 float &#x2F; double。它更精确，代价是运算稍慢、占内存稍多。</p>
+<h3 id="decimal：算钱才用它"><a href="#decimal：算钱才用它" class="headerlink" title="decimal：算钱才用它"></a>decimal：算钱才用它</h3><div class="note green no-icon flat"><p><span class='p cyan'>decimal</span> 不在这次截图里，但先记个脸熟：金额、计费这种「一分都不能差」的场景，用 <span class='p red'>decimal</span> 而不是 float / double。它更精确，代价是运算稍慢、占内存稍多。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">decimal</span> price = <span class="number">19.99</span>M;    <span class="comment">// 加 M 后缀</span></span><br><span class="line">Console.WriteLine(price);</span><br></pre></td></tr></table></figure>
-
 <hr>
 <h2 id="五、一个必须知道的坑：溢出"><a href="#五、一个必须知道的坑：溢出" class="headerlink" title="五、一个必须知道的坑：溢出"></a>五、一个必须知道的坑：溢出</h2><div class="note red no-icon flat"><p>「溢出」就是往小杯子里硬倒大桶水，水会漫出来。数据也一样——超过了类型能装的范围，数字会变错。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// byte 最大只能到 255</span></span><br><span class="line"><span class="built_in">byte</span> b = <span class="number">200</span>;</span><br><span class="line">b = <span class="number">200</span> + <span class="number">100</span>;   <span class="comment">// 300 超过了 255，会报错（编译时就能发现）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 更隐蔽的是运行时溢出</span></span><br><span class="line"><span class="built_in">int</span> max = <span class="number">2147483647</span>;</span><br><span class="line"><span class="built_in">int</span> result = max + <span class="number">1</span>;   <span class="comment">// 会变成 -2147483648，绕回到最负数</span></span><br><span class="line">Console.WriteLine(result);</span><br></pre></td></tr></table></figure>
-
 <div class="tip warning"><p>整数选型时，先想想「这个数最大会到多少」。计件数可能到 21 亿吗？可能就要用 <span class='p cyan'>long</span>。这就是选类型的第一原则：<span class='p red'>宁大勿小</span>，装得下比省内存更重要（尤其新手阶段）。</p>
 </div>
-
 <hr>
 <h2 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h2><div class="note green no-icon flat"><p>这一篇我们学了数值类型全家桶：</p>
 <ul>
-<li>8 种整型：<span class='p blue'>sbyte &#x2F; byte &#x2F; short &#x2F; ushort &#x2F; int &#x2F; uint &#x2F; long &#x2F; ulong</span>，越往后越大。</li>
+<li>8 种整型：<span class='p blue'>sbyte / byte / short / ushort / int / uint / long / ulong</span>，越往后越大。</li>
 <li>2 种浮点：<span class='p blue'>float</span>（加 F）、<span class='p blue'>double</span>（默认）。</li>
 <li>1 个算钱的：<span class='p blue'>decimal</span>（加 M）。</li>
 </ul>
@@ -370,7 +349,6 @@
 <p><span class='p red'>有 S 能负数，没 S 全正数</span>；<span class='p blue'>小数看后缀</span>（F 是 float，M 是 decimal，double 不用加）。</p>
 </blockquote>
 </div>
-
 <div class="tip home"><p>下一步建议：</p>
 <ol>
 <li>在 Visual Studio 里把每种整型都声明一次、打印一次，看范围和输出。</li>
@@ -378,7 +356,6 @@
 <li>下一篇我们学「变量与赋值」，把这些类型真的装进带名字的盒子里用起来。</li>
 </ol>
 </div>
-
 <hr>
 <h2 id="七、能跑起来的小练习"><a href="#七、能跑起来的小练习" class="headerlink" title="七、能跑起来的小练习"></a>七、能跑起来的小练习</h2><details class="folding-tag" cyan open><summary> 点我看完整练习代码 </summary>
               <div class='content'>
