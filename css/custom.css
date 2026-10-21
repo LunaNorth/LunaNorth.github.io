@@ -1643,8 +1643,9 @@ tbody tr:last-child td {
    模板：themes/butterfly/layout/includes/mixins/study-badge.pug
    ============================================================ */
 
-/* 基础印章样式：跟随卡片标题字号缩放 */
-#recent-posts > .recent-post-item > .recent-post-info > .article-title .study-badge {
+/* 基础印章样式：跟随所在标题的字号缩放 */
+#recent-posts > .recent-post-item > .recent-post-info > .article-title .study-badge,
+.article-sort .article-sort-item-title .study-badge {
   display: inline-block;
   margin-right: 8px;
   padding: 1px 6px;
@@ -1664,6 +1665,13 @@ tbody tr:last-child td {
   -ms-transform: none;
   -o-transform: none;
   transform: none;
+}
+
+/* 归档页标题比首页卡片小一档，徽章适当放大些才看得清 */
+.article-sort .article-sort-item-title .study-badge {
+  margin-right: 7px;
+  padding: 1px 7px;
+  font-size: 0.78em;
 }
 
 /* ---- 四种状态配色 ---- */
