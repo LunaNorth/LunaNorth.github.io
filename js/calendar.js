@@ -67,25 +67,28 @@ function cardRefreshTimes() {
 
     // 本年进度(闰年 366 天动态修正)
     const yearBar = e.querySelector('#pBar_year')
+    const yearPct = Math.min((asideDay / yearDays) * 100, 100).toFixed(1)
     yearBar.max = yearDays
     yearBar.value = Math.min(asideDay, yearDays)
-    e.querySelector('#p_span_year').innerText = ((asideDay / yearDays) * 100).toFixed(1) + '%'
-    e.querySelector('.schedule-r0 .aside-span2 a').innerText = Math.max(0, (yearDays - asideDay)).toFixed(0)
+    e.querySelector('#p_span_year').innerText = yearPct + '%'
+    e.querySelector('.schedule-item:nth-child(1) .aside-span2 a').innerText = Math.max(0, (yearDays - asideDay)).toFixed(0) + ' 天'
 
     // 本月进度
     const monthBar = e.querySelector('#pBar_month')
+    const monthPct = ((date / dates) * 100).toFixed(1)
     monthBar.max = dates
     monthBar.value = date
-    e.querySelector('#p_span_month').innerText = ((date / dates) * 100).toFixed(1) + '%'
-    e.querySelector('.schedule-r1 .aside-span2 a').innerText = (dates - date)
+    e.querySelector('#p_span_month').innerText = monthPct + '%'
+    e.querySelector('.schedule-item:nth-child(2) .aside-span2 a').innerText = (dates - date) + ' 天'
 
     // 本周进度
     const wd = week === 0 ? 7 : week
     const weekBar = e.querySelector('#pBar_week')
+    const weekPct = ((wd / 7) * 100).toFixed(1)
     weekBar.value = wd
     weekBar.max = 7
-    e.querySelector('#p_span_week').innerText = ((wd / 7) * 100).toFixed(1) + '%'
-    e.querySelector('.schedule-r2 .aside-span2 a').innerText = (7 - wd)
+    e.querySelector('#p_span_week').innerText = weekPct + '%'
+    e.querySelector('.schedule-item:nth-child(3) .aside-span2 a').innerText = (7 - wd) + ' 天'
 }
 
 function cardTimes() {

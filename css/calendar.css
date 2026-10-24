@@ -1,132 +1,146 @@
 /* ============================================================
    侧边栏节日进度卡片(card_schedule.pug)
-   基于 June 方案,配色走 universe.css 的 --june-* 变量(暗色自动适配)
+   现代仪表盘风格:标题行 + 大数字 + 三条细进度条
+   配色走 universe.css 的 --june-* 变量(暗色自动适配)
    注:日历卡片已移除,农历库 chinese-lunar 仍被节日倒计时使用
    ============================================================ */
 
-/* ---- 节日进度卡片 ---- */
 #card-schedule {
-    display: flex;
-    padding: 18px 10px !important;
+    padding: 16px 18px !important;
 }
 
-#schedule-area-right a {
-    pointer-events: none;
-    color: var(--text-highlight-color);
-}
-
-#schedule-area-left, #schedule-area-right {
-    height: 100px;
+/* ---- 标题行:图标 + 节日名 | 日期 ---- */
+.schedule-head {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
 }
 
-#schedule-area-left {
-    width: 30%;
-}
-
-#schedule-area-right {
-    width: 70%;
-    padding: 0 5px;
-}
-
-.schedule-r0, .schedule-r1, .schedule-r2 {
-    height: 2rem;
-    width: 100%;
-    align-items: center;
+.schedule-head-left {
     display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
-.schedule-d0 {
-    width: 30px;
-    margin-right: 5px;
-    text-align: center;
+.schedule-head-left i {
+    font-size: 13px;
+    color: var(--june-lighttext);
+}
+
+#schedule-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--june-fontcolor);
+    line-height: 1;
+}
+
+#schedule-date {
     font-size: 12px;
+    color: var(--june-secondtext);
+    line-height: 1;
+}
+
+/* ---- 倒计时大数字 ---- */
+.schedule-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin: 12px 0 16px;
+}
+
+#schedule-days {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--june-lighttext);
+    letter-spacing: 1px;
+}
+
+.schedule-days-unit {
+    font-size: 13px;
+    color: var(--june-secondtext);
+}
+
+/* ---- 三条进度 ---- */
+.schedule-item + .schedule-item {
+    margin-top: 12px;
+}
+
+.schedule-item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.schedule-item-name {
+    font-weight: 600;
     color: var(--june-fontcolor);
 }
 
-.schedule-d1 {
-    width: calc(100% - 35px);
-    height: 1.5rem;
-    align-items: center;
+.schedule-item-meta {
     display: flex;
-    position: relative;
+    align-items: center;
+    gap: 5px;
+    color: var(--june-secondtext);
+}
+
+.aside-span1 {
+    color: var(--june-lighttext);
+    font-weight: 700;
+}
+
+.schedule-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.7;
+}
+
+.aside-span2 a {
+    color: var(--june-fontcolor);
+    font-weight: 600;
+    margin: 0 1px;
+}
+
+/* ---- 细进度条 ---- */
+#pBar_month, #pBar_week, #pBar_year {
+    display: block;
+    width: 100%;
+    height: 8px;
+    border: none;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--june-secondbg);
+    overflow: hidden;
+    margin: 0;
 }
 
 progress::-webkit-progress-bar {
     background: var(--june-secondbg);
-    border-radius: 5px;
-    overflow: hidden;
+    border-radius: 4px;
 }
 
 progress::-webkit-progress-value {
-    background: var(--june-lighttext);
-    border-radius: 5px;
+    background: linear-gradient(90deg, #3b70fc 0%, #6b97ff 100%);
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-progress {
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
+[data-theme="dark"] progress::-webkit-progress-value {
+    background: linear-gradient(90deg, #4d8bfd 0%, #6b97ff 100%);
 }
 
-.aside-span1, .aside-span2 {
-    height: 1rem;
-    font-size: 12px;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    position: absolute;
+/* Firefox */
+progress::-moz-progress-bar {
+    background: linear-gradient(90deg, #3b70fc 0%, #6b97ff 100%);
+    border-radius: 4px;
 }
 
-.aside-span1 {
-    margin-left: 6px;
-    /* 百分比叠在进度条填充色上:用卡片底色自动反色(亮色蓝底白字,暗色金底深字) */
-    color: var(--june-card-bg);
-    font-weight: 600;
-}
-
-.aside-span2 {
-    right: 8px;
-    color: var(--june-secondtext);
-}
-
-.aside-span2 a {
-    margin: 0 3px;
-}
-
-#pBar_month, #pBar_week, #pBar_year {
-    width: 100%;
-    border-radius: 5px;
-    height: 100%;
-}
-
-#schedule-date, #schedule-days, #schedule-title {
-    display: flex;
-    align-items: center;
-}
-
-#schedule-title {
-    height: 25px;
-    line-height: 1;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--june-fontcolor);
-}
-
-#schedule-days {
-    height: 55px;
-    line-height: 1;
-    font-size: 35px;
-    font-weight: 900;
-    color: var(--june-lighttext);
-}
-
-#schedule-date {
-    height: 20px;
-    line-height: 1;
-    font-size: 12px;
-    color: var(--june-secondtext);
+[data-theme="dark"] progress::-moz-progress-bar {
+    background: linear-gradient(90deg, #4d8bfd 0%, #6b97ff 100%);
 }
