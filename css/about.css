@@ -66,10 +66,10 @@
   color: var(--june-secondtext, #999);
 }
 
-/* ---- 统计磁贴(顶部内容数据 + 底部站点运行数据,同一套样式) ---- */
+/* ---- 统计磁贴 ---- */
 #about-page .wb-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 14px;
 }
 
@@ -220,7 +220,7 @@
   border-color: #6b97ff;
 }
 
-/* ---- 创作指数(语雀风格) ---- */
+/* ---- 创作热力图 ---- */
 #about-page .wb-heat-scroll {
   overflow-x: auto;
   padding-bottom: 4px;
@@ -230,93 +230,49 @@
   min-width: 640px;
 }
 
-/* 图例:不活跃 □□□□□□ 活跃 */
-#about-page .wb-heat-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-#about-page .wb-heat-legend {
-  display: flex;
-  align-items: center;
+/* 53 列 × 7 行,大圆角格子,大小随卡片宽度伸缩 */
+#about-page .wb-heat-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 22px);
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   gap: 5px;
 }
 
-#about-page .wb-legend-text {
-  font-size: 12px;
-  color: var(--june-secondtext, #999);
-}
-
-#about-page .wb-legend-cell {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  display: inline-block;
-}
-
-#about-page .wb-legend-cell.lgc0 { background: #eef1ef; }
-#about-page .wb-legend-cell.lgc1 { background: #d5eeda; }
-#about-page .wb-legend-cell.lgc2 { background: #a5ddb5; }
-#about-page .wb-legend-cell.lgc3 { background: #62c98c; }
-#about-page .wb-legend-cell.lgc4 { background: #2da26a; }
-#about-page .wb-legend-cell.lgc5 { background: #0b7a4b; }
-
-[data-theme="dark"] #about-page .wb-legend-cell.lgc0 { background: #2d333b; }
-[data-theme="dark"] #about-page .wb-legend-cell.lgc1 { background: #17402b; }
-[data-theme="dark"] #about-page .wb-legend-cell.lgc2 { background: #1f6b3a; }
-[data-theme="dark"] #about-page .wb-legend-cell.lgc3 { background: #2ea043; }
-[data-theme="dark"] #about-page .wb-legend-cell.lgc4 { background: #39d353; }
-[data-theme="dark"] #about-page .wb-legend-cell.lgc5 { background: #7ee787; }
-
-/* 53 列 × 7 行,格子大小随卡片宽度伸缩 */
-#about-page .wb-heat-grid {
-  display: grid;
-  grid-template-rows: repeat(7, 15px);
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 4px;
-}
-
 #about-page .wb-heat-cell {
-  border-radius: 4px;
-  background: #eef1ef;
+  border-radius: 5px;
+  background: #f0f2f0;
 }
 
-#about-page .wb-heat-cell.lv1 { background: #d5eeda; }
-#about-page .wb-heat-cell.lv2 { background: #a5ddb5; }
-#about-page .wb-heat-cell.lv3 { background: #62c98c; }
-#about-page .wb-heat-cell.lv4 { background: #2da26a; }
-#about-page .wb-heat-cell.lv5 { background: #0b7a4b; }
-#about-page .wb-heat-cell.future { opacity: 0.35; }
+#about-page .wb-heat-cell.lv1 { background: #d8eedd; }
+#about-page .wb-heat-cell.lv2 { background: #aadcb9; }
+#about-page .wb-heat-cell.lv3 { background: #7cc99a; }
+#about-page .wb-heat-cell.lv4 { background: #4db87d; }
+#about-page .wb-heat-cell.future { opacity: 0.45; }
 
 [data-theme="dark"] #about-page .wb-heat-cell { background: #2d333b; }
-[data-theme="dark"] #about-page .wb-heat-cell.lv1 { background: #17402b; }
-[data-theme="dark"] #about-page .wb-heat-cell.lv2 { background: #1f6b3a; }
-[data-theme="dark"] #about-page .wb-heat-cell.lv3 { background: #2ea043; }
+[data-theme="dark"] #about-page .wb-heat-cell.lv1 { background: #0e4429; }
+[data-theme="dark"] #about-page .wb-heat-cell.lv2 { background: #006d32; }
+[data-theme="dark"] #about-page .wb-heat-cell.lv3 { background: #26a641; }
 [data-theme="dark"] #about-page .wb-heat-cell.lv4 { background: #39d353; }
-[data-theme="dark"] #about-page .wb-heat-cell.lv5 { background: #7ee787; }
 
+/* 月份标签:1月→12月 均匀分布 */
 #about-page .wb-heat-months {
-  display: grid;
-  grid-template-columns: repeat(53, 1fr);
-  gap: 3px;
-  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
 #about-page .wb-heat-months span {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--june-secondtext, #999);
-  white-space: nowrap;
-  overflow: visible;
 }
 
-/* ---- 每月发布柱状图 ---- */
+/* ---- 每月发布柱状图:灰轨道 + 圆角绿色填充,数量/月份在轨道下方 ---- */
 #about-page .wb-bars {
   display: flex;
   align-items: flex-end;
-  gap: 10px;
+  gap: 14px;
   padding-top: 6px;
 }
 
@@ -325,22 +281,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
-}
-
-#about-page .wb-bar-count {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--june-secondtext, #999);
-  line-height: 1;
 }
 
 #about-page .wb-bar-track {
   width: 100%;
-  max-width: 46px;
-  height: 140px;
-  border-radius: 6px;
+  max-width: 84px;
+  height: 240px;
+  border-radius: 10px;
   background: #f0f2f5;
   display: flex;
   align-items: flex-end;
@@ -353,8 +302,8 @@
 
 #about-page .wb-bar-fill {
   width: 100%;
-  border-radius: 6px 6px 0 0;
-  background: linear-gradient(180deg, #5adb7b 0%, #2ea44f 100%);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #63cc8e 0%, #2ea968 100%);
   transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -362,12 +311,25 @@
   background: linear-gradient(180deg, #39d353 0%, #0e4429 100%);
 }
 
+#about-page .wb-bar-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--june-secondtext, #888);
+  line-height: 1;
+}
+
 #about-page .wb-bar-label {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--june-secondtext, #999);
 }
 
 /* ---- 响应式 ---- */
+@media screen and (max-width: 1100px) {
+  #about-page .wb-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media screen and (max-width: 768px) {
   #about-page .wb-row {
     grid-template-columns: 1fr;
