@@ -397,6 +397,16 @@
   gap: 12px;
 }
 
+/* ---- 文章统计图表:加高容器(压过插件注入的 300px 默认) ---- */
+#about-page #posts-chart,
+#about-page #tags-chart {
+  height: 350px !important;
+}
+
+#about-page #categories-chart {
+  height: 500px !important;
+}
+
 #about-page .wb-ov-tile {
   background: var(--june-secondbg, #f7f7f9);
   border-radius: 10px;

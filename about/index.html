@@ -172,7 +172,8 @@
           containLabel: true
         },
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            formatter: function (p) { return p[0].axisValue + '<br/>✒️ 文章 : ' + p[0].value + ' 篇'; }
         },
         xAxis: {
             name: '日期',
@@ -215,33 +216,34 @@
                 type: 'line',
                 smooth: true,
                 lineStyle: {
-                    width: 0
+                    width: 2.5,
+                    color: '#3b70fc'
                 },
                 showSymbol: false,
                 itemStyle: {
                     opacity: 1,
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: 'rgba(128, 255, 165)'
+                      color: 'rgba(59, 112, 252, 1)'
                     },
                     {
                       offset: 1,
-                      color: 'rgba(1, 191, 236)'
+                      color: 'rgba(59, 112, 252, 1)'
                     }])
                   },
                   areaStyle: {
                     opacity: 1,
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: 'rgba(128, 255, 165)'
+                      color: 'rgba(59, 112, 252, 0.5)'
                     }, {
                       offset: 1,
-                      color: 'rgba(1, 191, 236)'
+                      color: 'rgba(59, 112, 252, 0.04)'
                     }])
                   },
                 data: [0,0,19,0,0,0,0,0,0,4,9,7,15],
                 markLine: {
-                    itemStyle: {color: ['#ab47bc']},
+                    itemStyle: {color: ['#3b70fc']},
                     data: [
                         {type: 'average', name: '平均值'}
                     ]
@@ -250,6 +252,7 @@
         ]
     };
     postsChart.setOption(postsOption);
+    postsChart.on('click', function () { window.location.href = '/archives/'; });
     window.addEventListener("resize", () => { 
         postsChart.resize();
       });
@@ -319,15 +322,18 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 data: [15,7,4,4,3,3,3,2,2,2],
+                barMaxWidth: 42,
+                barCategoryGap: '45%',
                 itemStyle: {
+                    borderRadius: [8, 8, 0, 0],
                     opacity: 1,
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                       offset: 0,
-                      color: 'rgba(128, 255, 165)'
+                      color: 'rgba(99, 204, 142)'
                     },
                     {
                       offset: 1,
-                      color: 'rgba(1, 191, 236)'
+                      color: 'rgba(46, 169, 104)'
                     }])
                   },
                   emphasis: {
@@ -335,11 +341,11 @@
                       opacity: 1,
                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                         offset: 0,
-                        color: 'rgba(128, 255, 195)'
+                        color: 'rgba(126, 231, 163)'
                       },
                       {
                         offset: 1,
-                        color: 'rgba(1, 211, 255)'
+                        color: 'rgba(66, 190, 128)'
                       }])
                     }
                   },
@@ -351,12 +357,12 @@
                         name: '最大值'
                     }, {
                         type: 'min',
-                        itemStyle: {color: ['#fa755a']},
+                        itemStyle: {color: ['#4d8bfd']},
                         name: '最小值'
                     }],
                 },
                 markLine: {
-                    itemStyle: {color: ['#ab47bc']},
+                    itemStyle: {color: ['#2ea968']},
                     data: [
                         {type: 'average', name: '平均值'}
                     ]
@@ -365,6 +371,7 @@
         ]
     };
     tagsChart.setOption(tagsOption);
+    tagsChart.on('click', function (params) { window.location.href = '/tags/' + encodeURIComponent(params.name) + '/'; });
     </script><div id="categories-chart"></div>
   <script id="categoriesChart" data-pjax="">
     var color = '#6e7f98';
@@ -389,9 +396,18 @@
                 name: '✒️文章篇数',
                 type: 'pie',
                 roseType: 'radius',
-                radius: ['28%', '75%'],
-                color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"WPF","value":16},{"name":"Modbus","value":5},{"name":"SQLServer","value":2},{"name":"月影墨书","value":6},{"name":"北的友人帐","value":1},{"name":"思源笔记","value":4},{"name":"经验分享","value":9},{"name":"CSharp","value":7},{"name":"WinForm","value":3},{"name":"学习笔记","value":1}],
+                radius: ['30%', '78%'],
+                center: ['50%', '56%'],
+                avoidLabelOverlap: true,
+                label: {
+                    fontSize: 13
+                },
+                labelLine: {
+                    length: 18,
+                    length2: 24
+                },
+                color: ['#3b70fc', '#4d8bfd', '#2ea968', '#63cc8e', '#a5ddb5', '#22c1dc', '#4259ef', '#94b0ff', '#6b97ff'],
+                data: [{"name":"Modbus","value":5},{"name":"SQLServer","value":2},{"name":"WPF","value":16},{"name":"月影墨书","value":6},{"name":"思源笔记","value":4},{"name":"北的友人帐","value":1},{"name":"经验分享","value":9},{"name":"CSharp","value":7},{"name":"学习笔记","value":1},{"name":"WinForm","value":3}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -403,6 +419,7 @@
         ]
     };
     categoriesChart.setOption(categoriesOption);
+    categoriesChart.on('click', function (params) { window.location.href = '/categories/' + encodeURIComponent(params.name) + '/'; });
     </script></div></div><script src="/js/countup.js"></script><script>var initAboutPage = () => {
     if (!document.querySelector('#about-page')) return;
     const readNum = (id) => {
