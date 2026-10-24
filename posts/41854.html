@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CSharp数值类型的自动转换和强制转换 | 春熙景明</title><meta name="author" content="春熙景明"><meta name="copyright" content="春熙景明"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="类型转换就是把一种类型的数据，变成另一种类型。   上位机里这种需求天天有：PLC 读上来的原始值常常是 int，换算工程量要用 double，算完又要显示成文字给操作员看。这一路就得不断做类型转换。这篇就讲两种转换：自动转换和强制转换。   本篇目标：分清「自动转换」和「强制转换」什么时候发生、会不会丢数据，能自己写转换代码，知道两个最容易踩的坑。    一、先打个比方：大杯子和杯子记住这个比喻">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CSharp数值类型的自动转换和强制转换 | 春熙景明</title><meta name="author" content="春熙景明"><meta name="copyright" content="春熙景明"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="类型转换就是把一种类型的数据，变成另一种类型。  上位机里这种需求天天有：PLC 读上来的原始值常常是 int，换算工程量要用 double，算完又要显示成文字给操作员看。这一路就得不断做类型转换。这篇就讲两种转换：自动转换和强制转换。  本篇目标：分清「自动转换」和「强制转换」什么时候发生、会不会丢数据，能自己写转换代码，知道两个最容易踩的坑。   一、先打个比方：大杯子和杯子记住这个比喻，整篇">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSharp数值类型的自动转换和强制转换">
 <meta property="og:url" content="https://lunanorth.github.io/posts/41854.html">
 <meta property="og:site_name" content="春熙景明">
-<meta property="og:description" content="类型转换就是把一种类型的数据，变成另一种类型。   上位机里这种需求天天有：PLC 读上来的原始值常常是 int，换算工程量要用 double，算完又要显示成文字给操作员看。这一路就得不断做类型转换。这篇就讲两种转换：自动转换和强制转换。   本篇目标：分清「自动转换」和「强制转换」什么时候发生、会不会丢数据，能自己写转换代码，知道两个最容易踩的坑。    一、先打个比方：大杯子和杯子记住这个比喻">
+<meta property="og:description" content="类型转换就是把一种类型的数据，变成另一种类型。  上位机里这种需求天天有：PLC 读上来的原始值常常是 int，换算工程量要用 double，算完又要显示成文字给操作员看。这一路就得不断做类型转换。这篇就讲两种转换：自动转换和强制转换。  本篇目标：分清「自动转换」和「强制转换」什么时候发生、会不会丢数据，能自己写转换代码，知道两个最容易踩的坑。   一、先打个比方：大杯子和杯子记住这个比喻，整篇">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260903084320936.jpg">
 <meta property="article:published_time" content="2026-09-03T00:41:34.000Z">
@@ -158,17 +158,13 @@
   white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
 <link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">54</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/NorthCJ/img-cloud/raw/master/images/20260903084320936.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="春熙景明"><img class="site-icon" src="/img/moon.png"/><span class="site-name">春熙景明</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw far fa-paper-plane"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/essay/"><i class="fa-fw fas fa-comments"></i><span> 碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/collect/"><i class="fa-fw fa fa-book"></i><span> 藏宝阁</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSharp数值类型的自动转换和强制转换</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-03T00:41:34.000Z" title="发表于 2026-09-03 08:41:34">2026-09-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-03T00:43:47.107Z" title="更新于 2026-09-03 08:43:47">2026-09-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CSharp/">CSharp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSharp数值类型的自动转换和强制转换"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="note icon-padding flat"><i class="note-icon fas fa-lightbulb"></i><p>类型转换就是把一种类型的数据，变成另一种类型。</p>
 </div>
-
 <div class="note default default标签 flat"><p>上位机里这种需求天天有：PLC 读上来的原始值常常是 int，换算工程量要用 double，算完又要显示成文字给操作员看。这一路就得不断做类型转换。这篇就讲两种转换：自动转换和强制转换。</p>
 </div>
-
 <div class="note info info标签 flat"><p>本篇目标：分清「自动转换」和「强制转换」什么时候发生、会不会丢数据，能自己写转换代码，知道两个最容易踩的坑。</p>
 </div>
-
 <hr>
 <h2 id="一、先打个比方：大杯子和杯子"><a href="#一、先打个比方：大杯子和杯子" class="headerlink" title="一、先打个比方：大杯子和杯子"></a>一、先打个比方：大杯子和杯子</h2><div class="note icon-padding flat"><i class="note-icon fas fa-bullhorn"></i><p>记住这个比喻，整篇都靠它。</p>
 </div>
-
 <p>想象两个杯子：</p>
 <ul>
 <li><span class='p blue'>小杯子</span>倒进 <span class='p green'>大杯子</span>：水不会洒，安全，随便倒。</li>
@@ -178,37 +174,28 @@
 <hr>
 <h2 id="二、自动转换（隐式转换）"><a href="#二、自动转换（隐式转换）" class="headerlink" title="二、自动转换（隐式转换）"></a>二、自动转换（隐式转换）</h2><div class="note primary primary标签 flat"><p>自动转换就是「小转大」，电脑自动帮你完成，不用写任何东西，也不会丢数据。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">byte</span> b = <span class="number">100</span>;     <span class="comment">// 小：byte</span></span><br><span class="line">        <span class="built_in">int</span> i = b;        <span class="comment">// 自动转成 int，不用写任何东西</span></span><br><span class="line">        <span class="built_in">long</span> l = i;       <span class="comment">// int 自动转 long</span></span><br><span class="line">        <span class="built_in">double</span> d = i;     <span class="comment">// int 自动转 double（整数转小数，安全）</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(b);   <span class="comment">// 100</span></span><br><span class="line">        Console.WriteLine(i);   <span class="comment">// 100</span></span><br><span class="line">        Console.WriteLine(l);   <span class="comment">// 100</span></span><br><span class="line">        Console.WriteLine(d);   <span class="comment">// 100</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <div class="note success success标签 flat"><p>上面的代码直接就能跑，没有报错。因为 byte 的范围完全装得进 int，int 装得进 long，int 也能无损转成 double。电脑一看「这是安全的」，就自动帮你转了。</p>
 </div>
-
 <div class="tip info"><p>自动转换的方向是「小到大、整数到小数」。判断标准就一条：目标类型能不能完整装下原来的值。装得下就自动转。</p>
 </div>
-
 <hr>
 <h2 id="三、强制转换（显式转换）"><a href="#三、强制转换（显式转换）" class="headerlink" title="三、强制转换（显式转换）"></a>三、强制转换（显式转换）</h2><div class="note warning warning标签 flat"><p>强制转换就是「大转小」，电脑不帮你，必须你自己写代码，而且可能丢数据。</p>
 </div>
-
 <div class="note icon-padding flat"><i class="note-icon fas fa-exclamation-triangle"></i><p>强制转换的写法：在值前面加括号和类型。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">double</span> d = <span class="number">25.6</span>;</span><br><span class="line">        <span class="built_in">int</span> i = (<span class="built_in">int</span>)d;    <span class="comment">// 强制转 int，小数部分直接砍掉</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(d);   <span class="comment">// 25.6</span></span><br><span class="line">        Console.WriteLine(i);   <span class="comment">// 25</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" green><summary> 看清楚：小数是怎么丢的 </summary>
               <div class='content'>
               <p><code>25.6</code> 转成 int 后变成了 <code>25</code>，小数点后的 0.6 被直接砍掉了，不是四舍五入。这就是「强制转换会丢数据」的意思——大杯子倒小杯子，水洒出来一部分。</p>
               </div>
             </details>
-
 <div class="tip warning"><p>强制转换的语法是 <code>(目标类型)值</code>，比如 <code>(int)d</code>。括号里写你想转成的类型。</p>
 </div>
-
 <hr>
 <h2 id="四、一张表记住谁能自动转"><a href="#四、一张表记住谁能自动转" class="headerlink" title="四、一张表记住谁能自动转"></a>四、一张表记住谁能自动转</h2><div class="note primary primary标签 flat"><p>自动转换有个固定方向，从范围小的一直往范围大的走。下面这张表从下往上，就是自动转换的方向。</p>
 </div>
-
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -216,7 +203,8 @@
 <th>范围</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>double</td>
 <td>最大，带小数</td>
 </tr>
@@ -240,7 +228,9 @@
 <td>byte</td>
 <td>最小整数</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <div class="note danger danger标签 flat"><p>记两个关键结论：</p>
 <ul>
 <li>整数之间，范围小的能自动转范围大的：byte 到 short、int、long。</li>
@@ -248,45 +238,34 @@
 <li>反过来，double 转 int、long 转 int，都必须强制转换，还可能丢数据。</li>
 </ul>
 </div>
-
 <details class="folding-tag" cyan open><summary> 完整对照：哪些能自动转 </summary>
               <div class='content'>
-              <table><thead><tr><th>从</th><th>到</th><th>能不能自动</th></tr></thead><tbody><tr><td>byte</td><td>int</td><td>能</td></tr><tr><td>int</td><td>long</td><td>能</td></tr><tr><td>int</td><td>double</td><td>能</td></tr><tr><td>short</td><td>int</td><td>能</td></tr><tr><td>double</td><td>int</td><td>不能，要强制</td></tr><tr><td>long</td><td>int</td><td>不能，要强制</td></tr><tr><td>float</td><td>double</td><td>能</td></tr><tr><td>double</td><td>float</td><td>不能，要强制</td></tr></tbody></table><p>一句话：<span class='p red'>小的能自动变大的</span>，<span class='p blue'>大的变小的必须强制</span>。</p>
+              <div class="table-container"><table><thead><tr><th>从</th><th>到</th><th>能不能自动</th></tr></thead><tbody><tr><td>byte</td><td>int</td><td>能</td></tr><tr><td>int</td><td>long</td><td>能</td></tr><tr><td>int</td><td>double</td><td>能</td></tr><tr><td>short</td><td>int</td><td>能</td></tr><tr><td>double</td><td>int</td><td>不能，要强制</td></tr><tr><td>long</td><td>int</td><td>不能，要强制</td></tr><tr><td>float</td><td>double</td><td>能</td></tr><tr><td>double</td><td>float</td><td>不能，要强制</td></tr></tbody></table></div><p>一句话：<span class='p red'>小的能自动变大的</span>，<span class='p blue'>大的变小的必须强制</span>。</p>
               </div>
             </details>
-
 <hr>
 <h2 id="五、强制转换的两个坑"><a href="#五、强制转换的两个坑" class="headerlink" title="五、强制转换的两个坑"></a>五、强制转换的两个坑</h2><div class="note danger danger标签 flat"><p>强制转换最怕两件事：丢小数、溢出。下面分别看。</p>
 </div>
-
 <h3 id="坑一：丢小数"><a href="#坑一：丢小数" class="headerlink" title="坑一：丢小数"></a>坑一：丢小数</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">double</span> temp = <span class="number">36.9</span>;</span><br><span class="line">        <span class="built_in">int</span> t = (<span class="built_in">int</span>)temp;    <span class="comment">// 变成 36，0.9 没了</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(t);   <span class="comment">// 36</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <div class="tip warning"><p>36.9 转成 int 变成 36，小数被砍掉，不是四舍五入。上位机里温度、压力这种数据如果随便强制转 int，精度就丢了。</p>
 </div>
-
 <h3 id="坑二：溢出"><a href="#坑二：溢出" class="headerlink" title="坑二：溢出"></a>坑二：溢出</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">long</span> big = <span class="number">300</span>;         <span class="comment">// long 装 300 没问题</span></span><br><span class="line">        <span class="built_in">byte</span> small = (<span class="built_in">byte</span>)big; <span class="comment">// 强制转 byte，但 byte 最大只能到 255</span></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(small);   <span class="comment">// 44，不是 300！</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <div class="note danger danger标签 flat"><p>300 转成 byte 后变成了 44，因为 byte 只能装 0 到 255，300 超了，数字被「绕」回去了。这就是溢出。所以大转小之前，一定要想清楚目标类型能不能装下。</p>
 </div>
-
 <details class="folding-tag" red><summary> 为什么 300 会变成 44 </summary>
               <div class='content'>
               <p>byte 只有 8 位，最大装 255。300 比 255 大了 45，多出来的部分从 0 开始重新数，就得到了 44。这个「绕圈」现象叫溢出，新手很容易踩，务必记住：大转小，先想清楚装不装得下。</p>
               </div>
             </details>
-
 <hr>
 <h2 id="六、上位机实战：模拟量换算里的转换"><a href="#六、上位机实战：模拟量换算里的转换" class="headerlink" title="六、上位机实战：模拟量换算里的转换"></a>六、上位机实战：模拟量换算里的转换</h2><div class="note icon-padding flat"><i class="note-icon fas fa-cogs"></i><p>把转换串进之前学的模拟量换算。</p>
 </div>
-
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 1) PLC 读上来的原始值，是 int</span></span><br><span class="line">        <span class="built_in">int</span> raw = <span class="number">13824</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2) 自动转换：int 和 double 一起算，int 自动转成 double</span></span><br><span class="line">        <span class="comment">//    结果 real 是 double，不会丢小数</span></span><br><span class="line">        <span class="built_in">double</span> real = raw / <span class="number">27648.0</span> * <span class="number">100.0</span>;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;实际温度：&quot;</span> + real);   <span class="comment">// 实际温度：50</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3) 强制转换：界面有时只要整数，就转回 int</span></span><br><span class="line">        <span class="built_in">int</span> display = (<span class="built_in">int</span>)real;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;显示温度：&quot;</span> + display); <span class="comment">// 显示温度：50</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <details class="folding-tag" green open><summary> 拆解这段代码的转换过程 </summary>
               <div class='content'>
               <ul><li>第 2 步 <code>raw / 27648.0 * 100.0</code>：raw 是 int，27648.0 是 double。int 和 double 混合运算时，int 自动转成 double，结果就是 double。这是自动转换。</li><li>第 3 步 <code>(int)real</code>：real 是 double，要变回 int 显示，必须强制转换。这里 50 没有小数，所以没丢数据。</li></ul><p>实际温度 50 正好是整数，但如果算出来是 50.5，强制转 int 就会变成 50，小数就丢了。要不要保留小数，取决于你的显示需求。</p>
               </div>
             </details>
-
 <hr>
 <h2 id="七、小结"><a href="#七、小结" class="headerlink" title="七、小结"></a>七、小结</h2><div class="note success success标签 flat"><p>这一篇我们搞懂了两种类型转换：</p>
 <ul>
@@ -298,7 +277,6 @@
 <p>小转大，自动跑；大转小，要强制，当心丢数和溢出。</p>
 </blockquote>
 </div>
-
 <div class='checkbox'><input type="checkbox" />
             <p>能说出自动转换是「小转大、安全」</p>
             </div>
@@ -311,7 +289,6 @@
 <div class='checkbox red checked'><input type="checkbox" checked="checked"/>
             <p>知道大整数转小整数可能溢出</p>
             </div>
-
 <hr>
 <h2 id="八、能跑起来的小练习"><a href="#八、能跑起来的小练习" class="headerlink" title="八、能跑起来的小练习"></a>八、能跑起来的小练习</h2><details class="folding-tag" cyan open><summary> 点我看完整练习代码 </summary>
               <div class='content'>
