@@ -1,12 +1,13 @@
 /* ============================================================
-   关于页（type: "about"）样式
+   关于页（type: "about"）样式 —— 仿 blog.june-pj.cn/about
    结构: themes/butterfly/layout/includes/page/about.pug
    体系: 复用 universe.css 里的 --june-* 全局变量（亮/暗两套）
    说明: 本文件经 inject.head 全站注入，因此所有选择器都圈定在
          #about-page / :has(#about-page) 作用域内，不污染其他页面
+   卡片底色: 亮色为柔和渐变(同 June 亮色观感)，暗色配了一套深色渐变
    ============================================================ */
 
-/* ---- 页面外壳:去掉 #page 默认卡片边框/内边距,铺 june 背景色 ---- */
+/* ---- 页面外壳:去掉 #page 默认卡片边框/内边距 ---- */
 #page:has(#about-page) {
   border: 0;
   box-shadow: none !important;
@@ -50,6 +51,8 @@
 
 #about-typewriter {
   margin: 1.5rem 0;
+  /* 用站内已加载的站酷文艺体,观感同 June 的打字机 */
+  font-family: 'ZhuZiAYuanJWD', 'HarmonyOS_Sans_SC_Medium', sans-serif;
 }
 
 #about-typewriter::after {
@@ -67,6 +70,7 @@
 /* ---- 头像 ---- */
 #about-page .author-box {
   position: relative;
+  margin-top: 2rem;
 }
 
 #about-page .author-box .author-img {
@@ -106,12 +110,12 @@
   margin-top: 1rem;
 }
 
-/* 每张卡片的基础样式 */
+/* 每张卡片的基础样式:无描边 + 轻阴影(同 June 观感),底色由各卡自定 */
 #about-page .author-content-item {
   width: 49%;
   border-radius: 24px;
   background: var(--june-card-bg);
-  border: var(--style-border-always);
+  border: none;
   box-shadow: var(--june-shadow-border);
   position: relative;
   padding: 1rem 2rem;
@@ -125,23 +129,20 @@
   margin-bottom: 0.5rem;
 }
 
-/* ---- 第一行:问好卡(渐变) ---- */
+/* ---- 第一行:问好卡(粉→米渐变,深色字) ---- */
 #about-page .myInfoAndSayHello {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: var(--june-white);
-  background: linear-gradient(120deg, #5b27ff 0, #00d4ff 100%);
-  background-size: 200%;
-  animation: aboutGradient 15s ease infinite;
+  color: var(--june-fontcolor);
+  background: linear-gradient(120deg, #fadadd 0%, #fceee7 55%, #fdf8f0 100%);
   width: 47%;
   gap: 0.5rem;
 }
 
-@keyframes aboutGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+[data-theme="dark"] #about-page .myInfoAndSayHello {
+  color: var(--june-white);
+  background: linear-gradient(120deg, #3f2d3e 0%, #2d2833 60%, #1f1f26 100%);
 }
 
 #about-page .myInfoAndSayHello .title1 {
@@ -154,6 +155,11 @@
   font-weight: 700;
   line-height: 1.1;
   margin: 0.5rem 0;
+  color: #f47466;
+}
+
+[data-theme="dark"] #about-page .myInfoAndSayHello .title2 {
+  color: #f78b7d;
 }
 
 #about-page .inline-word {
@@ -166,6 +172,11 @@
   position: relative;
   width: 52%;
   min-height: 200px;
+  background: linear-gradient(120deg, #f4f6fd 0%, #fdf5f5 100%);
+}
+
+[data-theme="dark"] #about-page .author-content-item.personalities {
+  background: linear-gradient(120deg, #262633 0%, #1b1c20 100%);
 }
 
 #about-page .author-content-item.personalities .title2 {
@@ -283,45 +294,48 @@
   border-radius: 20px !important;
 }
 
-/* ---- 第二行:技能卡 ---- */
+/* ---- 第二行:技能卡(淡蓝渐变 + 大瓷贴) ---- */
 #about-page .author-content-item.skills {
   width: 49%;
+  background: linear-gradient(120deg, #ddf1fb 0%, #ecf8ff 45%, #fbfeff 100%);
+}
+
+[data-theme="dark"] #about-page .author-content-item.skills {
+  background: linear-gradient(120deg, #1e2b36 0%, #1b1c20 70%);
 }
 
 #about-page .skills-style-group .tags-group-all {
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
 }
 
 #about-page .skills-style-group .tags-group-wrapper {
+  width: 100%;
   margin-top: 1.5rem;
   display: flex;
   flex-wrap: wrap;
-  row-gap: 0.5rem;
+  gap: 14px;
 }
 
+/* 成对结构只存在于 pug 里,视觉上打散成均匀网格(同 June 每行 5 个的排布) */
 #about-page .tags-group-icon-pair {
-  margin-left: 1rem;
-  display: flex;
+  display: contents;
 }
 
+/* 大瓷贴:96px 圆角方块,图标居中占六成;5 个正好排满一行 */
 #about-page .tags-group-icon {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 0.5rem 0;
-  width: 118.5px;
-  height: 88px;
-  border-radius: 12px;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.08);
 }
 
 #about-page .tags-group-icon img {
   width: 56px;
   height: 56px;
   margin: 0 auto !important;
-  border-radius: 15px;
-  padding: 8px;
-  box-sizing: border-box;
   object-fit: contain;
 }
 
@@ -364,9 +378,14 @@
   margin-top: 0.5rem;
 }
 
-/* ---- 第二行:生涯卡 ---- */
+/* ---- 第二行:生涯卡(米橙渐变 + CSS 时间轴) ---- */
 #about-page .author-content-item.careers {
   min-height: 400px;
+  background: linear-gradient(120deg, #fdeed8 0%, #fef7ea 55%, #fffdf7 100%);
+}
+
+[data-theme="dark"] #about-page .author-content-item.careers {
+  background: linear-gradient(120deg, #33291c 0%, #1f1e1c 70%);
 }
 
 #about-page .author-content-item.careers .careers-group {
@@ -389,19 +408,42 @@
   color: var(--june-secondtext);
 }
 
-/* 生涯卡底部插画(用自己的图,想换改这里的 url)
-   限高为卡片下部的 46% 条带,避免竖高的图盖住上方文字 */
-#about-page .author-content-item.careers img {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 46%;
-  object-fit: cover;
-  object-position: center 65%;
-  z-index: 1;
-  transition: 0.6s;
-  pointer-events: none;
+/* 时间轴:条带贴在卡片底部(对应 June 的 EDU→SE 图片,这里是纯 CSS,好改年份) */
+#about-page .careers-timeline {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+#about-page .careers-bar-group {
+  position: relative;
+}
+
+#about-page .careers-bar-label {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  color: #357ef5;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+#about-page .careers-bar {
+  height: 26px;
+  border-radius: 14px;
+  background: #357ef5;
+}
+
+#about-page .careers-years {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #c0c4cc;
+}
+
+[data-theme="dark"] #about-page .careers-years {
+  color: #565a63;
 }
 
 /* ---- 第三行:数据统计卡 ---- */
@@ -520,6 +562,11 @@
   align-items: center;
   flex-wrap: wrap;
   height: 40%;
+  background: linear-gradient(120deg, #fdeed8 0%, #f6effc 100%);
+}
+
+[data-theme="dark"] #about-page .author-content-item.selfInfo {
+  background: linear-gradient(120deg, #33291c 0%, #251f33 100%);
 }
 
 #about-page .author-content-item.selfInfo div {
@@ -548,6 +595,11 @@
 
 #about-page .create-site-post {
   line-height: 1.9;
+  background: linear-gradient(120deg, #fdf3e3 0%, #fffaf1 60%, #fffefa 100%);
+}
+
+[data-theme="dark"] #about-page .create-site-post {
+  background: linear-gradient(120deg, #2b2419 0%, #1b1c20 80%);
 }
 
 #about-page .create-site-post .p {
@@ -851,7 +903,7 @@
     font-size: 28px;
   }
 
-  /* 技能图标对太挤,移动端只保留带名字的列表 */
+  /* 技能瓷贴列太挤,移动端只保留带名字的列表 */
   #about-page .skills-style-group .tags-group-all {
     display: none;
   }
@@ -915,9 +967,5 @@
   #about-page .author-content-item .card-content,
   #about-page .author-content-item.careers .card-content {
     padding: 1rem;
-  }
-
-  #about-page .author-content-item.careers img {
-    bottom: 0;
   }
 }
