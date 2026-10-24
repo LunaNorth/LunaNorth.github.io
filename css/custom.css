@@ -363,25 +363,25 @@
 [data-theme="dark"] .parallax>use:nth-child(1) {
   animation-delay: -2s;
   animation-duration: 7s;
-  fill: #18171dc8;
+  fill: rgba(24, 23, 29, 0.2);
 }
 
 [data-theme="dark"] .parallax>use:nth-child(2) {
   animation-delay: -3s;
   animation-duration: 10s;
-  fill: #18171d80;
+  fill: rgba(24, 23, 29, 0.3);
 }
 
 [data-theme="dark"] .parallax>use:nth-child(3) {
   animation-delay: -4s;
   animation-duration: 13s;
-  fill: #18171d3e;
+  fill: rgba(24, 23, 29, 0.38);
 }
 
 [data-theme="dark"] .parallax>use:nth-child(4) {
   animation-delay: -5s;
   animation-duration: 20s;
-  fill: #18171d;
+  fill: rgba(24, 23, 29, 0.45);
 }
 
 @keyframes move-forever {
@@ -1883,5 +1883,13 @@ tbody tr:last-child td {
 
 /* 碎碎念卡片同步半透明 */
 [data-theme="dark"] #bber .timeline ul li.bber-item {
-  background: rgba(27, 28, 32, 0.11) !important;
+  background: rgba(27, 28, 32, 0.45) !important;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* 暗色玻璃体系:工作台卡片加毛玻璃,提升 0.11 透明度下的文字可读性 */
+[data-theme="dark"] #about-page .wb-card {
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
