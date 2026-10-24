@@ -271,7 +271,7 @@
 /* ---- 图表行:左每月发布柱状图,右每日趋势折线图 ---- */
 #about-page .wb-trend-row {
   display: grid;
-  grid-template-columns: 1.9fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
   gap: 14px;
   align-items: stretch;
 }
@@ -302,9 +302,9 @@
 
 #about-page .wb-bar-track {
   width: 100%;
-  max-width: 64px;
-  height: 210px;
-  border-radius: 10px;
+  max-width: 48px;
+  height: 200px;
+  border-radius: 8px;
   background: #f0f2f5;
   display: flex;
   align-items: flex-end;
@@ -317,7 +317,7 @@
 
 #about-page .wb-bar-fill {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(180deg, #63cc8e 0%, #2ea968 100%);
   transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
