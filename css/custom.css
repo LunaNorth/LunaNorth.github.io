@@ -1855,3 +1855,33 @@ tbody tr:last-child td {
 }
 
 
+
+
+/* ============================================================
+   暗色模式全站背景图(亮色模式不受影响)
+   做法:暗色下 body 直接铺背景图(带压暗渐变保证可读),
+   卡片底色改为半透明,浮在背景之上(参考 Solitude 风格)
+   背景图:gitee 云图库,想换图改下面 url 即可
+   ============================================================ */
+[data-theme="dark"] body {
+  /* blend screen:把夜空图的黑色抬升为暗蓝灰,云层清晰可见(贴近参考图色调) */
+  background: linear-gradient(rgba(13, 13, 13, 0.8), rgba(13, 13, 13, 0.8)), url('https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20261024192158501.jpg') center / cover no-repeat fixed #0d0d0d;
+}
+
+/* 卡片半透明:两个底色变量一改,全站暗色卡片自动生效 */
+[data-theme="dark"] {
+  --card-bg: rgba(18, 18, 20, 0.11);
+  --june-card-bg: rgba(27, 28, 32, 0.11);
+}
+
+/* 顶栏吸附状态:半透明 + 毛玻璃 */
+[data-theme="dark"] #page-header.nav-fixed #nav {
+  background: rgba(13, 13, 13, 0.5) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* 碎碎念卡片同步半透明 */
+[data-theme="dark"] #bber .timeline ul li.bber-item {
+  background: rgba(27, 28, 32, 0.11) !important;
+}
