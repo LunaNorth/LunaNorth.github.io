@@ -268,11 +268,26 @@
   color: var(--june-secondtext, #999);
 }
 
-/* ---- 每月发布柱状图:灰轨道 + 圆角绿色填充,数量/月份在轨道下方 ---- */
+/* ---- 图表行:左每月发布柱状图,右每日趋势折线图 ---- */
+#about-page .wb-trend-row {
+  display: grid;
+  grid-template-columns: 1.9fr 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+#about-page .wb-card.wb-monthly,
+#about-page .wb-card.wb-trend {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 每月发布柱状图:灰轨道 + 圆角绿色填充,数量/月份在轨道下方 */
 #about-page .wb-bars {
+  flex: 1;
   display: flex;
   align-items: flex-end;
-  gap: 14px;
+  gap: 10px;
   padding-top: 6px;
 }
 
@@ -287,8 +302,8 @@
 
 #about-page .wb-bar-track {
   width: 100%;
-  max-width: 84px;
-  height: 240px;
+  max-width: 64px;
+  height: 210px;
   border-radius: 10px;
   background: #f0f2f5;
   display: flex;
@@ -321,6 +336,111 @@
 #about-page .wb-bar-label {
   font-size: 14px;
   color: var(--june-secondtext, #999);
+}
+
+/* 折线图卡:svg 撑满剩余高度(等高对齐) */
+#about-page .wb-trend-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--june-secondtext, #999);
+}
+
+#about-page .wb-trend-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2ea968;
+}
+
+#about-page .wb-trend-body {
+  flex: 1;
+  min-height: 220px;
+}
+
+#about-page .wb-trend-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#about-page .wb-trend-line {
+  fill: none;
+  stroke: #2ea968;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#about-page .wb-trend-dot {
+  fill: #fff;
+  stroke: #2ea968;
+  stroke-width: 2;
+}
+
+[data-theme="dark"] #about-page .wb-trend-line { stroke: #39d353; }
+[data-theme="dark"] #about-page .wb-trend-dot { fill: #1b1c20; stroke: #39d353; }
+
+#about-page .wb-trend-xlabel {
+  font-size: 11px;
+  fill: var(--june-secondtext, #999);
+}
+
+[data-theme="dark"] #about-page .wb-trend-xlabel { fill: #a1a2b8; }
+
+/* 本期概览小磁贴(整行六块) */
+#about-page .wb-ov-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+#about-page .wb-ov-tile {
+  background: var(--june-secondbg, #f7f7f9);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+[data-theme="dark"] #about-page .wb-ov-tile {
+  background: #30343f;
+}
+
+#about-page .wb-ov-label {
+  font-size: 12px;
+  color: var(--june-secondtext, #999);
+}
+
+#about-page .wb-ov-numline {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+#about-page .wb-ov-num {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--june-fontcolor, #4c4948);
+  white-space: nowrap;
+}
+
+#about-page .wb-ov-unit {
+  font-size: 12px;
+  color: var(--june-secondtext, #999);
+}
+
+#about-page .wb-ov-sub {
+  font-size: 11px;
+  color: var(--june-secondtext, #999);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ---- 响应式 ---- */
@@ -356,16 +476,11 @@
     padding: 14px 16px;
   }
 
-  #about-page .wb-bar-track {
-    height: 100px;
+  #about-page .wb-trend-row {
+    grid-template-columns: 1fr;
   }
 
-  #about-page .wb-bars {
-    gap: 6px;
-  }
-
-  #about-page .wb-bar-count,
-  #about-page .wb-bar-label {
-    font-size: 10px;
+  #about-page .wb-ov-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
