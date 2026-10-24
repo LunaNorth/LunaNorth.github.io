@@ -1963,7 +1963,28 @@ tbody tr:last-child td {
   background: transparent;
 }
 
-/* 悬停微高亮 */
+/* 悬停微高亮（仅普通 markdown 表格，代码块内不生效——见下一条） */
 [data-theme="dark"] #article-container table tbody tr:hover td {
   background: rgba(255, 255, 255, 0.04);
+}
+
+/* ============================================================
+   暗色代码块：禁止鼠标悬停变色（2026-10-25 用户要求）
+   ------------------------------------------------------------
+   原因：代码块开启行号后会渲染成
+     <figure class="highlight"><table><tbody><tr><td class="gutter">…</td><td class="code">…</td></tr>…
+   每一行都是一个 <tr>，因此会被上面「悬停微高亮」的 table 规则误命中：
+   鼠标扫过代码块时，光标所在行会铺一层 rgba(255,255,255,.04) 白噪，
+   视觉上就是「一整行发亮 / 变灰」。
+
+   亮色模式的对应规则写的是 tbody tr:hover（命中 tr 本身），
+   已经被 #article-container figure.highlight table tbody tr:hover{background:transparent}
+   压掉了，所以只有暗色模式会漏 —— 本条即补齐同样的处理。
+
+   .gutter 的底色其实挂在内部的 .gutter pre 上（var(--hlnumber-bg)），
+   所以把 td 还原成 transparent 完全等价于常态，行号区不会受影响。
+   ============================================================ */
+[data-theme="dark"] #article-container figure.highlight table tbody tr:hover,
+[data-theme="dark"] #article-container figure.highlight table tbody tr:hover td {
+  background: transparent !important;
 }
