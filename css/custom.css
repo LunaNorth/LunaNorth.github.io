@@ -1831,10 +1831,27 @@ tbody tr:last-child td {
 }
 /* 暗色当前页：主题蓝 #3b70fc 在深底上略闷，提亮一档 */
 [data-theme="dark"] #pagination .pagination .page-number.current,
-[data-theme="dark"] #bber-pagination .page-number.current {
+[data-theme="dark"] #bber-pagination .pagination .page-number.current {
   background: #4c7dff;
   border-color: #4c7dff;
   color: #fff;
+}
+
+
+/* ============================================================
+   icat 头图变量补全
+   custom.css（本文件前文）和 todo 清单卡片引用了 --icat-* 系列变量，
+   但这些变量从未在任何地方定义过（原 icat 主题的样式残留），
+   导致 var() 失效：头图大标题继承正文深色，在深色头图上几乎看不清，
+   icat 按钮背景变透明。这里按原设计意图补上定义。
+   ============================================================ */
+:root {
+  --icat-white: #fff;                        /* 头图标题/按钮底色 */
+  --icat-black: #363636;                     /* 按钮文字 */
+  --icat-black-op: rgba(0, 0, 0, 0.15);      /* 按钮阴影 */
+  --icat-blue: #3b70fc;                      /* 按钮 hover */
+  --icat-card-border: #e3e8f7;               /* 暗色 todo 卡边框 */
+  --icat-shadow-border: 0 8px 16px -4px rgba(44, 45, 48, 0.08); /* 卡片阴影 */
 }
 
 

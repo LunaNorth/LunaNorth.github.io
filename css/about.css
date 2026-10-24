@@ -1,0 +1,923 @@
+/* ============================================================
+   关于页（type: "about"）样式
+   结构: themes/butterfly/layout/includes/page/about.pug
+   体系: 复用 universe.css 里的 --june-* 全局变量（亮/暗两套）
+   说明: 本文件经 inject.head 全站注入，因此所有选择器都圈定在
+         #about-page / :has(#about-page) 作用域内，不污染其他页面
+   ============================================================ */
+
+/* ---- 页面外壳:去掉 #page 默认卡片边框/内边距,铺 june 背景色 ---- */
+#page:has(#about-page) {
+  border: 0;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+#page:has(#about-page) .page-title {
+  display: none;
+}
+
+.page:has(#about-page) #footer-wrap {
+  opacity: 1;
+  overflow: visible;
+  height: auto !important;
+  min-height: 16px;
+}
+
+#web_bg ~ .page:has(#about-page) {
+  background: var(--june-background);
+}
+
+/* ---- 标题/打字机 ---- */
+#about-page b,
+#about-page strong {
+  font-weight: bolder;
+  color: var(--june-lighttext);
+}
+
+#about-page p.p.large,
+#about-page span.p.large {
+  font-size: 2.5rem;
+  line-height: 1.4;
+}
+
+#about-page p.p.center,
+#about-page span.p.center {
+  display: block;
+  text-align: center;
+}
+
+#about-typewriter {
+  margin: 1.5rem 0;
+}
+
+#about-typewriter::after {
+  content: '|';
+  animation: aboutBlink 1s step-end infinite;
+  margin-left: 2px;
+  font-weight: 300;
+}
+
+@keyframes aboutBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ---- 头像 ---- */
+#about-page .author-box {
+  position: relative;
+}
+
+#about-page .author-box .author-img {
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 180px;
+  height: 180px;
+}
+
+#about-page .author-box .author-img img {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 180px;
+  height: 180px;
+}
+
+/* 头像右下角的绿点(在线状态) */
+#about-page .author-box .image-dot {
+  width: 45px;
+  height: 45px;
+  background: #6bdf8f;
+  position: absolute;
+  border-radius: 50%;
+  border: 6px solid var(--june-background);
+  top: 50%;
+  left: 50%;
+  transform: translate(35px, 45px);
+}
+
+/* ---- 卡片布局骨架 ---- */
+#about-page .author-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* 每张卡片的基础样式 */
+#about-page .author-content-item {
+  width: 49%;
+  border-radius: 24px;
+  background: var(--june-card-bg);
+  border: var(--style-border-always);
+  box-shadow: var(--june-shadow-border);
+  position: relative;
+  padding: 1rem 2rem;
+  overflow: hidden;
+}
+
+/* 卡片小标题(灰色小字) */
+#about-page .author-content-item .author-content-item-tips {
+  opacity: 0.8;
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+}
+
+/* ---- 第一行:问好卡(渐变) ---- */
+#about-page .myInfoAndSayHello {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--june-white);
+  background: linear-gradient(120deg, #5b27ff 0, #00d4ff 100%);
+  background-size: 200%;
+  animation: aboutGradient 15s ease infinite;
+  width: 47%;
+  gap: 0.5rem;
+}
+
+@keyframes aboutGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#about-page .myInfoAndSayHello .title1 {
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+#about-page .myInfoAndSayHello .title2 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0.5rem 0;
+}
+
+#about-page .inline-word {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+/* ---- 第一行:关于本站卡(复用 personalities 的布局样式) ---- */
+#about-page .author-content-item.personalities {
+  position: relative;
+  width: 52%;
+  min-height: 200px;
+}
+
+#about-page .author-content-item.personalities .title2 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+#about-page .author-content-item.personalities .image {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  width: 200px;
+  transition: transform 2s cubic-bezier(0.13, 0.45, 0.21, 1.02);
+}
+
+#about-page .author-content-item.personalities .image img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+#about-page .author-content-item.personalities:hover .image {
+  transform: rotate(-10deg);
+}
+
+#about-page .author-content-item.personalities .post-tips a {
+  color: var(--june-gray) !important;
+  border: none !important;
+}
+
+#about-page .author-content-item.personalities .post-tips a:hover {
+  color: var(--june-main) !important;
+  background: none !important;
+}
+
+/* ---- 卡片内容层(常规流式;技能/本站等无背景图的卡片用) ---- */
+#about-page .author-content-item .card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+
+/* 统计/生涯卡的内容浮层:压在背景图上,需要绝对定位铺满 */
+#about-page .about-statistic .card-content,
+#about-page .author-content-item.careers .card-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#about-page .author-content-item .card-content .author-content-item-title {
+  margin-bottom: 0.5rem;
+}
+
+#about-page .author-content-item .author-content-item-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---- 卡片底部提示与按钮 ---- */
+#about-page .post-tips {
+  color: var(--june-gray);
+  font-size: 14px;
+  position: absolute;
+  bottom: 1rem;
+  left: 2rem;
+}
+
+#about-page .post-tips a {
+  color: var(--june-gray) !important;
+  border: none !important;
+}
+
+#about-page .post-tips a:hover {
+  color: var(--june-main) !important;
+  background: none !important;
+}
+
+#about-page .author-content-item .card-content .banner-button-group {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+}
+
+#about-page .author-content-item .card-content .banner-button-group .banner-button {
+  height: 40px;
+  width: 124px;
+  border-radius: 20px;
+  justify-content: center;
+  background: var(--june-card-bg);
+  color: var(--font-color);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  transition: 0.3s;
+  cursor: pointer;
+  border-bottom: 0 !important;
+}
+
+#about-page .author-content-item .card-content .banner-button-group .banner-button i {
+  margin-right: 8px;
+  font-size: 1.5rem;
+}
+
+#about-page .author-content-item .card-content .banner-button-group .banner-button:hover {
+  background: var(--june-main);
+  color: var(--june-white);
+  border-radius: 20px !important;
+}
+
+/* ---- 第二行:技能卡 ---- */
+#about-page .author-content-item.skills {
+  width: 49%;
+}
+
+#about-page .skills-style-group .tags-group-all {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#about-page .skills-style-group .tags-group-wrapper {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+#about-page .tags-group-icon-pair {
+  margin-left: 1rem;
+  display: flex;
+}
+
+#about-page .tags-group-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  width: 118.5px;
+  height: 88px;
+  border-radius: 12px;
+}
+
+#about-page .tags-group-icon img {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto !important;
+  border-radius: 15px;
+  padding: 8px;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+#about-page .skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+#about-page .skills-list .skill-info {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
+#about-page .skills-list .skill-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+#about-page .skills-list .skill-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+#about-page .skills-list .skill-name span {
+  font-size: 16px;
+}
+
+#about-page .skills-list .etc {
+  align-self: center;
+  margin-top: 0.5rem;
+}
+
+/* ---- 第二行:生涯卡 ---- */
+#about-page .author-content-item.careers {
+  min-height: 400px;
+}
+
+#about-page .author-content-item.careers .careers-group {
+  margin-top: 12px;
+}
+
+#about-page .author-content-item.careers .careers-item {
+  display: flex;
+  align-items: center;
+}
+
+#about-page .author-content-item.careers .careers-item .circle {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 16px;
+}
+
+#about-page .author-content-item.careers .careers-item .name {
+  color: var(--june-secondtext);
+}
+
+/* 生涯卡底部插画(用自己的图,想换改这里的 url)
+   限高为卡片下部的 46% 条带,避免竖高的图盖住上方文字 */
+#about-page .author-content-item.careers img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 46%;
+  object-fit: cover;
+  object-position: center 65%;
+  z-index: 1;
+  transition: 0.6s;
+  pointer-events: none;
+}
+
+/* ---- 第三行:数据统计卡 ---- */
+#about-page .about-statistic {
+  min-height: 380px;
+  width: 39%;
+  /* 想换自己的背景图:替换 url 即可 */
+  background: url(https://img.june-pj.cn/img/2024/05/640dc8c72f623.webp) no-repeat top;
+  background-size: cover;
+  color: var(--june-white);
+  overflow: hidden;
+}
+
+#about-page .about-statistic::after {
+  box-shadow: 0 -159px 173px 71px #0c1c2c inset;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#about-page #statistic {
+  font-size: 16px;
+  border-radius: 15px;
+  width: 100%;
+  color: var(--june-white);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+#about-page #statistic div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 50%;
+  margin-bottom: 0.5rem;
+}
+
+#about-page #statistic div span:first-child {
+  opacity: 0.8;
+  font-size: 12px;
+}
+
+#about-page #statistic div span:last-child {
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ---- 第三行:居住地 + 基本信息(右侧列) ---- */
+#about-page .author-content-item-group.column {
+  display: flex;
+  flex-direction: column;
+  width: 59%;
+  justify-content: space-between;
+}
+
+#about-page .author-content-item.map {
+  /* 想换自己的城市背景图:替换 url 即可 */
+  background: url(https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20260703082428055.png) no-repeat center;
+  min-height: 160px;
+  max-height: 400px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  height: 60%;
+  background-size: 100%;
+  transition: 1s ease-in-out;
+}
+
+[data-theme="dark"] #about-page .author-content-item.map {
+  background: url(https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20260703082428055.png) no-repeat center;
+  background-size: 100%;
+}
+
+#about-page .author-content-item.map .map-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--june-maskbg);
+  padding: 0.5rem 2rem;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: 1s ease-in-out;
+  font-size: 20px;
+}
+
+#about-page .author-content-item.map .map-title b {
+  color: var(--font-color);
+}
+
+#about-page .author-content-item.map:hover {
+  background-size: 120%;
+  transition: 4s ease-in-out;
+  background-position-x: 0;
+  background-position-y: 36%;
+}
+
+#about-page .author-content-item.map:hover .map-title {
+  bottom: -100%;
+}
+
+#about-page .author-content-item.selfInfo {
+  display: flex;
+  min-height: 100px;
+  max-height: 400px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 40%;
+}
+
+#about-page .author-content-item.selfInfo div {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 2rem 0.5rem 0;
+}
+
+#about-page .author-content-item.selfInfo .selfInfo-title {
+  opacity: 0.8;
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+#about-page .author-content-item.selfInfo .selfInfo-content {
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* ---- 通栏卡片(心路历程等) ---- */
+#about-page .author-content-item.single {
+  width: 100%;
+}
+
+#about-page .create-site-post {
+  line-height: 1.9;
+}
+
+#about-page .create-site-post .p {
+  margin: 0.5rem 0;
+}
+
+#about-page .create-site-post del {
+  opacity: 0.7;
+}
+
+/* ---- 赞赏卡(未启用则不渲染,样式先备好) ---- */
+#about-page .author-content-item.single.reward {
+  overflow: visible;
+}
+
+#about-page .author-content-item.single.reward .reward-list-updateDate {
+  color: var(--june-gray);
+  font-size: 14px;
+}
+
+#about-page .author-content-item.single.reward .reward-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#about-page .author-content-item.single.reward .reward-header .author-content-item-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#about-page .author-content-item.single.reward .post-reward {
+  position: relative;
+  margin-top: 0;
+  width: auto;
+  text-align: center;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+#about-page .author-content-item.single.reward .post-reward .reward-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--june-card-bg);
+  color: var(--font-color);
+  border: var(--style-border-always);
+  box-shadow: var(--june-shadow-border);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+#about-page .author-content-item.single.reward .post-reward .reward-button::after {
+  content: '支持博主';
+}
+
+#about-page .author-content-item.single.reward .post-reward .reward-button:hover {
+  background: var(--june-main);
+  color: var(--june-white);
+  border-color: var(--june-main);
+}
+
+#about-page .author-content-item.single.reward .post-reward .reward-button i {
+  font-size: 14px;
+}
+
+#about-page .post-reward .reward-main {
+  bottom: 0;
+  top: 50px;
+  left: auto;
+  right: 0;
+}
+
+#about-page .post-reward .reward-main .reward-all:before {
+  top: -11px;
+  bottom: auto;
+}
+
+#about-page .post-reward .reward-main .reward-all {
+  border-radius: 10px;
+  padding: 20px 10px !important;
+}
+
+#about-page .post-reward .reward-main .reward-all:after {
+  content: none !important;
+}
+
+#about-page .post-reward .reward-main .reward-all li.reward-item::before {
+  content: none !important;
+}
+
+#about-page .post-reward .reward-item a {
+  border-bottom: none !important;
+}
+
+#about-page .post-reward .reward-item a:hover {
+  background: transparent !important;
+}
+
+#about-page .post-reward .reward-item a img {
+  margin-bottom: 0 !important;
+}
+
+#about-page .reward-list-all {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: -0.375rem;
+  margin-right: -0.375rem;
+}
+
+#about-page .reward-list-all > .reward-list-item,
+#about-page .reward-list-all > a.reward-list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.875rem 1.25rem;
+  border-radius: 12px;
+  border: var(--style-border-always);
+  width: calc(25% - 0.75rem);
+  height: 88px;
+  margin: 0 0.375rem 0.75rem 0.375rem;
+  box-shadow: var(--june-shadow-border);
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+#about-page a.reward-list-item {
+  cursor: pointer !important;
+}
+
+#about-page a.reward-list-item:hover {
+  border-color: var(--june-main) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-3px);
+  background: none !important;
+}
+
+/* 友链标签:丝带贴右上角 */
+#about-page .reward-friend-tag {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  background: linear-gradient(135deg, var(--june-main), var(--june-theme, #49b1f5));
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 10px 4px 12px;
+  border-radius: 0 12px 0 12px;
+  font-weight: 600;
+  z-index: 1;
+  letter-spacing: 0.5px;
+}
+
+#about-page .reward-list-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#about-page .reward-list-item > .reward-list-item-time,
+#about-page a.reward-list-item > .reward-list-item-time {
+  position: absolute;
+  bottom: 6px;
+  right: 1.25rem;
+}
+
+#about-page .reward-list-item-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+#about-page .reward-list-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border: 2px solid var(--june-card-border, #eee);
+  transition: 0.3s;
+}
+
+#about-page a.reward-list-item:hover .reward-list-avatar {
+  border-color: var(--june-main);
+}
+
+#about-page .reward-list-item-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#about-page .reward-list-item-pay {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+#about-page .reward-icon-wechat {
+  color: #07c160;
+  font-size: 15px;
+}
+
+#about-page .reward-icon-alipay {
+  color: #1677ff;
+  font-size: 15px;
+}
+
+#about-page .reward-list-item-money {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+#about-page .reward-money-num {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+#about-page .reward-money-unit {
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 2px;
+  opacity: 0.6;
+}
+
+#about-page .reward-list-item-time {
+  font-size: 12px;
+  color: var(--june-secondtext);
+  white-space: nowrap;
+  text-align: right;
+  margin-top: 6px;
+  opacity: 0.7;
+}
+
+/* ---- 响应式 ---- */
+@media screen and (max-width: 1200px) {
+  #about-page .reward-list-all > .reward-list-item,
+  #about-page .reward-list-all > a.reward-list-item {
+    width: calc(33.333% - 0.75rem);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #about-page .author-content {
+    margin-top: 0;
+  }
+
+  #about-page .author-content-item,
+  #about-page .myInfoAndSayHello,
+  #about-page .author-content-item.personalities,
+  #about-page .about-statistic,
+  #about-page .author-content-item.skills,
+  #about-page .author-content-item.careers {
+    width: 100% !important;
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  #about-page .author-content-item-group.column.mapAndInfo {
+    width: 100% !important;
+    margin-top: 1rem;
+  }
+
+  #about-page .author-content-item.map {
+    margin-bottom: 0;
+  }
+
+  #about-page .author-content-item.selfInfo {
+    height: auto;
+  }
+
+  #about-page .author-content-item.selfInfo div {
+    width: calc(50% - 1rem);
+    margin-right: 0;
+  }
+
+  #about-page .author-content-item.selfInfo .selfInfo-content {
+    font-size: 28px;
+  }
+
+  /* 技能图标对太挤,移动端只保留带名字的列表 */
+  #about-page .skills-style-group .tags-group-all {
+    display: none;
+  }
+
+  #about-page .author-content-item.personalities .image {
+    width: 150px;
+    right: 10px;
+    top: 10px;
+  }
+
+  #about-page p.p.large,
+  #about-page span.p.large {
+    font-size: 1.8rem;
+  }
+
+  #about-page .post-tips {
+    left: auto;
+  }
+
+  #about-page .author-content-item .card-content .banner-button-group {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  #about-page .author-content-item .card-content .banner-button-group .banner-button {
+    background: 0 0;
+    padding: 0;
+  }
+
+  #about-page .author-content-item .card-content .banner-button-group .banner-button-text {
+    display: none;
+  }
+
+  #about-page .author-content-item .card-content .banner-button-group .banner-button i {
+    margin-right: 0;
+    font-size: 1.5rem;
+    background: white;
+    border-radius: 50%;
+    padding: 6px;
+    margin-left: 80px;
+  }
+
+  #about-page .author-content-item .card-content .banner-button-group .banner-button:hover i {
+    background: var(--june-background) !important;
+    color: var(--june-theme);
+  }
+
+  [data-theme="dark"] #about-page .author-content-item .card-content .banner-button-group .banner-button {
+    color: var(--june-white) !important;
+  }
+
+  #about-page .reward-list-all > .reward-list-item,
+  #about-page .reward-list-all > a.reward-list-item {
+    width: calc(50% - 0.75rem);
+  }
+
+  #about-page .author-content-item.single.reward .reward-header .author-content-item-title {
+    font-size: 28px;
+  }
+
+  #about-page .author-content-item .card-content,
+  #about-page .author-content-item.careers .card-content {
+    padding: 1rem;
+  }
+
+  #about-page .author-content-item.careers img {
+    bottom: 0;
+  }
+}
