@@ -1,103 +1,8 @@
 /* ============================================================
-   侧边栏日历 + 节日进度卡片(card_calendar.pug / card_schedule.pug)
+   侧边栏节日进度卡片(card_schedule.pug)
    基于 June 方案,配色走 universe.css 的 --june-* 变量(暗色自动适配)
+   注:日历卡片已移除,农历库 chinese-lunar 仍被节日倒计时使用
    ============================================================ */
-
-/* ---- 日历卡片 ---- */
-#card-calendar {
-    display: flex;
-    padding: 18px 10px !important;
-}
-
-#calendar-area-left {
-    width: 45%;
-    padding-left: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 7px;
-}
-
-#calendar-area-right {
-    width: 55%;
-}
-
-#calendar-area-left, #calendar-area-right {
-    min-height: 170px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
-
-#calendar-main {
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* 左列改为常规流式布局(原方案绝对定位会让周几文字与大日期重叠) */
-#calendar-week {
-    font-size: 14px;
-    letter-spacing: 1px;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--june-fontcolor);
-    white-space: nowrap;
-}
-
-#calendar-date {
-    font-size: 56px;
-    line-height: 1;
-    letter-spacing: 2px;
-    color: var(--june-lighttext);
-    font-weight: 700;
-}
-
-#calendar-lunar, #calendar-solar {
-    font-size: 12px;
-    line-height: 1.4;
-    white-space: nowrap;
-}
-
-#calendar-solar {
-    color: var(--june-fontcolor);
-}
-
-#calendar-lunar {
-    color: var(--june-secondtext);
-}
-
-#calendar-main a {
-    height: 1rem;
-    width: 1rem;
-    border-radius: 50%;
-    font-size: 13px;
-    line-height: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--june-fontcolor);
-}
-
-#calendar-main a.now {
-    background: var(--june-lighttext);
-    color: var(--june-card-bg);
-}
-
-#calendar-main .calendar-rh a {
-    color: var(--june-secondtext);
-}
-
-.calendar-r0, .calendar-r1, .calendar-r2, .calendar-r3, .calendar-r4, .calendar-r5, .calendar-rh {
-    height: 1.2rem;
-    display: flex;
-}
-
-.calendar-d0, .calendar-d1, .calendar-d2, .calendar-d3, .calendar-d4, .calendar-d5, .calendar-d6 {
-    width: calc(100% / 7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 /* ---- 节日进度卡片 ---- */
 #card-schedule {
@@ -105,8 +10,7 @@
     padding: 18px 10px !important;
 }
 
-#schedule-area-right a,
-#calendar-area-right a {
+#schedule-area-right a {
     pointer-events: none;
     color: var(--text-highlight-color);
 }
