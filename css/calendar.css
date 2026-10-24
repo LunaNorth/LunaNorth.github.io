@@ -11,7 +11,12 @@
 
 #calendar-area-left {
     width: 45%;
-    position: relative;
+    padding-left: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 7px;
 }
 
 #calendar-area-right {
@@ -20,11 +25,8 @@
 
 #calendar-area-left, #calendar-area-right {
     min-height: 170px;
-    padding: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 #calendar-main {
@@ -32,45 +34,35 @@
     margin-top: 10px;
 }
 
+/* 左列改为常规流式布局(原方案绝对定位会让周几文字与大日期重叠) */
 #calendar-week {
-    height: 1.2rem;
     font-size: 14px;
     letter-spacing: 1px;
     font-weight: 700;
-    align-items: center;
-    display: flex;
+    line-height: 1.2;
     color: var(--june-fontcolor);
+    white-space: nowrap;
 }
 
 #calendar-date {
-    height: 3.5rem;
-    line-height: 1.3;
-    font-size: 64px;
-    letter-spacing: 3px;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: 2px;
     color: var(--june-lighttext);
     font-weight: 700;
-    align-items: center;
-    display: flex;
-    position: absolute;
-    top: calc(50% - 2.1rem);
 }
 
 #calendar-lunar, #calendar-solar {
-    height: 1rem;
     font-size: 12px;
-    align-items: center;
-    display: flex;
-    position: absolute;
+    line-height: 1.4;
     white-space: nowrap;
 }
 
 #calendar-solar {
-    bottom: 2.1rem;
     color: var(--june-fontcolor);
 }
 
 #calendar-lunar {
-    bottom: 1rem;
     color: var(--june-secondtext);
 }
 
@@ -186,8 +178,10 @@ progress {
 }
 
 .aside-span1 {
-    margin-left: 5px;
-    color: var(--june-fontcolor);
+    margin-left: 6px;
+    /* 百分比叠在进度条填充色上:用卡片底色自动反色(亮色蓝底白字,暗色金底深字) */
+    color: var(--june-card-bg);
+    font-weight: 600;
 }
 
 .aside-span2 {
