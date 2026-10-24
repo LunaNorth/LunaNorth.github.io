@@ -1893,3 +1893,77 @@ tbody tr:last-child td {
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
+
+/* 暗色代码块:样式保留(圆点/标签/行号/语法高亮),仅把底色改为半透明深色以适配背景(亮色模式不受影响) */
+[data-theme="dark"] #article-container figure.highlight {
+  background: rgba(27, 28, 32, 0.6) !important;
+}
+
+[data-theme="dark"] #article-container figure.highlight .highlight-tools {
+  background: transparent !important;
+}
+
+/* 暗色代码块:代码区/行号区背景也透明(统一由 figure 半透明底色承担) */
+[data-theme="dark"] #article-container figure.highlight pre {
+  background: transparent !important;
+}
+
+/* 暗色代码块展开/收起按钮:渐变与半透明面板一致(亮色模式不受影响) */
+[data-theme="dark"] #article-container .code-expand-btn {
+  background: linear-gradient(180deg, rgba(27, 28, 32, 0), rgba(27, 28, 32, 0.6)) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+[data-theme="dark"] #article-container .code-expand-btn i {
+  color: var(--june-secondtext) !important;
+}
+
+[data-theme="dark"] #article-container .code-expand-btn:hover i {
+  color: var(--june-fontcolor) !important;
+}
+
+/* ============================================================
+   暗色表格:玻璃化适配 + 现代样式(亮色模式不受影响)
+   - 半透明底融入背景,去网格线,表头浅色薄底,悬停微高亮
+   ============================================================ */
+[data-theme="dark"] #article-container table {
+  background: rgba(27, 28, 32, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+/* 去掉 Butterfly 自带的单元格网格线 */
+[data-theme="dark"] #article-container table th,
+[data-theme="dark"] #article-container table td {
+  border: none !important;
+}
+
+[data-theme="dark"] #article-container table thead th {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--june-fontcolor);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] #article-container table tbody td {
+  background: transparent;
+  color: var(--june-fontcolor);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] #article-container table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 压掉旧的斑马纹 */
+[data-theme="dark"] #article-container table tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+/* 悬停微高亮 */
+[data-theme="dark"] #article-container table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
