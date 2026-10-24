@@ -1439,33 +1439,32 @@ svg.icon {
 }
 
 /* ============================================================
-   暗色模式:侧边栏标签云 / 标签页 去掉随机色(2026-10-25)
+   暗色模式：标签云配色适配（2026-10-25）
    ------------------------------------------------------------
-   这些颜色不是 CSS 配的,是主题 helper 生成的：
-     themes/butterfly/scripts/helpers/page.js 第 40 行
-     'rgb(' + Math.floor(Math.random()*201) + … + ')'   // 每个通道 0~200
-   即每个标签一个「0~200 的随机深色」，写在内联 style 里。深色背景上
-   就出现墨绿 / 暗紫 / 藏青这类又闷又难读的颜色，且每次 hexo g 都变一次。
+   亮色模式保持原样不动：helper 仍用 Math.random() 生成 rgb 写进内联 color。
+   但那些颜色是「每个通道 0~200 的随机深色」，在深色底上会变成墨绿/暗紫/
+   藏青这类又闷又糊的色，个别几乎看不清。
 
-   这里只在暗色模式下用 !important 把内联色压掉（作者的 !important 声明
-   优先级高于内联普通声明），统一成柔和的钢蓝，热度仍靠字号区分。
-   亮色模式完全不改。
+   所以只针对暗色模式，用 !important 压掉内联色
+   （作者 !important 优先级高于内联普通声明），换成同一色相的高明度版本：
+   helper 额外输出内联 --tag-h（由那个随机色换算出的色相），
+   这里用 hsl(var(--tag-h), 62%, 74%) 还原成清爽的彩色，热度仍靠字号区分。
    ============================================================ */
 [data-theme="dark"] #aside-content .card-tag-cloud a,
 [data-theme="dark"] .tag-cloud-list a {
-  color: #8fb4e3 !important;
+  color: hsl(var(--tag-h, 205), 62%, 74%) !important;
   transition: color .25s ease, border-color .25s ease;
 }
 
 [data-theme="dark"] #aside-content .card-tag-cloud a:hover,
 [data-theme="dark"] .tag-cloud-list a:hover {
-  color: #cfe0f7 !important;
+  color: hsl(var(--tag-h, 205), 78%, 85%) !important;
 }
 
-/* 上标数字(文章数)压暗一档,让标签名当主体 */
+/* 上标数字(文章数)压暗,让标签名当主体(保留色相,只降不透明度) */
 [data-theme="dark"] #aside-content .card-tag-cloud a sup,
 [data-theme="dark"] .tag-cloud-list a sup {
-  color: #7e97b8 !important;
+  opacity: .6;
 }
 
 /* 有序列表 */
