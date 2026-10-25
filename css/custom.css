@@ -2032,6 +2032,16 @@ tbody tr:last-child td {
   -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
+/* 暗色文章主卡片毛玻璃:只有半透明底色的话,透进来的背景图是「清晰但压暗」的,
+   算不上毛玻璃 —— 这里用 backdrop-filter 把卡片背后的背景图糊开,才是磨砂质感。
+   brightness(1.5) 是关键:backdrop 采样到的是 body 那层 0.8 压暗渐变之后的图,
+   不提亮的话糊完也几乎全黑,看不出来「玻璃后面有图」;saturate 补回糊后的色彩。
+   纯色态(solid)由 scripts/dark_post_bg.js 注入的规则把这里归零。 */
+[data-theme="dark"] #post {
+  backdrop-filter: blur(28px) brightness(2.2) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) brightness(2.2) saturate(160%);
+}
+
 /* 暗色代码块:样式保留(圆点/标签/行号/语法高亮),仅把底色改为半透明深色以适配背景(亮色模式不受影响) */
 [data-theme="dark"] #article-container figure.highlight {
   background: rgba(27, 28, 32, 0.6) !important;
