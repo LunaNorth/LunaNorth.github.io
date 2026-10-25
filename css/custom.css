@@ -2092,6 +2092,16 @@ tbody tr:last-child td {
   overflow: visible !important;
 }
 
+/* 修复(2026-10-26):上面那条 overflow: visible !important 会盖掉主题的代码折叠机制 ——
+   折叠态依赖 .code-expand-btn:not(.expand-done) ~ table { overflow: hidden; height: 300px },
+   被盖掉后折叠块内部变成可滚动(highlight_height_limit),鼠标滚轮在代码块里上下滚动
+   会把折叠的内容滚出来、展开按钮错位。这里仅在「未展开」状态把 hidden 加回来;
+   展开后仍走上面的 visible(换行设计),互不影响。 */
+[data-theme="dark"] #article-container .code-expand-btn:not(.expand-done) ~ table,
+[data-theme="dark"] #article-container .code-expand-btn:not(.expand-done) ~ pre {
+  overflow: hidden !important;
+}
+
 /* 暗色代码块:代码区/行号区背景也透明(统一由 figure 半透明底色承担) */
 [data-theme="dark"] #article-container figure.highlight pre {
   background: transparent !important;
