@@ -2029,6 +2029,11 @@ tbody tr:last-child td {
     再补一道极细描边让边缘更利落,参考图那种「卡片浮在照片上」的观感) */
 [data-theme="dark"] {
   --card-bg: rgba(24, 26, 31, 0.45);
+  /* 字体提白(2026-10-25):主题默认 --font-color 是 70% 白(#FFFFFFB3)、标题是 90% 白,
+     暗色下统一提到纯白 #FFFFFF。链接/代码高亮/浅色提示框有自己的颜色,不受变量继承影响。
+     solid 毛玻璃模式的注入样式因此不再需要重复覆盖字体变量。 */
+  --font-color: #fff;
+  --text-highlight-color: #fff;
   /* 注意:--june-card-bg 不在这里改 —— universe.css 在 custom.css 之后加载,
      它把 --june-card-bg 定义成不透明的 #1b1c20,写在这里会被盖掉。
      工作台实际生效的那份在 about.css 里(加载顺序最后)。 */
