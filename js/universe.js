@@ -20,23 +20,15 @@ document.addEventListener("visibilitychange", function () {
 
 
 var percentFlag = false; // 节流阀
+var essayWaterfallTimer = null; // 瀑布流重排防抖计时器
 function essayScroll() {
-    let a = document.documentElement.scrollTop || window.pageYOffset; // 当前滚动位置
-    const waterfallResult = a % document.documentElement.clientHeight; // 滚动的视口高度余数
-
-    if (
-        !percentFlag &&
-        waterfallResult + 100 >= document.documentElement.clientHeight &&
-        document.querySelector("#waterfall")
-    ) {
-        setTimeout(() => {
-            waterfall("#waterfall");
-        }, 500);
-    } else {
-        setTimeout(() => {
-            document.querySelector("#waterfall") && waterfall("#waterfall");
-        }, 500);
-    }
+    // 瀑布流重排:滚动停止 500ms 后最多执行一次。
+    // 原版每个 scroll 事件都排一次 waterfall(),碎碎念/留言页上滚动会连环触发
+    // 重量级重排(读取所有条目位置再逐个写回)造成明显卡顿。
+    clearTimeout(essayWaterfallTimer);
+    essayWaterfallTimer = setTimeout(() => {
+        document.querySelector("#waterfall") && waterfall("#waterfall");
+    }, 500);
 
     const r = window.scrollY + document.documentElement.clientHeight;
     let p = document.getElementById("post-comment") || document.getElementById("footer");
