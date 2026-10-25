@@ -1,0 +1,92 @@
+/* ============================================================
+   首页「碎碎念」滚动播报条（bbTimeList）
+   结构：themes/butterfly/layout/includes/bbTimeList.pug
+   初始化：source/js/essaybar.js
+   配色走主题变量，亮/暗色自动跟随，不写死颜色
+   ============================================================ */
+
+#main_top {
+  z-index: 1;
+  /* 必须和 .layout 的 max-width 一致（custom.css 里是 1430px），
+     否则播报条会比下面的卡片窄/宽一圈，左右对不齐。
+     水平内边距同理，跟 .layout 的 `padding: 40px 15px` 的 15px 保持一致。 */
+  max-width: 1430px;
+  margin: 20px auto -20px;
+  width: 100%;
+  padding: 0 15px;
+}
+
+#bbTimeList {
+  width: 100%;
+  min-height: 50px;
+  background: var(--card-bg);
+  color: var(--june-fontcolor);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-weight: 700;
+  border: var(--style-border, 1px solid rgba(0, 0, 0, 0.08));
+  border-radius: 10px;
+  box-shadow: var(--june-shadow-lightblack);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 图标已移除（2026-10-25）：文字占满整条，不再需要左侧留白 */
+#bbtalk {
+  width: 100%;
+  margin-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#bber-talk {
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+#bber-talk .li-style {
+  width: 100%;
+  max-width: 100%;
+  height: 25px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.3s;
+  font-weight: 700;
+  margin: auto;
+  cursor: pointer;
+  white-space: nowrap;
+  /* 继承卡片底色，避免 swiper 克隆出来的 slide 透出背景图 */
+  background: var(--card-bg);
+}
+
+#bbTimeList:hover {
+  border-color: #3b70fc;
+  box-shadow: var(--june-shadow-main);
+}
+
+/* 暗色下把卡片描边换一档 */
+[data-theme="dark"] #bbTimeList:hover {
+  border-color: #6b97ff;
+}
+
+@media screen and (max-width: 768px) {
+  #main_top {
+    padding: 10px 6px 0;
+    margin: 0 0 -10px;
+  }
+
+  #bbtalk {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #bber-talk .li-style {
+    font-size: 0.9rem;
+  }
+}
