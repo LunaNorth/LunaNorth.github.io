@@ -2008,7 +2008,19 @@ tbody tr:last-child td {
    ============================================================ */
 [data-theme="dark"] body {
   /* blend screen:把夜空图的黑色抬升为暗蓝灰,云层清晰可见(贴近参考图色调) */
-  background: linear-gradient(rgba(13, 13, 13, 0.8), rgba(13, 13, 13, 0.8)), url('https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20261024192158501.jpg') center / cover no-repeat fixed #0d0d0d;
+  background: #0d0d0d;
+}
+
+/* 背景图从 background-attachment:fixed 改为固定定位伪元素(2026-10-25 滚动性能优化):
+   fixed 附件的背景在滚动时会反复重绘(滚动卡顿的常见元凶,尤其中大幅照片+cover),
+   固定定位的 body::before 是独立合成层,滚动时零重绘,视觉效果完全一致。
+   想换图改下面 url 即可。 */
+[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(rgba(13, 13, 13, 0.8), rgba(13, 13, 13, 0.8)), url('https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20261024192158501.jpg') center / cover no-repeat #0d0d0d;
 }
 
 /* 卡片半透明:两个底色变量一改,全站暗色卡片自动生效

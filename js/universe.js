@@ -132,6 +132,33 @@ var june = {
 june.changeTimeInEssay();
 june.reflashEssayWaterFall();
 
+// ===== 滚动时暂停页内所有轮播动画(2026-10-25 滚动性能优化) =====
+// 轮播的淡入淡出每帧都触发合成,和滚动抢渲染预算(实测滚动帧率 -10% 左右)。
+// 做法:滚动开始 → 暂停所有轮播的 autoplay;滚动停止 250ms 后,只恢复暂停前本来
+// 在跑的那些(不干扰「悬停暂停」等已有交互)。
+// 枚举:站内只有两个轮播容器(首页推荐卡 .blog-slider、播报条 .essay_bar_swiper_container);
+// 本站 Swiper 4.1.6 初始化不加 -initialized 类,但会把实例挂到 el.swiper 上,靠它判重。
+// universe.js 带 data-pjax 会在 pjax 后重复执行,全局标记保证监听只绑一次。
+if (!window.__swiperScrollPauseBound) {
+    window.__swiperScrollPauseBound = true;
+    var swiperScrollTimer = null;
+    var SWIPER_CONTAINERS = ".blog-slider, .essay_bar_swiper_container";
+    window.addEventListener("scroll", function () {
+        if (swiperScrollTimer) return; // 已处于暂停态,不用重复停
+        var running = [];
+        document.querySelectorAll(SWIPER_CONTAINERS).forEach(function (el) {
+            if (el.swiper && el.swiper.autoplay && el.swiper.autoplay.running) {
+                el.swiper.autoplay.stop();
+                running.push(el.swiper);
+            }
+        });
+        swiperScrollTimer = setTimeout(function () {
+            swiperScrollTimer = null;
+            running.forEach(function (s) { s.autoplay.start() });
+        }, 250);
+    }, { passive: true });
+}
+
 // ===== bber 短文分页(客户端分页:全部条目渲染进 DOM,JS 按页显隐) =====
 function bberPagination() {
     var waterfallEl = document.getElementById("waterfall");
