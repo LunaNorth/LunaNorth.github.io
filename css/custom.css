@@ -162,6 +162,10 @@
    改法：换成同一张照片的浅色版(p9GWEin.jpg)，只用它截顶部一条做照片带，
    用 mask 向下淡出；卡片主体交给半透明 + 毛玻璃，和 bber 卡片/表格统一。
    亮色模式继续用整图 p9GWEin.jpg，一行没动。
+
+   2026-10-25 二次调优（用户要「柔和过渡」）：照片带 130→190px 拉长淡出、
+   降饱和压亮度（filter）、mask 改成六段缓出曲线，消掉中段那层灰雾和
+   「亮蓝色照片 / 近黑色卡身」的断层感。
    ============================================================ */
 [data-theme="dark"] #aside-content>.card-widget.card-info {
   position: relative;
@@ -179,11 +183,27 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 130px;
+  /* 拉高到 190px:让淡出的尾巴一直延伸到名字下方,头像完整落在照片里 */
+  height: 190px;
   background: url(https://s11.ax1x.com/2023/05/02/p9GWEin.jpg) center top / cover no-repeat;
-  opacity: .5;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .35) 60%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .35) 60%, transparent 100%);
+  /* 降饱和 + 压亮度:蓝色天空不再抢眼,照片退成"隐约的背景"而不是一块亮贴图 */
+  filter: saturate(.55) brightness(.78) contrast(.95);
+  opacity: .55;
+  /* 五段式缓出曲线(接近 ease-out):衰减更平缓,不会在中段糊出一层灰雾 */
+  -webkit-mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, .95) 0%,
+    rgba(0, 0, 0, .82) 20%,
+    rgba(0, 0, 0, .55) 42%,
+    rgba(0, 0, 0, .26) 66%,
+    rgba(0, 0, 0, .07) 85%,
+    transparent 100%);
+  mask-image: linear-gradient(180deg,
+    rgba(0, 0, 0, .95) 0%,
+    rgba(0, 0, 0, .82) 20%,
+    rgba(0, 0, 0, .55) 42%,
+    rgba(0, 0, 0, .26) 66%,
+    rgba(0, 0, 0, .07) 85%,
+    transparent 100%);
   pointer-events: none;
   z-index: -1;
 }
@@ -1958,10 +1978,21 @@ tbody tr:last-child td {
   background: linear-gradient(rgba(13, 13, 13, 0.8), rgba(13, 13, 13, 0.8)), url('https://testingcf.jsdelivr.net/gh/LunaNorth/north-img/images/20261024192158501.jpg') center / cover no-repeat fixed #0d0d0d;
 }
 
-/* 卡片半透明:两个底色变量一改,全站暗色卡片自动生效 */
+/* 卡片半透明:两个底色变量一改,全站暗色卡片自动生效
+   (2026-10-25:原来 0.11 太透,卡片和页面背景糊在一起、看不出边界,
+    在照片背景上几乎识别不出「哪里是一张卡」→ 提到 0.55,与 bber 卡片/代码块/引述块同一档;
+    再补一道极细描边让边缘更利落,参考图那种「卡片浮在照片上」的观感) */
 [data-theme="dark"] {
-  --card-bg: rgba(18, 18, 20, 0.11);
-  --june-card-bg: rgba(27, 28, 32, 0.11);
+  --card-bg: rgba(24, 26, 31, 0.45);
+  --june-card-bg: rgba(27, 29, 34, 0.45);
+}
+
+/* 暗色卡片描边:给边界一点定义(悬停的主色描边优先级更高,不受影响) */
+[data-theme="dark"] #aside-content .card-widget,
+[data-theme="dark"] #recent-posts>.recent-post-item,
+[data-theme="dark"] .layout>div:first-child:not(.recent-posts),
+[data-theme="dark"] .layout>.recent-posts .pagination>*:not(.space) {
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 /* 顶栏吸附状态:半透明 + 毛玻璃 */

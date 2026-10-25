@@ -28,6 +28,14 @@
   background: var(--june-background);
 }
 
+/* 暗色模式:整页底色不再用纯色 var(--june-background)(=#18171d),
+   否则工作台会变成一块不透明的深灰板,和全站「玻璃浮在照片上」的观感割裂。
+   改为透出全站背景图,卡片本身已经是半透明(--june-card-bg 0.45)。
+   亮色模式保持原来的 #f7f9fe 不变。 */
+[data-theme="dark"] #web_bg ~ .page:has(#about-page) {
+  background: transparent;
+}
+
 /* ---- 布局骨架 ---- */
 #about-page.wb {
   display: flex;
