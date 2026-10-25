@@ -1022,6 +1022,25 @@ h6::before {
   scrollbar-color: rgba(200, 200, 215, 0.3) transparent;
 }
 
+/* 目录卡片(#card-toc)右侧滚动条：隐藏但保留滚动能力(2026-10-25)
+   全局 ::-webkit-scrollbar 是 2px 细条，这里用更高的 ID 优先级 + !important 压掉；
+   scrollbar-width:none 给 Firefox，::-webkit-scrollbar 给 Chromium/Safari。
+   滚动本身不受影响，目录跟随高亮依然会自动滚。 */
+#aside-content #card-toc .toc-content {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#aside-content #card-toc .toc-content::-webkit-scrollbar,
+#aside-content #card-toc .toc-content::-webkit-scrollbar-thumb,
+#aside-content #card-toc .toc-content::-webkit-scrollbar-track,
+#aside-content #card-toc .toc-content::-webkit-scrollbar-corner {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+
 *::selection {
   background: #425AEF;
   color: #f7f7f7;
