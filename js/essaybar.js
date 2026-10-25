@@ -80,11 +80,20 @@
       allowTouchMove: false,
       observer: true,
       observeParents: true,
+      mousewheel: true,
       autoplay: {
         delay: DELAY,
         disableOnInteraction: false
       }
     })
+
+    // 悬停暂停、离开继续(原 universe.js initIndexEssay 里的逻辑,统一迁移到这份管理;
+    // 每次重建都会重绑,pjax 换页后 #bbtalk 是新元素,不会叠加旧监听)
+    var bar = document.getElementById('bbtalk')
+    if (bar && instance.autoplay) {
+      bar.onmouseenter = function () { instance.autoplay.stop() }
+      bar.onmouseleave = function () { instance.autoplay.start() }
+    }
   }
 
   function initEssayBar () {

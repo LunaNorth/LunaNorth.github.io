@@ -16,6 +16,13 @@
   padding: 0 15px;
 }
 
+/* 单栏模式（↔ 隐藏侧栏，hide-aside 类挂在 html 上）：
+   custom.css 把 .layout.hide-aside 收窄成 1400px，播报条必须跟着收，
+   否则会比下面的卡片宽出 30px（两边各突出 15px），左右对不齐。 */
+html.hide-aside #main_top {
+  max-width: 1400px;
+}
+
 #bbTimeList {
   width: 100%;
   min-height: 50px;

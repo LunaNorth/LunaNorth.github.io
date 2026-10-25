@@ -27,6 +27,24 @@
   }
 }
 
+/* 单栏模式（↔ 隐藏侧栏）：↔ 按钮把 hide-aside 类挂在 <html> 上（main.js 的 hide-aside-btn），
+   所以必须用 html.hide-aside 前缀；主题的 html.hide-aside .layout > div:first-child { width: 80% }
+   会把内容缩到 80% 居中，导致播报条/轮播/卡片左右对不齐 —— 这里改成铺满 1400px，内容列 100%，
+   播报条在 essaybar.css 里同步收成 1400px。 */
+html.hide-aside .layout {
+  max-width: 1400px;
+}
+html.hide-aside .layout > div:first-child {
+  width: 100%;
+}
+
+/* 标签/分类/友链/工作台/碎碎念/藏宝阁 六个页面 front-matter 配了 aside:false，
+   主题会给它们的 .layout 静态挂 hide-aside 类 —— 注意这和 ↔ 按钮挂到 <html> 上的
+   html.hide-aside 是两回事，两条规则各管各的：
+   - .layout.hide-aside       → 上面六个页面的宽度（没有它这些页会回落到主题默认
+                                的 1000px，比双栏的内容区还窄，2026-10-25 修）
+   - html.hide-aside .layout  → ↔ 按钮切换单栏时的宽度
+   内容列宽由主题自带的 .layout.hide-aside > div { width: 100% !important } 负责。 */
 .layout.hide-aside {
   max-width: 1400px;
 }
@@ -2144,3 +2162,18 @@ tbody tr:last-child td {
 }
 
 /* （归档页的样式改动已全部撤回，恢复成主题原样） */
+
+/* ============================================================
+   轮播分页圆点(2026-10-25):暗色下激活点原本是 var(--btn-bg) ≈ #1F1F1F,
+   和卡片底色几乎同色 = 完全隐身;未激活点只有 0.2 的灰也看不清。
+   暗色统一改成:激活 = 主题蓝长条,未激活 = 35% 白点(亮色模式不动)。
+   选择器多压一层 span:swiperstyle.css 由轮播插件动态注入,加载顺序在
+   custom.css 之后,同特异性会反过来盖掉这里,必须高一档才稳。
+   ============================================================ */
+[data-theme="dark"] .blog-slider__pagination span.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 1;
+}
+[data-theme="dark"] .blog-slider__pagination span.swiper-pagination-bullet-active {
+  background: #49b1f5;
+}

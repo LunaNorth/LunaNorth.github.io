@@ -123,33 +123,12 @@ var june = {
         }
         setText();
     },
-    initIndexEssay: function () {
-        setTimeout(() => {
-            let essay_bar_swiper = new Swiper(".essay_bar_swiper_container", {
-                passiveListeners: true,
-                direction: "vertical",
-                loop: true,
-                autoplay: {
-                    disableOnInteraction: true,
-                    delay: 3000,
-                },
-                mousewheel: true,
-            });
-
-            let essay_bar_comtainer = document.getElementById("bbtalk");
-            if (essay_bar_comtainer !== null) {
-                essay_bar_comtainer.onmouseenter = function () {
-                    essay_bar_swiper.autoplay.stop();
-                };
-                essay_bar_comtainer.onmouseleave = function () {
-                    essay_bar_swiper.autoplay.start();
-                };
-            }
-        }, 100);
-    },
+    // initIndexEssay(播报条轮播初始化)已删除:
+    // 它无条件 new Swiper(...),但 Swiper 库只有首页(插件)和归档页(essaybar.js 按需加载)才有,
+    // 其它页面必报 "Swiper is not defined";而且 essaybar.js 已有带按需加载/防重复/销毁重建的
+    // 完整实现,这里再初始化一遍属于重复管理同一容器。悬停暂停逻辑已迁移到 essaybar.js。
 };
 
-june.initIndexEssay();
 june.changeTimeInEssay();
 june.reflashEssayWaterFall();
 
