@@ -1993,6 +1993,22 @@ tbody tr:last-child td {
   background: transparent !important;
 }
 
+/* 暗色代码块：把「暗色表格」那套样式从代码块内部的 <table> 上撤掉（2026-10-25）
+   ------------------------------------------------------------
+   开了行号的代码块结构是 figure.highlight > table > tbody > tr > td，
+   它同样会被下面 [data-theme="dark"] #article-container table 命中，
+   于是代码区被多铺了一层 rgba(27,28,32,.45) 底色 + 1px 描边 + 10px 圆角：
+     · 代码区比顶部 .highlight-tools（透明，透出 figure 的 rgba(27,28,32,.6)）更深一档
+     · 圆的边 + 描边让底部露出一道 figure 底色，看着像「底部和顶部不是一个颜色」
+   这里只还原底色/描边/圆角，让整块代码和顶部工具条用同一个底色。
+   （只加这一段，不改表格本身的通用规则，正文 markdown 表格不受影响） */
+[data-theme="dark"] #article-container figure.highlight table {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
 /* 暗色代码块:代码区/行号区背景也透明(统一由 figure 半透明底色承担) */
 [data-theme="dark"] #article-container figure.highlight pre {
   background: transparent !important;
