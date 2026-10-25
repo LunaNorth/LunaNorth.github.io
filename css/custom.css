@@ -773,6 +773,21 @@ h6::before {
 
 /* 侧边栏分类（标签）样式调整 */
 
+/* 暗色模式：归档/分类小格的描边不能再沿用 #cbcbcb（浅灰在深底上就是一条白光），
+   降到 7% 白并给一点几乎看不见的浅底，保持"卡片"形状但不刺眼 */
+[data-theme="dark"] #aside-content .card-archives ul.card-archive-list>.card-archive-list-item a,
+[data-theme="dark"] #aside-content .card-categories ul.card-category-list>.card-category-list-item a {
+  border-color: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 暗色下的悬停：描边提亮到主色，跟站内其它卡片一致 */
+[data-theme="dark"] #aside-content .card-archives ul.card-archive-list>.card-archive-list-item a:hover,
+[data-theme="dark"] #aside-content .card-categories ul.card-category-list>.card-category-list-item a:hover {
+  border-color: rgba(107, 151, 255, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+}
+
 
 .category-lists .category-list {
   text-align: center;

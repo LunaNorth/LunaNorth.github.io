@@ -61,8 +61,9 @@
   margin: auto;
   cursor: pointer;
   white-space: nowrap;
-  /* 继承卡片底色，避免 swiper 克隆出来的 slide 透出背景图 */
-  background: var(--card-bg);
+  /* 不要给 slide 单独加底色：播报条自身已经是 --card-bg，
+     再叠一层同样的半透明黑 → 暗色下会压出一块发黑的矩形 */
+  background: transparent;
 }
 
 #bbTimeList:hover {
