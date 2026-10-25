@@ -28,12 +28,17 @@
   background: var(--june-background);
 }
 
-/* 暗色模式:整页底色不再用纯色 var(--june-background)(=#18171d),
-   否则工作台会变成一块不透明的深灰板,和全站「玻璃浮在照片上」的观感割裂。
-   改为透出全站背景图,卡片本身已经是半透明(--june-card-bg 0.45)。
-   亮色模式保持原来的 #f7f9fe 不变。 */
-[data-theme="dark"] #web_bg ~ .page:has(#about-page) {
-  background: transparent;
+/* 暗色模式:卡片底色改成半透明玻璃,让背景照片透进来
+   ------------------------------------------------------------
+   ⚠️ 两个坑,别再踩:
+   1) 卡片用的是 var(--june-card-bg),而它在 universe.css 里被定义成 #1b1c20(不透明)。
+      inject.head 的加载顺序是 custom.css → navigation.css → universe.css → about.css,
+      所以在 custom.css 里改 --june-card-bg 会被 universe.css 盖掉,必须在 about.css 里声明。
+   2) 上面那条 #web_bg ~ .page:has(#about-page) 在本主题版本里是**死规则** ——
+      全站根本没有 #web_bg 这个元素,所以那行 background 从来没生效过,页面底色一直是透的。
+      真正把照片挡住的是卡片自身的不透明底。 */
+[data-theme="dark"] #about-page {
+  --june-card-bg: rgba(24, 26, 31, 0.45);
 }
 
 /* ---- 布局骨架 ---- */
@@ -501,4 +506,48 @@
   #about-page .wb-ov-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ============================================================
+   工作台可点击区域（2026-10-25）
+   ------------------------------------------------------------
+   文章总数 → /archives/        碎碎念 → /essay/
+   热力图格子 → /archives/YYYY/MM/DD/    每月发布柱 → /archives/YYYY/MM/
+   （日/月归档页由 _config.yml 的 archive_generator.daily/monthly 生成)
+   这里只做「沿用原外观 + 加点击反馈」,不改动原有配色
+   ============================================================ */
+#about-page a.wb-stat,
+#about-page a.wb-bar-col,
+#about-page a.wb-heat-cell {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* 统计磁贴:按下时轻微下压,给点反馈 */
+#about-page a.wb-stat:active {
+  transform: translateY(-1px) scale(.99);
+}
+
+/* 热力格:悬停加一圈主色描边,提示"这一格能点" */
+#about-page a.wb-heat-cell:hover {
+  outline: 1.5px solid #3b70fc;
+  outline-offset: -1.5px;
+}
+
+[data-theme="dark"] #about-page a.wb-heat-cell:hover {
+  outline-color: #6b97ff;
+}
+
+/* 柱状列:悬停时柱子提亮 + 月份变主色 */
+#about-page a.wb-bar-col:hover .wb-bar-fill {
+  filter: brightness(1.12);
+}
+
+#about-page a.wb-bar-col:hover .wb-bar-label {
+  color: #3b70fc;
+}
+
+[data-theme="dark"] #about-page a.wb-bar-col:hover .wb-bar-label {
+  color: #6b97ff;
 }

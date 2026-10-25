@@ -1984,7 +1984,9 @@ tbody tr:last-child td {
     再补一道极细描边让边缘更利落,参考图那种「卡片浮在照片上」的观感) */
 [data-theme="dark"] {
   --card-bg: rgba(24, 26, 31, 0.45);
-  --june-card-bg: rgba(27, 29, 34, 0.45);
+  /* 注意:--june-card-bg 不在这里改 —— universe.css 在 custom.css 之后加载,
+     它把 --june-card-bg 定义成不透明的 #1b1c20,写在这里会被盖掉。
+     工作台实际生效的那份在 about.css 里(加载顺序最后)。 */
 }
 
 /* 暗色卡片描边:给边界一点定义(悬停的主色描边优先级更高,不受影响) */
@@ -2125,3 +2127,5 @@ tbody tr:last-child td {
 [data-theme="dark"] #article-container figure.highlight table tbody tr:hover td {
   background: transparent !important;
 }
+
+/* （归档页的样式改动已全部撤回，恢复成主题原样） */
