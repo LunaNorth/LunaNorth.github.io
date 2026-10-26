@@ -2061,6 +2061,14 @@ tbody tr:last-child td {
   -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
+/* 侧栏标签卡渐隐遮罩加强(2026-10-26):渐变终点若是半透明 var(--card-bg)(0.45),
+   叠在暗色卡片上只能把彩色标签压暗一点点,看不出亮色模式那种「渐隐」效果。
+   这里把终点加深到 0.85 的同色深底,观感与亮色(渐变到不透明白)一致;
+   solid 模式由注入样式覆盖为不透明 #26282e,不受这条影响。 */
+[data-theme="dark"] #aside-content .card-tag-cloud:not(.expanded)::after {
+  background: linear-gradient(to bottom, transparent, rgba(24, 26, 31, 0.85) 90%);
+}
+
 /* 暗色玻璃体系:工作台卡片加毛玻璃,提升 0.11 透明度下的文字可读性 */
 [data-theme="dark"] #about-page .wb-card {
   backdrop-filter: blur(20px) saturate(140%);
