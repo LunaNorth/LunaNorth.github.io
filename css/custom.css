@@ -255,25 +255,10 @@ html.hide-aside .layout > div:first-child {
 
 /* page背景调整 */
 
-.icat-content.icat-content-item.icatPage {
-  height: 19rem;
-  /* 题图文字颜色：跟随「题图本身的明暗」，不是亮/暗主题。
-     这 5 个 top_page 页面的题图多为浅色插画（分类=白裙少女、标签/项目=猫咪、友链=竹林），
-     原来一律用 --icat-white 白字，压浅图直接看不见。
-     默认走深色字；深色调题图的页面（藏宝阁）由下方 [style*=...] 规则改回白字。 */
-  color: var(--icat-page-text, #1f1f1f);
-  overflow: hidden;
-  margin-top: 0;
-  border-radius: 12px;
-  border: var(--style-border-always);
-  box-shadow: var(--icat-shadow-border);
-}
-
-/* 藏宝阁(collect)的题图是黑红暗调，只有这一页需要白字。
-   用 title_bg 的 URL 片段做锚点，换图时记得同步改这里。 */
-.icat-content.icat-content-item.icatPage[style*="2024-08-13_21-11-17"] {
-  --icat-page-text: #fff;
-}
+/* 注意：.icat-content.icat-content-item.icatPage 的完整定义统一放在下方
+   「分类页样式」段（height:400px 那处），不要在文件里再写第二份同名规则——
+   本文件曾因此在两处重复定义，同特异性下后写的会把前写的覆盖掉（踩过坑）。
+   collect 页的白字例外规则也在那里。 */
 
 .icat-content-item .icat-card-content {
   width: 100%;
@@ -918,10 +903,13 @@ h6::before {
   padding: 1rem 2rem;
 }
 
+/* 题图（top_page / icat）卡片的唯一一处定义，不要在文件别处再写同名规则 */
 .icat-content.icat-content-item.icatPage {
   height: 400px;
-  /* 同文件前段还有一处同名规则，这里必须跟着改，否则会把它覆盖回白色
-     （同特异性下后写的赢）——颜色跟题图明暗走，不要写死 --icat-white */
+  /* 文字颜色跟随「题图本身的明暗」，不是亮/暗主题：这 5 个 top_page 页面的
+     题图多为浅色插画（分类=白裙少女、标签/项目=猫咪、友链=竹林），原来一律用
+     --icat-white 白字，压在浅图上直接看不见。默认走深色字，
+     深色调题图的 collect 由下方 [style*=...] 规则改回白字。 */
   color: var(--icat-page-text, #1f1f1f);
   overflow: hidden;
   margin-top: 0;
@@ -929,6 +917,12 @@ h6::before {
   border: var(--style-border-always);
   box-shadow: var(--icat-shadow-border);
   background-position-y: -1px !important;
+}
+
+/* 藏宝阁(collect)的题图是黑红暗调，只有这一页需要白字。
+   用 top_bg 的 URL 片段做锚点，换图时记得同步改这里。 */
+.icat-content.icat-content-item.icatPage[style*="2024-08-13_21-11-17"] {
+  --icat-page-text: #fff;
 }
 
 /* 页脚部分 */
