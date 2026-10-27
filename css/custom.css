@@ -920,7 +920,9 @@ h6::before {
 
 .icat-content.icat-content-item.icatPage {
   height: 400px;
-  color: var(--icat-white);
+  /* 同文件前段还有一处同名规则，这里必须跟着改，否则会把它覆盖回白色
+     （同特异性下后写的赢）——颜色跟题图明暗走，不要写死 --icat-white */
+  color: var(--icat-page-text, #1f1f1f);
   overflow: hidden;
   margin-top: 0;
   border-radius: 12px;
