@@ -1965,11 +1965,18 @@ body:has(#todo-filter) #page > h1.page-title {
   background: #fff;
   border-radius: 12px;
   box-shadow: var(--icat-shadow-border);
-  padding: 10px 1rem 1.2rem;
-  /* 绿色虚线外框 + 内部浅灰细分隔线（原来整张卡都是粉红系，太抢眼） */
-  border: 2px dashed #8ec06c;
+  padding: 1rem 1.15rem 1.1rem;
+  /* 实线细边框，和打卡页 / 时光页统一（原来是绿色虚线，便签感偏重）；
+     内部隔断仍用浅灰细线，靠 --todo-border 统一控制 */
+  border: var(--style-border-always);
   --todo-border: 1px solid #ececec;
   margin: 0 0 1rem;
+  transition: border-color .25s;
+}
+
+/* hover 只改边框色：不上浮、不加深阴影，和全站其他卡片保持一致 */
+.list_item:hover {
+  border-color: #2e8f6e;
 }
 .list_item h3 {
   margin: 0;
@@ -2022,8 +2029,12 @@ li.achieve {
    否则白底卡在深色页里会变成几块刺眼的亮斑 */
 [data-theme="dark"] .list_item {
   background: rgba(40, 41, 46, .72);
-  border: 2px dashed #5f8f4c;
+  /* 边框沿用主规则的 var(--style-border-always)，暗色下主题变量自己会适配 */
   --todo-border: 1px solid rgba(255, 255, 255, .08);
+}
+
+[data-theme="dark"] .list_item:hover {
+  border-color: #86d3ae;
 }
 [data-theme="dark"] .list_item h3 {
   color: #86d3ae;
@@ -2134,13 +2145,20 @@ body:has(.days-grid) #page {
   border: var(--style-border-always);
   box-shadow: var(--icat-shadow-border);
   text-align: center;
-  transition: transform .25s, box-shadow .25s, border-color .25s;
+  transition: border-color .25s;
 }
 
+/* hover 只改边框色，不上浮、不加深阴影；边框颜色跟着卡片类型走 */
 .days-card:hover {
-  transform: translateY(-3px);
   border-color: #3b70fc;
-  box-shadow: 0 10px 24px -10px rgba(59, 112, 252, .45);
+}
+
+.days-card.is-anniversary:hover {
+  border-color: #2e8f6e;
+}
+
+.days-card.is-countup:hover {
+  border-color: #ef8b00;
 }
 
 .days-main {
@@ -2215,7 +2233,6 @@ body:has(.days-grid) #page {
 .days-card.is-today,
 .days-card.is-today:hover {
   border-color: #ef8b00;
-  box-shadow: 0 10px 24px -10px rgba(239, 139, 0, .45);
 }
 
 .days-card.is-today .days-main,
