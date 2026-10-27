@@ -2045,6 +2045,218 @@ li.achieve {
   }
 }
 
+/* ============================================================
+   时光页（倒计时 / 纪念日 / 正计时）
+   结构 includes/page/countdown.pug，天数计算 source/js/countdown.js
+   - 按类型分组：每组一个小标题 + 卡片网格
+   - 配色：倒计时蓝、纪念日绿、正计时橙，「就是今天」高亮
+   ============================================================ */
+
+/* 和清单页一样：去掉外层 #page 的卡片框、压掉顶部留白
+   （页面 h1「时光」已在 page.pug 里对 countdown 类型直接不渲染，不靠 CSS 藏） */
+body:has(.days-grid) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 页头：左边总标题、右边颜色图例 */
+.days-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.days-head-title {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--font-color);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.days-head-title i {
+  color: #3b70fc;
+}
+
+/* 图例：什么颜色代表什么 */
+.days-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .9rem;
+}
+
+.days-legend-item {
+  display: flex;
+  align-items: center;
+  gap: .38rem;
+  color: var(--font-color);
+  font-size: .8rem;
+  opacity: .72;
+}
+
+.days-legend-item i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.days-legend-item i.is-countdown {
+  background: #3b70fc;
+}
+
+.days-legend-item i.is-anniversary {
+  background: #2e8f6e;
+}
+
+.days-legend-item i.is-countup {
+  background: #ef8b00;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 1rem;
+}
+
+.days-card {
+  padding: 1.25rem 1rem 1.1rem;
+  border-radius: 12px;
+  background: var(--card-bg, #fff);
+  border: var(--style-border-always);
+  box-shadow: var(--icat-shadow-border);
+  text-align: center;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+
+.days-card:hover {
+  transform: translateY(-3px);
+  border-color: #3b70fc;
+  box-shadow: 0 10px 24px -10px rgba(59, 112, 252, .45);
+}
+
+.days-main {
+  margin-top: .55rem;
+  color: #3b70fc;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.days-num {
+  font-size: 2.3rem;
+  letter-spacing: -.5px;
+}
+
+.days-unit {
+  margin-left: 2px;
+  font-size: .8rem;
+  font-weight: 400;
+  opacity: .65;
+}
+
+.days-sub {
+  margin-top: .1rem;
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .55;
+}
+
+.days-name {
+  margin-top: .6rem;
+  color: var(--font-color);
+  font-size: .95rem;
+  font-weight: 600;
+}
+
+.days-meta {
+  margin-top: .15rem;
+  color: var(--font-color);
+  font-size: .75rem;
+  opacity: .45;
+}
+
+.days-note {
+  margin-top: .5rem;
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .6;
+}
+
+.days-next {
+  margin-top: .35rem;
+  color: #3b70fc;
+  font-size: .75rem;
+  opacity: .85;
+}
+
+.days-next:empty {
+  display: none;
+}
+
+/* 三类各自的强调色：纪念日绿（和清单页呼应）、正计时橙、倒计时蓝（默认） */
+.days-card.is-anniversary .days-main,
+.days-card.is-anniversary .days-next {
+  color: #2e8f6e;
+}
+
+.days-card.is-countup .days-main {
+  color: #ef8b00;
+}
+
+/* 正好是今天：橙色高亮，一眼能看到 */
+.days-card.is-today,
+.days-card.is-today:hover {
+  border-color: #ef8b00;
+  box-shadow: 0 10px 24px -10px rgba(239, 139, 0, .45);
+}
+
+.days-card.is-today .days-main,
+.days-card.is-today .days-next {
+  color: #ef8b00;
+}
+
+/* 深色：三种强调色各提亮一档，否则深蓝/深绿压在深底上发闷 */
+[data-theme="dark"] .days-card .days-main {
+  color: #6f9bff;
+}
+
+[data-theme="dark"] .days-card.is-anniversary .days-main,
+[data-theme="dark"] .days-card.is-anniversary .days-next,
+[data-theme="dark"] .days-card .days-next {
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .days-card.is-countup .days-main {
+  color: #ffb340;
+}
+
+/* 「就是今天」的橙色优先级最高，放在最后并提高特异性，
+   否则纪念日正好是今天时会被上面的绿色盖掉 */
+[data-theme="dark"] .days-card.is-today .days-main,
+[data-theme="dark"] .days-card.is-anniversary.is-today .days-main,
+[data-theme="dark"] .days-card.is-today .days-next {
+  color: #ffb340;
+}
+
+@media screen and (max-width: 768px) {
+  .days-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: .7rem;
+  }
+
+  .days-num {
+    font-size: 1.9rem;
+  }
+}
+
 /* Memos清单页样式 */
 
 
