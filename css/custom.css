@@ -2257,6 +2257,267 @@ body:has(.days-grid) #page {
   }
 }
 
+/* ============================================================
+   打卡页（打卡计划 + 习惯养成）
+   结构 includes/page/habit.pug，计算 source/js/habit.js
+   - 打卡计划：横长卡 + 进度条，按状态变色（进行中蓝 / 已结束绿 / 未开始灰）
+   - 习惯养成：小方卡 + 大天数，绿色
+   ============================================================ */
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.habit-grid) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.habit-section + .habit-section {
+  margin-top: 1.7rem;
+}
+
+.habit-section-title {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: .8rem;
+  color: var(--font-color);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.habit-section-title i {
+  color: #3b70fc;
+  font-size: .95rem;
+}
+
+.habit-section-title i.fa-seedling {
+  color: #2e8f6e;
+}
+
+.habit-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.habit-grid.is-challenge {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.habit-grid.is-habit {
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+}
+
+.habit-card {
+  padding: 1.1rem 1.15rem 1rem;
+  border-radius: 12px;
+  background: var(--card-bg, #fff);
+  border: var(--style-border-always);
+  box-shadow: var(--icat-shadow-border);
+  transition: border-color .25s;
+}
+
+/* hover 只改边框色：不上浮、不加深阴影（阴影保持基础值不动） */
+.habit-card:hover {
+  border-color: #3b70fc;
+}
+
+/* 已结束的卡片本来就是绿色系，hover 跟着走绿，避免蓝绿打架 */
+.habit-card.is-done:hover {
+  border-color: #2e8f6e;
+}
+
+/* ---- 打卡计划 ---- */
+.habit-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+}
+
+.habit-name {
+  color: var(--font-color);
+  font-size: .98rem;
+  font-weight: 600;
+}
+
+.habit-badge {
+  flex-shrink: 0;
+  padding: .12rem .55rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  color: #3b70fc;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.habit-card.is-done .habit-badge {
+  background: rgba(46, 143, 110, .12);
+  color: #2e8f6e;
+}
+
+.habit-card.is-pending .habit-badge {
+  background: rgba(140, 140, 150, .14);
+  color: #8c8c96;
+}
+
+.habit-bar {
+  height: 8px;
+  margin: 1rem 0 .55rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  overflow: hidden;
+}
+
+.habit-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6f9bff, #3b70fc);
+  transition: width .6s ease;
+}
+
+.habit-card.is-done .habit-bar {
+  background: rgba(46, 143, 110, .12);
+}
+
+.habit-card.is-done .habit-bar-fill {
+  background: linear-gradient(90deg, #6fc3a0, #2e8f6e);
+}
+
+.habit-bar-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .62;
+}
+
+.habit-left {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* 起止日期：做成浅底彩字的胶囊，比原来一行灰字醒目，也跟卡片状态同色 */
+.habit-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .8rem;
+}
+
+.habit-date {
+  padding: .12rem .5rem;
+  border-radius: 6px;
+  background: rgba(59, 112, 252, .1);
+  color: #3b70fc;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .2px;
+}
+
+.habit-card.is-done .habit-date {
+  background: rgba(46, 143, 110, .1);
+  color: #2e8f6e;
+}
+
+.habit-card.is-pending .habit-date {
+  background: rgba(140, 140, 150, .12);
+  color: #8c8c96;
+}
+
+.habit-arrow {
+  color: var(--font-color);
+  font-size: .72rem;
+  opacity: .3;
+}
+
+/* ---- 习惯养成 ---- */
+.habit-card.is-habit {
+  text-align: center;
+}
+
+.habit-days {
+  color: #2e8f6e;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.habit-num {
+  font-size: 2.1rem;
+  letter-spacing: -.5px;
+}
+
+.habit-days em {
+  margin-left: 2px;
+  font-size: .78rem;
+  font-style: normal;
+  font-weight: 400;
+  opacity: .65;
+}
+
+.habit-card.is-habit .habit-name {
+  margin-top: .7rem;
+  font-size: .92rem;
+}
+
+.habit-since {
+  margin-top: .2rem;
+  color: var(--font-color);
+  font-size: .74rem;
+  opacity: .45;
+}
+
+.habit-note {
+  margin-top: .55rem;
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .6;
+}
+
+/* 深色：蓝绿各提亮一档 */
+[data-theme="dark"] .habit-badge {
+  color: #6f9bff;
+}
+
+[data-theme="dark"] .habit-date {
+  background: rgba(111, 155, 255, .16);
+  color: #8fb0ff;
+}
+
+[data-theme="dark"] .habit-card.is-done .habit-date {
+  background: rgba(134, 211, 174, .16);
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .habit-card.is-done .habit-badge,
+[data-theme="dark"] .habit-days {
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .habit-bar {
+  background: rgba(111, 155, 255, .16);
+}
+
+[data-theme="dark"] .habit-card.is-done .habit-bar {
+  background: rgba(134, 211, 174, .16);
+}
+
+@media screen and (max-width: 768px) {
+  .habit-grid.is-challenge {
+    grid-template-columns: 1fr;
+  }
+
+  .habit-grid.is-habit {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: .7rem;
+  }
+}
+
 /* Memos清单页样式 */
 
 
