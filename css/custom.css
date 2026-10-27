@@ -1177,6 +1177,105 @@ h1.post-title {
   width: fit-content !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+  /* 让滚动切换标题时菜单是淡出而不是瞬间消失 */
+  transition: opacity .3s, visibility .3s;
+}
+
+/* ============================================================
+   导航栏：滚动显示页面标题（配合 source/js/nav-scroll-title.js）
+   向下滚动 → 菜单淡出、当前页面标题从下方浮上来；向上滚动 → 恢复菜单。
+   标题本身就是「回到顶部」按钮（hover 变蓝底）。
+   两个容易踩坑的点：
+   1. #mask-name-container 铺满整条导航，必须 pointer-events:none，
+      否则标题浮起时会盖住右侧搜索按钮，点不动。
+   2. 标题层挂在 #nav 直下而不是 #menus 里：#menus 因为 .menus_items 被
+      absolute 抽走，实际宽度只有搜索按钮那么点，遮罩会覆盖不全。
+   ============================================================ */
+
+#nav #mask-name-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#nav #name-container {
+  position: absolute;
+  top: 60px; /* 默认藏在导航栏下方，被遮罩裁掉 */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top .3s;
+  white-space: nowrap;
+}
+
+#nav #page-name {
+  position: relative;
+  display: inline-block;
+  padding: 8px 30px;
+  color: var(--font-color);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* 标题 hover：整块换成「回到顶部」 */
+#nav #page-name::before {
+  content: '回到顶部';
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: #3b70fc;
+  color: #fff;
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+
+#nav #page-name:hover::before {
+  opacity: 1;
+}
+
+/* 向下滚动：菜单淡出，标题浮上来 */
+#nav.nav-show-title .menus_items {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#nav.nav-show-title #name-container {
+  top: 10px;
+}
+
+/* 浮起时才参与层叠（依旧不接收点击，只让标题本体可点） */
+#nav.nav-show-title #mask-name-container {
+  z-index: 1;
+}
+
+#nav.nav-show-title #name-container,
+#nav.nav-show-title #page-name {
+  pointer-events: auto;
+}
+
+/* 注意：这里不要给 #blog-info 加 z-index。
+   #blog-info 是 flex:1，盒宽度从左侧一直撑到搜索按钮前，而居中的 .menus_items
+   正好落在这个盒子里；一旦把品牌区提到更高层级，它就会盖住菜单、
+   导致一级/二级菜单全部点不动（踩过）。遮罩层本身 pointer-events:none，
+   不遮挡品牌区的点击，无需再抬层级。 */
+
+/* 窄屏下导航收进汉堡菜单，标题层没有意义 */
+@media screen and (max-width: 900px) {
+  #nav #mask-name-container {
+    display: none !important;
+  }
 }
 
 /* 子菜单横向展示 */
@@ -1184,9 +1283,43 @@ h1.post-title {
   display: flex !important;
 }
 
-/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 */
-.menus_items .menus_item:nth-child(2) .menus_item_child {
-  left: -90px;
+/* 下拉菜单水平居中对齐父项
+   两个必须注意的点：
+   1. 主题的 sub_menus 关键帧自带 transform: translateY(10px)，如果这里只用
+      transform: translateX(-50%) 定位，展开动画会把它覆盖掉、位置跳一下。
+      所以换成自己的关键帧 sub_menus_center，两个轴一起写；`both` 让动画结束后
+      停留在 translate(-50%, 0)，居中状态得以保留。
+   2. right 必须显式归零，否则主题的 right: 0 会和 left: 50% 一起生效，
+      把宽度挤窄。 */
+#nav .menus_items .menus_item .menus_item_child {
+  left: 50%;
+  right: auto;
+  animation: sub_menus_center .3s .1s ease both;
+}
+
+@keyframes sub_menus_center {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* 一级菜单不显示下拉小箭头：子菜单是 hover 横向展开的，箭头反而多余 */
+#nav .menus_items .menus_item > a.group > i.fa-chevron-down {
+  display: none;
+}
+
+/* 二级菜单 hover 配色
+   --text-bg-hover 在本文件里被改成蓝色 #425AEF，而主题给下拉链接写的是
+   `color: var(--font-color) !important`（亮色下是深色），于是蓝底压深字看不清。
+   hover 时把文字和图标一起转白。图标是 a 里的 i，会继承 a 的颜色，不用单独写。 */
+#nav .menus_items .menus_item .menus_item_child li:hover a,
+#nav .menus_items .menus_item .menus_item_child li a:hover {
+  color: #fff !important;
 }
 
 /* 日间模式不生效 */
@@ -1662,29 +1795,200 @@ b, strong {
 }
 
 
-/* 代办清单 */
-#todolist {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 1rem;
+/* 去掉外层 #page 的卡片边框
+   project 页以前有题图（top_page），#page 被 `#page:has(#icat_page)` 那条规则
+   抹平过；现在改成普通页，主题的默认卡片样式回来了，于是筛选卡外面又套了一层
+   大圆角框。这里只去边框和底色、保留左右内边距，内容不至于贴屏幕边。
+   padding-top 一并清零，让卡片上沿与导航的距离和碎碎念页对齐：
+   只剩 #page-header 的 10px margin-bottom + .layout 的 20px padding = 30px。 */
+body:has(#todo-filter) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
-.list_item {
-  display: inline-block;
-  width: calc(33.333% - .5rem);
-  background: #ffe3dd;
+
+/* ============================================================
+   清单页筛选卡片（替代原来的题图，承担标题 + 统计 + 分类筛选）
+   结构在 includes/page/project.pug，交互在 source/js/todo-filter.js
+   ============================================================ */
+.todo-filter-card {
+  margin: 0 0 .4rem;
+  padding: 1rem 1.25rem;
   border-radius: 12px;
+  background: var(--card-bg, #fff);
   border: var(--style-border-always);
   box-shadow: var(--icat-shadow-border);
+}
+
+.todo-filter-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+}
+
+.todo-filter-title {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--font-color);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.todo-filter-title i {
+  color: #3b70fc;
+}
+
+.todo-filter-stats {
+  color: var(--font-color);
+  font-size: .85rem;
+  opacity: .6;
+}
+
+.todo-stat-sep {
+  margin: 0 .35rem;
+}
+
+.todo-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .9rem;
+}
+
+.todo-tab {
+  padding: .32rem .95rem;
+  border-radius: 999px;
+  border: 1px solid var(--style-border, #e3e8f7);
+  background: transparent;
+  color: var(--font-color);
+  font-size: .9rem;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background .25s, border-color .25s, color .25s;
+}
+
+.todo-tab:hover {
+  border-color: #3b70fc;
+  color: #3b70fc;
+}
+
+.todo-tab.is-active {
+  background: #3b70fc;
+  border-color: #3b70fc;
+  color: #fff;
+}
+
+/* 分组标题：左边名称、右边起止时间
+   - 标题自己 nowrap，绝不被挤成两行（三栏时列窄，最容易出这个问题）
+   - 整行允许 wrap：空间真不够时让日期整体掉到第二行，而不是把标题压扁 */
+.list_item h3.todo-group-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .15rem .5rem;
+}
+
+.todo-group-name {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.todo-range {
+  flex-shrink: 0;
+  color: #6f9f57;
+  font-size: .68rem;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: .9;
+}
+
+.list_item li i {
+  margin-right: 5px;
+  color: #b9b9b9; /* 空心圆圈用浅灰，比正文更轻，和参考图一致 */
+}
+
+/* 已完成：白色勾变绿，呼应外框颜色 */
+.list_item li.achieve i {
+  color: #8ec06c;
+}
+
+/* 页面标题「清单」和卡片里的「生活清单」重复，隐藏 h1 让卡片单独承担标题 */
+body:has(#todo-filter) #page > h1.page-title {
+  display: none;
+}
+
+/* 某个分类下没有分组时的提示 */
+.todo-empty {
+  width: 100%;
+  margin: .5rem 0 0;
+  color: var(--font-color);
+  font-size: .9rem;
+  text-align: center;
+  opacity: .5;
+}
+
+/* 代办清单：瀑布流（多列布局，卡片高度各自独立、列内紧凑堆叠）
+   原来用 flex 换行 + 33.33% 宽，副作用有两个：
+   ① margin-right 叠加后一行放不下 3 个，实际被挤成 2 列；
+   ② flex 沿主轴把同一行的卡片拉伸成等高，内容少的那张下方会留一大片空白。
+   用 column-count 明确三栏（窄屏依次降级 2 / 1 列），卡片不会再被拉伸。 */
+#todolist {
+  column-count: 3;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* 列数按屏幕收窄降级：1200 → 2 列，768 → 1 列 */
+@media screen and (max-width: 1200px) {
+  #todolist {
+    column-count: 2;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #todolist {
+    column-count: 1;
+  }
+}
+.list_item {
+  /* 多列布局里必须是块级 + 占满列宽，inline-block 会排错 */
+  display: block;
+  width: 100%;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--icat-shadow-border);
   padding: 10px 1rem 1.2rem;
-  border: 2px dashed #f7a796;
-  --todo-border: 1px solid #f7a796;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+  /* 绿色虚线外框 + 内部浅灰细分隔线（原来整张卡都是粉红系，太抢眼） */
+  border: 2px dashed #8ec06c;
+  --todo-border: 1px solid #ececec;
+  margin: 0 0 1rem;
 }
 .list_item h3 {
   margin: 0;
-  color: #333;
+  color: #2e8f6e;
   border-bottom: var(--todo-border);
+}
+
+/* 抵消「正文标题 hover 变蓝」对清单卡片的影响
+   本文件前面有一条 `#content-inner.layout h3:hover { color:#3b70fc }`（给文章正文
+   标题做的统一悬停色），清单分组标题同样是 #content-inner 里的 h3，会被连带命中。
+   要压过它必须带上同一个 id 前缀，光写 .list_item h3:hover 特异性不够。 */
+#content-inner.layout .list_item h3:hover,
+#content-inner.layout .list_item h3.todo-group-title:hover {
+  color: #2e8f6e;
+}
+
+[data-theme="dark"] #content-inner.layout .list_item h3:hover,
+[data-theme="dark"] #content-inner.layout .list_item h3.todo-group-title:hover {
+  color: #86d3ae;
 }
 .list_item ul {
   font-size: 17px;
@@ -1693,7 +1997,7 @@ b, strong {
 }
 .list_item li{
   margin: 0 !important;
-  color: #333;
+  color: #3d3d3d;
   border-bottom: var(--todo-border);
 }
 .list_item li::marker {
@@ -1714,8 +2018,18 @@ li.achieve {
   font-weight: 700;
   color: var(--font-color) !important;
 }
+/* 暗色：卡片底色、虚线框、标题、正文、分隔线都要跟着换，
+   否则白底卡在深色页里会变成几块刺眼的亮斑 */
 [data-theme="dark"] .list_item {
-  border: 2px solid var(--icat-card-border) !important;
+  background: rgba(40, 41, 46, .72);
+  border: 2px dashed #5f8f4c;
+  --todo-border: 1px solid rgba(255, 255, 255, .08);
+}
+[data-theme="dark"] .list_item h3 {
+  color: #86d3ae;
+}
+[data-theme="dark"] .list_item li {
+  color: #d5d5da;
 }
 @media screen and (max-width: 900px) {
   div#todolist {

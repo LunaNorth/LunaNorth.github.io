@@ -368,7 +368,11 @@ function waterfall(a) {
 
 function whenDOMReady() {
 	window.addEventListener('load', function() {
-		if (location.pathname == '/project/') waterfall('#todolist');
+		// 清单页(/project/)已改用 CSS 多列瀑布流（custom.css 里 #todolist 的 column-count），
+		// 下面这行 JS 瀑布流会给 .list_item 加 position:absolute + 逐个算 left/top，
+		// 和 CSS 多列布局打架 —— 表现就是「本来三栏，脚本跑完突然塌成一栏」。
+		// 所以不再调用：
+		// if (location.pathname == '/project/') waterfall('#todolist');
 	});
 }
 whenDOMReady()
