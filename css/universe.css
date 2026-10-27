@@ -626,6 +626,30 @@
 }
 
 /* ============================================================
+   碎碎念页：banner 与顶部导航的间距，对齐分类/标签页的头图
+   分类/标签页走 top_page 卡片：不渲染 h1.page-title，且 #page padding 被清零，
+   所以头图几乎贴着导航。碎碎念页却同时保留了
+     ① h1.page-title 标题行（margin: 8px 0 20px）
+     ② #page 的上内边距
+     ③ #essay-banner 自身的 margin-top: 1rem
+   三层叠加，导航下方就空出一大截。这里把三层都抹掉，
+   banner 上沿距离导航 = #page-header 的 10px margin-bottom + .layout 的 20px padding，
+   与分类/标签页头图完全一致。
+   ============================================================ */
+body:has(#essay-banner) #page {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+body:has(#essay-banner) #page > h1.page-title {
+  display: none !important;
+}
+
+body:has(#essay-banner) #essay-banner {
+  margin-top: 0 !important;
+}
+
+/* ============================================================
    碎碎念页：顶部导航与页面背景融为一体
    主题对 not-top-img 页面默认给 #nav 半透明白底 rgba(255,255,255,.8)
    加一条 box-shadow 投影（就是那条灰色分割线），压在浅色页面背景上会
