@@ -2538,8 +2538,9 @@ body:has(.habit-grid) #page {
 /* ============================================================
    体态页（体重 · 体脂记录）
    结构 includes/page/fitness.pug，走势图 source/js/fitness.js
-   - 一个「阶段目标」一张卡：目标名 + 状态徽章 + 起止日期胶囊
-     + 体重/体脂双指标（当前值、变化、达成进度条）+ 走势图 + 记录列表
+   - 一个「阶段目标」一张横排卡：左边目标信息 + 体重/体脂指标，
+     右边走势图 + 记录列表（超过 3 条时，更早的收进 <details> 折叠）
+   - 卡片通栏单列：卡内已经左右分栏，外层再分两栏每一项都会挤
    - 配色：体重蓝 #3b70fc、体脂橙 #ef8b00；
      数值下降绿 #2e8f6e（好事）、上升红 #d9534f、持平灰
    ============================================================ */
@@ -2607,16 +2608,15 @@ body:has(.fit-grid) #page {
   background: #ef8b00;
 }
 
-/* align-items: start：卡片内容长短不一，不要被拉伸成等高 */
+/* 通栏单列：卡内左右分栏已经把宽度用满，外层再排多列只会把内容挤扁 */
 .fit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
-  align-items: start;
 }
 
 .fit-card {
-  padding: 1.1rem 1.15rem 1rem;
+  padding: 1.05rem 1.15rem 1rem;
   border-radius: 12px;
   background: var(--card-bg, #fff);
   border: var(--style-border-always);
@@ -2633,17 +2633,17 @@ body:has(.fit-grid) #page {
   border-color: #2e8f6e;
 }
 
-/* ---- 卡片头：目标名 + 状态徽章 ---- */
+/* ---- 头部一行：目标名 + 状态徽章 + 起止日期（右对齐） ---- */
 .fit-card-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: .6rem;
+  gap: .45rem .6rem;
 }
 
 .fit-goal-name {
   color: var(--font-color);
-  font-size: .98rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.35;
 }
@@ -2674,7 +2674,7 @@ body:has(.fit-grid) #page {
   flex-wrap: wrap;
   align-items: center;
   gap: .4rem;
-  margin-top: .7rem;
+  margin-left: auto;
 }
 
 .fit-date {
@@ -2704,7 +2704,7 @@ body:has(.fit-grid) #page {
 }
 
 .fit-left {
-  margin-left: auto;
+  margin-left: .5rem;
   color: var(--font-color);
   font-size: .72rem;
   opacity: .5;
@@ -2715,15 +2715,28 @@ body:has(.fit-grid) #page {
   display: none;
 }
 
-/* ---- 双指标：上下堆叠，每个一行标题 + 大数字 + 进度条 + 还差多少 ---- */
+/* ---- 主体：左信息 / 右数据 ---- */
+.fit-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 1rem 1.1rem;
+  margin-top: .85rem;
+  align-items: start;
+}
+
+.fit-main,
+.fit-side {
+  min-width: 0;
+}
+
+/* ---- 双指标：上下两块，每块一行标题 + 大数字 + 进度条 + 还差多少 ---- */
 .fit-metrics {
   display: grid;
-  gap: .55rem;
-  margin-top: .9rem;
+  gap: .5rem;
 }
 
 .fit-metric {
-  padding: .7rem .75rem .6rem;
+  padding: .62rem .7rem .55rem;
   border-radius: 10px;
   background: rgba(59, 112, 252, .045);
   border: 1px solid rgba(59, 112, 252, .1);
@@ -2734,11 +2747,13 @@ body:has(.fit-grid) #page {
   border-color: rgba(239, 139, 0, .12);
 }
 
+/* 窄的时候「起 xx → 目标 xx」整块掉到第二行，不要挤成一团 */
 .fit-metric-top {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: .5rem;
+  gap: .15rem .5rem;
 }
 
 .fit-metric-label {
@@ -2764,12 +2779,12 @@ body:has(.fit-grid) #page {
   flex-wrap: wrap;
   align-items: baseline;
   gap: .22rem;
-  margin-top: .25rem;
+  margin-top: .2rem;
 }
 
 .fit-metric-now {
   color: #3b70fc;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -.5px;
@@ -2795,6 +2810,10 @@ body:has(.fit-grid) #page {
   font-variant-numeric: tabular-nums;
 }
 
+.fit-metric-delta:empty {
+  display: none;
+}
+
 .fit-metric-delta.is-down {
   color: #2e8f6e;
 }
@@ -2810,7 +2829,7 @@ body:has(.fit-grid) #page {
 
 .fit-bar {
   height: 6px;
-  margin: .5rem 0 .4rem;
+  margin: .45rem 0 .35rem;
   border-radius: 999px;
   background: rgba(59, 112, 252, .12);
   overflow: hidden;
@@ -2848,7 +2867,6 @@ body:has(.fit-grid) #page {
 .fit-spark {
   display: grid;
   gap: .35rem;
-  margin-top: .9rem;
 }
 
 .fit-spark-row {
@@ -2894,8 +2912,16 @@ body:has(.fit-grid) #page {
   stroke-dasharray: 4 3.2;
 }
 
-.fit-spark-area.is-weight {
-  fill: rgba(59, 112, 252, .1);
+/* 面积填充是 JS 内联的渐变：CSS 会盖掉 SVG 的 fill 属性，
+   所以颜色只能通过这两个 stop 控制，别再给 .fit-spark-area 写 fill */
+.fit-grad-top {
+  stop-color: #3b70fc;
+  stop-opacity: .22;
+}
+
+.fit-grad-bottom {
+  stop-color: #3b70fc;
+  stop-opacity: 0;
 }
 
 .fit-spark-dot.is-weight {
@@ -2906,18 +2932,18 @@ body:has(.fit-grid) #page {
   fill: #ef8b00;
 }
 
-/* ---- 记录列表：日期 / 体重 / 体脂 三列 ---- */
+/* ---- 记录列表：日期 / 体重 / 体脂 三列，超过 3 条把更早的折起来 ---- */
 .fit-records {
   display: grid;
   gap: .1rem;
-  margin-top: .8rem;
-  padding-top: .5rem;
+  margin-top: .75rem;
+  padding-top: .45rem;
   border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
 .fit-rec-head {
   display: grid;
-  grid-template-columns: 4.8rem 1fr 1fr;
+  grid-template-columns: 4.2rem minmax(0, 1fr) minmax(0, 1fr);
   gap: .4rem;
   padding: 0 .1rem .25rem;
   color: var(--font-color);
@@ -2927,13 +2953,13 @@ body:has(.fit-grid) #page {
 
 .fit-rec {
   display: grid;
-  grid-template-columns: 4.8rem 1fr 1fr;
+  grid-template-columns: 4.2rem minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: .4rem;
   padding: .28rem .1rem;
   border-radius: 6px;
   color: var(--font-color);
-  font-size: .78rem;
+  font-size: .76rem;
 }
 
 /* 最新一条轻轻垫个底色，一眼看到当前值 */
@@ -2943,7 +2969,7 @@ body:has(.fit-grid) #page {
 
 .fit-rec-date {
   color: var(--font-color);
-  font-size: .74rem;
+  font-size: .72rem;
   opacity: .5;
   font-variant-numeric: tabular-nums;
 }
@@ -2958,22 +2984,26 @@ body:has(.fit-grid) #page {
 
 .fit-rec-cell b {
   color: var(--font-color);
-  font-size: .86rem;
+  font-size: .84rem;
   font-weight: 600;
 }
 
 .fit-rec-cell em {
   color: var(--font-color);
-  font-size: .68rem;
+  font-size: .66rem;
   font-style: normal;
   opacity: .4;
 }
 
 .fit-rec-delta {
   margin-left: .2rem;
-  font-size: .7rem;
+  font-size: .68rem;
   font-style: normal;
   font-weight: 600;
+}
+
+.fit-rec-delta:empty {
+  display: none;
 }
 
 .fit-rec-delta.is-down {
@@ -2989,6 +3019,47 @@ body:has(.fit-grid) #page {
   opacity: .35;
 }
 
+/* 折叠：用原生 <details>，不依赖脚本，无 JS 也能点开 */
+.fit-more {
+  margin-bottom: .1rem;
+}
+
+.fit-more summary {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .3rem .1rem;
+  border-radius: 6px;
+  color: #3b70fc;
+  font-size: .74rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.fit-more summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 小三角，展开时转 90° */
+.fit-more summary::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  transition: transform .2s;
+}
+
+.fit-more[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.fit-more summary:hover {
+  opacity: .75;
+}
+
 .fit-note {
   margin-top: .7rem;
   color: var(--font-color);
@@ -2998,8 +3069,8 @@ body:has(.fit-grid) #page {
 
 /* ---- 深色：蓝橙各提亮一档，红绿也调柔和，否则压在深底上发闷 ---- */
 
-/* 卡片给个较实的深底（和清单页 .list_item 一致的 rgba(40,41,46,.72)）：
-   主题的 --card-bg 在暗色下偏透明，记录列表那种小字会被背景图透得看不清 */
+/* 卡片给个较实的深底：主题的 --card-bg 在暗色下偏透明，
+   记录列表那种小字会被背景图透得看不清 */
 [data-theme="dark"] .fit-card {
   background: rgba(40, 41, 46, .82);
 }
@@ -3081,8 +3152,14 @@ body:has(.fit-grid) #page {
   stroke: #ffb340;
 }
 
-[data-theme="dark"] .fit-spark-area.is-weight {
-  fill: rgba(111, 155, 255, .14);
+[data-theme="dark"] .fit-grad-top {
+  stop-color: #6f9bff;
+  stop-opacity: .26;
+}
+
+[data-theme="dark"] .fit-grad-bottom {
+  stop-color: #6f9bff;
+  stop-opacity: 0;
 }
 
 [data-theme="dark"] .fit-spark-dot.is-weight {
@@ -3101,23 +3178,28 @@ body:has(.fit-grid) #page {
   background: rgba(111, 155, 255, .1);
 }
 
-@media screen and (max-width: 768px) {
-  .fit-grid {
-    grid-template-columns: 1fr;
-    gap: .8rem;
-  }
+[data-theme="dark"] .fit-more summary {
+  color: #8fb0ff;
+}
 
+/* ---- 窄屏：改成上下堆叠，指标在上、走势图和记录在下 ---- */
+@media screen and (max-width: 768px) {
   .fit-card {
     padding: 1rem 1rem .9rem;
   }
 
-  .fit-metric-now {
-    font-size: 1.35rem;
+  .fit-body {
+    grid-template-columns: 1fr;
+    gap: .9rem;
   }
 
-  .fit-rec-head,
-  .fit-rec {
-    grid-template-columns: 4.2rem 1fr 1fr;
+  .fit-range {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .fit-left {
+    margin-left: auto;
   }
 }
 

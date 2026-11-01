@@ -17,6 +17,9 @@
   const DAY = 86400000
   const SVG_NS = 'http://www.w3.org/2000/svg'
 
+  // 渐变的 id 要唯一，pjax 重绘时递增
+  let gradSeq = 0
+
   const toDate = (str) => {
     const [y, m, d] = String(str).split('-').map(Number)
     return new Date(y, m - 1, d)
@@ -115,12 +118,37 @@
         .map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`)
         .join(' ')
 
-      // 只有体重铺淡色面积，两条都铺会糊成一片
+      // 只有体重铺面积，两条都铺会糊成一片；
+      // 用自上而下渐隐的渐变，纯色填充会在底部留一道生硬的横边和右侧竖边
       if (cls === 'is-weight') {
+        const gid = `fitGrad${++gradSeq}`
+
+        const defs = document.createElementNS(SVG_NS, 'defs')
+        const grad = document.createElementNS(SVG_NS, 'linearGradient')
+        grad.setAttribute('id', gid)
+        grad.setAttribute('x1', '0')
+        grad.setAttribute('y1', '0')
+        grad.setAttribute('x2', '0')
+        grad.setAttribute('y2', '1')
+
+        const stopTop = document.createElementNS(SVG_NS, 'stop')
+        stopTop.setAttribute('offset', '0')
+        stopTop.setAttribute('class', 'fit-grad-top')
+
+        const stopBottom = document.createElementNS(SVG_NS, 'stop')
+        stopBottom.setAttribute('offset', '1')
+        stopBottom.setAttribute('class', 'fit-grad-bottom')
+
+        grad.appendChild(stopTop)
+        grad.appendChild(stopBottom)
+        defs.appendChild(grad)
+        svg.appendChild(defs)
+
         const area = document.createElementNS(SVG_NS, 'path')
         const lastX = pts[pts.length - 1][0].toFixed(1)
         const firstX = pts[0][0].toFixed(1)
         area.setAttribute('d', `${d} L${lastX} ${height} L${firstX} ${height} Z`)
+        area.setAttribute('fill', `url(#${gid})`)
         area.setAttribute('class', `fit-spark-area ${cls}`)
         svg.appendChild(area)
       }
