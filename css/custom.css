@@ -3204,6 +3204,399 @@ body:has(.fit-grid) #page {
   }
 }
 
+/* ============================================================
+   课程学习页（方向 → 课程）
+   结构 includes/page/course.pug，状态计算 source/js/course.js
+   - 一个方向一个区块：方向名 + 该方向的课程数/完成数/平均进度，
+     下面按网格排课程卡片
+   - 课程卡：课程名 + 状态徽章 + 起止日期 + 章节进度条 + 备注
+   - 配色：学习中蓝 #3b70fc、已完成绿 #2e8f6e、未开始灰 #8c8c96、已超期橙 #ef8b00
+   ============================================================ */
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.course-list) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 页头：左边总标题、右边总统计 */
+.course-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.course-head-title {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--font-color);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.course-head-title i {
+  color: #3b70fc;
+}
+
+.course-head-stats {
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .55;
+}
+
+.course-list {
+  display: grid;
+  gap: 1.6rem;
+}
+
+/* ---- 方向区块头 ---- */
+/* 方向标题就是 <details> 的 summary：整行可点，点一下收起 / 展开该方向的课程 */
+.course-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .2rem .6rem;
+  margin-bottom: .7rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.course-section-head::-webkit-details-marker {
+  display: none;
+}
+
+/* 小三角：展开时朝下，收起时朝右 */
+.course-section-head::before {
+  content: '';
+  align-self: center;
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--font-color);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  opacity: .3;
+  transform: rotate(90deg);
+  transition: transform .2s;
+}
+
+.course-section:not([open]) .course-section-head::before {
+  transform: rotate(0deg);
+}
+
+.course-section:not([open]) .course-section-head {
+  margin-bottom: 0;
+}
+
+.course-section-head:hover::before {
+  opacity: .6;
+}
+
+.course-dir-name {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--font-color);
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.course-dir-name i {
+  color: #3b70fc;
+  font-size: .86rem;
+}
+
+.course-dir-meta {
+  margin-left: auto;
+  color: var(--font-color);
+  font-size: .75rem;
+  opacity: .5;
+  white-space: nowrap;
+}
+
+.course-dir-note {
+  margin: -.35rem 0 .7rem;
+  color: var(--font-color);
+  font-size: .78rem;
+  opacity: .55;
+}
+
+.course-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+  gap: .85rem;
+  align-items: start;
+}
+
+/* ---- 课程卡 ---- */
+.course-card {
+  padding: .9rem 1rem .85rem;
+  border-radius: 12px;
+  background: var(--card-bg, #fff);
+  border: var(--style-border-always);
+  box-shadow: var(--icat-shadow-border);
+  transition: border-color .25s;
+}
+
+/* hover 只改边框色，边框颜色跟着状态走 */
+.course-card:hover {
+  border-color: #3b70fc;
+}
+
+.course-card.is-done:hover {
+  border-color: #2e8f6e;
+}
+
+.course-card.is-overdue:hover {
+  border-color: #ef8b00;
+}
+
+.course-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.course-name {
+  color: var(--font-color);
+  font-size: .94rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.course-badge {
+  flex-shrink: 0;
+  padding: .1rem .48rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  color: #3b70fc;
+  font-size: .7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.course-card.is-done .course-badge {
+  background: rgba(46, 143, 110, .12);
+  color: #2e8f6e;
+}
+
+.course-card.is-pending .course-badge {
+  background: rgba(140, 140, 150, .14);
+  color: #8c8c96;
+}
+
+.course-card.is-overdue .course-badge {
+  background: rgba(239, 139, 0, .14);
+  color: #ef8b00;
+}
+
+/* ---- 起止日期胶囊 + 右侧剩余天数（天数由 JS 填） ---- */
+.course-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .6rem;
+}
+
+.course-date {
+  padding: .1rem .45rem;
+  border-radius: 6px;
+  background: rgba(59, 112, 252, .1);
+  color: #3b70fc;
+  font-size: .7rem;
+  font-weight: 500;
+}
+
+.course-card.is-done .course-date {
+  background: rgba(46, 143, 110, .1);
+  color: #2e8f6e;
+}
+
+.course-card.is-pending .course-date {
+  background: rgba(140, 140, 150, .12);
+  color: #8c8c96;
+}
+
+.course-card.is-overdue .course-date {
+  background: rgba(239, 139, 0, .12);
+  color: #ef8b00;
+}
+
+.course-arrow {
+  color: var(--font-color);
+  font-size: .7rem;
+  opacity: .3;
+}
+
+.course-left {
+  margin-left: auto;
+  color: var(--font-color);
+  font-size: .7rem;
+  opacity: .5;
+  white-space: nowrap;
+}
+
+.course-left:empty {
+  display: none;
+}
+
+/* ---- 章节数 + 百分比，下面一条进度条 ---- */
+/* 透明度放在 .course-count 上，不放容器：
+   容器带 opacity 时子元素写 opacity:1 也超不过父级，百分比会被一起压淡 */
+.course-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-top: .75rem;
+  color: var(--font-color);
+  font-size: .74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.course-count {
+  opacity: .6;
+}
+
+.course-percent {
+  color: #3b70fc;
+  font-weight: 600;
+}
+
+.course-card.is-done .course-percent {
+  color: #2e8f6e;
+}
+
+.course-card.is-overdue .course-percent {
+  color: #ef8b00;
+}
+
+.course-bar {
+  height: 6px;
+  margin-top: .35rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  overflow: hidden;
+}
+
+.course-card.is-done .course-bar {
+  background: rgba(46, 143, 110, .12);
+}
+
+.course-card.is-overdue .course-bar {
+  background: rgba(239, 139, 0, .14);
+}
+
+.course-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6f9bff, #3b70fc);
+  transition: width .6s ease;
+}
+
+.course-card.is-done .course-bar-fill {
+  background: linear-gradient(90deg, #6fc3a0, #2e8f6e);
+}
+
+.course-card.is-overdue .course-bar-fill {
+  background: linear-gradient(90deg, #ffc46b, #ef8b00);
+}
+
+.course-note {
+  margin-top: .55rem;
+  color: var(--font-color);
+  font-size: .75rem;
+  opacity: .6;
+}
+
+/* ---- 深色：四种状态色各提亮一档；卡片给较实的深底，小字才看得清 ---- */
+[data-theme="dark"] .course-card {
+  background: rgba(40, 41, 46, .82);
+}
+
+[data-theme="dark"] .course-head-title i,
+[data-theme="dark"] .course-dir-name i {
+  color: #8fb0ff;
+}
+
+[data-theme="dark"] .course-badge {
+  color: #6f9bff;
+}
+
+[data-theme="dark"] .course-card.is-done .course-badge {
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .course-card.is-overdue .course-badge {
+  color: #ffb340;
+}
+
+[data-theme="dark"] .course-date {
+  background: rgba(111, 155, 255, .16);
+  color: #8fb0ff;
+}
+
+[data-theme="dark"] .course-card.is-done .course-date {
+  background: rgba(134, 211, 174, .16);
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .course-card.is-overdue .course-date {
+  background: rgba(255, 179, 64, .16);
+  color: #ffb340;
+}
+
+[data-theme="dark"] .course-percent {
+  color: #8fb0ff;
+}
+
+[data-theme="dark"] .course-card.is-done .course-percent {
+  color: #86d3ae;
+}
+
+[data-theme="dark"] .course-card.is-overdue .course-percent {
+  color: #ffb340;
+}
+
+[data-theme="dark"] .course-bar {
+  background: rgba(111, 155, 255, .18);
+}
+
+[data-theme="dark"] .course-card.is-done .course-bar {
+  background: rgba(134, 211, 174, .18);
+}
+
+[data-theme="dark"] .course-card.is-overdue .course-bar {
+  background: rgba(255, 179, 64, .18);
+}
+
+[data-theme="dark"] .course-head-stats,
+[data-theme="dark"] .course-dir-meta,
+[data-theme="dark"] .course-count {
+  opacity: .62;
+}
+
+@media screen and (max-width: 768px) {
+  .course-cards {
+    grid-template-columns: 1fr;
+    gap: .7rem;
+  }
+
+  .course-list {
+    gap: 1.3rem;
+  }
+}
+
 /* Memos清单页样式 */
 
 
