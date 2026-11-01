@@ -1998,7 +1998,8 @@ body:has(#todo-filter) #page > h1.page-title {
   color: #86d3ae;
 }
 .list_item ul {
-  font-size: 17px;
+  /* 15px：比正文基准 14px 略突出一点，又不像原来的 17px 那样压过分组标题 */
+  font-size: 15px;
   padding: 0 !important;
   margin: 0;
 }
