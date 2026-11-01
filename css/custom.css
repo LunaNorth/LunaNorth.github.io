@@ -3321,6 +3321,19 @@ body:has(.course-list) #page {
   white-space: nowrap;
 }
 
+/* 收起时显示的一行课程名摘要；展开后卡片里已有名字，藏起来免得重复 */
+.course-dir-list {
+  flex-basis: 100%;
+  color: var(--font-color);
+  font-size: .74rem;
+  line-height: 1.55;
+  opacity: .45;
+}
+
+.course-section[open] .course-dir-list {
+  display: none;
+}
+
 .course-dir-note {
   margin: -.35rem 0 .7rem;
   color: var(--font-color);
@@ -3582,6 +3595,7 @@ body:has(.course-list) #page {
 
 [data-theme="dark"] .course-head-stats,
 [data-theme="dark"] .course-dir-meta,
+[data-theme="dark"] .course-dir-list,
 [data-theme="dark"] .course-count {
   opacity: .62;
 }
