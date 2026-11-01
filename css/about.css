@@ -193,29 +193,31 @@
   margin-bottom: 14px;
 }
 
+/* 4 列 × 紧凑尺寸：11 项只占 3 行，整体高度跟原来 6 项 2 行基本持平，
+   不会因为加了页面就把卡片撑高 */
 #about-page .wb-nav-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 }
 
 #about-page .wb-nav-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 52px;
-  border-radius: 12px;
+  gap: 6px;
+  height: 36px;
+  border-radius: 10px;
   background: var(--june-secondbg, #f7f7f9);
   border: 1px solid transparent;
   color: var(--june-fontcolor, #4c4948);
-  font-size: 15px;
+  font-size: 13px;
   /* 只过渡颜色：和全站其他卡片一致，hover 不位移 */
   transition: border-color .25s, color .25s, background .25s;
 }
 
 #about-page .wb-nav-btn i {
-  font-size: 15px;
+  font-size: 12px;
 }
 
 #about-page .wb-nav-btn:hover {
@@ -493,6 +495,11 @@
 
   #about-page .wb-nav-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  #about-page .wb-nav-btn {
+    height: 42px;
+    font-size: 14px;
   }
 
   #about-page .wb-card {
