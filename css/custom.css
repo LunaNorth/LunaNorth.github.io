@@ -511,12 +511,13 @@ body {
 }
 
 
+/* 子集化字体：只保留全站实际用字 + 常用字表（3971 字），
+   4.3MB → 504KB。字体源见 source/fonts/，用 tools/subset-fonts.py 可重新生成 */
 @font-face {
   font-family: HarmonyOS_Sans_SC_Medium;
   font-style: normal;
   font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/irozhi/HarmonyOS-Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff2') format('woff2'),
-    url('https://cdn.jsdelivr.net/gh/irozhi/HarmonyOS-Sans/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff') format('woff');
+  src: url('/fonts/harmony-medium-subset.woff2') format('woff2');
 }
 
 /* *{font-family:HarmonyOS_Sans_SC_Medium;} */
@@ -1143,13 +1144,13 @@ h6::before {
   -ms-transition: all 0.5s;
   transition: all 0.5s;
   /* background-image: url(https://cdn.jsdelivr.net/gh/NorthPoet/images/images/picture-2312336.jpg); */
-  background-image: url(https://s21.ax1x.com/2024/08/06/pkxk3Fg.jpg);
+  background-image: url(/img/banner/header-default.webp);
 }
 
-/* 字体 */
+/* 字体（子集化：4.76MB → 641KB，源见 source/fonts/） */
 @font-face {
   font-family: ZhuZiAYuanJWD;
-  src: url(https://npm.elemecdn.com/anzhiyu-blog@1.1.6/fonts/ZhuZiAWan.woff2);
+  src: url('/fonts/zhuzi-subset.woff2') format('woff2');
   font-display: swap;
   font-weight: lighter;
 }
