@@ -4149,8 +4149,10 @@ tbody tr:last-child td {
 }
 
 /* ---- 3. 底部白色波浪（复刻 anzhiyu 的 main-hero-waves-area） ---- */
-/* 主题原来把波浪写死在 head.styl 里，这里恢复并覆盖成参考站的配色：
-   四层同色不同透明度，叠加出有层次的白色波浪 */
+/* 关键：anzhiyu 的波浪 fill 是 #f7f9fe，正好等于它的页面底色 --global-bg，
+   所以波浪最底层和下方内容区是同一个颜色，视觉上完全连成一体、没有分界。
+   这里把 fill 改成 var(--global-bg)，波浪就会自动跟随本站页面底色：
+   亮色是 #fff、暗色是深色底，都不再出现「波浪灰白 / 页面纯白」的那条缝。 */
 .main-hero-waves-area {
   display: block !important;
   width: 100%;
@@ -4174,43 +4176,35 @@ tbody tr:last-child td {
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
   animation-duration: 7s;
-  fill: #f7f9febd;
+  fill: var(--global-bg);
+  /* 透明度对齐 anzhiyu 原值：0.74 / 0.51 / 0.21 / 1；
+     本站页面底色是纯白，比参考站的 #f7f9fe 更白，
+     所以最外两层再提亮一点，叠出来的浪尖不会偏灰 */
+  opacity: 0.82;
 }
 
 .parallax > use:nth-child(2) {
   animation-delay: -3s;
   animation-duration: 10s;
-  fill: #f7f9fe82;
+  fill: var(--global-bg);
+  opacity: 0.62;
 }
 
 .parallax > use:nth-child(3) {
   animation-delay: -4s;
   animation-duration: 13s;
-  fill: #f7f9fe36;
+  fill: var(--global-bg);
+  opacity: 0.3;
 }
 
 .parallax > use:nth-child(4) {
   animation-delay: -5s;
   animation-duration: 20s;
-  fill: #f7f9fe;
+  fill: var(--global-bg);
+  opacity: 1;
 }
 
-/* 暗色模式跟随页面背景，避免白浪在深色页面上过于刺眼 */
-[data-theme="dark"] .parallax > use:nth-child(1) {
-  fill: #18171dc8;
-}
-
-[data-theme="dark"] .parallax > use:nth-child(2) {
-  fill: #18171d80;
-}
-
-[data-theme="dark"] .parallax > use:nth-child(3) {
-  fill: #18171d3e;
-}
-
-[data-theme="dark"] .parallax > use:nth-child(4) {
-  fill: rgb(0 0 0 / 39%);
-}
+/* 暗色模式同样交给 --global-bg（主题暗色下是深色底），不需要单独写死颜色 */
 
 @keyframes move-forever {
   0% {
