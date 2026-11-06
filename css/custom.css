@@ -4096,90 +4096,164 @@ tbody tr:last-child td {
 }
 
 /* ============================================================
-   文章页头图改版 (2026-11-06)
+   文章页头图（复刻 anzhiyu 主题）
    ------------------------------------------------------------
-   背景：文章封面大图铺满整块（主题原本的效果），只在文字区叠一层
-         局部渐变保证白色标题可读，不再用纯色把封面盖住。
-   布局：左侧从 70px 开始纵向排列「分类胶囊 → 标题 → 胶囊元信息」
-   参数：header 高 460px、标题 2.6rem/800/1.38、胶囊高 32px/圆角 99px/
-         胶囊底色 rgba(255,255,255,.15)、头图与内容间距 28px
-   模板：themes/butterfly/layout/includes/header/post-info.pug
+   做法（参考 themes/anzhiyu/source/css/_layout/head.styl 的
+   mainTone.enable = false 分支的视觉参数：blur + brightness(60%)）：
+     1) 封面铺在 header 自身背景上，::before 用 backdrop-filter 对底层封面
+        做 blur(20px) brightness(60%)，整块糊成背景且完整覆盖四条边；
+     2) 底部叠白色波浪（main-hero-waves-area），和内容区衔接；
+     3) 文字层 #post-info 在最上面，左侧排列「原创/分类/标签 → 标题 → 日期」。
+   为什么不用 filter: blur()：给封面元素直接加 filter 时，模糊会采样到
+   元素外的透明像素，顶部/左右会出现一条“没糊透”的边（用户反馈的问题）。
+   backdrop-filter 作用于父级已绘制的封面，边缘不会变透明，所以能铺满。
+   取色失败时：不写封面变量 → 纯色底 + 正常文字，绝不会出现紫/蓝错配。
    ============================================================ */
 
 /* ---- 1. 画布：固定高度，背景图铺满 ---- */
 #page-header.post-bg {
   position: relative;
-  /* 高度取 460px：参考站 desktop 是 24/25rem(384/400)，但本站标题是 2.6rem
-     且允许换到 3 行，长标题（如「WPF MVVM与ScottPlot实时数据学习笔记」）
-     在 384px 里上下只剩 50px 左右，偏挤；460px 正好是本站原先的手工值，
-     三行标题 + 分类胶囊 + 元信息胶囊也仍留有约 90px 上下呼吸空间。 */
-  height: 460px !important;
+  /* anzhiyu 原版 31.25rem(500px)；本站标题 2.6rem、允许 3 行，
+     500px 上下留白更接近参考图 */
+  height: 31.25rem !important;
   overflow: hidden;
-  background-color: var(--post-bg, var(--my-theme-color));
+  /* 底色也跟随封面主色：封面图还没加载出来 / 加载失败时，
+     露出的是同一色系，不会出现「蓝色底 + 红色蒙版 = 紫色」 */
+  background-color: var(--post-base-color, var(--my-theme-color));
 }
 
-/* 背景：封面图强模糊 + 半透明主色蒙版（参考 blog.zhheo.com 的效果）。
-   做法是两层：
-     ::before  只负责 backdrop-filter，把父元素的封面图糊成柔和色块；
-     ::after   铺一层主色（--post-bg，构建时从封面取色），用 opacity 控制
-               不透明度，于是整块变成「主色调 + 隐约可见的封面轮廓」，
-               既不会像原图那样花，也不像纯色那样死板。
-   文字层 z-index 10、导航 z-index 90，都在这两层之上。 */
+/* ---- 2. 整块模糊封面（backdrop-filter 版本，覆盖到四条边） ---- */
+/* 主题的 mask.header 原本给这个 ::before 铺 --mark-bg 深色底，这里改成
+   透明底 + 对底层封面做模糊，颜色/明暗完全来自封面本身。
+   blur(20px) 是 anzhiyu blur(10px) + scale(2) 的等效视觉半径；
+   brightness(60%) 与其 mainTone 关闭分支一致。 */
 #page-header.post-bg::before {
+  display: block;
   content: "";
   position: absolute;
   inset: 0;
-  /* 主题 mask.header 会给这个 ::before 铺 --mark-bg 深色底，
-     这里清掉，颜色统一交给 ::after 的主色蒙版 */
   background-color: transparent;
-  /* 24px 足够糊掉封面细节，又不至于把明暗关系抹平；
-     brightness 略微提亮，避免深色封面糊完变成一块黑 */
-  -webkit-backdrop-filter: blur(24px) saturate(1.25) brightness(1.08);
-  backdrop-filter: blur(24px) saturate(1.25) brightness(1.08);
+  -webkit-backdrop-filter: blur(20px) brightness(60%);
+  backdrop-filter: blur(20px) brightness(60%);
   z-index: 0;
+  pointer-events: none;
 }
 
-#page-header.post-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* --post-bg 是封面主色，由模板内联写入（见 tools/cover-color.py）。
-     没有取色时退回主题主色，仍能保持整体色调统一 */
-  background-color: var(--post-bg, var(--my-theme-color));
-  /* 0.62：封面轮廓还隐约可见，同时白色标题和胶囊有足够对比度 */
-  opacity: 0.62;
-  z-index: 1;
+/* 没有封面：没有可模糊的底层图，直接保留取色/主题纯色底 */
+#page-header.post-bg.no-cover::before {
+  display: none;
 }
 
+#page-header.post-bg.no-cover {
+  background-color: var(--post-base-color, var(--my-theme-color));
+}
+
+/* ---- 3. 底部白色波浪（复刻 anzhiyu 的 main-hero-waves-area） ---- */
+/* 主题原来把波浪写死在 head.styl 里，这里恢复并覆盖成参考站的配色：
+   四层同色不同透明度，叠加出有层次的白色波浪 */
 .main-hero-waves-area {
-  display: none !important;
+  display: block !important;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+  z-index: 5;
+  pointer-events: none;
 }
 
-/* ---- 3. 文字容器：靠左排，右侧给封面卡让出 380px ---- */
+.waves-area .waves-svg {
+  width: 100%;
+  height: 3.75rem;
+}
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+  will-change: transform;
+}
+
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #f7f9febd;
+}
+
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #f7f9fe82;
+}
+
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #f7f9fe36;
+}
+
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #f7f9fe;
+}
+
+/* 暗色模式跟随页面背景，避免白浪在深色页面上过于刺眼 */
+[data-theme="dark"] .parallax > use:nth-child(1) {
+  fill: #18171dc8;
+}
+
+[data-theme="dark"] .parallax > use:nth-child(2) {
+  fill: #18171d80;
+}
+
+[data-theme="dark"] .parallax > use:nth-child(3) {
+  fill: #18171d3e;
+}
+
+[data-theme="dark"] .parallax > use:nth-child(4) {
+  fill: rgb(0 0 0 / 39%);
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/* 文字区遮罩：原版 mainTone 关闭时没有这层，压暗完全交给 brightness(60%)。
+   这里也保持为空，只在取色失败（没有封面层）时用纯色底兜底。 */
+#page-header.post-bg::after {
+  display: none;
+}
+
+/* ---- 3. 文字容器（复刻 anzhiyu #post-info 定位） ---- */
 #page-header.post-bg #post-info {
   position: absolute;
   left: max(calc((100vw - 1400px) / 2), 0px);
-  top: 14px;
+  top: 0;
   bottom: auto;
   width: min(100%, 1400px);
-  height: calc(100% - 30px);
+  height: 100%;
   box-sizing: border-box;
-  padding: 0 30px 0 70px;
+  /* 原版：+maxWidth1400 时 padding: 0 3.5rem；宽屏靠 left 计算贴齐内容区 */
+  padding: 0 3.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 22px;
   color: #fff;
   text-align: left;
   z-index: 10;
 }
 
-/* ---- 4. 分类胶囊 ---- */
+/* ---- 4. 第一行：原创胶囊 + 分类胶囊 + 标签（复刻 anzhiyu #post-firstinfo） ---- */
 #page-header #post-firstinfo {
   display: flex;
   align-items: center;
   order: 1;
+  white-space: nowrap;
 }
 
 #page-header #post-firstinfo .meta-firstline {
@@ -4188,52 +4262,91 @@ tbody tr:last-child td {
   gap: 8px;
   height: 32px;
   margin: 0;
-  flex-wrap: wrap;
+}
+
+/* 原创 / 转载 胶囊 */
+#page-header a.post-meta-original {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 0.7rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none !important;
+  transition: background 0.3s ease;
+}
+
+#page-header a.post-meta-original:hover {
+  background: var(--my-theme-color);
 }
 
 #page-header span.post-meta-categories {
   display: inline-flex;
   align-items: center;
   height: 32px;
-  padding: 0 0.7rem;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.15);
-  transition: background 0.3s ease;
-}
-
-#page-header span.post-meta-categories:hover {
-  background: #fff;
+  margin-left: 0.4rem;
 }
 
 #page-header a.post-meta-categories {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 0.7rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
   line-height: 1;
   text-decoration: none !important;
-  transition: color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-#page-header span.post-meta-categories:hover a.post-meta-categories {
-  color: var(--my-theme-color);
+#page-header a.post-meta-categories:hover {
+  background: var(--my-theme-color);
 }
 
-/* ---- 5. 标题：42px 粗体，左对齐，最多 3 行 ---- */
+/* 标签：#WPF基础，原版是普通文字，不做胶囊 */
+#page-header .article-meta.tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 1.2rem;
+}
+
+#page-header a.article-meta__tags {
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+#page-header a.article-meta__tags .tag-hash {
+  margin-right: 3px;
+}
+
+/* ---- 5. 标题（复刻 anzhiyu：3.3rem / 700 / 1.5 / 最多 2 行） ---- */
 #page-header.post-bg #post-info .post-title {
   order: 2;
-  margin: 0;
+  margin: 1rem 0;
   padding: 0;
   color: #fff;
-  font-size: 2.6rem;
-  font-weight: 800;
-  line-height: 1.38;
+  font-size: 3.3rem;
+  font-weight: 700;
+  line-height: 1.5;
   letter-spacing: 0.01em;
   text-align: left;
   text-shadow: none;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   max-width: 100%;
 }
@@ -4245,15 +4358,20 @@ tbody tr:last-child td {
   margin-left: 0.4em;
 }
 
-/* ---- 6. 元信息：一排 32px 高的半透明胶囊 ---- */
+/* ---- 6. 元信息（复刻 anzhiyu：两行普通文字，不是胶囊） ---- */
 #page-header.post-bg #post-info #post-meta {
   order: 3;
-  width: 100%;
+  width: 50rem;
+  max-width: 100%;
   margin: 0;
-  font-size: 0.78rem;
-  color: #fff;
+  font-size: 0.95rem;
+  color: var(--light-grey, rgba(255, 255, 255, 0.8));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
+#page-header.post-bg #post-info .meta-firstline,
 #page-header.post-bg #post-info .meta-secondline {
   display: flex;
   flex-direction: row;
@@ -4262,58 +4380,46 @@ tbody tr:last-child td {
   justify-content: flex-start;
   gap: 8px;
   margin: 0;
+  height: auto;
 }
 
-#page-header.post-bg #post-info .meta-secondline > span:not(.post-meta-separator),
-#page-header.post-bg #post-info .meta-secondline > a {
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-  padding: 0 0.7rem;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  line-height: 1;
-  box-sizing: border-box;
-  transition: background 0.3s ease, color 0.3s ease;
+/* 原版只隐藏 meta-secondline 里的第一个 separator，保留日期行的分隔 */
+#page-header.post-bg #post-info .meta-firstline .post-meta-separator {
+  margin: 0 8px;
 }
 
-/* hover 反白，跟 Heo 一致 */
-#page-header.post-bg #post-info .meta-secondline > span:not(.post-meta-separator):hover,
-#page-header.post-bg #post-info .meta-secondline > a:hover {
-  background: #fff;
-  color: var(--my-theme-color);
-}
-
-#page-header.post-bg #post-info .meta-secondline > span:not(.post-meta-separator):hover a {
-  color: inherit;
-}
-
+#page-header.post-bg #post-info .meta-firstline i,
 #page-header.post-bg #post-info .meta-secondline i {
-  font-size: 13px;
-  margin-right: 5px;
+  margin-right: 4px;
+  font-size: 0.9rem;
   line-height: 1;
 }
 
-/* 浏览量/评论数还没取回来时，主题会在胶囊里塞一个转圈的 spinner，
-   它和前面的图标叠在一起会显得像重影，这里压小并留一点缝 */
-#page-header.post-bg #post-info .meta-secondline .fa-spinner {
-  font-size: 9px;
-  margin-right: 0;
-  margin-left: 2px;
-  opacity: 0.7;
+/* 主题的 fa-fw 会强制固定宽度，这里还原成内容宽度，避免图标挤在一起 */
+#page-header.post-bg #post-info .fa-fw {
+  width: auto;
+  text-align: left;
 }
 
-/* 竖线与「发表于/字数」这类说明文字在胶囊里不需要 */
-#page-header.post-bg #post-info .post-meta-separator,
 #page-header.post-bg #post-info .post-meta-label {
-  display: none !important;
+  margin-right: 4px;
 }
 
-#page-header.post-bg #post-info .word-count,
-#page-header.post-bg #post-info #busuanzi_value_page_pv,
-#page-header.post-bg #post-info #twikoo-count {
-  font-weight: 800;
+/* 元信息行（字数/阅读时长/浏览量/评论）之间用分隔符，原版是普通文字 */
+/* 参考站头图只显示日期行，没有字数/阅读量/浏览量那一行。
+   这里隐藏，保持和 anzhiyu 一致的排版；正文页底部仍保留这些信息。 */
+#page-header.post-bg #post-info .meta-secondline {
+  display: none;
+}
+
+#page-header.post-bg #post-info .meta-secondline .post-meta-separator {
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+/* 第二行第一个 separator 原版会隐藏（避免行首出现竖线） */
+#page-header.post-bg #post-info .meta-secondline > .post-meta-separator:first-child {
+  display: none;
 }
 
 /* ---- 11. 文章页：侧栏卡片与正文顶部对齐 ---- */
@@ -4332,16 +4438,14 @@ tbody tr:last-child td {
 }
 
 /* ---- 9. 头图与侧栏/正文之间留出间距 ---- */
-/* 参考 blog.zhheo.com：头图底边到下方卡片顶边留一段间距。
-   主题 #content-inner 默认是 40px，这里收窄到 28px，
-   侧栏和正文一起下移，两者顶边依然齐平。 */
+/* 头图底边到下方卡片顶边留一段间距：主题 #content-inner 默认是 40px，
+   这里收窄到 28px，侧栏和正文一起下移，两者顶边依然齐平。 */
 #page-header.post-bg + #content-inner {
   padding-top: 28px;
 }
 
-/* 正文卡保持主题默认的 8px 圆角、1px 透明边框和阴影：
-   头图底部不再垫白色圆角条，所以顶部边框、圆角和阴影都能正常露出来，
-   hover 时四边边框（含顶边）也都能看到。 */
+/* 正文卡保持主题默认的 8px 圆角、1px 透明边框和阴影，
+   hover 时四条边（含顶边）都会变成主题蓝，能完整看到。 */
 #page-header.post-bg + #content-inner #post {
   /* 阴影沿用主题变量（0 3px 8px 6px rgba(7,17,27,.05)），与旧版一致，
      也让正文卡和侧栏卡片保持同一套观感 */
