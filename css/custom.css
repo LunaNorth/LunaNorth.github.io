@@ -4099,11 +4099,15 @@ tbody tr:last-child td {
    文章页头图（复刻 anzhiyu 主题）
    ------------------------------------------------------------
    做法（参考 themes/anzhiyu/source/css/_layout/head.styl 的
-   mainTone.enable = false 分支的视觉参数：blur + brightness(60%)）：
+   mainTone.enable = true 分支：取色底 + 半透明模糊封面）：
      1) 封面铺在 header 自身背景上，::before 用 backdrop-filter 对底层封面
-        做 blur(20px) brightness(60%)，整块糊成背景且完整覆盖四条边；
-     2) 底部叠白色波浪（main-hero-waves-area），和内容区衔接；
-     3) 文字层 #post-info 在最上面，左侧排列「原创/分类/标签 → 标题 → 日期」。
+        做 blur(56px)，再叠一层 50% 的取色底，等效于 anzhiyu 的
+        「取色底 + opacity .5 的模糊封面」，整块糊成背景且覆盖四条边；
+     2) ::before 同时带一层取色 inset 柔光（对应 anzhiyu 的
+        box-shadow: 110px -130px 300px 60px var(--anzhiyu-bar-background) inset），
+        让画面一侧泛出同色亮光，整体更接近参考站；
+     3) 底部叠白色波浪（main-hero-waves-area），和内容区衔接；
+     4) 文字层 #post-info 在最上面，左侧排列「原创/分类/标签 → 标题 → 日期」。
    为什么不用 filter: blur()：给封面元素直接加 filter 时，模糊会采样到
    元素外的透明像素，顶部/左右会出现一条“没糊透”的边（用户反馈的问题）。
    backdrop-filter 作用于父级已绘制的封面，边缘不会变透明，所以能铺满。
@@ -4125,16 +4129,21 @@ tbody tr:last-child td {
 /* ---- 2. 整块模糊封面（backdrop-filter 版本，覆盖到四条边） ---- */
 /* 主题的 mask.header 原本给这个 ::before 铺 --mark-bg 深色底，这里改成
    透明底 + 对底层封面做模糊，颜色/明暗完全来自封面本身。
-   blur(20px) 是 anzhiyu blur(10px) + scale(2) 的等效视觉半径；
-   brightness(60%) 与其 mainTone 关闭分支一致。 */
+   anzhiyu 原版是 blur(30px) + scale(2) + opacity .5；本站不放大封面，
+   所以把模糊半径提到 56px，再用 50% 的取色蒙层叠在模糊封面上，
+   等效于「取色底 + 半透明模糊封面」，得到与 mainTone 开启时一致的
+   「亮色」观感，同时不会露出未模糊的原图。
+   注意：柔光放在 ::before 上，不再使用 #page-header.post-bg::after
+   （该伪元素此前已按要求移除，避免再次影响正文卡顶边的显示）。 */
 #page-header.post-bg::before {
   display: block;
   content: "";
   position: absolute;
   inset: 0;
-  background-color: transparent;
-  -webkit-backdrop-filter: blur(20px) brightness(60%);
-  backdrop-filter: blur(20px) brightness(60%);
+  background-color: color-mix(in srgb, var(--post-base-color, var(--my-theme-color)) 50%, transparent);
+  -webkit-backdrop-filter: blur(56px);
+  backdrop-filter: blur(56px);
+  box-shadow: 110px -130px 300px 60px var(--post-base-color, var(--my-theme-color)) inset;
   z-index: 0;
   pointer-events: none;
 }
@@ -4216,8 +4225,7 @@ tbody tr:last-child td {
   }
 }
 
-/* 文字区遮罩：原版 mainTone 关闭时没有这层，压暗完全交给 brightness(60%)。
-   这里也保持为空，只在取色失败（没有封面层）时用纯色底兜底。 */
+/* 按要求保持关闭：柔光已经合并到上面的 ::before，不再单独使用这层。 */
 #page-header.post-bg::after {
   display: none;
 }
