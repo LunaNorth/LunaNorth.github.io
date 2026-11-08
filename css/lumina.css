@@ -1,0 +1,1113 @@
+/* ==========================================================================
+   轻语 · 碎碎念页面样式
+   1:1 复刻 siyuan-lumina 插件「清风视图」的布局与配色
+   （原样式参考：plugins/siyuan-lumina/index.css 的 .north-breeze-* 系列）
+
+   约定：
+     - 全部选择器以 .lumina- 为前缀，且都作用在 .lumina-app 内，不污染博客其他页面；
+     - 颜色与尺寸写成 --lumina-* 令牌，深浅色只改令牌；
+     - 浅色令牌取自截图实测值，主色 #008241。
+   ========================================================================== */
+
+/* ---------- 1. 令牌 ---------- */
+
+.lumina-app {
+  --lumina-primary: #008241;
+  --lumina-mix-base: #ffffff;
+  --lumina-primary-lightest: color-mix(in srgb, var(--lumina-primary) 21%, var(--lumina-mix-base));
+  --lumina-primary-lighter: color-mix(in srgb, var(--lumina-primary) 38%, var(--lumina-mix-base));
+  --lumina-primary-light: color-mix(in srgb, var(--lumina-primary) 52%, var(--lumina-mix-base));
+
+  --lumina-bg: #ffffff;
+  --lumina-card-bg: #ffffff;
+  /* 卡片底色 color-mix 的基色（对应插件里的 --b3-theme-surface） */
+  --lumina-card-surface: #dfe1ea;
+  --lumina-surface: #f5f6f9;
+  --lumina-surface-lighter: #dcdddf;
+  --lumina-on-bg: #202124;
+  --lumina-on-surface: #3c4043;
+  --lumina-on-surface-light: #8f8f91;
+  --lumina-border: #d9d9db;
+  --lumina-list-hover: rgba(0, 0, 0, .05);
+  --lumina-on-primary: #ffffff;
+
+  --lumina-font-size: 15px;
+  --lumina-line-height: 1.9;
+  --lumina-radius: 8px;
+}
+
+[data-theme="dark"] .lumina-app {
+  /* 深色下调一档绿，避免整块荧光 */
+  --lumina-primary: #2fa864;
+  --lumina-mix-base: #1b1c20;
+  --lumina-bg: #1b1c20;
+  --lumina-card-bg: #1b1c20;
+  --lumina-card-surface: #2a2b31;
+  --lumina-surface: #26272c;
+  --lumina-surface-lighter: #46474e;
+  --lumina-on-bg: #f2f3f7;
+  --lumina-on-surface: #d7d8df;
+  --lumina-on-surface-light: #8b8d99;
+  --lumina-border: #3d3d3f;
+  --lumina-list-hover: rgba(255, 255, 255, .07);
+  --lumina-on-primary: #14161a;
+  /* 热力图色阶：深色下用「半透明绿叠加」，格子越多越亮（浅色仍走 primary-* 令牌） */
+  --lumina-heat-1: color-mix(in srgb, var(--lumina-primary) 45%, transparent);
+  --lumina-heat-2: color-mix(in srgb, var(--lumina-primary) 62%, transparent);
+  --lumina-heat-3: color-mix(in srgb, var(--lumina-primary) 80%, transparent);
+  --lumina-heat-4: var(--lumina-primary);
+}
+
+/* ---------- 2. 外层窗口 ---------- */
+
+.lumina-app {
+  display: flex;
+  height: calc(100vh - 60px);
+  min-height: 560px;
+  overflow: hidden;
+  /* 跟 body 同一个底色，整块融进页面，不做成嵌套卡片 */
+  background: var(--global-bg, var(--lumina-bg));
+  color: var(--lumina-on-bg);
+  font-size: var(--lumina-font-size);
+  box-sizing: border-box;
+}
+
+.lumina-app *,
+.lumina-app *::before,
+.lumina-app *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- 3. 侧栏 ---------- */
+
+.lumina-sidebar {
+  width: 300px;
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 20px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: color-mix(in srgb, var(--lumina-card-surface) 10%, transparent);
+  scrollbar-width: none;
+  transition: width .3s ease, flex-basis .3s ease, padding .3s ease, opacity .25s ease;
+}
+
+.lumina-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 侧栏收起 */
+.lumina-app.lumina-collapsed .lumina-sidebar {
+  width: 0;
+  flex-basis: 0;
+  padding-left: 0;
+  padding-right: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 收起后浮出的还原按钮 */
+.lumina-sidebar-restore {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--lumina-border);
+  border-radius: 8px;
+  background: var(--lumina-bg);
+  color: var(--lumina-on-surface-light);
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s;
+}
+
+.lumina-app.lumina-collapsed .lumina-sidebar-restore {
+  display: flex;
+}
+
+.lumina-sidebar-restore:hover {
+  color: var(--lumina-primary);
+  border-color: var(--lumina-primary);
+  background: var(--lumina-primary-lightest);
+}
+
+.lumina-sidebar-restore svg,
+.lumina-sidebar-restore i {
+  font-size: 14px;
+}
+
+/* ---------- 4. 侧栏头部（头像 + 昵称 + 签名） ---------- */
+
+.lumina-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  /* 顶部 20px 与右侧列表 padding-top 对齐 */
+  padding: 20px 0 16px;
+}
+
+.lumina-avatar-wrap {
+  flex: 0 0 auto;
+}
+
+.lumina-avatar {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--lumina-surface);
+}
+
+.lumina-profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lumina-nickname {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--lumina-on-bg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lumina-signature {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--lumina-on-surface-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 收起侧栏按钮（仅在 collapsibleSidebar: true 时渲染） */
+.lumina-panel-btn {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--lumina-on-surface-light);
+  cursor: pointer;
+  transition: color .2s, background .2s;
+}
+
+.lumina-panel-btn:hover {
+  background: var(--lumina-list-hover);
+  color: var(--lumina-primary);
+}
+
+.lumina-panel-btn i,
+.lumina-panel-btn svg {
+  font-size: 13px;
+}
+
+.lumina-app [hidden] {
+  display: none !important;
+}
+
+/* ---------- 5. 统计 ---------- */
+
+.lumina-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.lumina-stat {
+  text-align: center;
+}
+
+.lumina-stat-num {
+  margin-bottom: 4px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--lumina-on-bg);
+}
+
+.lumina-stat-label {
+  font-size: 12px;
+  color: var(--lumina-on-surface-light);
+}
+
+/* ---------- 6. 热力图 ---------- */
+
+.lumina-heatmap {
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.lumina-heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  /* 一列 = 一周：按列填充，否则会变成一行 12 天 */
+  grid-auto-flow: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.lumina-heat-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 5px;
+  background-color: color-mix(in srgb, var(--lumina-surface-lighter) 40%, transparent);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.lumina-heat-cell.is-future {
+  opacity: .35;
+  cursor: default;
+}
+
+.lumina-heat-cell.level-1 {
+  background-color: var(--lumina-heat-1, var(--lumina-primary-lightest));
+}
+
+.lumina-heat-cell.level-2 {
+  background-color: var(--lumina-heat-2, var(--lumina-primary-lighter));
+}
+
+.lumina-heat-cell.level-3 {
+  background-color: var(--lumina-heat-3, var(--lumina-primary-light));
+}
+
+.lumina-heat-cell.level-4 {
+  background-color: var(--lumina-heat-4, var(--lumina-primary));
+}
+
+/* 深色下空格子需要更高的对比度才看得见网格。
+   注意必须排除有 level 类名的格子：这条与 .lumina-heat-cell.level-N 权重相同，
+   写在后面会把色阶一起盖掉（之前暗色格子全变灰就是这个原因）。 */
+[data-theme="dark"] .lumina-heat-cell:not([class*="level-"]) {
+  background-color: color-mix(in srgb, var(--lumina-surface-lighter) 62%, transparent);
+}
+
+.lumina-heat-cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px var(--lumina-primary-lighter);
+}
+
+.lumina-heat-cell.selected {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 1px var(--lumina-primary);
+}
+
+.lumina-heatmap-months {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--lumina-on-surface-light);
+}
+
+.lumina-heatmap-months span {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.lumina-heat-tip {
+  position: fixed;
+  z-index: 9999;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--lumina-on-bg) 88%, transparent);
+  color: var(--lumina-bg);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity .15s, transform .15s;
+}
+
+.lumina-heat-tip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 7. 菜单 ---------- */
+
+.lumina-menu {
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.lumina-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--lumina-on-surface);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color .2s, color .2s;
+}
+
+.lumina-menu-item:hover {
+  background-color: var(--lumina-list-hover);
+}
+
+.lumina-menu-item.active {
+  background-color: var(--lumina-primary);
+  color: var(--lumina-on-primary);
+}
+
+.lumina-menu-item.active .lumina-menu-icon,
+.lumina-menu-item.active .lumina-menu-arrow {
+  color: var(--lumina-on-primary);
+}
+
+.lumina-menu-icon {
+  width: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--lumina-on-surface);
+}
+
+.lumina-menu-icon i,
+.lumina-menu-icon svg {
+  font-size: 15px;
+}
+
+.lumina-menu-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.lumina-menu-arrow {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--lumina-on-surface-light);
+  font-size: 11px;
+  transition: background-color .15s, color .15s;
+}
+
+/* ---------- 8. 标签列表 ---------- */
+
+.lumina-tags {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 120px;
+  overflow: hidden;
+}
+
+.lumina-section-title {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lumina-primary);
+}
+
+.lumina-tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 0 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.lumina-tags-list::-webkit-scrollbar {
+  display: none;
+}
+
+.lumina-tag-item {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: var(--lumina-on-surface);
+  cursor: pointer;
+  transition: background-color .15s;
+}
+
+.lumina-tag-item:hover {
+  background-color: var(--lumina-list-hover);
+}
+
+.lumina-tag-item.active {
+  background-color: var(--lumina-list-hover);
+}
+
+.lumina-tag-item.active .lumina-tag-name,
+.lumina-tag-item.active .lumina-tag-count,
+.lumina-tag-item.active .lumina-tag-icon {
+  color: var(--lumina-primary);
+}
+
+.lumina-tag-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lumina-on-surface);
+  font-size: 13px;
+  opacity: .75;
+}
+
+.lumina-tag-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lumina-tag-count {
+  flex-shrink: 0;
+  min-width: 20px;
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--lumina-on-surface-light);
+}
+
+.lumina-tag-empty {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--lumina-on-surface-light);
+  opacity: .6;
+  user-select: none;
+}
+
+/* ---------- 9. 右侧主区 ---------- */
+
+.lumina-main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: transparent;
+  overflow: hidden;
+  transition: padding-left .3s ease;
+}
+
+.lumina-app.lumina-collapsed .lumina-main {
+  padding-left: 0;
+}
+
+/* ---------- 11. 列表 ---------- */
+
+.lumina-notes-list {
+  flex: 1;
+  min-height: 0;
+  padding: 20px 30px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.lumina-notes-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- 11.1 瀑布流（columns: 2 / 3） ---------- */
+
+.lumina-masonry {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+}
+
+.lumina-masonry-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* 列间距由 gap 控制，卡片不再自带下外边距 */
+.lumina-masonry .lumina-note-card {
+  margin-bottom: 0;
+}
+
+/* ---------- 11.2 分页 ---------- */
+
+.lumina-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 16px 8px;
+  user-select: none;
+}
+
+.lumina-pager-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--lumina-border) 80%, transparent);
+  border-radius: 16px;
+  background-color: var(--lumina-card-bg);
+  color: var(--lumina-on-surface);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+}
+
+.lumina-pager-btn:hover:not(.disabled):not(.active) {
+  border-color: var(--lumina-primary);
+  color: var(--lumina-primary);
+  background-color: var(--lumina-primary-lightest);
+}
+
+.lumina-pager-btn:active:not(.disabled) {
+  transform: scale(.94);
+}
+
+.lumina-pager-btn.active {
+  background-color: var(--lumina-primary);
+  border-color: var(--lumina-primary);
+  color: var(--lumina-on-primary);
+  font-weight: 600;
+  cursor: default;
+}
+
+.lumina-pager-btn.disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+.lumina-pager-btn i {
+  font-size: 11px;
+}
+
+.lumina-pager-ellipsis {
+  padding: 0 2px;
+  font-size: 13px;
+  color: var(--lumina-on-surface-light);
+  user-select: none;
+}
+
+/* 顶部信息条（本周 / 每日回顾） */
+.lumina-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 16px;
+  padding: 10px 18px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--lumina-on-surface-light);
+  background: var(--lumina-bg);
+  border: 1px solid color-mix(in srgb, var(--lumina-border) 60%, transparent);
+  border-radius: 12px;
+}
+
+.lumina-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.lumina-bar-left i {
+  font-size: 14px;
+}
+
+.lumina-bar-center {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: .9;
+}
+
+.lumina-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lumina-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--lumina-on-surface-light);
+  background: transparent;
+  border: 1px solid var(--lumina-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+
+.lumina-bar-btn:hover {
+  color: var(--lumina-primary);
+  border-color: var(--lumina-primary);
+}
+
+/* 日期分组标题 */
+.lumina-date-group {
+  padding: 0 4px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lumina-primary);
+}
+
+.lumina-date-group:not(:first-child) {
+  margin-top: 10px;
+}
+
+/* 笔记卡片 */
+.lumina-note-card {
+  position: relative;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lumina-border) 70%, transparent);
+  border-radius: 8px;
+  transition: border-color .2s;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.lumina-note-card:hover {
+  border-color: color-mix(in srgb, var(--lumina-primary) 55%, transparent);
+}
+
+.lumina-note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.lumina-note-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 地点：跟在日期后面，同号小字 + 定位图标 */
+.lumina-note-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--lumina-on-surface-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lumina-note-location i {
+  font-size: 10px;
+  opacity: .85;
+}
+
+.lumina-note-date {
+  flex-shrink: 0;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--lumina-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.lumina-note-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.lumina-note-pinned {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--lumina-primary);
+  background-color: color-mix(in srgb, var(--lumina-primary) 14%, transparent);
+}
+
+
+.lumina-note-content {
+  margin-bottom: 0;
+  font-size: var(--lumina-font-size);
+  line-height: var(--lumina-line-height);
+  color: var(--lumina-on-bg);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* 正文内联标签 */
+.lumina-tag {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  padding: 1px 6px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-size: .85em;
+  line-height: 1.5;
+  vertical-align: baseline;
+  color: var(--lumina-primary);
+  background-color: var(--lumina-primary-lightest);
+  cursor: pointer;
+  user-select: text;
+  -webkit-user-select: text;
+  transition: background-color .15s;
+}
+
+.lumina-tag:hover {
+  background-color: var(--lumina-primary-lighter);
+}
+
+.lumina-hl {
+  padding: 0 1px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--lumina-primary) 24%, var(--lumina-bg));
+  color: inherit;
+}
+
+/* 正文内基础 markdown 观感 */
+.lumina-note-content strong {
+  font-weight: 600;
+}
+
+.lumina-note-content code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-family: var(--code-font, 'JetBrains Mono', Consolas, monospace);
+  font-size: .9em;
+  color: var(--lumina-primary);
+  background-color: color-mix(in srgb, var(--lumina-primary) 9%, transparent);
+}
+
+.lumina-note-content a {
+  color: var(--lumina-primary);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--lumina-primary) 40%, transparent);
+}
+
+.lumina-note-content del {
+  color: var(--lumina-on-surface-light);
+}
+
+/* 图片 */
+.lumina-image-grid {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0 0;
+}
+
+.lumina-image-grid.single { grid-template-columns: 1fr; max-width: 300px; }
+.lumina-image-grid.double { grid-template-columns: repeat(2, 1fr); max-width: 300px; }
+.lumina-image-grid.four { grid-template-columns: repeat(2, 1fr); max-width: 300px; }
+.lumina-image-grid.triple,
+.lumina-image-grid.six,
+.lumina-image-grid.nine,
+.lumina-image-grid.multi { grid-template-columns: repeat(3, 1fr); max-width: 300px; }
+
+.lumina-image-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: var(--lumina-surface);
+}
+
+.lumina-image-grid.single .lumina-image-item {
+  width: auto;
+  max-width: 300px;
+  aspect-ratio: auto;
+  background-color: transparent;
+}
+
+.lumina-grid-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+  background: var(--lumina-surface);
+}
+
+.lumina-image-grid.single .lumina-grid-img {
+  width: auto;
+  height: auto;
+  max-width: 300px;
+  max-height: 280px;
+  border-radius: 6px;
+}
+
+
+/* 空状态 */
+.lumina-empty {
+  padding: 70px 20px;
+  text-align: center;
+  color: var(--lumina-on-surface-light);
+}
+
+.lumina-empty i {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 12px;
+  font-size: 26px;
+  line-height: 30px;
+  text-align: center;
+  opacity: .5;
+}
+
+.lumina-empty p {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.lumina-empty small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: .75;
+}
+
+/* ---------- 12. 移动端 ---------- */
+
+@media (max-width: 820px) {
+  .lumina-app {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    border-radius: 10px;
+  }
+
+  .lumina-sidebar {
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 10px 16px 12px;
+    overflow: visible;
+  }
+
+  .lumina-app.lumina-collapsed .lumina-sidebar {
+    display: none;
+  }
+
+  .lumina-stats {
+    margin-bottom: 16px;
+  }
+
+  .lumina-heatmap {
+    display: none;
+  }
+
+  .lumina-menu {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .lumina-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lumina-menu-item {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    padding: 6px 14px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lumina-border) 55%, transparent);
+  }
+
+  .lumina-menu-item.active {
+    background: var(--lumina-primary);
+    border-color: var(--lumina-primary);
+  }
+
+  .lumina-menu-arrow {
+    display: none;
+  }
+
+  .lumina-tags {
+    flex: 0 0 auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .lumina-tags-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 12px;
+    overflow: visible;
+  }
+
+  .lumina-tag-item {
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lumina-border) 55%, transparent);
+  }
+
+  .lumina-tag-icon {
+    display: none;
+  }
+
+  .lumina-tag-name {
+    flex: 0 0 auto;
+    font-size: 13px;
+  }
+
+  .lumina-tag-count {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+
+  .lumina-main {
+    flex: 1 1 auto;
+    overflow: visible;
+  }
+
+  .lumina-notes-list {
+    padding: 16px;
+    overflow: visible;
+  }
+
+  .lumina-sidebar-restore {
+    display: none !important;
+  }
+
+  /* 移动端侧栏本身就是平铺的，不需要收起按钮 */
+  .lumina-panel-btn {
+    display: none;
+  }
+}
+
+/* ---------- 13. 页面级适配（只作用于 type=lumina 的页面） ---------- */
+
+#body-wrap.type-lumina #content-inner.layout {
+  max-width: var(--btf-layout-width);
+  /* 页面上下不留白，整块紧贴导航 */
+  margin: 0 auto;
+  padding-top: 0;
+}
+
+/* 主题给 not-top-img 头部加了 10px 下边距，这里清零 */
+#body-wrap.type-lumina #page-header {
+  margin-bottom: 0;
+}
+
+/* 主题给 .layout > div:first-child 卡了 1030px（正文栏宽），这里解除，
+   让轻语页跟首页一样铺满 --btf-layout-width */
+#body-wrap.type-lumina #content-inner.layout > #page {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+#body-wrap.type-lumina #page .page-title {
+  display: none;
+}
+
+#body-wrap.type-lumina #footer {
+  margin-top: 16px;
+}
+
+@media (max-width: 820px) {
+  #body-wrap.type-lumina #content-inner.layout {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* ---------- 14. 右侧悬浮设置里的「展示 / 收起侧边栏」 ---------- */
+
+#rightside #rightside-config-hide #lumina-sidebar-toggle.is-on {
+  color: var(--btf-theme);
+}
+
+#rightside #rightside-config-hide #lumina-sidebar-toggle.is-on:hover {
+  color: var(--btf-nav-hover-text);
+}

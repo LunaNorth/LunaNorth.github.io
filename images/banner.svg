@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a5f"/>
+      <stop offset=".55" stop-color="#4f7cac"/>
+      <stop offset="1" stop-color="#a8c8e8"/>
+    </linearGradient>
+    <radialGradient id="moon" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fffbe8"/>
+      <stop offset="1" stop-color="#f5e6b8"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="700" fill="url(#sky)"/>
+  <circle cx="1240" cy="170" r="92" fill="url(#moon)" opacity=".95"/>
+  <circle cx="1270" cy="145" r="82" fill="#2a4a6b" opacity=".28"/>
+  <g fill="#ffffff" opacity=".75">
+    <circle cx="180" cy="120" r="3"/>
+    <circle cx="340" cy="200" r="2"/>
+    <circle cx="520" cy="90" r="2.5"/>
+    <circle cx="760" cy="160" r="2"/>
+    <circle cx="980" cy="100" r="3"/>
+    <circle cx="1420" cy="90" r="2"/>
+    <circle cx="1480" cy="260" r="2.5"/>
+    <circle cx="640" cy="280" r="1.8"/>
+  </g>
+  <path d="M0 560 Q280 420 560 540 T1120 520 T1600 560 V700 H0 Z" fill="#12263d" opacity=".75"/>
+  <path d="M0 620 Q360 520 720 610 T1600 600 V700 H0 Z" fill="#0b1726" opacity=".9"/>
+</svg>

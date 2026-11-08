@@ -1,0 +1,227 @@
+/* ==========================================================================
+   代码块配色：Visual Studio 风格
+
+   来源：highlight.js 官方 vs.css
+   Visual Studio-like style based on original C# coloring by Jason Diamond
+
+   使用前提（已在本站配置好）：
+     1. _config.yml   -> highlight.hljs: true   生成 .hljs-* 类名
+     2. _config.butterfly.yml -> code_blocks.theme: false
+        关闭主题自带配色，避免和本文件互相覆盖
+   由 _config.butterfly.yml 的 inject.head 引入。
+   ========================================================================== */
+
+/* ---------- 代码块基础色（VS 浅色） ---------- */
+
+:root {
+  --hl-color: #000000;
+  --hl-bg: #ffffff;
+  --hltools-bg: #f6f8fa;
+  --hltools-color: #3c3c3c;
+  --hlnumber-bg: #ffffff;
+  --hlnumber-color: #9aa0a6;
+  --hlscrollbar-bg: #d7dbe0;
+  --hlexpand-bg: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .9));
+}
+
+[data-theme="dark"] {
+  /* 暗色模式沿用同一套 VS 语法色，只把底色换成深色，
+     避免暗色下白底刺眼。 */
+  --hl-color: #d4d4d4;
+  --hl-bg: #1e1e1e;
+  --hltools-bg: #252526;
+  --hltools-color: #cccccc;
+  --hlnumber-bg: #1e1e1e;
+  --hlnumber-color: #858585;
+  --hlscrollbar-bg: #3e3e42;
+  --hlexpand-bg: linear-gradient(180deg, rgba(30, 30, 30, .6), rgba(30, 30, 30, .9));
+}
+
+/* ---------- 代码块容器 ---------- */
+
+#article-container figure.highlight .hljs {
+  display: block;
+  overflow-x: auto;
+  background: var(--hl-bg);
+  color: var(--hl-color);
+}
+
+/* ---------- 语法着色 ---------- */
+
+.hljs-comment,
+.hljs-quote,
+.hljs-variable {
+  color: #008000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #0000ff;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #a31515;
+}
+
+.hljs-deletion,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-meta {
+  color: #2b91af;
+}
+
+.hljs-doctag {
+  color: #808080;
+}
+
+.hljs-attr {
+  color: #ff0000;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #00b0e8;
+}
+
+/* ---------- 补充：官方 vs.css 未覆盖但 hljs 常用的 token ---------- */
+
+.hljs-number {
+  color: #098658;
+}
+
+.hljs-regexp {
+  color: #811f3f;
+}
+
+.hljs-params {
+  color: var(--hl-color);
+}
+
+.hljs-builtin-name {
+  color: #267f99;
+}
+
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #267f99;
+}
+
+.hljs-function {
+  color: var(--hl-color);
+}
+
+.hljs-subst {
+  color: var(--hl-color);
+}
+
+.hljs-formula {
+  color: #267f99;
+  background: var(--btf-second-bg, #f3f4f5);
+}
+
+.hljs-code {
+  color: #267f99;
+}
+
+.hljs-property {
+  color: #001080;
+}
+
+.hljs-variable.language_ {
+  color: #0000ff;
+}
+
+/* ---------- 强调 ---------- */
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/* ---------- 暗色模式：VS Code Dark+ 语法色 ---------- */
+/* 亮色严格使用官方 vs.css；暗色若沿用浅色 token 会对比度过低，故单独适配 */
+
+[data-theme="dark"] .hljs-comment,
+[data-theme="dark"] .hljs-quote {
+  color: #6a9955;
+}
+
+[data-theme="dark"] .hljs-variable,
+[data-theme="dark"] .hljs-attribute,
+[data-theme="dark"] .hljs-attr,
+[data-theme="dark"] .hljs-template-variable {
+  color: #9cdcfe;
+}
+
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-selector-tag,
+[data-theme="dark"] .hljs-tag,
+[data-theme="dark"] .hljs-meta,
+[data-theme="dark"] .hljs-doctag {
+  color: #569cd6;
+}
+
+[data-theme="dark"] .hljs-built_in,
+[data-theme="dark"] .hljs-type,
+[data-theme="dark"] .hljs-builtin-name {
+  color: #4ec9b0;
+}
+
+[data-theme="dark"] .hljs-string,
+[data-theme="dark"] .hljs-template-tag,
+[data-theme="dark"] .hljs-addition {
+  color: #ce9178;
+}
+
+[data-theme="dark"] .hljs-title,
+[data-theme="dark"] .hljs-section,
+[data-theme="dark"] .hljs-name {
+  color: #dcdcaa;
+}
+
+[data-theme="dark"] .hljs-number,
+[data-theme="dark"] .hljs-literal {
+  color: #b5cea8;
+}
+
+[data-theme="dark"] .hljs-regexp {
+  color: #d16969;
+}
+
+[data-theme="dark"] .hljs-symbol,
+[data-theme="dark"] .hljs-bullet,
+[data-theme="dark"] .hljs-link {
+  color: #6796e6;
+}
+
+[data-theme="dark"] .hljs-selector-id,
+[data-theme="dark"] .hljs-selector-class,
+[data-theme="dark"] .hljs-selector-attr,
+[data-theme="dark"] .hljs-selector-pseudo,
+[data-theme="dark"] .hljs-code,
+[data-theme="dark"] .hljs-formula {
+  color: #d7ba7d;
+}
+
+[data-theme="dark"] .hljs-deletion {
+  color: #f44747;
+}
+
+[data-theme="dark"] .hljs-property {
+  color: #9cdcfe;
+}

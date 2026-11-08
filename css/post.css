@@ -1,0 +1,45 @@
+/* ==========================================================================
+   文章内容样式（post.css）
+
+   专门用于调整文章正文区域的样式，与 custom.css 分开维护。
+   由 _config.butterfly.yml 的 inject.head 引入。
+   ========================================================================== */
+
+/* ---------- 正文文字字号 ----------
+   统一正文可读字号为 16px：段落、有序/无序列表、引用、表格、定义列表。
+   标题（h1-h6）保持主题的层级比例，不在此处覆盖，避免打乱排版层级。
+   行内代码与代码块字号由各自的规则控制，不受此规则影响。 */
+
+.container p,
+.container ul,
+.container ol,
+.container li,
+.container dl,
+.container dt,
+.container dd,
+.container blockquote,
+.container table,
+.container th,
+.container td {
+  font-size: 16px;
+}
+
+/* ---------- 代码块字体 ----------
+   正文代码字体与字号由 _config.butterfly.yml 的 font.code_font_family /
+   font.code_font_size 控制（Consolas / 13px）。
+   这里只补一条：代码块顶部工具栏（语言标签、复制按钮）也用等宽字体，
+   否则它继承的是正文字体。 */
+
+figure.highlight .highlight-tools {
+  font-family: Consolas !important;
+}
+
+/* ---------- 全站文字描边 ----------
+   0.1px 极细描边，让文字边缘更清晰、更有实感。
+   用 currentColor 跟随文字颜色，所以亮色 / 暗色模式都自动适配，
+   不需要额外写 [data-theme="dark"] 的覆盖。 */
+
+body,
+body * {
+  -webkit-text-stroke: 0.1px currentColor;
+}

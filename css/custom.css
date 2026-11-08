@@ -1,0 +1,2413 @@
+/* ==========================================================================
+   Butterfly × Solitude 主题覆盖
+
+   结构说明：
+     1. 通用令牌（与主题无关的圆角、边框、过渡）
+     2. 浅色令牌 [data-theme="light"]
+        对照 Solitude source/css/_mode/index.styl 的 [data-theme=light]
+        以及 source/css/_global/index.styl 的全局变量
+     3. 深色令牌 [data-theme="dark"]
+        对照 Solitude source/css/_mode/index.styl 的 [data-theme=dark]
+     4. 组件规则（只引用令牌，不再写死颜色）
+
+   维护约定：
+     - 新增颜色一律先加令牌，再在组件中引用；
+     - 组件规则保持"主题无关"，深浅差异只由令牌控制；
+     - 如确实需要按模式区分，使用 [data-theme="light"] / [data-theme="dark"]。
+   ========================================================================== */
+
+/* ==========================================================================
+   1. 通用令牌
+   ========================================================================== */
+
+:root {
+  --btf-radius: 12px;
+  --btf-radius-sm: 8px;
+  --btf-radius-pill: 99px;
+  --btf-border-width: 1px;
+  --btf-transition: .3s ease;
+  --btf-main-width: 1030px;
+  /* Sidebar width: the single source of truth.
+     Change this one value and the sidebar column, every card inside it
+     and the total layout width all follow automatically. */
+  --btf-aside-width: 315px;
+  /* Structural constant: inner gap between sidebar and main column.
+     Normally you do NOT need to touch this. */
+  --btf-aside-gap: 10px;
+  /* Vertical gap between sidebar cards. */
+  --btf-aside-card-gap: 10px;
+  --btf-layout-gutter: 30px;
+  --btf-layout-width: calc(var(--btf-main-width) + var(--btf-aside-width) + var(--btf-layout-gutter));
+  /* Post header cover width (right side of the post top image). */
+  --btf-header-cover-width: 300px;
+  /* Navigation buttons: keep the hit area and icon size in one place. */
+  --btf-nav-button-size: 35px;
+  --btf-nav-icon-size: 22px;
+  --btf-nav-right-gap: 6px;
+  --btf-nav-right-padding: 4px;
+  /* Solitude: --efu-gray / --efu-gray-op */
+  --btf-gray: #999999;
+  --btf-gray-op: #9999992b;
+  /* Solitude: --efu-shadow-main / --efu-shadow-black */
+  --btf-shadow-main: 0 8px 12px -3px var(--btf-theme-op);
+  --btf-shadow-theme: 0 8px 12px -3px var(--btf-theme-op);
+  --btf-shadow-lightblack: 0 5px 12px -5px rgba(102, 68, 68, 0);
+  --btf-shadow-black: 0 0 12px 4px rgba(0, 0, 0, .05);
+}
+
+/* ==========================================================================
+   2. 浅色令牌
+   对照：Solitude [data-theme=light] + Solitude 全局变量
+   主色 #425AEF / 背景 #f7f9fe / 卡片 #fff / 边框 #e3e8f7
+   ========================================================================== */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Solitude: --efu-theme / --efu-theme-op / --efu-theme-op-deep / --efu-theme-none */
+  --btf-theme: #425AEF;
+  --btf-theme-op: #425AEF23;
+  --btf-theme-op-deep: #425AEFdd;
+  --btf-theme-op-light: #4259ef0d;
+  --btf-theme-none: #425AEF00;
+  --btf-nav-hover-text: #ffffff;
+  --btf-hovertext: var(--btf-theme);
+
+  /* Solitude: --efu-fontcolor / --efu-secondtext / --efu-white / --efu-reverse */
+  --btf-font-color: #363636;
+  --btf-second-text: rgba(60, 60, 67, .8);
+  --btf-white: #ffffff;
+  --btf-reverse: #000000;
+
+  /* Solitude: --efu-background / --efu-card-bg / --efu-secondbg / --efu-card-btn-bg */
+  --btf-background: #f7f9fe;
+  --btf-card-bg: #ffffff;
+  --btf-card-bg-none: rgba(255, 255, 255, 0);
+  --btf-second-bg: #f7f7f9;
+  --btf-second-bg-strong: #f7f7f9;
+  --btf-card-btn-bg: #edf0f7;
+  --btf-blockquote-bg: #f7f7f9;
+  --btf-tabs-bg: #f2f5f8;
+  --btf-sidebar-bg: #f6f8fa;
+  --btf-nav-bg: linear-gradient(to bottom, rgba(255, 255, 255, .6), rgba(255, 255, 255, .85));
+  --btf-nav-border: rgba(227, 232, 247, .7);
+  --btf-mask-bg: rgba(255, 255, 255, .6);
+  --btf-mask-bg-deep: rgba(255, 255, 255, .85);
+
+  /* Solitude: --efu-card-border / --style-border / --style-border-hover */
+  --btf-card-border: #e3e8f7;
+  --btf-card-border-hover: var(--btf-theme);
+  --btf-border: var(--btf-border-width) solid var(--btf-card-border);
+
+  /* Solitude: --efu-shadow-border（卡片按你的要求不使用阴影） */
+  --btf-shadow-border: 0 8px 16px -4px #2c2d300c;
+  --btf-shadow-card: none;
+  --btf-shadow-card-hover: none;
+
+  /* 映射到 Butterfly 变量 */
+  --global-bg: var(--btf-background);
+  --card-bg: var(--btf-card-bg);
+  --card-meta: var(--btf-second-text);
+  --font-color: var(--btf-font-color);
+  --text-highlight-color: #1f2d3d;
+  --white: var(--btf-white);
+  --card-box-shadow: var(--btf-shadow-card);
+  --card-hover-box-shadow: var(--btf-shadow-card-hover);
+
+  --sidebar-bg: var(--btf-sidebar-bg);
+  --sidebar-menu-bg: var(--btf-card-bg);
+
+  --btn-bg: var(--btf-card-btn-bg);
+  --btn-color: var(--btf-font-color);
+  --btn-hover-color: var(--btf-theme);
+
+  --text-bg-hover: var(--btf-second-bg);
+  --search-bg: var(--btf-second-bg);
+  --search-input-color: #4c4948;
+  --search-a-color: #4c4948;
+
+  --blockquote-bg: var(--btf-blockquote-bg);
+  --blockquote-color: #6a737d;
+  --reward-pop: #f5f5f5;
+  --toc-link-color: #666261;
+
+  --light-grey: #eeeeee;
+  --dark-grey: #cacaca;
+  --hr-border: var(--btf-theme-op);
+  --hr-before-color: var(--btf-theme);
+
+  --tab-border-color: #f0f0f0;
+  --tab-button-bg: #f0f0f0;
+  --tab-button-color: #1f2d3d;
+  --tab-button-hover-bg: #dcdcdc;
+  --tab-button-active-bg: #ffffff;
+
+  --scrollbar-color: rgba(60, 60, 67, .4);
+  --mark-bg: rgba(0, 0, 0, .3);
+  --zoom-bg: #ffffff;
+  --timeline-bg: #f7f7f9;
+
+  /* Code block palette is intentionally NOT overridden here.
+     Butterfly's code_blocks.theme (darker / pale night / light / ocean)
+     owns --hl-bg / --hl-color / --hltools-* in both color modes. */
+}
+
+/* ==========================================================================
+   3. 深色令牌
+   对照：Solitude [data-theme=dark]
+   主色 #ffc848 / 背景 #18171d / 卡片 #1b1c20 / 边框 #3d3d3f
+   ========================================================================== */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Solitude: --efu-theme / --efu-theme-op / --efu-theme-op-deep / --efu-theme-none */
+  --btf-theme: #ffc848;
+  --btf-theme-op: #ffc84823;
+  --btf-theme-op-deep: #ffc848dd;
+  --btf-theme-op-light: #ffc8480d;
+  --btf-theme-none: #ffc84800;
+  --btf-nav-hover-text: #1b1c20;
+  --btf-hovertext: #0a84ff;
+
+  /* Solitude: --efu-fontcolor / --efu-secondtext / --efu-white / --efu-reverse */
+  --btf-font-color: #f7f7fa;
+  --btf-second-text: #a1a2b8;
+  --btf-white: #ffffff;
+  --btf-reverse: #ffffff;
+
+  /* Solitude: --efu-background / --efu-card-bg / --efu-secondbg / --efu-card-btn-bg */
+  --btf-background: #18171d;
+  --btf-card-bg: #1b1c20;
+  --btf-card-bg-none: #1d1b2600;
+  --btf-second-bg: #30343f;
+  --btf-second-bg-strong: #21232a;
+  --btf-card-btn-bg: #30343f;
+  --btf-blockquote-bg: #30343f;
+  --btf-tabs-bg: #121212;
+  --btf-sidebar-bg: #121212;
+  --btf-nav-bg: linear-gradient(to bottom, rgba(0, 0, 0, .6), rgba(0, 0, 0, .85));
+  --btf-nav-border: rgba(61, 61, 63, .65);
+  --btf-mask-bg: rgba(0, 0, 0, .6);
+  --btf-mask-bg-deep: rgba(0, 0, 0, .85);
+
+  /* Solitude: --efu-card-border / --style-border / --style-border-hover */
+  --btf-card-border: #3d3d3f;
+  --btf-card-border-hover: var(--btf-theme);
+  --btf-border: var(--btf-border-width) solid var(--btf-card-border);
+
+  /* Solitude: --efu-shadow-border（卡片按你的要求不使用阴影） */
+  --btf-shadow-border: 0 8px 16px -4px #00000050;
+  --btf-shadow-card: none;
+  --btf-shadow-card-hover: none;
+
+  /* 映射到 Butterfly 变量 */
+  --global-bg: var(--btf-background);
+  --card-bg: var(--btf-card-bg);
+  --card-meta: var(--btf-second-text);
+  --font-color: var(--btf-font-color);
+  --text-highlight-color: var(--btf-font-color);
+  --white: var(--btf-white);
+  --card-box-shadow: var(--btf-shadow-card);
+  --card-hover-box-shadow: var(--btf-shadow-card-hover);
+
+  --sidebar-bg: var(--btf-sidebar-bg);
+  --sidebar-menu-bg: var(--btf-card-bg);
+
+  --btn-bg: var(--btf-card-btn-bg);
+  --btn-color: var(--btf-font-color);
+  --btn-hover-color: var(--btf-theme);
+
+  --text-bg-hover: var(--btf-second-bg);
+  --search-bg: var(--btf-second-bg);
+  --search-input-color: var(--btf-font-color);
+  --search-a-color: var(--btf-font-color);
+
+  --blockquote-bg: var(--btf-blockquote-bg);
+  --blockquote-color: var(--btf-second-text);
+  --reward-pop: #21232a;
+  --toc-link-color: var(--btf-second-text);
+
+  --light-grey: #eeeeee;
+  --dark-grey: #cacaca;
+  --hr-border: var(--btf-theme-op);
+  --hr-before-color: var(--btf-theme);
+
+  --tab-border-color: #2c2c2c;
+  --tab-button-bg: #2c2c2c;
+  --tab-button-color: rgba(255, 255, 255, .7);
+  --tab-button-hover-bg: #383838;
+  --tab-button-active-bg: #121212;
+
+  --scrollbar-color: rgba(200, 200, 223, .4);
+  --mark-bg: rgba(0, 0, 0, .6);
+  --zoom-bg: #121212;
+  --timeline-bg: #1a1a1a;
+
+  /* Code block palette follows Butterfly's code_blocks.theme. */
+}
+
+/* ---------- 4.0.1 暗色：顶部导航胶囊底色 ----------
+   主题原本给品牌 / 菜单 / 右侧按钮用的是 rgba(0,0,0,.6→.85) 的黑色玻璃渐变，
+   在 #18171d 的底色上几乎看不出胶囊形状。改成 30% 的卡片表面色（与轻语页卡片同源 #2a2b31），
+   暗色下胶囊会比底色亮一档，边界更清楚。只在暗色生效。 */
+/* 只覆盖原本就有玻璃底的两个状态：无头图页面 / 滚动后。
+   顶部有头图时胶囊本来是透明压在横幅上的，这里保持不动。 */
+/* 二级菜单（导航下拉浮层）：原本是 --btf-mask-bg-deep（暗色≈rgba(0,0,0,.85)），改成同一档卡片表面色 */
+[data-theme="dark"] #nav .menus_items .menus_item > .menus_item_child {
+  background: color-mix(in srgb, #2a2b31 30%, transparent) !important;
+}
+
+/* 文章页滚动后居中的标题胶囊（#nav > .nav-page-title） */
+[data-theme="dark"] #nav > .nav-page-title {
+  background: color-mix(in srgb, #2a2b31 30%, transparent);
+}
+
+[data-theme="dark"] #page-header.not-top-img #nav #blog-info,
+[data-theme="dark"] #page-header.not-top-img #nav #nav-right,
+[data-theme="dark"] #page-header.not-top-img #nav #menus > .menus_items,
+[data-theme="dark"] #page-header.nav-fixed #nav #blog-info,
+[data-theme="dark"] #page-header.nav-fixed #nav #nav-right,
+[data-theme="dark"] #page-header.nav-fixed #nav #menus > .menus_items {
+  background: color-mix(in srgb, #2a2b31 30%, transparent) !important;
+}
+
+/* ==========================================================================
+   4. 组件规则
+   ========================================================================== */
+
+/* ---------- 4.1 页面底色 ---------- */
+
+#web_bg {
+  background-color: var(--btf-background) !important;
+}
+
+#web_bg::before {
+  display: none !important;
+}
+
+.layout {
+  max-width: var(--btf-layout-width);
+  padding: 20px 15px;
+}
+
+@media screen and (min-width: 900px) {
+  .layout > #aside-content.aside-content {
+    flex: 0 0 var(--btf-aside-width);
+    width: var(--btf-aside-width);
+    max-width: var(--btf-aside-width);
+    padding-left: var(--btf-aside-gap);
+  }
+
+  .layout > div:first-child {
+    flex: 0 1 var(--btf-main-width);
+    width: var(--btf-main-width);
+    max-width: var(--btf-main-width);
+    min-width: 0;
+  }
+
+  html.hide-aside .layout > div:first-child {
+    width: 80%;
+  }
+}
+
+/* ---------- 4.1.1 sidebar width normalization ----------
+   Every sidebar width comes from --btf-aside-width:
+   #aside-content  -> var(--btf-aside-width)          (310px)
+   .sticky_layout  -> 100% of the sidebar content box (300px)
+   .card-widget    -> 100% of .sticky_layout          (300px)
+   So all cards always share one width; no per-card overrides. */
+
+#aside-content > .sticky_layout {
+  width: 100%;
+  max-width: 100%;
+}
+
+#aside-content .card-widget {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: var(--btf-aside-card-gap);
+  box-sizing: border-box;
+}
+
+#aside-content .card-widget:last-child {
+  margin-bottom: 0;
+}
+
+.footer-flex {
+  max-width: var(--btf-layout-width);
+}
+
+.layout.hide-aside {
+  max-width: calc(var(--btf-layout-width) * 5 / 6);
+}
+
+/* ---------- 4.2 卡片：细边框、无阴影 ---------- */
+
+#recent-posts .recent-post-item,
+#aside-content .card-widget,
+.layout > div:first-child:not(.nc),
+#article-container .shuoshuo-item,
+.type-404 .error-content,
+.flink-list-item,
+.gallery-group,
+#post .post-copyright {
+  background: var(--btf-card-bg);
+  box-shadow: var(--btf-shadow-card) !important;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  transition: border-color var(--btf-transition), background-color var(--btf-transition);
+}
+
+#recent-posts .recent-post-item:hover,
+#aside-content .card-widget:hover,
+#article-container .shuoshuo-item:hover,
+.type-404 .error-content:hover,
+.flink-list-item:hover,
+.gallery-group:hover,
+#post .post-copyright:hover {
+  box-shadow: var(--btf-shadow-card-hover) !important;
+  border-color: var(--btf-card-border-hover);
+}
+
+/* ---------- 4.3 导航栏 ---------- */
+
+@media (min-width: 769px) {
+  /* 对齐 Solitude：导航条本身透明，只有品牌/菜单/搜索是玻璃胶囊 */
+  #page-header.nav-fixed > #nav,
+  #page-header.not-top-img > #nav {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+/* 对齐 Solitude：滚动后导航条始终固定在顶部，只收起菜单胶囊。
+   Butterfly 默认把 #nav 上移到 -60px 整条隐藏，这里恢复为 top: 0。 */
+#page-header.nav-fixed > #nav {
+  top: 0 !important;
+}
+}
+
+#page-header.nav-fixed #nav a:hover,
+#page-header.nav-fixed #nav span.site-page:hover,
+#page-header.nav-fixed #nav #toggle-menu:hover,
+#page-header.nav-fixed #nav #blog-info:hover,
+#page-header.not-top-img #nav a:hover,
+#page-header.not-top-img #nav span.site-page:hover {
+  color: var(--btf-theme) !important;
+}
+
+#nav .site-page:not(.child)::after {
+  background-color: var(--btf-theme);
+}
+
+/* 下拉菜单：对齐 Solitude .menus_item_child 的胶囊浮层
+   注意：主题的 #nav .menus_items .menus_item .menus_item_child 优先级更高，
+   所以这里必须使用同等级（或更高）的选择器，否则圆角/内边距会被覆盖。 */
+#nav .menus_items .menus_item > .menus_item_child {
+  top: 35px;
+  right: auto;
+  left: 50%;
+  display: none;
+  margin-top: 8px;
+  padding: 6px 3.5px;
+  border: var(--btf-border);
+  border-radius: 100px;
+  background-color: var(--btf-mask-bg-deep) !important;
+  box-shadow: var(--btf-shadow-black) !important;
+  /* 主题的 sub_menus 动画会把 opacity/transform 锁死在结束帧，
+     导致下拉常显且 translateX(-50%) 居中失效，这里必须关掉 */
+  animation: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-10px) scale(.8);
+  transition: .3s;
+}
+
+#nav .menus_items .menus_item:hover > .menus_item_child {
+  display: block;
+  border-color: var(--btf-header-theme, var(--btf-theme));
+  box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op)) !important;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Solitude 的菜单没有下拉箭头，这里隐藏 Butterfly 默认的 chevron */
+#nav .menus_items .menus_item > .site-page.group > i.fa-chevron-down {
+  display: none;
+}
+
+#nav .menus_items .menus_item > .menus_item_child li {
+  display: inline-flex;
+  margin: 0 4px;
+  border-radius: 5px;
+  list-style: none;
+}
+
+#nav .menus_items .menus_item > .menus_item_child li:hover {
+  background: transparent;
+}
+
+#nav .menus_items .menus_item > .menus_item_child .site-page.child {
+  display: flex;
+  align-items: center;
+  padding: .3rem .8rem;
+  border-radius: 100px;
+  color: var(--btf-font-color) !important;
+  letter-spacing: 0;
+  text-shadow: none;
+  transition: background-color .3s, color .3s, padding .3s;
+}
+
+#nav .menus_items .menus_item > .menus_item_child .site-page.child:hover {
+  padding: .3rem 1rem;
+  background: var(--btf-header-theme, var(--btf-theme));
+  box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
+  color: var(--btf-nav-hover-text) !important;
+  transform: scale(1);
+}
+
+/* 滚动后导航处于 nav-fixed / not-top-img 状态时，站点级
+   `#page-header.nav-fixed #nav a:hover`（双 ID）优先级高于上面的下拉项规则，
+   会把二级菜单文字染成主题色，出现“蓝底蓝字看不见”。
+   这里补上 #page-header 前缀（同为双 ID）并放在后面，锁回下拉项的颜色。 */
+#page-header #nav .menus_items .menus_item > .menus_item_child .site-page.child {
+  color: var(--btf-font-color) !important;
+}
+
+#page-header #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover {
+  background: var(--btf-header-theme, var(--btf-theme));
+  color: var(--btf-nav-hover-text) !important;
+}
+
+#nav .menus_items .menus_item > .menus_item_child .site-page.child i {
+  margin-right: 8px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* ---------- 4.3.1 导航菜单：对齐 Solitude #menus ----------
+   结构：nav#nav > #menus > .menus_items > .menus_item > a.site-page
+   Solitude 把 .menus_items 做成居中的玻璃胶囊，单个菜单项是 35px 高的圆角块，
+   悬停/当前页用主题色填充。这里逐条对齐它的计算样式。 */
+
+@media (min-width: 769px) {
+  #nav {
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+#nav #menus {
+  position: absolute;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  margin: 0;
+  transform: translateZ(0);
+}
+
+#nav #menus > .menus_items {
+  position: relative;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: fit-content;
+  height: 44px;
+  margin: auto 0;
+  padding: 0 4px;
+  border-radius: 99px;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  transform: scale(1);
+  transition: top .5s, transform .5s, opacity .5s, box-shadow .5s, backdrop-filter .5s, background-color .5s;
+}
+
+#nav #menus > .menus_items > .menus_item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding: 0;
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page {
+  display: flex;
+  align-items: center;
+  max-width: 10rem;
+  height: 35px;
+  padding: 0 12px;
+  border-radius: 40px;
+  color: var(--btf-font-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: 0;
+  text-shadow: none;
+  white-space: nowrap;
+  transition: background-color .3s, color .3s, box-shadow .3s;
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page > span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page > i {
+  margin-right: 6px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page:hover {
+  background: var(--btf-header-theme, var(--btf-theme));
+  box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
+  color: var(--btf-nav-hover-text) !important;
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page:hover > span {
+  color: var(--btf-nav-hover-text);
+}
+
+#nav #menus > .menus_items > .menus_item > .site-page:not(.child)::after {
+  display: none;
+}
+
+/* 滚动后：菜单胶囊收起，改为显示文章标题胶囊（对齐 Solitude #page-name） */
+#page-header.nav-fixed #nav #menus > .menus_items {
+  top: -60px;
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+  transition: top .3s, transform .3s, opacity .3s;
+}
+
+#page-header.nav-fixed.nav-visible #nav #menus > .menus_items {
+  top: 0;
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+/* 顶部有头图时：胶囊透明、文字白色，悬停只加一层白色薄底（对齐 Solitude 顶部行为） */
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #menus > .menus_items > .menus_item > .site-page {
+  color: var(--btf-white);
+}
+
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #menus > .menus_items > .menus_item > .site-page:hover {
+  background: var(--btf-header-white-op, rgba(255, 255, 255, .2));
+  box-shadow: none;
+  color: var(--btf-white) !important;
+}
+
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #menus > .menus_items > .menus_item > .site-page:hover > span {
+  color: var(--btf-white);
+}
+
+/* 没有头图的页面（404 等）：导航直接压在页面背景上，胶囊需要常驻玻璃底 */
+#page-header.not-top-img #nav #menus > .menus_items {
+  background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+}
+
+/* 右侧按钮区：对齐 Solitude #nav-right
+   结构：nav#nav > #nav-group > #nav-right > #random-post-button / #search-button / #nav-totop
+   #menus 只负责居中菜单，右侧按钮不再参与菜单布局。
+
+   注意：尺寸与排列规则放在媒体查询外。之前这些公共规则被包进
+   min-width: 769px，移动端按钮会因为没有宽高而被压成 0。 */
+#nav > #nav-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: var(--btf-layout-width);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+#nav #nav-right {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  z-index: 102;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--btf-nav-right-gap);
+  padding: var(--btf-nav-right-padding);
+  overflow: hidden;
+  border: var(--btf-border-width) solid transparent;
+  border-radius: 99px;
+  transform: translateY(-50%);
+  transition: background-color .3s, border-color .3s, box-shadow .3s, backdrop-filter .3s;
+}
+
+#nav #nav-right .nav-button,
+#nav #nav-right #toggle-menu {
+  display: flex;
+  flex: 0 0 var(--btf-nav-button-size);
+  align-items: center;
+  justify-content: center;
+  width: var(--btf-nav-button-size);
+  height: var(--btf-nav-button-size);
+  margin: 0;
+  padding: 0;
+}
+
+#nav #nav-right .nav-button > .site-page,
+#nav #nav-right #toggle-menu > .site-page {
+  display: flex;
+  flex: 0 0 var(--btf-nav-button-size);
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--btf-nav-button-size);
+  height: var(--btf-nav-button-size);
+  margin: 0;
+  padding: 0;
+  border-radius: 40px;
+  color: var(--btf-font-color);
+  font-size: 16px;
+  line-height: 1;
+  text-shadow: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .3s, color .3s, box-shadow .3s;
+}
+
+#nav #nav-right .nav-button > .site-page > i,
+#nav #nav-right #toggle-menu > .site-page > i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btf-nav-icon-size);
+  height: var(--btf-nav-icon-size);
+  font-size: var(--btf-nav-icon-size);
+  line-height: 1;
+  overflow: visible;
+}
+
+/* 随机文章使用内联 SVG，保持与 Font Awesome 图标相同的视觉尺寸。 */
+#nav #nav-right .random-cube {
+  width: var(--btf-nav-icon-size);
+  height: var(--btf-nav-icon-size);
+  fill: currentColor;
+  overflow: visible;
+}
+
+/* 导航按钮统一使用内联描边 SVG，避免依赖外部图标字体。 */
+#nav #nav-right .nav-icon {
+  width: var(--btf-nav-icon-size);
+  height: var(--btf-nav-icon-size);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+
+#nav #nav-right .nav-button:not(#nav-totop) > .site-page > span {
+  display: none;
+}
+
+/* Butterfly 的 #search-button 默认是 inline，图标会被压成 0 高；
+   Solitude 的搜索是 35px 的独立按钮，这里恢复完整盒模型。 */
+#nav #nav-right #search-button {
+  display: flex;
+  flex: 0 0 var(--btf-nav-button-size);
+  align-items: center;
+  justify-content: center;
+  width: var(--btf-nav-button-size);
+  height: var(--btf-nav-button-size);
+  padding: 0;
+}
+
+#nav #nav-right #search-button > .site-page.social-icon.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btf-nav-button-size);
+  height: var(--btf-nav-button-size);
+  margin: 0;
+  padding: 0;
+  font-size: var(--btf-nav-icon-size);
+}
+
+/* 桌面端不显示移动端汉堡按钮；移动端在下方媒体查询中恢复。
+   注意：主题的 #nav #toggle-menu 选择器优先级更高，这里必须用
+   #page-header 前缀，否则顶部状态仍会显示汉堡按钮。 */
+#page-header #nav #nav-right #toggle-menu {
+  display: none;
+}
+
+#nav #nav-right .nav-button > .site-page:hover,
+#nav #nav-right #toggle-menu > .site-page:hover {
+  background: var(--btf-header-theme, var(--btf-theme));
+  box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
+  color: var(--btf-nav-hover-text) !important;
+}
+
+/* 主题给所有 .site-page 加了悬停下划线（::after），右侧按钮是圆形图标按钮，
+   这里去掉，避免悬停时出现一条横条。 */
+#nav #nav-right .site-page:not(.child)::after {
+  display: none;
+}
+
+/* 搜索/菜单是 span.site-page，会被上面站点级的 span.site-page:hover 规则
+   （color: var(--btf-theme) !important）覆盖成蓝底蓝图标，这里提高优先级锁回按钮前景色。 */
+#page-header #nav #nav-right .nav-button > .site-page:hover,
+#page-header #nav #nav-right #toggle-menu > .site-page:hover {
+  color: var(--btf-nav-hover-text) !important;
+}
+
+#nav #nav-right .nav-button > .site-page:focus-visible,
+#nav #nav-right #toggle-menu > .site-page:focus-visible {
+  outline: 2px solid var(--btf-theme);
+  outline-offset: 2px;
+}
+
+/* 返回顶部：顶部时收起；滚动后展开成 35px；接近底部时拉长成“返回顶部”。 */
+#nav #nav-right #nav-totop {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  width: 0;
+  height: var(--btf-nav-button-size);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 40px;
+  opacity: 0;
+  transform: scale(0);
+  transition: width .3s, opacity .3s, transform .3s;
+}
+
+#page-header.nav-fixed #nav #nav-right #nav-totop {
+  width: var(--btf-nav-button-size);
+  opacity: 1;
+  transform: scale(1);
+}
+
+#nav #nav-right #nav-totop.long,
+#page-header.nav-fixed #nav #nav-right #nav-totop.long {
+  width: 92px;
+}
+
+#nav #nav-right #nav-totop .totopbtn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 40px;
+  background: var(--btf-font-color);
+  color: var(--btf-card-bg);
+  transition: background-color .3s, transform .3s;
+}
+
+#nav #nav-right #nav-totop.long .totopbtn {
+  width: 82px;
+}
+
+#nav #nav-right #nav-totop .totopbtn > i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--btf-card-bg);
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+#nav #nav-right #nav-totop .totopbtn > .nav-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity .3s;
+}
+
+/* Solitude 的返回顶部文字按钮是 80px 胶囊，左右内边距 12px。 */
+#nav #nav-right #nav-totop.long .totopbtn {
+  top: 2px;
+  right: 2px;
+  left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 82px;
+  padding: 0 8px;
+}
+
+#nav #nav-right #nav-totop.long #percent {
+  padding: 0 2px;
+  color: var(--btf-card-bg);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#nav #nav-right #nav-totop #percent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 35px;
+  color: var(--btf-card-bg);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: opacity .3s;
+}
+
+#nav #nav-right #nav-totop:hover .totopbtn {
+  background: var(--btf-header-theme, var(--btf-theme));
+}
+
+#nav #nav-right #nav-totop:hover .totopbtn > i {
+  opacity: 1;
+}
+
+#nav #nav-right #nav-totop:hover .totopbtn > .nav-icon {
+  opacity: 1;
+  /* 悬停时链接文字会变成主题色，SVG 用 currentColor 会变成“蓝底蓝箭头”。
+     这里把箭头固定为按钮底色（白），保证任何状态下都清晰可见。 */
+  stroke: var(--btf-card-bg) !important;
+  color: var(--btf-card-bg) !important;
+}
+
+/* 长条状态（“回到顶部”文字）：文字左侧补箭头，对齐 Solitude 的图标+文字胶囊。 */
+#nav #nav-right #nav-totop.long .totopbtn > .nav-icon {
+  position: static;
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  opacity: 1;
+  transform: none;
+  stroke: var(--btf-card-bg) !important;
+  color: var(--btf-card-bg) !important;
+}
+
+#nav #nav-right #nav-totop.long #percent {
+  padding: 0;
+  font-size: 11px;
+}
+
+#nav #nav-right #nav-totop:hover #percent {
+  opacity: 0;
+}
+
+#nav #nav-right #nav-totop:not(.long):hover .totopbtn {
+  transform: scale(1.167);
+}
+
+/* 顶部有头图时：右侧图标为白色，悬停只加一层白色薄底（对齐 Solitude 顶部行为）。 */
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #nav-right .nav-button > .site-page,
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #nav-right #toggle-menu > .site-page {
+  color: var(--btf-white);
+}
+
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #nav-right .nav-button > .site-page:hover,
+#page-header:not(.nav-fixed):not(.not-top-img) #nav #nav-right #toggle-menu > .site-page:hover {
+  background: var(--btf-header-white-op, rgba(255, 255, 255, .2));
+  box-shadow: none;
+  color: var(--btf-white) !important;
+}
+
+/* 滚动后 / 无头图页面：右侧按钮区显示玻璃胶囊底。 */
+#page-header.nav-fixed #nav #nav-right,
+#page-header.not-top-img #nav #nav-right {
+  background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+/* 导航按钮气泡提示：对齐 Solitude .custom-tooltip */
+.btf-tooltip {
+  position: fixed;
+  z-index: 9999;
+  display: none;
+  max-width: 200px;
+  padding: 8px 12px;
+  border: var(--btf-border-width) solid var(--btf-card-border);
+  border-radius: 12px;
+  background: var(--btf-mask-bg-deep);
+  box-shadow: var(--btf-shadow-border);
+  color: var(--btf-font-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s;
+}
+
+/* 移动端：保留随机文章与搜索，隐藏返回顶部，避免挤占汉堡按钮。 */
+@media (max-width: 768px) {
+  #nav > #nav-group {
+    /* 左侧不留白：#nav 有 16px 内边距，卡片左边距 15px，差 1px 忽略。 */
+    padding: 0 12px 0 0;
+  }
+
+  #nav #menus {
+    display: none;
+  }
+
+  #nav #blog-info {
+    position: static;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    padding: 0 12px 0 0;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* 移动端头像保持圆形（去掉内边距后主题的圆形样式不再命中） */
+  #nav #blog-info .site-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+  }
+
+  #nav #blog-info .nav-site-title {
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #nav #blog-info .site-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #nav #nav-right {
+    right: 12px;
+  }
+
+  /* 窄屏空间不足时隐藏随机文章，保证品牌、搜索和菜单不重叠。 */
+  @media (max-width: 480px) {
+    #nav #nav-right #random-post-button {
+      display: none;
+    }
+
+    #nav #blog-info {
+      padding-right: 96px;
+    }
+  }
+
+  #nav #nav-right #nav-totop {
+    display: none;
+  }
+
+  #page-header #nav #nav-right #toggle-menu {
+    display: flex !important;
+  }
+}
+
+/* 左侧品牌胶囊（对齐 Solitude #blog_name） */
+@media (min-width: 769px) {
+  #nav #blog-info {
+    position: absolute;
+    /* 与主内容卡片左边界对齐：#nav-group 与 .layout 同宽同起点，
+       卡片还有 .layout 的 15px 左内边距，所以这里取 15px。
+       之前写死 24px 会比卡片右移 9px，视觉上“没左对齐”。 */
+    left: 15px;
+    z-index: 102;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: flex-start;
+    height: 44px;
+    padding: 2px 10px;
+    border-radius: 99px;
+    transition: background-color .3s, box-shadow .3s, backdrop-filter .3s;
+  }
+
+  #nav #blog-info .nav-site-title {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    padding: 0 6px;
+    border-radius: 40px;
+  }
+
+  #nav #blog-info .site-icon {
+    height: 26px;
+    margin-right: 8px;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  #nav #blog-info .site-name {
+    color: var(--btf-font-color);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: none;
+    white-space: nowrap;
+  }
+
+  /* Butterfly 在 nav-fixed 下把 #blog-info 宽度压到 20px，这里恢复自适应 */
+  #page-header.nav-fixed #nav #blog-info {
+    width: auto;
+  }
+
+  #page-header.nav-fixed #nav #blog-info,
+  #page-header.not-top-img #nav #blog-info {
+    background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+    box-shadow: var(--btf-shadow-border);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  #page-header.nav-fixed #nav #blog-info .site-name,
+  #page-header.not-top-img #nav #blog-info .site-name {
+    color: var(--btf-font-color);
+  }
+
+  /* Butterfly 在 nav-fixed 时会隐藏站点标题，这里保留它（Solitude 始终显示） */
+  #page-header.nav-fixed #nav #blog-info > a:first-child {
+    display: flex;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav #blog-info {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav #blog-info .site-name {
+    color: var(--btf-white);
+  }
+
+  /* 其它带顶部图的页面（标签/分类/归档等）在页面顶部同样用白字 */
+  #page-header:not(.nav-fixed):not(.not-top-img) #nav #blog-info .site-name {
+    color: var(--btf-white);
+  }
+
+  /* 居中文章标题胶囊（对齐 Solitude #page-name） */
+  #nav > .nav-page-title {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: calc(100vw - 420px);
+    height: 44px;
+    padding: 0 16px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+    box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) scale(1.1);
+    transition: top .3s, transform .3s, opacity .3s;
+  }
+
+  #nav > .nav-page-title > .site-name {
+    position: static;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--btf-font-color);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* 主题对首/末子元素有悬停淡出规则，这里锁定标题始终显示 */
+  #nav > .nav-page-title:hover > .site-name {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Butterfly 默认 display:none，这里按 Solitude 的滚动状态显示 */
+  #page-header.nav-fixed #nav > .nav-page-title {
+    display: flex;
+  }
+
+  #page-header.nav-fixed:not(.nav-visible) #nav > .nav-page-title {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* ---------- 4.4 页脚 ---------- */
+
+#footer {
+  background-color: transparent !important;
+  background-image: linear-gradient(180deg, var(--btf-card-bg-none) 0, var(--btf-card-bg) 25%) !important;
+}
+
+#footer::before {
+  display: none !important;
+}
+
+#footer,
+#footer > *,
+#footer a {
+  color: var(--btf-second-text);
+}
+
+#footer a:hover {
+  color: var(--btf-theme) !important;
+}
+
+/* ---------- 4.5 文章正文 ---------- */
+
+#article-container a,
+.container a {
+  color: var(--btf-theme);
+}
+
+#article-container a:hover,
+.container a:hover {
+  color: var(--btf-theme);
+  text-decoration: underline;
+}
+
+.container .flink a,
+.container .flink a:hover,
+.container .flink .flink-item-name,
+.container .flink .flink-item-desc {
+  color: var(--btf-font-color);
+  text-decoration: none;
+}
+
+.container code:not([class*="language-"]):not(.hljs) {
+  padding: .4em;
+  border: var(--btf-border);
+  border-radius: 4px;
+  background: var(--btf-card-bg);
+  color: var(--btf-font-color);
+  box-shadow: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.container pre > code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.container blockquote {
+  margin: .5rem 0;
+  padding: .5rem .8rem;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius-sm);
+  background: var(--btf-second-bg);
+  color: var(--btf-second-text);
+}
+
+.container table thead {
+  background: var(--btf-second-bg);
+}
+
+.container table,
+.container th,
+.container td {
+  border-color: var(--btf-card-border);
+}
+
+.container kbd {
+  border: var(--btf-border);
+  border-radius: 4px;
+  background: var(--btf-second-bg);
+  color: var(--btf-font-color);
+  box-shadow: none;
+}
+
+/* ---------- 4.6 文章信息 / 版权 / 标签 ---------- */
+
+#post > #post-info #post-meta,
+#post > #post-info #post-meta a {
+  color: var(--btf-second-text);
+}
+
+#post .tag_share .post-meta__tags {
+  border-color: var(--btf-theme);
+  color: var(--btf-theme);
+}
+
+#post .tag_share .post-meta__tags:hover {
+  background: var(--btf-theme);
+  border-color: var(--btf-theme);
+  color: var(--btf-nav-hover-text);
+}
+
+#post .post-copyright {
+  background: var(--btf-second-bg);
+}
+
+#post .post-copyright-meta {
+  color: var(--btf-theme);
+}
+
+#post .post-copyright-info a {
+  color: var(--btf-font-color);
+}
+
+#post .post-copyright-info a:hover {
+  color: var(--btf-theme);
+}
+
+/* ---------- 4.7 分页 ---------- */
+
+.layout .pagination > *:not(.space) {
+  background: var(--btf-card-bg);
+  border: var(--btf-border);
+  border-radius: var(--btf-radius-pill);
+  color: var(--btf-font-color);
+  box-shadow: none !important;
+  transition: border-color var(--btf-transition), color var(--btf-transition);
+}
+
+.layout .pagination > *:not(.space):hover {
+  background: var(--btf-card-bg);
+  border-color: var(--btf-theme);
+  color: var(--btf-theme);
+}
+
+.layout .pagination .page-number.current,
+.layout .pagination .page-number.current:hover {
+  background: var(--btf-theme);
+  border-color: var(--btf-theme);
+  color: var(--btf-nav-hover-text);
+}
+
+/* ---------- 4.8 按钮 / 右下角工具栏 ---------- */
+
+#aside-content .card-info #card-info-btn {
+  background: var(--btf-theme);
+  color: var(--btf-nav-hover-text);
+  box-shadow: none;
+}
+
+#aside-content .card-info #card-info-btn:hover {
+  background: var(--btf-theme-op-deep);
+  color: var(--btf-nav-hover-text);
+  box-shadow: none !important;
+}
+
+#rightside > div > button,
+#rightside > div > a {
+  box-shadow: none;
+}
+
+#rightside > div > button:hover,
+#rightside > div > a:hover {
+  color: var(--btf-nav-hover-text) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- 4.9 侧栏 / 目录 / 标签云 ---------- */
+
+#aside-content #card-toc .toc-link {
+  color: var(--btf-toc-link-color, var(--btf-second-text));
+  border-radius: var(--btf-radius-sm);
+}
+
+#aside-content #card-toc .toc-link:hover {
+  color: var(--btf-theme);
+}
+
+#aside-content #card-toc .toc-link.active {
+  background: var(--btf-theme-op);
+  color: var(--btf-theme);
+  font-weight: 700;
+}
+
+#aside-content .site-data a:hover div,
+#aside-content .aside-list .content .title:hover,
+#aside-content .aside-list .content .name:hover {
+  color: var(--btf-theme) !important;
+}
+
+#aside-content .aside-list > .aside-list-item:not(:last-child) {
+  border-bottom: 1px dashed var(--btf-card-border);
+}
+
+#aside-content .card-archives ul.card-archive-list > .card-archive-list-item a:hover,
+#aside-content .card-categories ul.card-category-list > .card-category-list-item a:hover {
+  background: var(--btf-theme-op);
+  color: var(--btf-theme);
+}
+
+#aside-content .card-tag-cloud a {
+  color: var(--btf-font-color) !important;
+  border-radius: var(--btf-radius-sm);
+}
+
+#aside-content .card-tag-cloud a:hover {
+  background: var(--btf-theme);
+  color: var(--btf-nav-hover-text) !important;
+}
+
+#sidebar-menus {
+  background: var(--btf-sidebar-bg);
+}
+
+#sidebar-menus .menus_items {
+  background: var(--btf-card-bg);
+  border: var(--btf-border);
+  box-shadow: none;
+}
+
+#sidebar-menus .menus_items .site-page:hover {
+  background: var(--btf-theme-op);
+  color: var(--btf-theme);
+  box-shadow: none;
+}
+
+/* ---------- 4.10 搜索 ---------- */
+
+.search-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  margin: auto;
+  padding: 1rem;
+  width: 30rem;
+  height: fit-content;
+  max-height: 90dvh;
+  overflow: hidden;
+  background: var(--btf-card-bg);
+  border: var(--btf-border);
+  border-radius: 12px;
+  box-shadow: var(--btf-shadow-lightblack);
+  transition: border-color var(--btf-transition), box-shadow var(--btf-transition);
+  animation: btf-search-slide-in .6s ease 0s 1 normal none running;
+}
+
+.search-dialog:hover {
+  border-color: var(--btf-theme);
+  box-shadow: var(--btf-shadow-theme);
+}
+
+@keyframes btf-search-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-dialog .search-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-dialog .search-dialog-title {
+  color: var(--btf-theme);
+  font-size: 1.4em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.search-dialog #loading-status[hidden] {
+  display: none !important;
+}
+
+.search-dialog .search-nav .search-close-button {
+  display: inline-flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  padding: 4px;
+  color: var(--btf-gray);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.4em;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .2s ease-in-out, background .2s ease-in-out;
+}
+
+.search-dialog .search-nav .search-close-button:hover {
+  color: var(--btf-theme);
+  background: var(--btf-theme-op);
+}
+
+.search-dialog .search-nav .search-close-icon {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.search-dialog .search-nav .search-close-icon::before,
+.search-dialog .search-nav .search-close-icon::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.search-dialog .search-nav .search-close-icon::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.search-dialog .search-nav .search-close-icon::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.search-dialog .search-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.search-dialog .search-box {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.search-dialog .search-box input,
+.search-dialog .local-search-input input,
+.search-dialog #algolia-search-input input,
+.search-dialog .ais-SearchBox-input {
+  width: 100%;
+  height: 44px;
+  padding: .25rem .7rem;
+  outline: 0;
+  color: var(--btf-font-color);
+  background: var(--btf-second-bg);
+  border: var(--btf-border);
+  border-radius: 12px;
+  caret-color: var(--btf-theme);
+  -webkit-appearance: none;
+}
+
+.search-dialog .search-box input:focus,
+.search-dialog .local-search-input input:focus,
+.search-dialog #algolia-search-input input:focus,
+.search-dialog .ais-SearchBox-input:focus {
+  border-color: var(--btf-theme);
+}
+
+.search-dialog .search-box input::placeholder,
+.search-dialog .local-search-input input::placeholder,
+.search-dialog #algolia-search-input input::placeholder,
+.search-dialog .ais-SearchBox-input::placeholder {
+  color: var(--btf-gray);
+  opacity: .8;
+}
+
+.search-dialog #search-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.search-dialog #search-suggestions[hidden] {
+  display: none;
+}
+
+.search-dialog #search-suggestions .tag-list {
+  min-height: 30px;
+  padding: 3px 8px;
+  color: var(--btf-font-color);
+  background: transparent;
+  border: var(--btf-border);
+  border-radius: 8px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color .2s ease-in-out, background .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.search-dialog #search-suggestions .tag-list:hover,
+.search-dialog #search-suggestions .tag-list:focus-visible {
+  color: var(--btf-white);
+  background: var(--btf-theme);
+  border-color: var(--btf-theme);
+  outline: 0;
+}
+
+.search-dialog #search-results {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-height: calc(90dvh - 250px);
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.search-dialog #search-results[hidden] {
+  display: none;
+}
+
+.search-dialog #search-results .search-result-item {
+  width: 100%;
+  padding-left: 0;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.search-dialog #search-results .search-result-title {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 3px 0;
+  overflow: hidden;
+  color: var(--btf-font-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: color .2s ease-in-out;
+}
+
+.search-dialog #search-results .search-result-title:hover {
+  color: var(--btf-hovertext);
+}
+
+.search-dialog #search-results .search-result-title em,
+.search-dialog #search-results .search-result-title .search-keyword {
+  color: var(--btf-theme);
+  font-style: normal;
+}
+
+.search-dialog #search-results .search-result-empty,
+.search-dialog #search-results .search-result-error,
+.search-dialog #search-results .search-result-loading {
+  color: var(--btf-second-text);
+}
+
+.search-dialog #search-pagination:empty {
+  display: none;
+}
+
+.search-dialog #search-pagination .pagination-list {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.search-dialog #search-pagination .pagination-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0;
+  color: var(--btf-font-color);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-dialog #search-pagination .pagination-button:hover {
+  color: var(--btf-theme);
+}
+
+.search-dialog #search-pagination .pagination-button.select {
+  color: var(--btf-white);
+  background: var(--btf-theme);
+  cursor: default;
+}
+
+.search-dialog #search-tips {
+  width: 100%;
+  color: var(--btf-second-text);
+}
+
+.search-dialog #search-tips:empty {
+  display: none;
+}
+
+.search-dialog #search-tips .search-result-count {
+  color: var(--btf-gray);
+  font-size: 12px;
+}
+
+.search-dialog #search-tips .search-result-count b {
+  color: var(--btf-theme);
+}
+
+.search-dialog #loading-database {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--btf-second-text);
+}
+
+.search-dialog #loading-database span {
+  margin-left: 8px;
+}
+
+#search-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  background: var(--btf-mask-bg-deep);
+  transform: translateZ(0);
+}
+
+html.search-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+  .search-dialog {
+    inset: 0;
+    width: 100vw;
+    height: var(--search-height, 100dvh);
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    border-radius: 0;
+    animation: none;
+  }
+
+  .search-dialog:hover {
+    border: 0;
+    box-shadow: var(--btf-shadow-lightblack);
+  }
+
+  .search-dialog .search-wrap {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .search-dialog #search-results {
+    max-height: none;
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+/* ---------- 4.11 标签页 / 分类页 ---------- */
+
+.tag-cloud-list a {
+  background: var(--btf-card-bg) !important;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius-sm);
+  color: var(--btf-font-color) !important;
+  box-shadow: none !important;
+  transition: all var(--btf-transition);
+}
+
+.tag-cloud-list a:hover {
+  background: var(--btf-theme) !important;
+  border-color: var(--btf-theme);
+  color: var(--btf-nav-hover-text) !important;
+  box-shadow: none !important;
+  transform: none;
+}
+
+/* ---------- 4.12 友情链接 ---------- */
+
+.flink-list-item a {
+  color: var(--btf-font-color);
+}
+
+.flink-list-item .flink-item-name,
+.flink-list-item .flink-item-desc {
+  color: var(--btf-font-color);
+}
+
+.flink-list-item::before {
+  background: var(--btf-theme);
+}
+
+.flink-list-item:hover a,
+.flink-list-item:hover .flink-item-name,
+.flink-list-item:hover .flink-item-desc {
+  color: var(--btf-nav-hover-text);
+}
+
+/* ---------- 4.13 说说 ---------- */
+
+#article-container .shuoshuo-date {
+  color: var(--btf-second-text);
+}
+
+#article-container .shuoshuo-tag {
+  border-color: var(--btf-theme);
+  color: var(--btf-theme);
+}
+
+#article-container .shuoshuo-tag:hover {
+  background: var(--btf-theme);
+  color: var(--btf-nav-hover-text);
+}
+
+#article-container .shuoshuo-comment-btn:hover {
+  color: var(--btf-theme);
+}
+
+.shuoshuo-navigation button {
+  background: var(--btf-card-btn-bg);
+  color: var(--btf-font-color);
+}
+
+.shuoshuo-navigation button:hover:not(:disabled) {
+  background: var(--btf-theme);
+  color: var(--btf-nav-hover-text);
+  box-shadow: none;
+}
+
+.shuoshuo-navigation button:disabled {
+  background: var(--btf-second-bg);
+  color: var(--btf-second-text);
+  opacity: .5;
+}
+
+.shuoshuo-navigation .shuoshuo-page-info {
+  color: var(--btf-second-text);
+}
+
+.shuoshuo-navigation .shuoshuo-page-input {
+  background: var(--btf-second-bg);
+  border: var(--btf-border);
+  color: var(--btf-font-color);
+}
+
+/* ---------- 4.14 代码块 ---------- */
+
+.container figure.highlight {
+  background: var(--hl-bg);
+  border: var(--btf-border);
+  border-radius: var(--btf-radius-sm);
+  box-shadow: none !important;
+}
+
+.container .highlight-tools {
+  background: var(--hltools-bg);
+  border-bottom: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+/* ---------- 4.15 仅深色需要的修正 ---------- */
+
+[data-theme="dark"] img:not(.cover) {
+  filter: none !important;
+}
+
+[data-theme="dark"] #post-comment .comment-switch {
+  background: var(--btf-second-bg) !important;
+}
+
+/* ==========================================================================
+   5. 文章头图：对齐 Solitude post header
+   ========================================================================== */
+
+/* ---------- 5.1 头图容器 ---------- */
+
+.post #page-header.post-bg:not(.not-top-img) {
+  --btf-header-theme: var(--btf-theme);
+  --btf-header-theme-op: var(--btf-theme-op);
+  --btf-header-theme-op-deep: var(--btf-theme-op-deep);
+  --btf-header-white-op: rgba(255, 255, 255, .2);
+  position: relative;
+  height: 470px;
+  margin-bottom: 0;
+  overflow: hidden;
+  background-color: var(--btf-background);
+  background-image: none !important;
+  transition: .6s;
+}
+
+.post #page-header.post-bg:not(.not-top-img)::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--btf-header-theme);
+  content: "";
+  opacity: 1;
+  transition: background-color .3s ease;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #nav {
+  z-index: 90;
+}
+
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav a,
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav span.site-page,
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav #toggle-menu,
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav #blog-info {
+  color: var(--btf-white);
+  text-shadow: none;
+}
+
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav a:hover,
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav span.site-page:hover,
+.post #page-header.post-bg:not(.not-top-img):not(.nav-fixed) #nav #toggle-menu:hover {
+  color: var(--btf-white) !important;
+}
+
+/* ---------- 5.2 左侧文章信息 ---------- */
+
+.post #page-header.post-bg:not(.not-top-img) #post-info {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--btf-layout-width);
+  height: calc(100% - 30px);
+  margin: 0 auto;
+  padding: 0 30px;
+  color: var(--btf-white);
+  font-family: Inter, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  transform: translateX(-50%);
+  animation: btf-post-info-in .6s 0s backwards;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo,
+.post #page-header.post-bg:not(.not-top-img) .post-title,
+.post #page-header.post-bg:not(.not-top-img) #post-meta {
+  width: calc(100% - var(--btf-header-cover-width) - 80px);
+  max-width: none;
+  margin-left: 40px;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo {
+  display: flex;
+  color: var(--btf-white);
+  text-align: left;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .post-title {
+  max-width: none;
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-meta-original,
+.post #page-header.post-bg:not(.not-top-img) span.post-meta-categories {
+  height: 32px;
+  border-radius: var(--btf-radius-pill);
+  background: var(--btf-header-white-op);
+  line-height: 32px;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-meta-original {
+  display: flex;
+  width: auto;
+  margin: 0;
+  padding: 0 10px;
+  color: var(--btf-white);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-meta-original:hover {
+  background: var(--btf-white);
+  color: var(--btf-header-theme);
+}
+
+.post #page-header.post-bg:not(.not-top-img) span.post-meta-categories {
+  margin-left: 8px;
+}
+
+.post #page-header.post-bg:not(.not-top-img) span.post-meta-categories:hover {
+  background: var(--btf-white);
+}
+
+.post #page-header.post-bg:not(.not-top-img) span.post-meta-categories:hover a.post-meta-categories {
+  color: var(--btf-header-theme);
+}
+
+.post #page-header.post-bg:not(.not-top-img) a.post-meta-categories {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  color: var(--btf-white);
+  font-size: 14px;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .tag_share {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .post-meta__tag-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32px;
+  overflow: hidden;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .post-meta__tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32px;
+  margin-right: 8px;
+  padding: 0 8px 0 4px;
+  border-radius: var(--btf-radius-pill);
+  color: var(--btf-white);
+  font-size: 16px;
+  line-height: 32px;
+  opacity: .8;
+  transition: background-color .3s ease, opacity .3s ease;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .post-meta__tags:hover {
+  background: var(--btf-header-white-op);
+  color: var(--btf-white);
+  opacity: 1;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .tags-name {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .tags-name i {
+  font-size: 14px;
+  line-height: 32px;
+  margin-right: 2px;
+  opacity: .4;
+}
+
+/* ---------- 5.3 标题与元信息 ---------- */
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .post-title {
+  display: -webkit-box;
+  height: calc(2 * 1.38em);
+  min-height: calc(2 * 1.38em);
+  margin: 4px 0 8px 40px;
+  padding: 0;
+  overflow: hidden;
+  color: var(--btf-white);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.38;
+  text-align: left;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .post-title .post-edit-link {
+  padding-left: 10px;
+  color: var(--btf-white);
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info #post-meta {
+  display: flex;
+  color: var(--btf-white);
+  font-size: 95%;
+  user-select: none;
+  transition: .3s;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info #post-meta a {
+  color: inherit;
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info #post-meta i {
+  margin-right: 4px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > span,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > a.post-meta-pv {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 32px;
+  margin: 0;
+  padding: 0 10px;
+  border-radius: var(--btf-radius-pill);
+  background: var(--btf-header-white-op);
+  color: var(--btf-white);
+  font-size: 15.2px;
+  line-height: 1;
+  opacity: 1;
+  transition: background-color .3s ease-out, color .3s ease-out;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > span:hover,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > a.post-meta-pv:hover {
+  background: var(--btf-white);
+  color: var(--btf-header-theme);
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .post-meta-separator,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .post-meta-label {
+  display: none;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .post-meta-commentcount {
+  cursor: pointer;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .word-count,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .leancloud-visitors-count,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline #busuanzi_value_page_pv,
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline #busuanzi_page_pv {
+  font-weight: 800;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > span:empty {
+  display: none;
+}
+
+/* ---------- 5.4 右侧封面卡片 ---------- */
+
+.post #page-header.post-bg:not(.not-top-img) .post-cover-aside {
+  --post-cover-img-x: 0px;
+  --post-cover-img-y: 0px;
+  --post-cover-rotate-x: 0deg;
+  --post-cover-rotate-y: 0deg;
+  --post-cover-scale: 1;
+  position: absolute;
+  top: 50%;
+  right: max(calc((100vw - var(--btf-layout-width)) / 2 + 30px), 30px);
+  z-index: 11;
+  display: block;
+  width: var(--btf-header-cover-width);
+  aspect-ratio: 16 / 9;
+  overflow: visible;
+  /* 无描边、无柔光：避免大范围渐变在 8 位色深下产生同心环纹 */
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+  filter: none;
+  transform: translate3d(0, -50%, 0) perspective(900px) rotateX(var(--post-cover-rotate-x)) rotateY(var(--post-cover-rotate-y)) scale3d(var(--post-cover-scale), var(--post-cover-scale), 1);
+  transform-style: preserve-3d;
+  transition: transform .18s ease-out, filter .35s ease-out, box-shadow .35s ease-out;
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-cover-aside:hover {
+  --post-cover-scale: 1.035;
+  /* 悬停只做轻微上浮的暗色投影，不使用任何柔光 */
+  filter: none;
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .22);
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-cover-aside-link {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  line-height: 0;
+}
+
+.post #page-header.post-bg:not(.not-top-img) .post-cover-aside-img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  transform: translate3d(var(--post-cover-img-x), var(--post-cover-img-y), 0) scale(1.08);
+  transition: transform .18s ease-out;
+}
+
+/* ---------- 5.5 底部圆角过渡 ---------- */
+
+.post #page-header.post-bg:not(.not-top-img) .post-radius-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  height: 10px;
+  border-radius: var(--btf-radius) var(--btf-radius) 0 0;
+  background: var(--btf-background);
+  pointer-events: none;
+}
+
+/* ---------- 5.6 响应式 ---------- */
+
+@media screen and (max-width: 1200px) {
+  .post #page-header.post-bg:not(.not-top-img) .post-cover-aside {
+    display: none;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-firstinfo,
+  .post #page-header.post-bg:not(.not-top-img) .post-title,
+  .post #page-header.post-bg:not(.not-top-img) #post-meta {
+    width: calc(100% - 80px);
+    margin-left: 40px;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .post #page-header.post-bg:not(.not-top-img) {
+    height: 470px;
+    margin-bottom: -12px;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-info {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: normal;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    height: fit-content;
+    margin: 0;
+    padding: 7rem 1rem 60px;
+    background-image: linear-gradient(to bottom, transparent, var(--btf-header-theme));
+    text-align: center;
+    transform: none;
+    animation: none;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-firstinfo,
+  .post #page-header.post-bg:not(.not-top-img) .post-title,
+  .post #page-header.post-bg:not(.not-top-img) #post-meta {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-firstinfo {
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto .4rem;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-firstinfo .tag_share {
+    display: none;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-info .post-title {
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: .2rem 0 !important;
+    font-size: 24px;
+    line-height: 1.2;
+    text-align: center;
+    -webkit-line-clamp: 3;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-info #post-meta {
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 0;
+    font-size: 90%;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > span,
+  .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > a.post-meta-pv {
+    height: 30px;
+    padding: 0 9px;
+    font-size: 14.4px;
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .post #page-header.post-bg:not(.not-top-img) .post-cover-aside,
+  .post #page-header.post-bg:not(.not-top-img) .post-cover-aside-img {
+    transition: none;
+  }
+
+  .post #page-header.post-bg:not(.not-top-img) .post-cover-aside:hover {
+    --post-cover-scale: 1;
+  }
+}
+
+@keyframes btf-post-info-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Fancybox 灯箱：对齐 E://Blog 的 Fancybox 3 观感
+   v5 默认的工具栏按钮带深灰底、连成一条「框」，会压住图片顶部；
+   改成：按钮透明、只留白色图标悬浮在图上；图片四周留 44px（F3 默认）呼吸空间；
+   遮罩半透明能透出页面。
+   （双写类名 + !important 是为了压过后加载的 fancybox.min.css）
+   ========================================================================== */
+
+.fancybox__container.fancybox__container {
+  --fancybox-bg: rgba(0, 0, 0, .85);
+}
+
+.fancybox__toolbar.fancybox__toolbar {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 20;
+  --f-button-bg: transparent;
+  --f-button-hover-bg: rgba(0, 0, 0, .4);
+  --f-button-active-bg: rgba(0, 0, 0, .55);
+}
+
+.fancybox__slide.fancybox__slide {
+  /* 图片到工具栏的距离 = 图片到底部的距离：顶部多留 46px(工具栏) + 24px 间隙，底部留 24px */
+  padding: 70px 44px 24px 44px !important;
+}
+
+/* 首页文章卡片之间的上下间距 */
+#recent-posts .recent-post-item {
+  margin-bottom: 10px;
+}
