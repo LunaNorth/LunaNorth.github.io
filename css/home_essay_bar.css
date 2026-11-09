@@ -1,0 +1,216 @@
+/* ==========================================================================
+   首页轻语速览条
+   参考「鱼佬」bbTimeList 方案，样式参考 Leonus 的 main_top，
+   配色改用本站的 --btf-* 令牌，深浅色自动适配。
+   ========================================================================== */
+
+/* ---------- 1. 外层容器 ---------- */
+
+/* 速览条横跨整个内容区（正文 + 侧栏）。
+   排版完全复用主题的令牌，跟 #content-inner 对齐：
+   --btf-layout-width = 正文(1030) + 侧栏(315) + 内容区总间距(30) = 1375
+   左右 padding 15px 与 .layout 一致，因此左右边缘天然对齐：
+     左边缘 = 文章卡片左边缘
+     右边缘 = 侧边栏右边缘
+
+   垂直间距（上 20px / 下 10px）：
+     上：大图底部 → 速览条顶部  = margin-top: 20px
+     下：速览条底部 → 文章卡片  = #content-inner 的 padding-top: 10px
+       （主题默认 20px，这里改小 10px） */
+#main_top {
+  z-index: 1;
+  /* 与 #content-inner 对齐：同样的 max-width 和左右 padding（15px） */
+  max-width: var(--btf-layout-width);
+  /* 上间距：大图底部到速览条顶部 20px */
+  margin: 20px auto 0;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* 下间距：主题 .layout 默认 padding-top: 20px，这里改成 10px。
+   .has-essay-bar 由模板在首页时添加，只影响首页 */
+#body-wrap.has-essay-bar #content-inner.layout {
+  padding-top: 10px;
+}
+
+/* ---------- 2. 速览条卡片 ---------- */
+
+#bbTimeList {
+  position: relative;
+  /* 速览条文字色：比正文(#363636)略淡一档，纯浏览信息不抢正文风头。
+     用 color-mix 与卡片底色混合，明暗主题自动适配；
+     不支持 color-mix 的旧浏览器回退到下面的固定浅灰 */
+  --bb-text-color: #5c5c5c;
+  /* 横跨整个内容区：左边缘与文章卡片对齐，右边缘与侧边栏对齐。
+     #main_top 已按 .layout 的 max-width + padding 对齐，
+     所以这里 100% 即为「正文 + 间距 + 侧栏」的总宽 */
+  width: 100%;
+  max-width: 100%;
+  min-height: 50px;
+  background: var(--btf-card-bg);
+  color: var(--bb-text-color);
+  padding: .5rem 1rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-weight: 700;
+  border: 1px solid var(--btf-card-border);
+  border-radius: 10px;
+  /* 与站点其它卡片一致：常态无阴影，悬停只变边框颜色 */
+  box-shadow: none;
+  transition: border-color var(--btf-transition);
+}
+
+/* 喇叭图标：内联 SVG，跟主题导航图标同一套描边风格 */
+.bber-logo {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--btf-gray);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* ---------- 3. 滚动区域 ---------- */
+
+/* 整条可点击：去掉链接默认样式，颜色继承父级
+   注意：主题的 `.container a` 优先级更高，这里用 #bbTimeList 提权覆盖，
+   否则整条文字会被染成主题蓝 */
+#bbTimeList .bb-link {
+  display: block;
+  width: 100%;
+  color: var(--bb-text-color);
+  text-decoration: none;
+}
+
+/* 主题的 .container a:hover 会加下划线和主题色，这里覆盖掉，
+   让速览条整条保持原有文字样式，只靠边框变化提示可点击 */
+#bbTimeList .bb-link,
+#bbTimeList .bb-link:hover,
+#bbTimeList .container .bb-link:hover {
+  color: var(--bb-text-color);
+  text-decoration: none;
+}
+
+#bbtalk {
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+  /* 左侧留出喇叭的位置，内容在其余空间内居中 */
+  padding-left: 44px;
+  padding-right: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#bber-talk {
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+#bber-talk .li-style {
+  width: 100%;
+  max-width: 100%;
+  height: 25px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  margin: auto;
+  cursor: pointer;
+  white-space: nowrap;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 滑块文字同样要压过主题的 .container a 规则 */
+#bbTimeList #bber-talk .li-style,
+#bbTimeList #bber-talk .li-style:hover {
+  color: var(--bb-text-color);
+  text-decoration: none;
+}
+
+/* ---------- 4. 条目内元素 ---------- */
+
+/* 图片 / 视频角标 */
+.bb-flag {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  vertical-align: -2px;
+  opacity: .6;
+}
+
+.bb-flag svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- 5. 悬停 ---------- */
+
+/* 与主题卡片 hover 规范一致：只变边框颜色，不悬浮、不加阴影 */
+#bbTimeList:hover {
+  border-color: var(--btf-card-border-hover);
+  box-shadow: none;
+}
+
+/* ---------- 5.1 明暗主题自适应文字色 ---------- */
+
+/* 支持 color-mix 的浏览器：把正文色往卡片底色方向混 15%，
+   浅色模式 #363636 → #545454（略淡），深色模式 #f7f7fa → #d6d6d7（略暗） */
+@supports (color: color-mix(in srgb, red, blue)) {
+  #bbTimeList {
+    --bb-text-color: color-mix(in srgb, var(--btf-font-color) 85%, var(--btf-card-bg));
+  }
+}
+
+/* ---------- 6. 移动端 ---------- */
+
+@media screen and (max-width: 768px) {
+  /* 移动端侧边栏在下方，速览条占满整行 */
+  div#main_top {
+    padding: 0 15px;
+    margin: 20px auto 0;
+  }
+
+  #bbTimeList {
+    padding: .45rem .7rem;
+    min-height: 44px;
+    /* 移动端侧栏在下方，速览条占满整行 */
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #bbtalk {
+    width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  #bbTimeList .bb-link {
+    width: 100%;
+  }
+
+  .bber-logo {
+    left: 12px;
+    width: 18px;
+    height: 18px;
+  }
+}
