@@ -311,12 +311,58 @@
     window.addEventListener('scroll', hide, { passive: true })
   }
 
+  /* ---------- 页脚「本站已运行」计时 ----------
+     数据来自 _config.butterfly.yml 的 aside.card_webinfo.runtime_date，
+     格式为 MM/DD/YYYY HH:mm:ss（与侧边栏「运行时间」同源）。 */
+  const FOOTER_RUNTIME_ID = 'footer-runtimeshow'
+  let footerRuntimeTimer = null
+
+  const parsePublishDate = raw => {
+    const text = String(raw || '').trim()
+    if (!text) return null
+    const matched = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{1,2}):(\d{1,2}))?$/)
+    if (matched) {
+      const [, month, day, year, hour = 0, minute = 0, second = 0] = matched
+      return new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second))
+    }
+    const date = new Date(text.replace(/-/g, '/'))
+    return Number.isNaN(date.getTime()) ? null : date
+  }
+
+  const formatRuntime = start => {
+    const seconds = Math.max(0, Math.floor((Date.now() - start.getTime()) / 1000))
+    const years = Math.floor(seconds / (365 * 24 * 3600))
+    const days = Math.floor(seconds / (24 * 3600)) % 365
+    const hours = Math.floor(seconds / 3600) % 24
+    const minutes = Math.floor(seconds / 60) % 60
+    const rest = seconds % 60
+    const pad = value => String(value).padStart(2, '0')
+    const parts = []
+    if (years > 0) parts.push(`${years} 年`)
+    parts.push(`${days} 天`, `${pad(hours)} 时`, `${pad(minutes)} 分`, `${pad(rest)} 秒`)
+    return parts.join(' ')
+  }
+
+  const initFooterRuntime = () => {
+    const element = document.getElementById(FOOTER_RUNTIME_ID)
+    if (!element) return
+    const start = parsePublishDate(element.dataset.publishDate)
+    if (!start) return
+    const render = () => {
+      element.textContent = formatRuntime(start)
+    }
+    render()
+    if (footerRuntimeTimer) clearInterval(footerRuntimeTimer)
+    footerRuntimeTimer = setInterval(render, 1000)
+  }
+
   const init = () => {
     initHeaderColor()
     initCoverTilt()
     initNavMenu()
     initNavButtons()
     initNavTooltip()
+    initFooterRuntime()
   }
 
   if (document.readyState === 'loading') {

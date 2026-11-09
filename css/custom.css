@@ -89,6 +89,8 @@
   --btf-blockquote-bg: #f7f7f9;
   --btf-tabs-bg: #f2f5f8;
   --btf-sidebar-bg: #f6f8fa;
+  /* 页脚通栏底色：主色淡染，比页面底色略深、比卡片略浅 */
+  --btf-footer-bg: #eef1fd;
   --btf-nav-bg: linear-gradient(to bottom, rgba(255, 255, 255, .6), rgba(255, 255, 255, .85));
   --btf-nav-border: rgba(227, 232, 247, .7);
   --btf-mask-bg: rgba(255, 255, 255, .6);
@@ -186,6 +188,8 @@
   --btf-blockquote-bg: #30343f;
   --btf-tabs-bg: #121212;
   --btf-sidebar-bg: #121212;
+  /* 页脚通栏底色：比页面底色略亮，卡片同一档 */
+  --btf-footer-bg: #1e1f26;
   --btf-nav-bg: linear-gradient(to bottom, rgba(0, 0, 0, .6), rgba(0, 0, 0, .85));
   --btf-nav-border: rgba(61, 61, 63, .65);
   --btf-mask-bg: rgba(0, 0, 0, .6);
@@ -370,6 +374,15 @@
 #post .post-copyright:hover {
   box-shadow: var(--btf-shadow-card-hover) !important;
   border-color: var(--btf-card-border-hover);
+}
+
+/* 主栏卡片（文章 / 归档 / 标签页等）的内边距：
+   主题原本是 padding: 50px 40px，上下留白偏大，这里收紧成 25px 40px。
+   只在桌面端生效，移动端沿用主题原本的 36px 14px。 */
+@media screen and (min-width: 769px) {
+  .layout > div:first-child:not(.nc) {
+    padding: 25px 40px;
+  }
 }
 
 /* ---------- 4.3 导航栏 ---------- */
@@ -1249,23 +1262,125 @@
 
 /* ---------- 4.4 页脚 ---------- */
 
+/* 通栏：整块色块铺满视口宽度，不再是居中的小卡片；
+   内部再用 .footer-inner 容器对齐到正文宽度，左右边缘与文章/侧边栏一致。 */
 #footer {
-  background-color: transparent !important;
-  background-image: linear-gradient(180deg, var(--btf-card-bg-none) 0, var(--btf-card-bg) 25%) !important;
+  background-color: var(--btf-footer-bg) !important;
+  background-image: none !important;
+  border-top: var(--btf-border);
+  padding: 0;
 }
 
 #footer::before {
   display: none !important;
 }
 
-#footer,
-#footer > *,
+#footer .footer-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+#footer .footer-inner {
+  max-width: var(--btf-layout-width);
+  margin: 0 auto;
+  padding: 26px 15px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 32px;
+  color: var(--btf-second-text);
+  font-size: 0.8rem;
+}
+
+#footer .footer-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+#footer .footer-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 8px;
+}
+
+#footer .footer-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--btf-font-color);
+  line-height: 1.5;
+}
+
+#footer .footer-divider {
+  color: var(--btf-card-border);
+}
+
+#footer .footer-copyright {
+  font-size: 0.85rem;
+  color: var(--btf-second-text);
+}
+
+#footer .footer-wordcount {
+  font-size: 0.8rem;
+  color: var(--btf-second-text);
+}
+
+#footer .footer-wordcount-num {
+  color: var(--btf-theme);
+  font-weight: 600;
+}
+
+#footer .footer-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+#footer .footer-runtime {
+  font-size: 0.8rem;
+  color: var(--btf-second-text);
+}
+
+#footer .footer-runtime-value {
+  color: var(--btf-font-color);
+  font-weight: 600;
+}
+
+#footer .footer-meta,
+#footer .footer-custom {
+  font-size: 0.8rem;
+  color: var(--btf-second-text);
+}
+
+#footer .footer-separator {
+  margin: 0 4px;
+}
+
 #footer a {
   color: var(--btf-second-text);
 }
 
 #footer a:hover {
   color: var(--btf-theme) !important;
+}
+
+@media screen and (max-width: 768px) {
+  #footer .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 15px 26px;
+  }
+
+  #footer .footer-side {
+    align-items: flex-start;
+  }
 }
 
 /* ---------- 4.5 文章正文 ---------- */
@@ -1331,6 +1446,19 @@
   background: var(--btf-second-bg);
   color: var(--btf-font-color);
   box-shadow: none;
+}
+
+/* ---------- 4.5.1 时间轴（{% timeline %} 标签）---------- */
+/* Butterfly 给节点圆圈描边用的是全局 --pseudo-hover，而本站
+   theme_color.button_hover 被设成了主色蓝，于是「橙色时间轴」会变成
+   「橙色竖线 + 蓝色圆点」，而且鼠标悬停时圆点还会再变一次蓝。
+   这里让圆圈跟随时间轴自身的颜色 --timeline-color，与竖线、内容块保持一致。 */
+.container .timeline .timeline-item .item-circle::before {
+  border-color: var(--timeline-color, var(--btf-theme));
+}
+
+.container .timeline .timeline-item.headline:hover .item-circle::before {
+  border-color: var(--timeline-color, var(--btf-theme));
 }
 
 /* ---------- 4.6 文章信息 / 版权 / 标签 ---------- */
