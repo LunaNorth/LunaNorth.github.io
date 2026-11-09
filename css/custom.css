@@ -796,10 +796,14 @@
   outline-offset: 2px;
 }
 
-/* 返回顶部：顶部时收起；滚动后展开成 35px；接近底部时拉长成“返回顶部”。 */
+/* 返回顶部：顶部时收起；滚动后展开成 35px；接近底部时拉长成“返回顶部”。
+   收起时用 display:none 彻底移出布局——它虽然透明、宽度为 0，
+   但仍会作为 flex 子项占位，把右上角胶囊撑出一块空白
+   （轻语页、标签页这类短页面尤其明显）。这条是通用规则，
+   所有页面都不需要再单独特判。 */
 #nav #nav-right #nav-totop {
+  display: none;
   position: relative;
-  display: flex;
   flex: 0 0 auto;
   align-items: center;
   width: 0;
@@ -814,6 +818,7 @@
 }
 
 #page-header.nav-fixed #nav #nav-right #nav-totop {
+  display: flex;
   width: var(--btf-nav-button-size);
   opacity: 1;
   transform: scale(1);
@@ -821,7 +826,7 @@
 
 #nav #nav-right #nav-totop.long,
 #page-header.nav-fixed #nav #nav-right #nav-totop.long {
-  width: 92px;
+  width: 106px;
 }
 
 #nav #nav-right #nav-totop .totopbtn {
@@ -841,7 +846,7 @@
 }
 
 #nav #nav-right #nav-totop.long .totopbtn {
-  width: 82px;
+  width: 96px;
 }
 
 #nav #nav-right #nav-totop .totopbtn > i {
@@ -856,20 +861,10 @@
   margin: 0;
   padding: 0;
   color: var(--btf-card-bg);
-  font-size: 14px;
+  font-size: 17px;
+  line-height: 1;
+  /* 常态显示进度数字/文字，鼠标移上去才换成箭头 */
   opacity: 0;
-  transition: opacity .3s;
-}
-
-#nav #nav-right #nav-totop .totopbtn > .nav-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 14px;
-  height: 14px;
-  margin: 0;
-  opacity: 0;
-  transform: translate(-50%, -50%);
   transition: opacity .3s;
 }
 
@@ -880,66 +875,56 @@
   left: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 4px;
-  width: 82px;
+  width: 96px;
   padding: 0 8px;
-}
-
-#nav #nav-right #nav-totop.long #percent {
-  padding: 0 2px;
-  color: var(--btf-card-bg);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 #nav #nav-right #nav-totop #percent {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   border-radius: 35px;
   color: var(--btf-card-bg);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1;
+  /* 常态显示滚动进度百分比（到底时由 JS 换成「返回顶部」文字） */
+  opacity: 1;
   white-space: nowrap;
   transition: opacity .3s;
 }
 
+/* 悬停时保持深色圆钮（不再变成主题蓝），只用放大做反馈 */
 #nav #nav-right #nav-totop:hover .totopbtn {
-  background: var(--btf-header-theme, var(--btf-theme));
+  background: var(--btf-font-color);
 }
 
+/* 长条状态：平时只显示「返回顶部」文字，不带箭头 */
+#nav #nav-right #nav-totop.long .totopbtn > i {
+  opacity: 0;
+}
+
+#nav #nav-right #nav-totop.long #percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0;
+  color: var(--btf-card-bg);
+  font-size: 13px;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* 鼠标移上去时：数字/文字换成箭头（圆钮与长条通用） */
 #nav #nav-right #nav-totop:hover .totopbtn > i {
   opacity: 1;
 }
 
-#nav #nav-right #nav-totop:hover .totopbtn > .nav-icon {
-  opacity: 1;
-  /* 悬停时链接文字会变成主题色，SVG 用 currentColor 会变成“蓝底蓝箭头”。
-     这里把箭头固定为按钮底色（白），保证任何状态下都清晰可见。 */
-  stroke: var(--btf-card-bg) !important;
-  color: var(--btf-card-bg) !important;
-}
-
-/* 长条状态（“回到顶部”文字）：文字左侧补箭头，对齐 Solitude 的图标+文字胶囊。 */
-#nav #nav-right #nav-totop.long .totopbtn > .nav-icon {
-  position: static;
-  width: 13px;
-  height: 13px;
-  flex: 0 0 13px;
-  opacity: 1;
-  transform: none;
-  stroke: var(--btf-card-bg) !important;
-  color: var(--btf-card-bg) !important;
-}
-
-#nav #nav-right #nav-totop.long #percent {
-  padding: 0;
-  font-size: 11px;
-}
-
 #nav #nav-right #nav-totop:hover #percent {
   opacity: 0;
+  font-weight: 700;
 }
 
 #nav #nav-right #nav-totop:not(.long):hover .totopbtn {
@@ -1135,6 +1120,73 @@
 
   /* 其它带顶部图的页面（标签/分类/归档等）在页面顶部同样用白字 */
   #page-header:not(.nav-fixed):not(.not-top-img) #nav #blog-info .site-name {
+    color: var(--btf-white);
+  }
+
+  /* 左侧站点胶囊：对齐 Solitude #site-name
+     常态显示 Logo + 站名，鼠标移上去后 Logo/站名淡出、首页图标淡入。 */
+  #nav #blog-info .nav-site-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    min-width: 50px;
+    padding: 0 8px;
+    border-radius: 40px;
+    transition: background-color .3s;
+  }
+
+  #nav #blog-info .nav-site-title > img.site-icon,
+  #nav #blog-info .nav-site-title > span.site-name {
+    transition: opacity .3s;
+  }
+
+  #nav #blog-info .nav-site-title > i.fas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    line-height: 1;
+    color: inherit;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  /* 带顶部图的页面，首页图标同样用白字 */
+  #page-header:not(.nav-fixed):not(.not-top-img) #nav #blog-info .nav-site-title > i.fas {
+    color: var(--btf-white);
+  }
+
+  @media screen and (min-width: 900px) {
+    #nav #blog-info .nav-site-title:hover {
+      /* 与菜单项悬停一致：主题色底 + 白字 */
+      background: var(--btf-theme);
+    }
+
+    #nav #blog-info .nav-site-title:hover > img.site-icon,
+    #nav #blog-info .nav-site-title:hover > span.site-name {
+      opacity: 0;
+    }
+
+    #nav #blog-info .nav-site-title:hover > i.fas {
+      color: var(--btf-nav-hover-text);
+      opacity: 1;
+    }
+  }
+
+  /* 顶部有头图时：悬停用白色薄底，首页图标保持白色（对齐右侧按钮行为） */
+  #page-header:not(.nav-fixed):not(.not-top-img) #nav #blog-info .nav-site-title:hover {
+    background: var(--btf-header-white-op, rgba(255, 255, 255, .2));
+  }
+
+  #page-header:not(.nav-fixed):not(.not-top-img) #nav #blog-info .nav-site-title:hover > i.fas {
     color: var(--btf-white);
   }
 
@@ -1398,7 +1450,6 @@
 }
 
 #aside-content .card-tag-cloud a {
-  color: var(--btf-font-color) !important;
   border-radius: var(--btf-radius-sm);
 }
 
@@ -1772,21 +1823,240 @@ html.search-open {
 
 /* ---------- 4.11 标签页 / 分类页 ---------- */
 
+/* 标签云：白底圆角胶囊 + 彩色文字（标签名颜色随机，数字为文章数） */
+.tag-cloud-list.is-center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  margin: 0 0 1em;
+}
+
+/* 标签页去掉卡片外壳，标签云直接铺在页面背景上 */
+#body-wrap.type-tags #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-tags #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ---------- 标签页：标签统计图 ---------- */
+.tag-stats {
+  width: 100%;
+  margin: 3em 0 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.tag-stats-title {
+  margin: 0 0 1em;
+  color: var(--btf-font-color);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tag-stats-chart {
+  display: flex;
+  align-items: flex-start;
+  --tag-stat-h: 260px;
+}
+
+.tag-stats-yaxis {
+  position: relative;
+  flex: 0 0 46px;
+  height: var(--tag-stat-h);
+}
+
+.tag-stats-yaxis-title {
+  position: absolute;
+  top: -2.4em;
+  left: 0;
+  color: var(--btf-gray);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tag-stats-tick {
+  position: absolute;
+  right: 8px;
+  transform: translateY(50%);
+  color: var(--btf-gray);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.tag-stats-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.tag-stats-bars {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: var(--tag-stat-h);
+  border-left: 1px solid var(--btf-card-border);
+  border-bottom: 1px solid var(--btf-card-border);
+}
+
+.tag-stat-col {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tag-stat-bar {
+  width: 62%;
+  max-width: 96px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(to top, #35cfc9 0%, #a7e8a8 100%);
+  transition: all var(--btf-transition);
+}
+
+.tag-stat-col:hover .tag-stat-bar {
+  background: linear-gradient(to top, #26b8b2 0%, #8fdc90 100%);
+  transform: scaleY(1.02);
+  transform-origin: bottom;
+}
+
+.tag-stats-average {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--tag-stat-avg);
+  border-top: 1px dashed var(--btf-gray);
+  pointer-events: none;
+}
+
+.tag-stats-average::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border: 4px solid transparent;
+  border-left-color: var(--btf-gray);
+  border-right: 0;
+}
+
+.tag-stats-avg-label {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  color: var(--btf-gray);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.tag-stats-names {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.tag-stat-name {
+  flex: 1;
+  min-width: 0;
+  color: var(--btf-gray) !important;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--btf-transition);
+}
+
+.tag-stat-name:hover {
+  color: var(--btf-theme) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .tag-stats {
+    padding: 0;
+  }
+
+  .tag-stats-chart {
+    --tag-stat-h: 200px;
+  }
+
+  .tag-stats-main {
+    overflow-x: auto;
+  }
+
+  .tag-stats-bars,
+  .tag-stats-names {
+    min-width: 620px;
+  }
+}
+
 .tag-cloud-list a {
+  display: inline-block;
+  width: fit-content;
+  padding: .2em .55em;
+  margin: .35em .4em;
   background: var(--btf-card-bg) !important;
-  border: var(--btf-border);
-  border-radius: var(--btf-radius-sm);
-  color: var(--btf-font-color) !important;
-  box-shadow: none !important;
+  border: 1.5px solid var(--btf-card-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px -4px #2c2d300c !important;
+  color: inherit;
+  font-size: 18px !important;
+  font-weight: 500;
+  line-height: 1.7;
   transition: all var(--btf-transition);
 }
 
 .tag-cloud-list a:hover {
-  background: var(--btf-theme) !important;
+  /* 覆盖 Butterfly 原生的主题色实心背景，避免文字与背景同色看不见 */
+  background: var(--btf-theme-op) !important;
   border-color: var(--btf-theme);
-  color: var(--btf-nav-hover-text) !important;
-  box-shadow: none !important;
-  transform: none;
+  color: var(--btf-theme) !important;
+  box-shadow: 0 8px 16px -4px #2c2d301f !important;
+  transform: scale(1.05) !important;
+}
+
+/* 标签名后面的小号上标：该标签下的文章数 */
+.tag-cloud-list .tag-cloud-count {
+  margin-left: 3px;
+  font-size: .62em;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: super;
+  color: inherit;
+}
+
+.card-tag-cloud .tag-cloud-count {
+  margin-left: 3px;
+  font-size: .62em;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: super;
+  /* 数字跟随标签名颜色，悬停时随标签名一起变白 */
+  color: inherit;
+}
+
+.card-tag-cloud a:hover .tag-cloud-count {
+  color: var(--btf-nav-hover-text);
+  opacity: .85;
+}
+
+/* 标签云暗色模式适配（浅底浅边 → 深底深边） */
+[data-theme='dark'] .tag-cloud-list a {
+  border-color: var(--btf-card-border);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, .35) !important;
 }
 
 /* ---------- 4.12 友情链接 ---------- */

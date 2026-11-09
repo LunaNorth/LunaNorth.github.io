@@ -1236,13 +1236,9 @@
   margin-bottom: 0;
 }
 
-/* 轻语页整页不滚动，导航里的「回到顶部」没有意义。
-   主题在滚动比例为 100% 时会把这个按钮切成 92px 的长条态，
-   但因为 scrollY 为 0 它又完全透明，右侧胶囊中间就会空出一块，
-   这里直接隐藏，保证胶囊和首页一样紧凑。 */
-#body-wrap.type-lumina #nav #nav-right #nav-totop {
-  display: none;
-}
+/* 轻语页整页不滚动，导航里的「回到顶部」自然不会出现在胶囊里。
+   这条已由 custom.css 的通用规则统一处理（按钮不可用时 display:none，
+   彻底移出布局，不再给胶囊留空白），此处无需再针对轻语页单独特判。 */
 
 /* 主题给 .layout > div:first-child 卡了 1030px（正文栏宽），这里解除，
    让轻语页跟首页一样铺满 --btf-layout-width */

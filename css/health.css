@@ -1,0 +1,634 @@
+/* ==========================================================================
+   体态页（/health/）
+   结构 includes/page/health.pug，走势图 source/js/health.js
+   - 一个「阶段目标」一张横排卡：左边目标信息 + 体重/体脂指标，
+     右边走势图 + 记录列表（超过 3 条时，更早的收进 <details> 折叠）
+   - 顶部保留一张「当前进度」汇总卡，显示进行中阶段的关键数值
+   - 配色：体重蓝 #3b70fc、体脂橙 #ef8b00；
+     数值下降绿 #2e8f6e（好事）、上升红 #d9534f、持平灰
+   ========================================================================== */
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.fit-grid) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 单页铺满整个内容宽度，卡内已经左右分栏，外层再收窄只会把内容挤扁 */
+#body-wrap.type-health #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-health #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ---------- 阶段卡：通栏单列 ---------- */
+.fit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.fit-card {
+  padding: 1.05rem 1.15rem 1rem;
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  border: 1.5px solid var(--btf-card-border);
+  box-shadow: none;
+  transition: border-color .25s;
+}
+
+/* hover 只改边框色：不上浮、不加阴影、不位移 */
+.fit-card:hover {
+  border-color: #3b70fc;
+  box-shadow: none;
+  transform: none;
+}
+
+.fit-card.is-done:hover {
+  border-color: #2e8f6e;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ---- 头部一行：目标名 + 状态徽章 + 起止日期（右对齐） ---- */
+.fit-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem .6rem;
+}
+
+.fit-goal-name {
+  color: var(--btf-font-color);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.fit-badge {
+  flex-shrink: 0;
+  padding: .12rem .55rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  color: #3b70fc;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.fit-card.is-done .fit-badge {
+  background: rgba(46, 143, 110, .12);
+  color: #2e8f6e;
+}
+
+.fit-card.is-pending .fit-badge {
+  background: rgba(140, 140, 150, .14);
+  color: #8c8c96;
+}
+
+/* ---- 起止日期胶囊 + 右侧剩余天数（天数由 JS 填） ---- */
+.fit-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem;
+  margin-left: auto;
+}
+
+.fit-date {
+  padding: .12rem .5rem;
+  border-radius: 6px;
+  background: rgba(59, 112, 252, .1);
+  color: #3b70fc;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .2px;
+}
+
+.fit-card.is-done .fit-date {
+  background: rgba(46, 143, 110, .1);
+  color: #2e8f6e;
+}
+
+.fit-card.is-pending .fit-date {
+  background: rgba(140, 140, 150, .12);
+  color: #8c8c96;
+}
+
+.fit-arrow {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .3;
+}
+
+.fit-left {
+  margin-left: .5rem;
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .5;
+  white-space: nowrap;
+}
+
+.fit-left:empty {
+  display: none;
+}
+
+/* ---- 主体：左信息 / 右数据 ---- */
+.fit-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 1rem 1.1rem;
+  margin-top: .85rem;
+  align-items: start;
+}
+
+.fit-main,
+.fit-side {
+  min-width: 0;
+}
+
+/* ---- 双指标：上下两块，每块一行标题 + 大数字 + 进度条 + 还差多少 ---- */
+.fit-metrics {
+  display: grid;
+  gap: .5rem;
+}
+
+.fit-metric {
+  padding: .62rem .7rem .55rem;
+  border-radius: 10px;
+  background: rgba(59, 112, 252, .045);
+  border: 1px solid rgba(59, 112, 252, .1);
+}
+
+.fit-metric.is-fat {
+  background: rgba(239, 139, 0, .05);
+  border-color: rgba(239, 139, 0, .12);
+}
+
+/* 窄的时候「起 xx → 目标 xx」整块掉到第二行，不要挤成一团 */
+.fit-metric-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .15rem .5rem;
+}
+
+.fit-metric-label {
+  color: #3b70fc;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.fit-metric.is-fat .fit-metric-label {
+  color: #ef8b00;
+}
+
+.fit-metric-plan {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .45;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.fit-metric-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .22rem;
+  margin-top: .2rem;
+}
+
+.fit-metric-now {
+  color: #3b70fc;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fit-metric.is-fat .fit-metric-now {
+  color: #ef8b00;
+}
+
+.fit-metric-unit {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  font-style: normal;
+  opacity: .5;
+}
+
+.fit-metric-delta {
+  margin-left: .3rem;
+  font-size: .74rem;
+  font-style: normal;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.fit-metric-delta:empty {
+  display: none;
+}
+
+.fit-metric-delta.is-down {
+  color: #2e8f6e;
+}
+
+.fit-metric-delta.is-up {
+  color: #d9534f;
+}
+
+.fit-metric-delta.is-flat {
+  color: var(--btf-font-color);
+  opacity: .4;
+}
+
+.fit-bar {
+  height: 6px;
+  margin: .45rem 0 .35rem;
+  border-radius: 999px;
+  background: rgba(59, 112, 252, .12);
+  overflow: hidden;
+}
+
+.fit-metric.is-fat .fit-bar {
+  background: rgba(239, 139, 0, .14);
+}
+
+.fit-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6f9bff, #3b70fc);
+  transition: width .6s ease;
+}
+
+.fit-metric.is-fat .fit-bar-fill {
+  background: linear-gradient(90deg, #ffc46b, #ef8b00);
+}
+
+.fit-metric-foot {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .55;
+}
+
+/* 没填目标值时这块是空的，别留一行空隙 */
+.fit-metric-foot:empty {
+  display: none;
+}
+
+/* ---- 走势图：体重、体脂各占一行，左侧小标签说明是哪条线 ----
+   高度写在这里，JS 按 clientHeight 算坐标，改高度只需改这一处 */
+.fit-spark {
+  display: grid;
+  gap: .35rem;
+}
+
+.fit-spark-row {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.fit-spark-label {
+  flex-shrink: 0;
+  width: 1.7rem;
+  color: var(--btf-font-color);
+  font-size: .68rem;
+  opacity: .45;
+}
+
+.fit-spark-canvas {
+  flex: 1;
+  height: 32px;
+  min-width: 0;
+}
+
+.fit-spark-canvas svg {
+  display: block;
+  width: 100%;
+  height: 32px;
+  overflow: visible;
+}
+
+.fit-spark-line {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fit-spark-line.is-weight {
+  stroke: #3b70fc;
+}
+
+.fit-spark-line.is-fat {
+  stroke: #ef8b00;
+  stroke-dasharray: 4 3.2;
+}
+
+/* 面积填充是 JS 内联的渐变：CSS 会盖掉 SVG 的 fill 属性，
+   所以颜色只能通过这两个 stop 控制，别再给 .fit-spark-area 写 fill */
+.fit-grad-top {
+  stop-color: #3b70fc;
+  stop-opacity: .22;
+}
+
+.fit-grad-bottom {
+  stop-color: #3b70fc;
+  stop-opacity: 0;
+}
+
+.fit-spark-dot.is-weight {
+  fill: #3b70fc;
+}
+
+.fit-spark-dot.is-fat {
+  fill: #ef8b00;
+}
+
+/* ---- 记录列表：日期 / 体重 / 体脂 三列，超过 3 条把更早的折起来 ---- */
+.fit-records {
+  display: grid;
+  gap: .1rem;
+  margin-top: .75rem;
+  padding-top: .45rem;
+  border-top: 1px solid rgba(0, 0, 0, .06);
+}
+
+.fit-rec-head {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr) minmax(0, 1fr);
+  gap: .4rem;
+  padding: 0 .1rem .25rem;
+  color: var(--btf-font-color);
+  font-size: .68rem;
+  opacity: .4;
+}
+
+.fit-rec {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: .4rem;
+  padding: .28rem .1rem;
+  border-radius: 6px;
+  color: var(--btf-font-color);
+  font-size: .76rem;
+}
+
+/* 最新一条轻轻垫个底色，一眼看到当前值 */
+.fit-rec.is-latest {
+  background: rgba(59, 112, 252, .06);
+}
+
+.fit-rec-date {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .5;
+  font-variant-numeric: tabular-nums;
+}
+
+.fit-rec-cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .16rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.fit-rec-cell b {
+  color: var(--btf-font-color);
+  font-size: .84rem;
+  font-weight: 600;
+}
+
+.fit-rec-cell em {
+  color: var(--btf-font-color);
+  font-size: .66rem;
+  font-style: normal;
+  opacity: .4;
+}
+
+.fit-rec-delta {
+  margin-left: .2rem;
+  font-size: .68rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.fit-rec-delta:empty {
+  display: none;
+}
+
+.fit-rec-delta.is-down {
+  color: #2e8f6e;
+}
+
+.fit-rec-delta.is-up {
+  color: #d9534f;
+}
+
+.fit-rec-delta.is-flat {
+  color: var(--btf-font-color);
+  opacity: .35;
+}
+
+/* 折叠：用原生 <details>，不依赖脚本，无 JS 也能点开 */
+.fit-more {
+  margin-bottom: .1rem;
+}
+
+.fit-more summary {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .3rem .1rem;
+  border-radius: 6px;
+  color: #3b70fc;
+  font-size: .74rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.fit-more summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 小三角，展开时转 90° */
+.fit-more summary::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  transition: transform .2s;
+}
+
+.fit-more[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.fit-more summary:hover {
+  opacity: .75;
+}
+
+.fit-note {
+  margin-top: .7rem;
+  color: var(--btf-font-color);
+  font-size: .78rem;
+  opacity: .6;
+}
+
+/* ==========================================================================
+   深色：蓝橙各提亮一档，红绿也调柔和，否则压在深底上发闷
+   ========================================================================== */
+
+[data-theme='dark'] .fit-card {
+  background: rgba(40, 41, 46, .82);
+  box-shadow: none;
+}
+
+/* 记录列表里的小字在深底上本来就弱，统一提亮一档 */
+[data-theme='dark'] .fit-rec-date {
+  opacity: .62;
+}
+
+[data-theme='dark'] .fit-metric-plan,
+[data-theme='dark'] .fit-metric-foot,
+[data-theme='dark'] .fit-left,
+[data-theme='dark'] .fit-rec-head,
+[data-theme='dark'] .fit-spark-label {
+  opacity: .62;
+}
+
+[data-theme='dark'] .fit-badge {
+  color: #6f9bff;
+}
+
+[data-theme='dark'] .fit-card.is-done .fit-badge {
+  color: #86d3ae;
+}
+
+[data-theme='dark'] .fit-date {
+  background: rgba(111, 155, 255, .16);
+  color: #8fb0ff;
+}
+
+[data-theme='dark'] .fit-card.is-done .fit-date {
+  background: rgba(134, 211, 174, .16);
+  color: #86d3ae;
+}
+
+[data-theme='dark'] .fit-metric {
+  background: rgba(111, 155, 255, .08);
+  border-color: rgba(111, 155, 255, .16);
+}
+
+[data-theme='dark'] .fit-metric.is-fat {
+  background: rgba(255, 179, 64, .08);
+  border-color: rgba(255, 179, 64, .16);
+}
+
+[data-theme='dark'] .fit-metric-label,
+[data-theme='dark'] .fit-metric-now {
+  color: #8fb0ff;
+}
+
+[data-theme='dark'] .fit-metric.is-fat .fit-metric-label,
+[data-theme='dark'] .fit-metric.is-fat .fit-metric-now {
+  color: #ffb340;
+}
+
+[data-theme='dark'] .fit-bar {
+  background: rgba(111, 155, 255, .18);
+}
+
+[data-theme='dark'] .fit-metric.is-fat .fit-bar {
+  background: rgba(255, 179, 64, .18);
+}
+
+[data-theme='dark'] .fit-metric-delta.is-down,
+[data-theme='dark'] .fit-rec-delta.is-down {
+  color: #86d3ae;
+}
+
+[data-theme='dark'] .fit-metric-delta.is-up,
+[data-theme='dark'] .fit-rec-delta.is-up {
+  color: #ff8b7a;
+}
+
+[data-theme='dark'] .fit-spark-line.is-weight {
+  stroke: #6f9bff;
+}
+
+[data-theme='dark'] .fit-spark-line.is-fat {
+  stroke: #ffb340;
+}
+
+[data-theme='dark'] .fit-grad-top {
+  stop-color: #6f9bff;
+  stop-opacity: .26;
+}
+
+[data-theme='dark'] .fit-grad-bottom {
+  stop-color: #6f9bff;
+  stop-opacity: 0;
+}
+
+[data-theme='dark'] .fit-spark-dot.is-weight {
+  fill: #6f9bff;
+}
+
+[data-theme='dark'] .fit-spark-dot.is-fat {
+  fill: #ffb340;
+}
+
+[data-theme='dark'] .fit-records {
+  border-top-color: rgba(255, 255, 255, .08);
+}
+
+[data-theme='dark'] .fit-rec.is-latest {
+  background: rgba(111, 155, 255, .1);
+}
+
+[data-theme='dark'] .fit-more summary {
+  color: #8fb0ff;
+}
+
+/* ==========================================================================
+   窄屏：改成上下堆叠，指标在上、走势图和记录在下
+   ========================================================================== */
+
+@media screen and (max-width: 768px) {
+  .fit-card {
+    padding: 1rem 1rem .9rem;
+  }
+
+  .fit-body {
+    grid-template-columns: 1fr;
+    gap: .9rem;
+  }
+
+  .fit-range {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .fit-left {
+    margin-left: auto;
+  }
+
+}

@@ -1,8 +1,9 @@
+https://lunanorth.github.io/health/index.html
+https://lunanorth.github.io/tags/index.html
 https://lunanorth.github.io/posts/7a6a.html
 https://lunanorth.github.io/posts/2c9c.html
 https://lunanorth.github.io/posts/3eeb.html
 https://lunanorth.github.io/lumina/index.html
-https://lunanorth.github.io/tags/index.html
 https://lunanorth.github.io/categories/index.html
 https://lunanorth.github.io/
 https://lunanorth.github.io/tags/Hexo/
