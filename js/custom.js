@@ -107,7 +107,10 @@
       return
     }
 
-    const cached = getCachedColor(source)
+    // 缓存键用未经解析的 src（与页头注入的键一致），
+    // 这样首帧就能直接命中缓存，不必等图片加载完再取色。
+    const cacheKey = cover.getAttribute('src') || source
+    const cached = getCachedColor(cacheKey) || (cacheKey !== source ? getCachedColor(source) : null)
     if (cached) {
       applyHeaderColor(header, cached)
       return
@@ -115,10 +118,10 @@
 
     extractColor(source)
       .then(color => {
-        cacheColor(source, color)
+        cacheColor(cacheKey, color)
         const currentHeader = document.querySelector(HEADER_SELECTOR)
         const currentCover = currentHeader?.querySelector('#post-cover')
-        if (!currentHeader || !currentCover || currentCover.src !== source) return
+        if (!currentHeader || !currentCover || (currentCover.getAttribute('src') || currentCover.src) !== cacheKey) return
         applyHeaderColor(currentHeader, color)
       })
       .catch(() => {

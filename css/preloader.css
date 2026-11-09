@@ -1,0 +1,67 @@
+/**
+ * 页面加载动画（全屏遮罩 + 头像呼吸 + 绿色圆点）
+ * 移植自 AnZhiYu 主题 source/css/_global/loading.styl
+ * 变量换成本站 Butterfly 的 --btf-*，以便跟随浅色 / 深色模式
+ */
+
+#loading-box {
+  user-select: none;
+}
+
+#loading-box .loading-bg {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--btf-card-bg);
+  z-index: 1001;
+  opacity: 1;
+  overflow: hidden;
+  transition: .2s;
+}
+
+#loading-box .loading-bg::-webkit-scrollbar {
+  display: none;
+}
+
+#loading-box .loading-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: auto;
+  border: 4px solid var(--btf-card-border);
+  object-fit: cover;
+  animation-duration: .2s;
+  animation-name: btfLoadingAction;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#loading-box .loading-image-dot {
+  width: 30px;
+  height: 30px;
+  background: #6bdf8f;
+  position: absolute;
+  border-radius: 50%;
+  border: 6px solid var(--btf-card-bg);
+  top: 50%;
+  left: 50%;
+  transform: translate(18px, 24px);
+}
+
+#loading-box.loaded .loading-bg {
+  opacity: 0;
+  z-index: -1000;
+}
+
+@keyframes btfLoadingAction {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .4;
+  }
+}

@@ -2161,9 +2161,13 @@ html.search-open {
 /* ---------- 5.1 头图容器 ---------- */
 
 .post #page-header.post-bg:not(.not-top-img) {
-  --btf-header-theme: var(--btf-theme);
-  --btf-header-theme-op: var(--btf-theme-op);
-  --btf-header-theme-op-deep: var(--btf-theme-op-deep);
+  /* 头部底色占位：封面主色要等 custom.js 取到后才替换，
+     占位色如果用饱和的主题色，首屏会先闪出一整块蓝。
+     这里用低饱和的雾蓝兜底，替换时几乎看不出跳变。 */
+  --btf-header-theme: #8fa3bf;
+  --btf-header-theme: color-mix(in srgb, var(--btf-theme) 22%, #9fb0c6);
+  --btf-header-theme-op: color-mix(in srgb, var(--btf-header-theme) 14%, transparent);
+  --btf-header-theme-op-deep: color-mix(in srgb, var(--btf-header-theme) 87%, transparent);
   --btf-header-white-op: rgba(255, 255, 255, .2);
   position: relative;
   height: 470px;
@@ -2184,7 +2188,7 @@ html.search-open {
   background-color: var(--btf-header-theme);
   content: "";
   opacity: 1;
-  transition: background-color .3s ease;
+  transition: background-color .2s ease;
 }
 
 .post #page-header.post-bg:not(.not-top-img) #nav {
@@ -2680,4 +2684,30 @@ html.search-open {
 /* 首页文章卡片之间的上下间距 */
 #recent-posts .recent-post-item {
   margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   首页头图：站点标题与副标题字号
+   作用域限制在 #site-info 内：
+   - #site-info / #site-subtitle 只存在于首页（header/index.pug 的 home 分支）
+   - 文章页用的是 #post-info + h1.post-title，标签/分类页用的是 #page-site-info，
+     两者都不在 #site-info 里，所以完全不会被这条规则影响
+   ========================================================================== */
+
+#site-info #site-title {
+  font-size: 1.6em;
+}
+
+#site-info #site-subtitle {
+  font-size: 1em;
+}
+
+@media screen and (min-width: 768px) {
+  #site-info #site-title {
+    font-size: 2.45em;
+  }
+
+  #site-info #site-subtitle {
+    font-size: 1.45em;
+  }
 }
