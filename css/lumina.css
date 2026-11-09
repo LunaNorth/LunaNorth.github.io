@@ -109,41 +109,6 @@
   pointer-events: none;
 }
 
-/* 收起后浮出的还原按钮 */
-.lumina-sidebar-restore {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  z-index: 5;
-  width: 32px;
-  height: 32px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 1px solid var(--lumina-border);
-  border-radius: 8px;
-  background: var(--lumina-bg);
-  color: var(--lumina-on-surface-light);
-  cursor: pointer;
-  transition: color .2s, border-color .2s, background .2s;
-}
-
-.lumina-app.lumina-collapsed .lumina-sidebar-restore {
-  display: flex;
-}
-
-.lumina-sidebar-restore:hover {
-  color: var(--lumina-primary);
-  border-color: var(--lumina-primary);
-  background: var(--lumina-primary-lightest);
-}
-
-.lumina-sidebar-restore svg,
-.lumina-sidebar-restore i {
-  font-size: 14px;
-}
-
 /* ---------- 4. 侧栏头部（头像 + 昵称 + 签名） ---------- */
 
 .lumina-profile {
@@ -191,33 +156,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* 收起侧栏按钮（仅在 collapsibleSidebar: true 时渲染） */
-.lumina-panel-btn {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--lumina-on-surface-light);
-  cursor: pointer;
-  transition: color .2s, background .2s;
-}
-
-.lumina-panel-btn:hover {
-  background: var(--lumina-list-hover);
-  color: var(--lumina-primary);
-}
-
-.lumina-panel-btn i,
-.lumina-panel-btn svg {
-  font-size: 13px;
 }
 
 .lumina-app [hidden] {
@@ -334,10 +272,12 @@
 .lumina-heat-tip {
   position: fixed;
   z-index: 9999;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--lumina-on-bg) 88%, transparent);
-  color: var(--lumina-bg);
+  /* 这个浮层挂在 document.body 上，拿不到 .lumina-app 里的令牌，
+     所以直接用插件同款的自带样式（深色气泡） */
+  background: rgba(40, 40, 40, .92);
+  color: #fff;
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
@@ -347,6 +287,7 @@
   opacity: 0;
   transform: translateY(2px);
   transition: opacity .15s, transform .15s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
 }
 
 .lumina-heat-tip.show {
@@ -368,10 +309,11 @@
   margin-bottom: 4px;
   border-radius: 8px;
   font-size: 14px;
+  line-height: 1.4;
   color: var(--lumina-on-surface);
   cursor: pointer;
   user-select: none;
-  transition: background-color .2s, color .2s;
+  transition: all .2s;
 }
 
 .lumina-menu-item:hover {
@@ -389,6 +331,7 @@
 }
 
 .lumina-menu-icon {
+  flex: 0 0 20px;
   width: 20px;
   margin-right: 10px;
   display: flex;
@@ -396,6 +339,11 @@
   justify-content: center;
   font-size: 16px;
   color: var(--lumina-on-surface);
+}
+
+.lumina-menu-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .lumina-menu-icon i,
@@ -419,6 +367,79 @@
   color: var(--lumina-on-surface-light);
   font-size: 11px;
   transition: background-color .15s, color .15s;
+  cursor: pointer;
+}
+
+.lumina-menu-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+.lumina-menu-arrow:hover {
+  background-color: var(--lumina-list-hover);
+  color: var(--lumina-on-bg);
+}
+
+.lumina-menu-item.active .lumina-menu-arrow:hover {
+  background-color: rgba(255, 255, 255, .18);
+  color: var(--lumina-on-primary);
+}
+
+/* ---------- 7.1 快速筛选子菜单（插件 quick-filter 同款） ---------- */
+
+.lumina-quick-filter {
+  margin: 0 0 4px;
+  padding: 0;
+  margin-left: 18px;
+  overflow: hidden;
+  max-height: 0;
+  border-left: 1px solid color-mix(in srgb, var(--lumina-border) 35%, transparent);
+  transition: max-height .3s ease, padding .3s ease;
+}
+
+.lumina-quick-filter.open {
+  padding: 4px 0;
+}
+
+.lumina-quick-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  margin: 0 8px 4px 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--lumina-on-surface);
+  cursor: pointer;
+  user-select: none;
+  transition: all .15s;
+}
+
+.lumina-quick-filter-item:hover {
+  background-color: var(--lumina-list-hover);
+  color: var(--lumina-on-bg);
+}
+
+/* 选中态用 hover 同款浅灰底，避免和「全部笔记」的绿底撞色 */
+.lumina-quick-filter-item.active {
+  background-color: var(--lumina-list-hover);
+  color: var(--lumina-on-bg);
+}
+
+.lumina-quick-filter-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.lumina-quick-filter-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* ---------- 8. 标签列表 ---------- */
@@ -550,6 +571,11 @@
   padding: 20px 30px;
   overflow-y: auto;
   scrollbar-width: none;
+}
+
+/* 朋友圈样式（columns: 4）：左右留白更宽，视觉上更透气 */
+.lumina-app.lumina-moment-mode .lumina-notes-list {
+  padding: 20px 60px;
 }
 
 .lumina-notes-list::-webkit-scrollbar {
@@ -949,6 +975,125 @@
   opacity: .75;
 }
 
+/* ---------- 11.3 朋友圈样式（columns: 4） ---------- */
+
+/* 结构与插件 .north-luna-moments-item 一致：
+   头像在左，右侧依次是昵称、正文、图片、时间 */
+.lumina-moment {
+  display: flex;
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lumina-border) 70%, transparent);
+  border-radius: 10px;
+  transition: border-color .2s;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* 悬停只变边框颜色，不加阴影、不位移 */
+.lumina-moment:hover {
+  border-color: color-mix(in srgb, var(--lumina-primary) 55%, transparent);
+}
+
+/* 头像：48px 圆角方形 */
+.lumina-moment-avatar {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  margin-right: 12px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: var(--lumina-surface);
+}
+
+/* 无头像时用昵称首字兜底 */
+.lumina-moment-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--lumina-on-surface-light);
+}
+
+.lumina-moment-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 昵称 */
+.lumina-moment-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--lumina-on-bg);
+}
+
+/* 正文 */
+.lumina-moment-text {
+  margin-bottom: 6px;
+  font-size: var(--lumina-font-size);
+  line-height: var(--lumina-line-height);
+  color: var(--lumina-on-bg);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 底部元信息：时间 / 地点 / 标签 */
+.lumina-moment-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* 底部标签行：单独一行，显示在时间 / 地点下方 */
+.lumina-moment-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lumina-moment-tags .lumina-tag {
+  margin: 0;
+}
+
+.lumina-moment-meta-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.lumina-moment-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--lumina-on-surface-light);
+  white-space: nowrap;
+}
+
+/* · 分隔符，与插件一致 */
+.lumina-moment-item + .lumina-moment-item::before {
+  content: '·';
+  margin: 0 7px;
+  font-weight: bold;
+  opacity: .4;
+}
+
 /* ---------- 12. 移动端 ---------- */
 
 @media (max-width: 820px) {
@@ -1054,13 +1199,26 @@
     overflow: visible;
   }
 
-  .lumina-sidebar-restore {
-    display: none !important;
+  /* 朋友圈样式：窄屏下保留紧凑留白 */
+  .lumina-app.lumina-moment-mode .lumina-notes-list {
+    padding: 16px;
   }
 
-  /* 移动端侧栏本身就是平铺的，不需要收起按钮 */
-  .lumina-panel-btn {
-    display: none;
+  /* 朋友圈样式：窄屏下头像略小，正文自然换行 */
+  .lumina-moment {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .lumina-moment-avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 6px;
+  }
+
+  .lumina-moment-name {
+    font-size: 15px;
   }
 }
 
@@ -1078,6 +1236,14 @@
   margin-bottom: 0;
 }
 
+/* 轻语页整页不滚动，导航里的「回到顶部」没有意义。
+   主题在滚动比例为 100% 时会把这个按钮切成 92px 的长条态，
+   但因为 scrollY 为 0 它又完全透明，右侧胶囊中间就会空出一块，
+   这里直接隐藏，保证胶囊和首页一样紧凑。 */
+#body-wrap.type-lumina #nav #nav-right #nav-totop {
+  display: none;
+}
+
 /* 主题给 .layout > div:first-child 卡了 1030px（正文栏宽），这里解除，
    让轻语页跟首页一样铺满 --btf-layout-width */
 #body-wrap.type-lumina #content-inner.layout > #page {
@@ -1093,6 +1259,46 @@
 
 #body-wrap.type-lumina #footer {
   margin-top: 16px;
+}
+
+/* ---------- 13.1 整页固定：只让内容区滚动（桌面端，Flomo 式） ----------
+   轻语页整个视口就是一块「应用」：
+   页面本身不出现滚动条，鼠标放在空白处也滚不动，
+   只有右侧的内容区（.lumina-notes-list）可以上下滚动。 */
+
+@media (min-width: 901px) {
+  /* 锁死整页高度并裁掉溢出，页面级滚动条彻底消失 */
+  #body-wrap.type-lumina {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* 主区吃掉导航之外的全部高度 */
+  #body-wrap.type-lumina #content-inner.layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  /* #page 变成纵向 flex 容器，把高度交给 .lumina-app */
+  #body-wrap.type-lumina #content-inner.layout > #page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* 应用区占满剩余高度，超出的内容交给内部列表滚动 */
+  #body-wrap.type-lumina .lumina-app {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* 页脚在轻语页不再出现（否则会把页面撑出滚动条） */
+  #body-wrap.type-lumina #footer {
+    display: none;
+  }
 }
 
 @media (max-width: 820px) {

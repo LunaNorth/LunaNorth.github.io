@@ -30,11 +30,16 @@
   var settings = {
     // 日期分组标题（今天 周六 / 11月4日 周三），默认不显示
     showDateGroup: rawSettings.showDateGroup === true,
-    // 列表布局：1 单栏平铺 / 2 双栏瀑布流 / 3 三栏瀑布流
-    columns: Math.max(1, Math.min(3, Math.round(Number(rawSettings.columns) || 1))),
+    // 列表布局：1 单栏平铺 / 2 双栏瀑布流 / 3 三栏瀑布流 / 4 朋友圈时间线
+    columns: Math.max(1, Math.min(4, Math.round(Number(rawSettings.columns) || 1))),
     // 每页条数，0 = 不分页
     pageSize: Math.max(0, Math.round(Number(rawSettings.pageSize) || 0))
   };
+
+  // 全局昵称 / 头像，供朋友圈样式使用（每条笔记可单独覆盖）
+  var profile = (payload && payload.profile) ? payload.profile : {};
+  var profileNickname = profile.nickname ? String(profile.nickname) : '';
+  var profileAvatar = profile.avatar ? String(profile.avatar) : '';
 
   var MOBILE_MAX = 820;
 
@@ -62,6 +67,12 @@
 
   function hm(d) {
     return pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  }
+
+  // 中文日期：2026年11月1日 18:15（朋友圈样式用）
+  function cnDateTime(d, hasTime) {
+    var s = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+    return hasTime ? s + ' ' + hm(d) : s;
   }
 
   function startOfDay(d) {
@@ -128,7 +139,10 @@
       images: normalizeImages(item.images != null ? item.images : item.image),
       hasTime: /\d{1,2}:\d{1,2}/.test(dateSource),
       location: String(item.location == null ? '' : item.location).trim(),
-      pinned: !!item.pinned
+      pinned: !!item.pinned,
+      // 朋友圈样式用：昵称 / 头像可按条覆盖，不写就用全局配置
+      nickname: String(item.nickname == null ? '' : item.nickname).trim(),
+      avatar: String(item.avatar == null ? '' : item.avatar).trim()
     };
   }).filter(Boolean);
 
@@ -165,6 +179,8 @@
     day: '',
     view: 'all',
     reviewDay: '',
+    // 快速筛选：'' | no-tag | has-image | no-image | pinned
+    quick: '',
     page: 1
   };
 
@@ -180,10 +196,10 @@
     menuAll: document.getElementById('luminaMenuAll'),
     menuDaily: document.getElementById('luminaMenuDaily'),
     menuWeek: document.getElementById('luminaMenuWeek'),
+    menuArrow: document.getElementById('luminaMenuArrow'),
+    quickFilter: document.getElementById('luminaQuickFilter'),
     tagsList: document.getElementById('luminaTagsList'),
-    list: document.getElementById('luminaNotesList'),
-    sidebarToggle: document.getElementById('luminaSidebarToggle'),
-    sidebarRestore: document.getElementById('luminaSidebarRestore')
+    list: document.getElementById('luminaNotesList')
   };
 
   if (!els.list) return;
@@ -325,6 +341,32 @@
       if (!el) return;
       el.classList.toggle('active', state.view === key);
     });
+    // 快速筛选项的选中态
+    if (els.quickFilter) {
+      Array.prototype.forEach.call(els.quickFilter.querySelectorAll('.lumina-quick-filter-item'), function (item) {
+        item.classList.toggle('active', item.getAttribute('data-quick') === state.quick);
+      });
+    }
+  }
+
+  // 展开 / 收起快速筛选子菜单
+  function toggleQuickFilter(force) {
+    if (!els.quickFilter) return;
+    var open = typeof force === 'boolean' ? force : !els.quickFilter.classList.contains('open');
+    els.quickFilter.classList.toggle('open', open);
+    // 收起时先记下高度再置 0，配合 max-height 过渡做丝滑展开（与插件一致）
+    if (open) {
+      els.quickFilter.style.maxHeight = els.quickFilter.scrollHeight + 'px';
+    } else {
+      els.quickFilter.style.maxHeight = els.quickFilter.scrollHeight + 'px';
+      void els.quickFilter.offsetHeight; // 强制回流，让高度归零也有过渡
+      els.quickFilter.style.maxHeight = '0';
+    }
+    if (els.menuArrow) {
+      var path = els.menuArrow.querySelector('path');
+      if (path) path.setAttribute('d', open ? 'm6 9 6 6 6-6' : 'm9 18 6-6-6-6');
+      els.menuArrow.setAttribute('title', open ? '收起快速筛选' : '展开快速筛选');
+    }
   }
 
   function randomReviewDay() {
@@ -342,6 +384,7 @@
     // 切视图等于「重新开始看」：清掉日期/标签筛选，避免和旧筛选叠加成空列表
     state.day = '';
     state.tag = '';
+    state.quick = '';
     state.page = 1;
     if (view === 'daily') state.reviewDay = randomReviewDay();
     updateMenu();
@@ -372,6 +415,10 @@
       if (state.day && note.key !== state.day) return false;
       if (state.view === 'daily' && note.key !== state.reviewDay) return false;
       if (state.view === 'week' && !inThisWeek(note)) return false;
+      if (state.quick === 'no-tag' && note.tags.length) return false;
+      if (state.quick === 'has-image' && !note.images.length) return false;
+      if (state.quick === 'no-image' && note.images.length) return false;
+      if (state.quick === 'pinned' && !note.pinned) return false;
       return matchKeyword(note, keyword);
     });
   }
@@ -437,6 +484,46 @@
       '<div class="lumina-note-content">' + body + (tags ? ' ' + tags : '') + '</div>' +
       imageGrid(note.images) +
       '</div>';
+  }
+
+  /* ---------- 朋友圈样式（columns: 4） ---------- */
+
+  // 朋友圈风格：头像在左，右侧依次是昵称、正文、图片、时间
+  // 结构与插件的 .north-luna-moments-item 一致
+  function momentHtml(note) {
+    var nickname = note.nickname || profileNickname;
+    var avatar = note.avatar || profileAvatar;
+    var body = highlight(note.content, true).replace(/\n/g, '<br>');
+
+    var avatarHtml = avatar
+      ? '<img class="lumina-moment-avatar" src="' + escapeHtml(avatar) + '" alt="' + escapeHtml(nickname) + '" loading="lazy">'
+      : '<span class="lumina-moment-avatar lumina-moment-avatar-fallback">' + escapeHtml(nickname.slice(0, 1)) + '</span>';
+
+    // 标签单独一行放在卡片底部（正文 / 图片 / 时间之后）
+    var tags = note.tags.map(function (tag) {
+      return '<span class="lumina-tag" data-tag="' + escapeHtml(tag) + '">#' + escapeHtml(tag) + '</span>';
+    }).join(' ');
+
+    // meta 行：地点 → 时间，用「·」分隔
+    var metaParts = [];
+    if (note.location) {
+      metaParts.push('<span class="lumina-moment-item">' + escapeHtml(note.location) + '</span>');
+    }
+    metaParts.push('<span class="lumina-moment-item">' + escapeHtml(cnDateTime(note.date, note.hasTime)) + '</span>');
+
+    return '<article class="lumina-moment" data-id="' + note.id + '">' +
+      avatarHtml +
+      '<div class="lumina-moment-content">' +
+      '<div class="lumina-moment-name">' + escapeHtml(nickname) +
+      (note.pinned ? '<span class="lumina-note-pinned">置顶</span>' : '') +
+      '</div>' +
+      '<div class="lumina-moment-text">' + body + '</div>' +
+      imageGrid(note.images) +
+      '<div class="lumina-moment-meta">' +
+      '<span class="lumina-moment-meta-tags">' + metaParts.join('') + '</span>' +
+      '</div>' +
+      (tags ? '<div class="lumina-moment-tags">' + tags + '</div>' : '') +
+      '</div></article>';
   }
 
   function barHtml() {
@@ -643,6 +730,13 @@
     pageTotal = totalPages;
     var pager = size > 0 ? pagerHtml(totalPages, state.page) : '';
 
+    // columns: 4 —— 朋友圈样式（单列时间线，窄屏也保持同样版式）
+    if (settings.columns === 4) {
+      els.list.innerHTML = html + list.map(momentHtml).join('') + pager;
+      applyLightbox();
+      return;
+    }
+
     if (cols > 1) {
       // 多栏时不做日期分组（卡片自带日期，分组标题会打断瀑布流）
       els.list.innerHTML = html;
@@ -667,6 +761,7 @@
 
   function renderAll() {
     renderStats();
+    updateMenu();
     renderTags();
     renderHeatmap();
     renderList();
@@ -685,8 +780,18 @@
 
   function syncSidebarToggle() {
     var btn = getRsideToggle();
-    if (!btn) return;
+    if (!btn) return false;
     btn.classList.toggle('is-on', !app.classList.contains('lumina-collapsed'));
+    return true;
+  }
+
+  // 右下角那颗按钮渲染得比脚本晚，做几次补偿同步，保证初始高亮状态正确
+  var syncTimer = 0;
+  function scheduleSync() {
+    if (syncSidebarToggle()) return;
+    if (syncTimer > 10) return;
+    syncTimer += 1;
+    window.setTimeout(scheduleSync, 120);
   }
 
   function toggleSidebar(collapsed) {
@@ -701,19 +806,8 @@
   }
 
   document.addEventListener('click', onDocClickRsideToggle);
-  window.setTimeout(syncSidebarToggle, 0);
-
-  if (els.sidebarToggle) {
-    els.sidebarToggle.addEventListener('click', function () {
-      toggleSidebar(true);
-    });
-  }
-
-  if (els.sidebarRestore) {
-    els.sidebarRestore.addEventListener('click', function () {
-      toggleSidebar(false);
-    });
-  }
+  scheduleSync();
+  window.addEventListener('load', scheduleSync);
 
   // 菜单
   [els.menuAll, els.menuDaily, els.menuWeek].forEach(function (el, index) {
@@ -722,6 +816,34 @@
       setView(['all', 'daily', 'week'][index]);
     });
   });
+
+  // 快速筛选：点右侧箭头只展开 / 收起子菜单，不切换视图
+  if (els.menuArrow) {
+    els.menuArrow.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggleQuickFilter();
+    });
+  }
+
+  // 点筛选项：应用筛选；再点一次取消
+  if (els.quickFilter) {
+    els.quickFilter.addEventListener('click', function (e) {
+      var item = e.target.closest('.lumina-quick-filter-item');
+      if (!item) return;
+      e.stopPropagation();
+      var quick = item.getAttribute('data-quick');
+      state.quick = state.quick === quick ? '' : quick;
+      state.view = 'all';
+      state.day = '';
+      state.tag = '';
+      state.page = 1;
+      updateMenu();
+      renderTags();
+      renderHeatmap();
+      renderList();
+      els.list.scrollTop = 0;
+    });
+  }
 
   // 标签点击（侧栏 + 正文内联）
   app.addEventListener('click', function (e) {
