@@ -11,7 +11,23 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-08T13:53:27.756Z</updated>
+  <updated>2026-11-09T12:31:24.407Z</updated>
+  <entry>
+    <author>
+      <name>春煦景明</name>
+    </author>
+    <category term="Hexo" scheme="https://lunanorth.github.io/categories/Hexo/"/>
+    <category term="记录" scheme="https://lunanorth.github.io/tags/%E8%AE%B0%E5%BD%95/"/>
+    <content>
+      <![CDATA[<div class="timeline orange"><div class='timeline-item headline'>        <div class='timeline-item-title'>          <div class='item-circle'><p>Lumina日志</p></div>        </div>      </div><div class='timeline-item'>        <div class='timeline-item-title'>          <div class='item-circle'><p>2026-11-09 20:30</p></div>        </div>        <div class='timeline-item-content'><p>更新博客相关细节部分</p></div>      </div></div>]]>
+    </content>
+    <id>https://lunanorth.github.io/posts/286c.html</id>
+    <link href="https://lunanorth.github.io/posts/286c.html"/>
+    <published>2026-11-09T12:29:12.000Z</published>
+    <summary>记录Lumina博客更新日志</summary>
+    <title>Lumina日志</title>
+    <updated>2026-11-09T12:31:24.407Z</updated>
+  </entry>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -34,8 +50,8 @@
       <name>春煦景明</name>
     </author>
     <category term="博客搭建" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
-    <category term="Mermaid" scheme="https://lunanorth.github.io/tags/Mermaid/"/>
     <category term="Markdown" scheme="https://lunanorth.github.io/tags/Markdown/"/>
+    <category term="Mermaid" scheme="https://lunanorth.github.io/tags/Mermaid/"/>
     <content>
       <![CDATA[<p>这篇文章演示如何在 Butterfly 主题中用标签外挂书写 Mermaid 图表。</p><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>    flowchart LR    A[开始] --&gt; B{是否理解}    B -- 是 --&gt; C[继续学习]    B -- 否 --&gt; D[查阅文档]    D --&gt; B  </pre></div><p>序列图同样支持：</p><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>    sequenceDiagram    participant U as 读者    participant B as 博客    U-&gt;&gt;B: 打开文章    B--&gt;&gt;U: 渲染 Mermaid 图表  </pre></div>]]>
     </content>
@@ -51,8 +67,8 @@
       <name>春煦景明</name>
     </author>
     <category term="博客搭建" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
-    <category term="Markdown" scheme="https://lunanorth.github.io/tags/Markdown/"/>
     <category term="MathJax" scheme="https://lunanorth.github.io/tags/MathJax/"/>
+    <category term="Markdown" scheme="https://lunanorth.github.io/tags/Markdown/"/>
     <content>
       <![CDATA[<p>这篇文章演示在 Butterfly 主题中书写数学公式的方式。</p><p>行内公式写在 <code>$...$</code> 中，例如质能方程 $E &#x3D; mc^2$。</p><p>独立公式使用 <code>$$...$$</code>：</p><p>$$<br>\int_{-\infty}^{+\infty} e^{-x^2} , dx &#x3D; \sqrt{\pi}<br>$$</p><p>矩阵也可以正常渲染：</p><h1 id="begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix"><a href="#begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}a &amp; b \c &amp; d\end{pmatrix}\begin{pmatrix}x \y\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>a &amp; b \<br>c &amp; d<br>\end{pmatrix}<br>\begin{pmatrix}<br>x \<br>y<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>ax + by \<br>cx + dy<br>\end{pmatrix}<br>$$</p>]]>
     </content>
