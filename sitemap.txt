@@ -7,7 +7,7 @@ https://lunanorth.github.io/categories/index.html
 https://lunanorth.github.io/
 https://lunanorth.github.io/tags/Hexo/
 https://lunanorth.github.io/tags/Butterfly/
-https://lunanorth.github.io/tags/MathJax/
-https://lunanorth.github.io/tags/Markdown/
 https://lunanorth.github.io/tags/Mermaid/
+https://lunanorth.github.io/tags/Markdown/
+https://lunanorth.github.io/tags/MathJax/
 https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/
