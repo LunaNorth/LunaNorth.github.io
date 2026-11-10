@@ -190,6 +190,45 @@
   mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek00LjU3MSAxMS40MjljLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxOC4yODZjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAyNS4xNDNjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxNmMxLjI1NyAwIDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2cy0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4Ni0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NiAxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NnonLz48L3N2Zz4=") no-repeat center / 100% 100%;
 }
 
+/* ---------- 引述块（blockquote）----------
+   参考 Asri 主题：整块做成卡片，用 .5px 内描边代替实体边框，
+   并把左上角切掉 18px 的直角、用一个小方块补上，做出纸张「折角」的观感。
+   引用块靠背景色和内描边与正文区隔，不再用左侧那条 4px 色条。
+
+   折角块用主题色淡染（--btf-theme-op），既能看清又不会抢正文的注意力；
+   想更克制可以换成 var(--btf-card-border)。 */
+
+.post-content blockquote {
+  position: relative;
+  margin: 4px 0;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--btf-blockquote-bg);
+  box-shadow: 0 0 0 .5px inset var(--btf-card-border);
+  color: var(--btf-second-text);
+  /* 切掉左上角 18px 的直角，给折角留位 */
+  clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px);
+}
+
+.post-content blockquote::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 0 0 7px 0;
+  background-color: var(--btf-theme-op);
+  box-shadow: 0 0 0 .5px var(--btf-theme-op) inset;
+  content: "";
+  pointer-events: none;
+}
+
+/* 引用块里的最后一段不留底部边距，避免撑出多余空白 */
+.post-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
 /* ---------- 文章分割线 ----------
    参考思源笔记的分割线：hr 本身不画线，改由 ::after 绝对定位画虚线，
    这样线条不受 hr 默认的边框盒模型影响，宽度和位置都好控制。
