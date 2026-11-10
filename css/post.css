@@ -47,11 +47,147 @@
   box-decoration-break: clone;
 }
 
-@supports (corner-shape: superellipse(1.4)) {
-  .container code:not([class*="language-"]):not(.hljs) {
-    corner-shape: superellipse(1.4);
-    border-radius: 5.6px;
-  }
+/* ---------- 文章标题（h1-h6）----------
+   参考思源笔记（Neo）的主题思路，做三件事：
+   1. 层级：字号用 em 相对正文，body 的 font-size 换成 --site-font-size 后
+      标题会跟着正文一起缩放（换字体方案时标题层级不会错位）；
+      字重统一 600，标题和正文靠字号 + 字重拉开层次，不靠颜色堆砌。
+   2. 节奏：上间距统一 1.2em（相对标题自身字号，h1 的间距天然比 h6 大），
+      下间距按层级给一点呼吸空间；标题紧跟标题时取消上间距，
+      避免 h1 后面紧跟 h2 时中间出现一大块空白。
+   3. 中文排版：word-break: auto-phrase 让中文标题按词组断行，
+      不会出现「标 / 题」这种孤字掉到第二行。
+
+   颜色方案由 _config.butterfly.yml 的 heading 配置驱动，
+   scripts/heading-style.js 在构建时把配置翻译成下面这几个变量：
+     --site-heading-color         theme / text 模式下的统一标题色
+     --site-heading-h1-color...   gradient 模式下六级各自的颜色
+     --site-heading-index-display 是否显示层级序号
+   排版规则（字号、间距、断行）写死在这里，不随配置变化。 */
+
+:root {
+  /* theme 模式：站点主题色（浅色 #425AEF，深色 #ffc848） */
+  --site-heading-color: var(--btf-theme);
+  --site-heading-weight: 600;
+  /* gradient 模式的基色：明度按思源的规则钳制，
+     浅色 clamp(0.55, l, 0.68)，深色 max(l, 0.7) */
+  --site-heading-base: oklch(from var(--btf-theme) clamp(0.55, l, 0.68) c h);
+  /* gradient 模式的彩度档：soft 0.05 / default 0.08 / vivid 0.2 */
+  --site-heading-c: 0.08;
+  /* 标题前圆点标识开关 */
+  --site-heading-marker-display: inline-block;
+}
+
+[data-theme="dark"] {
+  --site-heading-base: oklch(from var(--btf-theme) max(l, 0.7) c h);
+}
+
+/* 让标题的 em 基准与正文一致 */
+.post-content {
+  font-size: var(--site-font-size, 16px);
+}
+
+.post-content :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.2em 0 .5em;
+  font-weight: var(--site-heading-weight);
+  line-height: 1.5;
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+
+/* 层级比例：思源的内置值，h1 1.75em → h6 1em */
+.post-content h1 {
+  margin-bottom: calc(.1em + 6px);
+  color: var(--site-heading-h1-color, var(--site-heading-color));
+  font-size: 1.75em;
+}
+
+.post-content h2 {
+  color: var(--site-heading-h2-color, var(--site-heading-color));
+  font-size: 1.55em;
+}
+
+.post-content h3 {
+  color: var(--site-heading-h3-color, var(--site-heading-color));
+  font-size: 1.38em;
+}
+
+.post-content h4 {
+  color: var(--site-heading-h4-color, var(--site-heading-color));
+  font-size: 1.25em;
+}
+
+.post-content h5 {
+  color: var(--site-heading-h5-color, var(--site-heading-color));
+  font-size: 1.13em;
+}
+
+.post-content h6 {
+  color: var(--site-heading-h6-color, var(--site-heading-color));
+  font-size: 1.05em;
+}
+
+/* 标题紧跟标题时取消上间距（思源用了 36 条相邻规则，这里一条 :is 搞定） */
+.post-content :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+}
+
+/* 标题里的行内代码不放大，跟随标题字号 */
+.post-content :is(h1, h2, h3, h4, h5, h6) code {
+  font-size: inherit !important;
+}
+
+/* 标题后的点标识
+   照搬 Savor 主题的标题点阵：h1 一条竖杠、h2 两个点、h3 三个点……h6 六个点，
+   每一级用自己那张 SVG 做 mask，填充色取 currentColor，
+   所以点阵颜色永远和该级标题一致（theme / gradient / savor 方案都自动匹配）。
+   开关在 _config.butterfly.yml 的 heading.marker。 */
+
+.post-content :is(h1, h2, h3, h4, h5, h6)::after {
+  display: var(--site-heading-marker-display, inline-block);
+  width: 1.2em;
+  height: 1.2em;
+  margin-left: .3em;
+  background-color: currentColor;
+  content: "";
+  vertical-align: middle;
+}
+
+/* 六级点阵图形（Savor 原样，mask 用 currentColor 上色） */
+.post-content h1::after {
+  opacity: .4;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTIuODU3IDMydjBjLTEuNiAwLTIuODU3LTEuMjU3LTIuODU3LTIuODU3di04LjU3MWMwLTEuNiAxLjI1Ny0yLjg1NyAyLjg1Ny0yLjg1N3YwYzEuNiAwIDIuODU3IDEuMTQzIDIuODU3IDIuODU3djguNTcxYzAgMS42LTEuMjU3IDIuODU3LTIuODU3IDIuODU3eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTIuODU3IDMydjBjLTEuNiAwLTIuODU3LTEuMjU3LTIuODU3LTIuODU3di04LjU3MWMwLTEuNiAxLjI1Ny0yLjg1NyAyLjg1Ny0yLjg1N3YwYzEuNiAwIDIuODU3IDEuMTQzIDIuODU3IDIuODU3djguNTcxYzAgMS42LTEuMjU3IDIuODU3LTIuODU3IDIuODU3eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+}
+
+.post-content h2::after {
+  opacity: .5;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTExLjQyOSAyNS4xNDNjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTQuNTcxIDE4LjI4NmMtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnonLz48L3N2Zz4=") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTExLjQyOSAyNS4xNDNjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTQuNTcxIDE4LjI4NmMtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnonLz48L3N2Zz4=") no-repeat center / 100% 100%;
+}
+
+.post-content h3::after {
+  opacity: .5;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+}
+
+.post-content h4::after {
+  opacity: .5;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjIuODU3YzEuMjU3IDAgMi4yODYtMS4wMjkgMi4yODYtMi4yODZzLTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2LTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2IDEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjIuODU3YzEuMjU3IDAgMi4yODYtMS4wMjkgMi4yODYtMi4yODZzLTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2LTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2IDEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2eicvPjwvc3ZnPg==") no-repeat center / 100% 100%;
+}
+
+.post-content h5::after {
+  opacity: .5;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDE4LjI4NmMtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNMTEuNDI5IDIyLjg1N2MxLjI1NyAwIDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2cy0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4Ni0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NiAxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NnpNNC41NzEgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek00LjU3MSAxMS40MjljLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6Jy8+PC9zdmc+") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDE4LjI4NmMtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNMTEuNDI5IDIyLjg1N2MxLjI1NyAwIDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2cy0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4Ni0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NiAxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NnpNNC41NzEgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek0xMS40MjkgMjUuMTQzYy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek00LjU3MSAxMS40MjljLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6Jy8+PC9zdmc+") no-repeat center / 100% 100%;
+}
+
+.post-content h6::after {
+  opacity: .5;
+  -webkit-mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek00LjU3MSAxMS40MjljLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxOC4yODZjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAyNS4xNDNjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxNmMxLjI1NyAwIDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2cy0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4Ni0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NiAxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NnonLz48L3N2Zz4=") no-repeat center / 100% 100%;
+  mask: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZD0nTTQuNTcxIDI1LjE0M2MtMS4yNTcgMC0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NnMxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NiAyLjI4Ni0xLjAyOSAyLjI4Ni0yLjI4Ni0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4NnpNNC41NzEgMTguMjg2Yy0xLjI1NyAwLTIuMjg2IDEuMDI5LTIuMjg2IDIuMjg2czEuMDI5IDIuMjg2IDIuMjg2IDIuMjg2IDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2LTEuMDI5LTIuMjg2LTIuMjg2LTIuMjg2ek00LjU3MSAxMS40MjljLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxOC4yODZjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAyNS4xNDNjLTEuMjU3IDAtMi4yODYgMS4wMjktMi4yODYgMi4yODZzMS4wMjkgMi4yODYgMi4yODYgMi4yODYgMi4yODYtMS4wMjkgMi4yODYtMi4yODYtMS4wMjktMi4yODYtMi4yODYtMi4yODZ6TTExLjQyOSAxNmMxLjI1NyAwIDIuMjg2LTEuMDI5IDIuMjg2LTIuMjg2cy0xLjAyOS0yLjI4Ni0yLjI4Ni0yLjI4Ni0yLjI4NiAxLjAyOS0yLjI4NiAyLjI4NiAxLjAyOSAyLjI4NiAyLjI4NiAyLjI4NnonLz48L3N2Zz4=") no-repeat center / 100% 100%;
 }
 
 /* ---------- 文章分割线 ----------
