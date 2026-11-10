@@ -24,6 +24,34 @@
   font-size: 16px;
 }
 
+/* ---------- 行内代码 ----------
+   参考思源笔记的行内代码外观：颜色跟随正文，底色与描边都由
+   currentColor 生成，亮色 / 暗色主题自动适配。
+   box-decoration-break: clone 让代码跨行折断后，每一段都保留
+   完整的内边距、圆角和描边，而不是只在首尾两端生效。 */
+
+.container code:not([class*="language-"]):not(.hljs) {
+  margin: 0 4px;
+  padding: 2px 4px;
+  border: none;
+  border-radius: 4px;
+  outline: .5px solid oklch(from currentColor l c h / .12);
+  outline-offset: -.5px;
+  background-color: oklch(from currentColor l c h / .1);
+  color: inherit;
+  box-shadow: none;
+  font-size: 14px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@supports (corner-shape: superellipse(1.4)) {
+  .container code:not([class*="language-"]):not(.hljs) {
+    corner-shape: superellipse(1.4);
+    border-radius: 5.6px;
+  }
+}
+
 /* ---------- 代码块字体 ----------
    正文代码字体与字号由 _config.butterfly.yml 的 font.code_font_family /
    font.code_font_size 控制（Consolas / 13px）。

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   站点字体
+
+   这里只声明字体文件本身，不决定站点用哪一套。
+   选哪一套由 _config.butterfly.yml 的 font.preset 控制，
+   scripts/font-preset.js 会把对应字体栈写进 --site-font-family 变量。
+
+   font-display: swap 让字体加载期间先显示系统字体，避免正文空白。
+   ========================================================================== */
+
+/* ---------- HarmonyOS Sans SC（简体中文版） ----------
+   字体版权归 Huawei Device Co., Ltd. 所有，授权条款见：
+   /fonts/HarmonyOS_Sans_SC/LICENSE.txt */
+
+@font-face {
+  font-family: "HarmonyOS Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "HarmonyOS Sans SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Bold.woff2") format("woff2");
+}
+
+/* ---------- 仓耳今楷 ----------
+   字体族名取自字体内部的 family name：TsangerJinKai01 W04。
+   只有 Regular 一个字重，粗体由浏览器合成。 */
+
+@font-face {
+  font-family: "TsangerJinKai01 W04";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/TsangerJinKai01/TsangerJinKai01-W04.woff2") format("woff2");
+}

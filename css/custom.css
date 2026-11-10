@@ -2355,7 +2355,7 @@ html.search-open {
   margin: 0 auto;
   padding: 0 30px;
   color: var(--btf-white);
-  font-family: Inter, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: inherit;
   font-size: 16px;
   transform: translateX(-50%);
   animation: btf-post-info-in .6s 0s backwards;
