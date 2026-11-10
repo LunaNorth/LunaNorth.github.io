@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lunanorth.github.io/posts/56b9.html</loc>
+    
+    <lastmod>2026-11-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lunanorth.github.io/friend/index.html</loc>
     
     <lastmod>2026-11-10</lastmod>
@@ -181,13 +190,6 @@
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/tags/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lunanorth.github.io/tags/%E8%BD%BB%E8%AF%AD/</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -208,17 +210,17 @@
     <priority>0.2</priority>
   </url>
   
-
-  
   <url>
-    <loc>https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://lunanorth.github.io/tags/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
+
+  
   <url>
-    <loc>https://lunanorth.github.io/categories/WinForm/</loc>
+    <loc>https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -233,6 +235,13 @@
   
   <url>
     <loc>https://lunanorth.github.io/categories/Hexo/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunanorth.github.io/categories/WinForm/</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
