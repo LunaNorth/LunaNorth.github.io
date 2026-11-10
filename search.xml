@@ -72,24 +72,6 @@
       </tags>
   </entry>
   <entry>
-    <title>数学公式示例</title>
-    <url>/posts/2c9c.html</url>
-    <content><![CDATA[<p>这篇文章演示在 Butterfly 主题中书写数学公式的方式。</p>
-<p>行内公式写在 <code>$...$</code> 中，例如质能方程 $E &#x3D; mc^2$。</p>
-<p>独立公式使用 <code>$$...$$</code>：</p>
-<p>$$<br>\int_{-\infty}^{+\infty} e^{-x^2} , dx &#x3D; \sqrt{\pi}<br>$$</p>
-<p>矩阵也可以正常渲染：</p>
-<h1 id="begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix"><a href="#begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}a &amp; b \c &amp; d\end{pmatrix}\begin{pmatrix}x \y\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>a &amp; b \<br>c &amp; d<br>\end{pmatrix}<br>\begin{pmatrix}<br>x \<br>y<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>ax + by \<br>cx + dy<br>\end{pmatrix}<br>$$</p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>MathJax</tag>
-        <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mermaid 流程图示例</title>
     <url>/posts/7a6a.html</url>
     <content><![CDATA[<p>这篇文章演示如何在 Butterfly 主题中用标签外挂书写 Mermaid 图表。</p>
@@ -114,8 +96,26 @@
         <category>博客搭建</category>
       </categories>
       <tags>
-        <tag>Markdown</tag>
         <tag>Mermaid</tag>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数学公式示例</title>
+    <url>/posts/2c9c.html</url>
+    <content><![CDATA[<p>这篇文章演示在 Butterfly 主题中书写数学公式的方式。</p>
+<p>行内公式写在 <code>$...$</code> 中，例如质能方程 $E &#x3D; mc^2$。</p>
+<p>独立公式使用 <code>$$...$$</code>：</p>
+<p>$$<br>\int_{-\infty}^{+\infty} e^{-x^2} , dx &#x3D; \sqrt{\pi}<br>$$</p>
+<p>矩阵也可以正常渲染：</p>
+<h1 id="begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix"><a href="#begin-pmatrix-a-b-c-d-end-pmatrix-begin-pmatrix-x-y-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}a &amp; b \c &amp; d\end{pmatrix}\begin{pmatrix}x \y\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>a &amp; b \<br>c &amp; d<br>\end{pmatrix}<br>\begin{pmatrix}<br>x \<br>y<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>ax + by \<br>cx + dy<br>\end{pmatrix}<br>$$</p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
@@ -194,35 +194,6 @@
       </categories>
       <tags>
         <tag>问题记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>忆往昔</title>
-    <url>/posts/1ec6.html</url>
-    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
-<p>等这周有时间再写吧</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
       </tags>
   </entry>
   <entry>
@@ -307,6 +278,35 @@
       </categories>
       <tags>
         <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>忆往昔</title>
+    <url>/posts/1ec6.html</url>
+    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
+<p>等这周有时间再写吧</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
       </tags>
   </entry>
 </search>
