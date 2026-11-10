@@ -1,0 +1,412 @@
+/* ==========================================================================
+   打卡与习惯页（/habit/）
+   结构 includes/page/habit.pug，计算 source/js/habit.js
+   - 打卡计划：横长卡 + 进度条，按状态变色（进行中蓝 / 已结束绿 / 未开始灰）
+   - 习惯养成：小方卡 + 大天数，绿色
+   - 颜色走 --btf-* 令牌 + 本页两个强调色变量，深浅主题各自取值
+   ========================================================================== */
+
+/* 变量同时挂在页面容器和侧边栏卡片上，两处共用一套配色 */
+.chk-page,
+#card-habit {
+  --hb-blue: #425AEF;
+  --hb-blue-soft: rgba(66, 90, 239, .12);
+  --hb-blue-faint: rgba(66, 90, 239, .1);
+  --hb-green: #2e8f6e;
+  --hb-green-soft: rgba(46, 143, 110, .12);
+  --hb-grey: #8c8c96;
+  --hb-grey-soft: rgba(140, 140, 150, .14);
+}
+
+[data-theme="dark"] .chk-page,
+[data-theme="dark"] #card-habit {
+  --hb-blue: #8b9bff;
+  --hb-blue-soft: rgba(139, 155, 255, .18);
+  --hb-blue-faint: rgba(139, 155, 255, .14);
+  --hb-green: #86d3ae;
+  --hb-green-soft: rgba(134, 211, 174, .18);
+  --hb-grey: #9a9aa8;
+  --hb-grey-soft: rgba(154, 154, 168, .16);
+}
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.habit-grid) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#body-wrap.type-habit #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-habit #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ---------- 区块 ---------- */
+.habit-section + .habit-section {
+  margin-top: 1.7rem;
+}
+
+/* 区块标题是 h3，字号 / 配色 / 点标识由 post.css 的标题体系统一管，
+   这里只补一点下边距 */
+.chk-page h3.habit-section-title {
+  margin-bottom: .75rem;
+}
+
+.habit-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* 打卡卡用 auto-fit：只有 2 条时会把这一行撑满，右侧不留空轨道 */
+.habit-grid.is-challenge {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.habit-grid.is-habit {
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+
+/* ---------- 卡片 ---------- */
+.habit-card {
+  padding: 1.05rem 1.15rem 1rem;
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  border: 1.5px solid var(--btf-card-border);
+  transition: border-color .25s;
+}
+
+/* hover 只改边框色：不上浮、不加阴影 */
+.habit-card:hover {
+  border-color: var(--hb-blue);
+}
+
+.habit-card.is-done:hover {
+  border-color: var(--hb-green);
+}
+
+/* ---- 打卡计划 ---- */
+.habit-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+}
+
+.habit-name {
+  color: var(--btf-font-color);
+  font-size: .98rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.habit-badge {
+  flex-shrink: 0;
+  padding: .12rem .55rem;
+  /* 和 .habit-date 的胶囊圆角保持一致 */
+  border-radius: 6px;
+  background: var(--hb-blue-soft);
+  color: var(--hb-blue);
+  font-size: .72rem;
+  font-weight: 500;
+}
+
+.habit-card.is-done .habit-badge {
+  background: var(--hb-green-soft);
+  color: var(--hb-green);
+}
+
+.habit-card.is-pending .habit-badge {
+  background: var(--hb-grey-soft);
+  color: var(--hb-grey);
+}
+
+.habit-bar {
+  height: 8px;
+  margin: 1rem 0 .55rem;
+  border-radius: 999px;
+  background: var(--hb-blue-soft);
+  overflow: hidden;
+}
+
+.habit-bar-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--hb-blue);
+  transition: width .6s ease;
+}
+
+.habit-card.is-done .habit-bar {
+  background: var(--hb-green-soft);
+}
+
+.habit-card.is-done .habit-bar-fill {
+  background: var(--hb-green);
+}
+
+.habit-card.is-pending .habit-bar {
+  background: var(--hb-grey-soft);
+}
+
+.habit-card.is-pending .habit-bar-fill {
+  background: var(--hb-grey);
+}
+
+.habit-bar-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  font-size: .78rem;
+  color: var(--btf-font-color);
+  opacity: .62;
+  font-variant-numeric: tabular-nums;
+}
+
+.habit-left {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* 起止日期做成浅底彩字的胶囊，跟卡片状态同色 */
+.habit-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .8rem;
+}
+
+.habit-date {
+  padding: .12rem .5rem;
+  border-radius: 6px;
+  background: var(--hb-blue-faint);
+  color: var(--hb-blue);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.habit-card.is-done .habit-date {
+  background: var(--hb-green-soft);
+  color: var(--hb-green);
+}
+
+.habit-card.is-pending .habit-date {
+  background: var(--hb-grey-soft);
+  color: var(--hb-grey);
+}
+
+.habit-arrow {
+  color: var(--btf-font-color);
+  font-size: .72rem;
+  opacity: .3;
+}
+
+/* ---- 习惯养成 ---- */
+.habit-card.is-habit {
+  text-align: center;
+}
+
+.habit-days {
+  color: var(--hb-green);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.habit-num {
+  font-size: 2rem;
+  letter-spacing: -.5px;
+}
+
+.habit-days em {
+  margin-left: 2px;
+  font-size: .78rem;
+  font-style: normal;
+  font-weight: 400;
+  opacity: .65;
+}
+
+.habit-card.is-habit .habit-name {
+  margin-top: .7rem;
+  font-size: .92rem;
+}
+
+.habit-since {
+  margin-top: .2rem;
+  color: var(--btf-font-color);
+  font-size: .74rem;
+  opacity: .45;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- 备注（两类共用） ---- */
+.habit-note {
+  margin-top: .55rem;
+  color: var(--btf-font-color);
+  font-size: .78rem;
+  line-height: 1.55;
+  opacity: .6;
+}
+
+/* ---------- 空状态 ---------- */
+.chk-empty {
+  margin: 0;
+  padding: 1.4rem 1.15rem;
+  border-radius: var(--btf-radius);
+  border: 1.5px dashed var(--btf-card-border);
+  font-size: .8rem;
+  color: var(--btf-second-text);
+  text-align: center;
+}
+
+/* ---------- 窄屏 ---------- */
+@media screen and (max-width: 768px) {
+  .habit-grid.is-challenge,
+  .habit-grid.is-habit {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: .75rem;
+  }
+
+  .habit-grid.is-challenge {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .habit-num {
+    font-size: 1.7rem;
+  }
+}
+
+/* ==========================================================================
+   侧边栏「打卡与习惯」摘要卡（card_habit.pug）
+   只列 habit.yml 里写了 sidebar: true 的条目，宽 315px 以内
+   - 每行：名称 + 右侧数值；打卡行下面多一条 4px 细进度条
+   - 配色跟页面一致：进行中蓝 / 已结束绿
+   ========================================================================== */
+
+#card-habit {
+  padding: 15px 14px !important;
+}
+
+.habit-widget-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.habit-widget-head i {
+  font-size: 13px;
+  color: var(--btf-theme);
+}
+
+.habit-widget-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--btf-font-color);
+}
+
+.habit-widget-all {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--btf-second-text);
+  transition: color var(--btf-transition);
+}
+
+.habit-widget-all:hover {
+  color: var(--btf-theme);
+}
+
+.hbw-row {
+  padding: 8px 0 7px;
+  border-top: 1px dashed var(--btf-card-border);
+}
+
+.hbw-row:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+.hbw-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hbw-name {
+  min-width: 0;
+  font-size: 12px;
+  color: var(--btf-font-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hbw-meta {
+  flex: none;
+  font-size: 11px;
+  color: var(--btf-second-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.hbw-row.is-done .hbw-meta {
+  color: var(--hb-green);
+}
+
+/* 习惯行：骨架和打卡行完全一致，只是强调色换成绿色（和 /habit/ 页的习惯卡统一） */
+.hbw-row.is-habit .hbw-bar {
+  background: var(--hb-green-soft);
+}
+
+.hbw-row.is-habit .hbw-bar > i {
+  background: var(--hb-green);
+}
+
+.hbw-row.is-steady .hbw-meta {
+  color: var(--hb-green);
+}
+
+.hbw-bar {
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 99px;
+  background: var(--hb-blue-soft);
+  overflow: hidden;
+}
+
+.hbw-bar > i {
+  display: block;
+  width: 0;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--hb-blue);
+  transition: width .5s ease;
+}
+
+.hbw-row.is-done .hbw-bar {
+  background: var(--hb-green-soft);
+}
+
+.hbw-row.is-done .hbw-bar > i {
+  background: var(--hb-green);
+}
+
+.hbw-row.is-pending .hbw-bar {
+  background: var(--hb-grey-soft);
+}
+
+.hbw-row.is-pending .hbw-bar > i {
+  background: var(--hb-grey);
+}

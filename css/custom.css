@@ -89,8 +89,8 @@
   --btf-blockquote-bg: #f7f7f9;
   --btf-tabs-bg: #f2f5f8;
   --btf-sidebar-bg: #f6f8fa;
-  /* 页脚通栏底色：主色淡染，比页面底色略深、比卡片略浅 */
-  --btf-footer-bg: #eef1fd;
+  /* 页脚底色：与卡片同色，只靠一条发丝线跟正文分隔，不要整块色块 */
+  --btf-footer-bg: #ffffff;
   --btf-nav-bg: linear-gradient(to bottom, rgba(255, 255, 255, .6), rgba(255, 255, 255, .85));
   --btf-nav-border: rgba(227, 232, 247, .7);
   --btf-mask-bg: rgba(255, 255, 255, .6);
@@ -188,8 +188,8 @@
   --btf-blockquote-bg: #30343f;
   --btf-tabs-bg: #121212;
   --btf-sidebar-bg: #121212;
-  /* 页脚通栏底色：比页面底色略亮，卡片同一档 */
-  --btf-footer-bg: #1e1f26;
+  /* 页脚底色：与卡片同档 */
+  --btf-footer-bg: #1b1c20;
   --btf-nav-bg: linear-gradient(to bottom, rgba(0, 0, 0, .6), rgba(0, 0, 0, .85));
   --btf-nav-border: rgba(61, 61, 63, .65);
   --btf-mask-bg: rgba(0, 0, 0, .6);
@@ -1262,9 +1262,12 @@
 
 /* ---------- 4.4 页脚 ---------- */
 
-/* 通栏：整块色块铺满视口宽度，不再是居中的小卡片；
-   内部再用 .footer-inner 容器对齐到正文宽度，左右边缘与文章/侧边栏一致。 */
+/* 通栏色块 + 顶部一条主题色细线收尾；
+   内部 .footer-inner 与正文等宽，左品牌右信息，中间一条竖向分隔线。
+   所有元素都是原有的（站名 / 版权 / 字数 / 运行时间 / 框架 / 一句话），只重排 + 加层级。 */
+
 #footer {
+  position: relative;
   background-color: var(--btf-footer-bg) !important;
   background-image: none !important;
   border-top: var(--btf-border);
@@ -1285,20 +1288,22 @@
 #footer .footer-inner {
   max-width: var(--btf-layout-width);
   margin: 0 auto;
-  padding: 26px 15px 30px;
+  padding: 30px 15px 34px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 14px 32px;
+  gap: 22px 48px;
   color: var(--btf-second-text);
   font-size: 0.8rem;
+  line-height: 1.6;
 }
 
+/* ---- 左：品牌 + 版权 + 字数 ---- */
 #footer .footer-main {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 9px;
   min-width: 0;
 }
 
@@ -1306,80 +1311,184 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 0 8px;
+  gap: 2px 14px;
 }
 
 #footer .footer-title {
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .2px;
   color: var(--btf-font-color);
-  line-height: 1.5;
-}
-
-#footer .footer-divider {
-  color: var(--btf-card-border);
 }
 
 #footer .footer-copyright {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
+  color: var(--btf-second-text);
+  opacity: .9;
+}
+
+/* 字数：数字做成主题色小徽章，比原来整句同色更好读 */
+#footer .footer-wordcount {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 0.78rem;
   color: var(--btf-second-text);
 }
 
-#footer .footer-wordcount {
-  font-size: 0.8rem;
+#footer .footer-wordcount-prefix,
+#footer .footer-wordcount-suffix {
   color: var(--btf-second-text);
 }
 
 #footer .footer-wordcount-num {
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--btf-theme-op-light);
   color: var(--btf-theme);
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
 }
 
+#footer .footer-wordcount-note {
+  color: var(--btf-second-text);
+  opacity: .85;
+}
+
+/* ---- 中：今日宜忌（居中，每天换一组，纯前端算） ---- */
+#footer .footer-today {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  max-width: 420px;
+  text-align: center;
+}
+
+#footer .footer-today-date {
+  font-size: 0.72rem;
+  letter-spacing: .4px;
+  color: var(--btf-second-text);
+  opacity: .8;
+  font-variant-numeric: tabular-nums;
+}
+
+#footer .footer-today-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+#footer .footer-today-yi,
+#footer .footer-today-ji {
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* 宜 / 忌 沿用黄历习惯：宜绿忌红，低饱和不抢眼 */
+#footer .footer-today-yi {
+  background: rgba(46, 143, 110, .1);
+  color: #2e8f6e;
+}
+
+#footer .footer-today-ji {
+  background: rgba(217, 83, 79, .09);
+  color: #c9504c;
+}
+
+[data-theme="dark"] #footer .footer-today-yi {
+  background: rgba(84, 195, 156, .14);
+  color: #54c39c;
+}
+
+[data-theme="dark"] #footer .footer-today-ji {
+  background: rgba(255, 122, 122, .14);
+  color: #ff8b8b;
+}
+
+/* ---- 右：运行时间 / 框架版本 / 一句话 ---- */
 #footer .footer-side {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+
+#footer .footer-runtime,
+#footer .footer-meta,
+#footer .footer-custom {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
-#footer .footer-runtime {
-  font-size: 0.8rem;
+#footer .footer-ico {
+  font-size: 11px;
+  opacity: .5;
+}
+
+#footer .footer-runtime-label {
   color: var(--btf-second-text);
 }
 
 #footer .footer-runtime-value {
-  color: var(--btf-font-color);
+  color: var(--btf-theme);
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .2px;
 }
 
 #footer .footer-meta,
 #footer .footer-custom {
-  font-size: 0.8rem;
   color: var(--btf-second-text);
 }
 
 #footer .footer-separator {
-  margin: 0 4px;
+  margin: 0 1px;
+  opacity: .55;
 }
 
 #footer a {
   color: var(--btf-second-text);
+  transition: color var(--btf-transition);
 }
 
 #footer a:hover {
   color: var(--btf-theme) !important;
 }
 
+/* 宽屏：左右两栏之间加一条竖向分隔线 */
+@media screen and (min-width: 900px) {
+  /* 右下角的悬浮按钮会压到页脚，这里留出安全距离 */
+  #footer .footer-inner {
+    padding-right: 70px;
+  }
+
+}
+
 @media screen and (max-width: 768px) {
   #footer .footer-inner {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    padding: 20px 15px 26px;
+    gap: 18px;
+    padding: 24px 15px 28px;
   }
 
   #footer .footer-side {
     align-items: flex-start;
+    padding-left: 0;
+    border-left: 0;
   }
 }
 
