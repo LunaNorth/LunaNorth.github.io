@@ -3115,7 +3115,7 @@ html.search-open {
 
 [data-theme="dark"] #nav #nav-right #nav-totop .totopbtn,
 [data-theme="dark"] #nav #nav-right #nav-totop:hover .totopbtn {
-  background: var(--btf-cover-theme, var(--btf-theme));
+  background: var(--btf-cover-theme, var(--btf-theme-soft));
 }
 
 
@@ -3132,7 +3132,7 @@ html.search-open {
 [data-theme="dark"] #nav #nav-right #nav-totop #percent,
 [data-theme="dark"] #nav #nav-right #nav-totop.long #percent {
   /* 文章页有封面色（雾蓝底）→ 正文浅色；首页等无封面页（主题黄底）→ 深色 */
-  color: var(--btf-on-cover, var(--btf-background));
+  color: var(--btf-on-cover, var(--btf-font-color));
 }
 
 [data-theme="dark"] .post-content blockquote,
@@ -3163,7 +3163,7 @@ html.search-open {
 [data-theme="dark"] #page-header #nav #nav-right .nav-button > .site-page:hover,
 [data-theme="dark"] #page-header #nav #nav-right #toggle-menu > .site-page:hover,
 [data-theme="dark"] #nav #blog-info .nav-site-title:hover > i.fas {
-  color: var(--btf-on-cover, var(--btf-background)) !important;
+  color: var(--btf-on-cover, var(--btf-font-color)) !important;
 }
 
 [data-theme="dark"] #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
@@ -3172,7 +3172,7 @@ html.search-open {
 [data-theme="dark"] #nav #nav-right .nav-button > .site-page:hover,
 [data-theme="dark"] #nav #nav-right #toggle-menu > .site-page:hover,
 [data-theme="dark"] #nav #blog-info .nav-site-title:hover {
-  background: var(--btf-cover-theme, var(--btf-theme));
+  background: var(--btf-cover-theme, var(--btf-theme-soft));
   box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
 }
 
