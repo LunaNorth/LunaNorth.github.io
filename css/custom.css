@@ -254,8 +254,8 @@
 /* ---------- 4.0.1 暗色：顶部导航胶囊底色 ----------
    主题原本给品牌 / 菜单 / 右侧按钮用的是 rgba(0,0,0,.6→.85) 的黑色玻璃渐变，
    在 #18171d 的底色上几乎看不出胶囊形状。改成 30% 的卡片表面色（与轻语页卡片同源 #2a2b31），
-   暗色下胶囊会比底色亮一档，边界更清楚。只在暗色生效。 */
-/* 只覆盖原本就有玻璃底的两个状态：无头图页面 / 滚动后。
+   暗色下胶囊会比底色亮一档，边界更清楚。只在暗色生效。
+   只覆盖原本就有玻璃底的两个状态：无头图页面 / 滚动后。
    顶部有头图时胶囊本来是透明压在横幅上的，这里保持不动。 */
 /* 二级菜单（导航下拉浮层）：原本是 --btf-mask-bg-deep（暗色≈rgba(0,0,0,.85)），改成同一档卡片表面色 */
 [data-theme="dark"] #nav .menus_items .menus_item > .menus_item_child {
@@ -3099,5 +3099,121 @@ html.search-open {
 
 [data-theme="dark"] *::selection {
   background: color-mix(in srgb, var(--btf-cover-theme, var(--btf-theme)) 42%, transparent);
+  color: var(--btf-font-color);
+}
+
+
+/* ==========================================================================
+   深色模式：回到顶部圆钮跟随文章封面主色
+   亮色是深灰圆钮 + 白字；暗色原本会翻成近白圆钮（--btf-font-color）。
+   这里改成读 --btf-cover-theme —— custom.js 从当前文章封面取色后同步到根节点，
+   右侧「随机一篇文章」按钮 hover 用的也是这个值，所以两者天然一致；
+   没有封面的页面该变量被清除，回落到主题色 --btf-theme。
+   数字/箭头本就是深色文字，压在雾蓝底上仍然清楚。
+   hover 态一起锁住，否则会被上面「悬停时保持深色圆钮」那条改回白色。
+   ========================================================================== */
+
+[data-theme="dark"] #nav #nav-right #nav-totop .totopbtn,
+[data-theme="dark"] #nav #nav-right #nav-totop:hover .totopbtn {
+  background: var(--btf-cover-theme, var(--btf-theme));
+}
+
+
+/* ==========================================================================
+   暗色：圆钮数字 / 引述块文字跟随正文字体色
+   正文在暗色下是 --btf-font-color (#f7f7fa)。
+   圆钮数字原本用 --btf-card-bg（深色），引述块用 --btf-second-text（#a1a2b8，
+   比正文淡一档）。引述块统一回正文色；圆钮则用 --btf-on-cover 做条件：
+   有封面色时是正文浅色，没有封面色（底色回落主题黄）时自动变成深色。
+   只作用于暗色；亮色的深灰圆钮 + 白字保持原样。
+   ========================================================================== */
+
+[data-theme="dark"] #nav #nav-right #nav-totop .totopbtn > i,
+[data-theme="dark"] #nav #nav-right #nav-totop #percent,
+[data-theme="dark"] #nav #nav-right #nav-totop.long #percent {
+  /* 文章页有封面色（雾蓝底）→ 正文浅色；首页等无封面页（主题黄底）→ 深色 */
+  color: var(--btf-on-cover, var(--btf-background));
+}
+
+[data-theme="dark"] .post-content blockquote,
+[data-theme="dark"] .container blockquote {
+  color: var(--btf-font-color);
+}
+
+[data-theme="dark"] {
+  --blockquote-color: var(--btf-font-color);
+}
+
+
+/* ==========================================================================
+   暗色：悬停时的背景 / 图标色跟随头图（封面）主色
+   页面头图主色由 custom.js 提取后写在根节点的 --btf-cover-theme 上：
+   首页取 index_img，文章页取封面，圆钮、随机按钮、选中色也都用它。
+   这里把导航各处的「悬停背景」统一换成它 —— 常态胶囊底色保持原样，
+   只有鼠标移上去时才变成头图色；文字用 --btf-on-cover（正文浅色），
+   没有头面色时回落到深色，避免深底深字。
+   原规则带 !important，这里同样用 !important 并加 [data-theme="dark"] 前缀。
+   ========================================================================== */
+
+[data-theme="dark"] #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] #page-header #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] #nav #menus > .menus_items > .menus_item > .site-page:hover,
+[data-theme="dark"] #nav #nav-right .nav-button > .site-page:hover,
+[data-theme="dark"] #nav #nav-right #toggle-menu > .site-page:hover,
+[data-theme="dark"] #page-header #nav #nav-right .nav-button > .site-page:hover,
+[data-theme="dark"] #page-header #nav #nav-right #toggle-menu > .site-page:hover,
+[data-theme="dark"] #nav #blog-info .nav-site-title:hover > i.fas {
+  color: var(--btf-on-cover, var(--btf-background)) !important;
+}
+
+[data-theme="dark"] #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] #page-header #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] #nav #menus > .menus_items > .menus_item > .site-page:hover,
+[data-theme="dark"] #nav #nav-right .nav-button > .site-page:hover,
+[data-theme="dark"] #nav #nav-right #toggle-menu > .site-page:hover,
+[data-theme="dark"] #nav #blog-info .nav-site-title:hover {
+  background: var(--btf-cover-theme, var(--btf-theme));
+  box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
+}
+
+/* 首页例外：头图主色偏沉，悬停时不跟它走，改用弱化的暗色主题色。
+   45% 的主题黄叠在深色底上就是暗琥珀，和文章页的封面雾蓝是两种气质；
+   文字 / 图标颜色维持上一条规则（正文浅色）不变。
+   只作用于首页：首页 DOM 里有 #site-info，文章页没有。 */
+[data-theme="dark"] body:has(#site-info) #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] body:has(#site-info) #page-header #nav .menus_items .menus_item > .menus_item_child .site-page.child:hover,
+[data-theme="dark"] body:has(#site-info) #nav #menus > .menus_items > .menus_item > .site-page:hover,
+[data-theme="dark"] body:has(#site-info) #nav #nav-right .nav-button > .site-page:hover,
+[data-theme="dark"] body:has(#site-info) #nav #nav-right #toggle-menu > .site-page:hover,
+[data-theme="dark"] body:has(#site-info) #nav #blog-info .nav-site-title:hover {
+  background: var(--btf-theme-soft);
+}
+
+/* 回到顶部的圆钮：常态底色在首页也改用弱化主题色（悬停态一起带上，
+   否则鼠标移上去会闪回深色）。数字颜色不变，仍是正文浅色。 */
+[data-theme="dark"] body:has(#site-info) #nav #nav-right #nav-totop .totopbtn,
+[data-theme="dark"] body:has(#site-info) #nav #nav-right #nav-totop:hover .totopbtn {
+  background: var(--btf-theme-soft);
+}
+
+
+/* ==========================================================================
+   暗色：弱主题色 + 侧栏 Follow Me 按钮
+   --btf-theme-soft：暗色主题黄降透明度，叠在深底上呈暗琥珀，
+   用在悬停底色、回到顶部圆钮、侧栏按钮等处，保持整站同一套暗色气质。
+   ========================================================================== */
+
+[data-theme="dark"] {
+  --btf-theme-soft: color-mix(in srgb, var(--btf-theme) 45%, transparent);
+}
+
+[data-theme="dark"] #aside-content .card-info #card-info-btn {
+  background: var(--btf-theme-soft);
+  color: var(--btf-font-color);
+}
+
+/* 悬停时稍微加深一点做反馈，文字仍是浅色 */
+[data-theme="dark"] #aside-content .card-info #card-info-btn:hover {
+  background: color-mix(in srgb, var(--btf-theme) 62%, transparent);
   color: var(--btf-font-color);
 }

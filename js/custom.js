@@ -76,15 +76,29 @@
     image.src = source
   })
 
+  // 统一写 / 清根节点的封面色变量。
+  // --btf-cover-theme 给圆钮、选中色、导航图标做底色；
+  // --btf-on-cover 是「亮底上的文字色」，没有封面色时被清除，
+  // CSS 那边会回落到深色，避免主题黄底配浅字。
+  const setRootCover = color => {
+    const root = document.documentElement
+    const normalized = normalizeHex(color)
+    if (!normalized) {
+      root.style.removeProperty('--btf-cover-theme')
+      root.style.removeProperty('--btf-on-cover')
+      return
+    }
+    root.style.setProperty('--btf-cover-theme', normalized)
+    root.style.setProperty('--btf-on-cover', 'var(--btf-font-color)')
+  }
+
   const applyHeaderColor = (header, value) => {
     const color = normalizeHex(value)
-    const root = document.documentElement
     if (!color) {
       header.style.removeProperty('--btf-header-theme')
       header.style.removeProperty('--btf-header-theme-op')
       header.style.removeProperty('--btf-header-theme-op-deep')
-      // 没有封面色时清掉全局副本，避免 pjax 切页后沿用上一篇文章的颜色
-      root.style.removeProperty('--btf-cover-theme')
+      setRootCover(null)
       return
     }
 
@@ -97,17 +111,45 @@
     header.style.setProperty('--btf-header-theme', adjusted)
     header.style.setProperty('--btf-header-theme-op', `${adjusted}23`)
     header.style.setProperty('--btf-header-theme-op-deep', `${adjusted}dd`)
+    setRootCover(adjusted)
+  }
 
-    // 同步一份到根节点：::selection 在正文里，拿不到只挂在 header 上的变量。
-    // 右侧「随机一篇文章」按钮与文字选中色都从这个值取色。
-    root.style.setProperty('--btf-cover-theme', adjusted)
+  // 首页（以及其它带头图的页面）：从 #page-header 的 background-image 里
+  // 取出图片地址，走和文章封面完全相同的取色 / 缓存流程。
+  // 这样首页圆钮也能跟着头图主色走，而不是回落成主题黄。
+  const initIndexCover = () => {
+    const header = document.getElementById('page-header')
+    const inline = header && header.getAttribute('style')
+    const match = inline && /url\((['"]?)([^'")]+)\1\)/.exec(inline)
+    const source = match && match[2]
+    if (!source) {
+      setRootCover(null)
+      return
+    }
+
+    const cached = getCachedColor(source)
+    if (cached) {
+      setRootCover(cached)
+      return
+    }
+
+    extractColor(source)
+      .then(color => {
+        const current = document.getElementById('page-header')
+        const currentInline = current && current.getAttribute('style')
+        // pjax 切页后可能已经不是同一张头图了，别写错颜色
+        if (!currentInline || currentInline.indexOf(source) === -1) return
+        cacheColor(source, color)
+        setRootCover(color)
+      })
+      .catch(() => setRootCover(null))
   }
 
   const initHeaderColor = () => {
     const header = document.querySelector(HEADER_SELECTOR)
     if (!header) {
-      // 非文章页 / 没有头图的页面：清掉上一次留下的封面色
-      document.documentElement.style.removeProperty('--btf-cover-theme')
+      // 非文章页：首页用 index_img 头图取色；没有头图的页面会清掉封面色
+      initIndexCover()
       return
     }
 
