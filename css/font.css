@@ -28,14 +28,15 @@
   src: url("../fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Bold.woff2") format("woff2");
 }
 
-/* ---------- 仓耳今楷 ----------
-   字体族名取自字体内部的 family name：TsangerJinKai01 W04。
-   只有 Regular 一个字重，粗体由浏览器合成。 */
+/* ---------- 霞鹜文楷 Screen ----------
+   字体族名取自字体内部的 family name：LXGW WenKai Screen。
+   Screen 版字面更紧凑，适合屏幕阅读，也适合做正文手写感字体。
+   授权协议为 SIL Open Font License，见 /fonts/LXGWWenKaiScreen/OFL.txt。 */
 
 @font-face {
-  font-family: "TsangerJinKai01 W04";
+  font-family: "LXGW WenKai Screen";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/TsangerJinKai01/TsangerJinKai01-W04.woff2") format("woff2");
+  src: url("../fonts/LXGWWenKaiScreen/LXGWWenKaiScreen.woff2") format("woff2");
 }

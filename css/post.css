@@ -8,7 +8,9 @@
 /* ---------- 正文文字字号 ----------
    统一正文可读字号为 16px：段落、有序/无序列表、引用、表格、定义列表。
    标题（h1-h6）保持主题的层级比例，不在此处覆盖，避免打乱排版层级。
-   行内代码与代码块字号由各自的规则控制，不受此规则影响。 */
+   行内代码与代码块字号由各自的规则控制，不受此规则影响。
+   实际字号取 --site-font-size，由 scripts/font-preset.js 按字体方案给出：
+   黑体类方案 16px，霞鹜文楷 Screen 这类字面偏小的字体自动放大到 16.5px。 */
 
 .container p,
 .container ul,
@@ -21,7 +23,7 @@
 .container table,
 .container th,
 .container td {
-  font-size: 16px;
+  font-size: var(--site-font-size, 16px);
 }
 
 /* ---------- 行内代码 ----------
@@ -94,9 +96,10 @@ figure.highlight .highlight-tools {
 /* ---------- 全站文字描边 ----------
    0.1px 极细描边，让文字边缘更清晰、更有实感。
    用 currentColor 跟随文字颜色，所以亮色 / 暗色模式都自动适配，
-   不需要额外写 [data-theme="dark"] 的覆盖。 */
+   不需要额外写 [data-theme="dark"] 的覆盖。
+   数值同样来自 --site-text-stroke，跟着字体方案走，换字体时好调整。 */
 
 body,
 body * {
-  -webkit-text-stroke: 0.1px currentColor;
+  -webkit-text-stroke: var(--site-text-stroke, 0.1px) currentColor;
 }

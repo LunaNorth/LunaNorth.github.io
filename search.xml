@@ -240,4 +240,26 @@
         <tag>记录</tag>
       </tags>
   </entry>
+  <entry>
+    <title>更换文章字体记录</title>
+    <url>/posts/210a.html</url>
+    <content><![CDATA[<p>今天在逛魔改文章的时候 ，偶然发现 <a href="https://blog.june-pj.cn/">june佬的博客</a> 中有提到可以更换博客字体 ，文章：<a href="https://blog.june-pj.cn/posts/8a0c5a62/">Butterfly美化总结</a> ，然后来了兴趣更换下自己的博客字体看看样式 ，下面这些都是测试得来的 ，准备更换成动态的 ，不同的字体显示的效果不同 ，同时将字体进行一个压缩即可</p>
+<p>通过测试最后决定当切换字体后 ，字体大小改为：16.5px , 描边为：0.15</p>
+<p>也就是：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-attr">size</span>: <span class="hljs-string">&#x27;16.5px&#x27;</span>,<br><span class="hljs-attr">stroke</span>: <span class="hljs-string">&#x27;0.15px&#x27;</span>,<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104408633-373689217.png" alt="image"></p>
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104409397-1846506855.png" alt="image"></p>
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104410018-1196326389.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
 </search>
