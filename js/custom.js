@@ -78,10 +78,13 @@
 
   const applyHeaderColor = (header, value) => {
     const color = normalizeHex(value)
+    const root = document.documentElement
     if (!color) {
       header.style.removeProperty('--btf-header-theme')
       header.style.removeProperty('--btf-header-theme-op')
       header.style.removeProperty('--btf-header-theme-op-deep')
+      // 没有封面色时清掉全局副本，避免 pjax 切页后沿用上一篇文章的颜色
+      root.style.removeProperty('--btf-cover-theme')
       return
     }
 
@@ -94,11 +97,19 @@
     header.style.setProperty('--btf-header-theme', adjusted)
     header.style.setProperty('--btf-header-theme-op', `${adjusted}23`)
     header.style.setProperty('--btf-header-theme-op-deep', `${adjusted}dd`)
+
+    // 同步一份到根节点：::selection 在正文里，拿不到只挂在 header 上的变量。
+    // 右侧「随机一篇文章」按钮与文字选中色都从这个值取色。
+    root.style.setProperty('--btf-cover-theme', adjusted)
   }
 
   const initHeaderColor = () => {
     const header = document.querySelector(HEADER_SELECTOR)
-    if (!header) return
+    if (!header) {
+      // 非文章页 / 没有头图的页面：清掉上一次留下的封面色
+      document.documentElement.style.removeProperty('--btf-cover-theme')
+      return
+    }
 
     const cover = header.querySelector('#post-cover')
     const source = cover?.currentSrc || cover?.src

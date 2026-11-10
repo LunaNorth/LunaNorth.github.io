@@ -1178,9 +1178,12 @@
   }
 
   @media screen and (min-width: 900px) {
+    /* 与右侧「随机一篇文章」等按钮的 hover 完全同源：
+       同样用封面提取的 --btf-header-theme 打底 + 同一层阴影 + 白色图标，
+       不另用 --btf-theme（饱和蓝会和右侧的雾蓝对不上）。 */
     #nav #blog-info .nav-site-title:hover {
-      /* 与菜单项悬停一致：主题色底 + 白字 */
-      background: var(--btf-theme);
+      background: var(--btf-header-theme, var(--btf-theme));
+      box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
     }
 
     #nav #blog-info .nav-site-title:hover > img.site-icon,
@@ -2947,4 +2950,154 @@ html.search-open {
   #site-info #site-subtitle {
     font-size: 1.45em;
   }
+}
+
+/* ==========================================================================
+   深色模式：主题交互色覆盖
+
+   Butterfly 把 _config.butterfly.yml 的 theme_color.main 在构建时编译成字面量
+   #425aef（写在 css/index.css 里），深色模式不会跟着 --btf-theme 变，
+   于是暗色下 hover 出来的还是亮色的蓝。
+
+   下面用 [data-theme="dark"] 前缀提高优先级、只覆盖深色模式；浅色保持原样。
+   只处理 color / border-color，不碰 background —— 深色主色是黄色，
+   拿它当底色再配白字会看不清。
+   若日后升级主题后又有遗漏，重新生成这份列表即可。
+   ========================================================================== */
+
+[data-theme="dark"] a:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .container .highlight-tools i:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .article-sort-item.year:hover:before {
+  border-color: var(--btf-theme);
+}
+
+[data-theme="dark"] .article-sort-item-title:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .category-lists .category-list a:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #recent-posts .recent-post-item >.recent-post-info > .article-title:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #recent-posts .recent-post-item >.recent-post-info > .article-meta-wrap a:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #article-container .shuoshuo-footer .shuoshuo-tag {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #article-container .shuoshuo-footer .shuoshuo-comment-btn:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #aside-content .card-tag-cloud a:hover {
+  color: var(--btf-theme) !important;
+}
+
+[data-theme="dark"] #aside-content .aside-list > .aside-list-item .content > .title:hover,
+[data-theme="dark"] #aside-content .aside-list > .aside-list-item .content > .comment:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #aside-content #card-toc .toc-content .toc-link:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .site-data > a:hover div {
+  color: var(--btf-theme) !important;
+}
+
+[data-theme="dark"] #footer a:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #page-header.nav-fixed #nav #blog-info:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #page-header.nav-fixed #nav a:hover,
+[data-theme="dark"] #page-header.nav-fixed #nav span.site-page:hover,
+[data-theme="dark"] #page-header.nav-fixed #nav #toggle-menu:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #post-info #post-meta a:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .container a {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #post .tag_share .post-meta__tags {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #post .post-copyright:before {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #post .post-copyright .post-copyright-meta {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] #waline-wrap {
+  --waline-theme-color: var(--btf-theme);
+  --waline-active-color: var(--btf-theme);
+}
+
+[data-theme="dark"] .container .tabs > .tab-to-top button:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .container .timeline .timeline-item:hover .item-circle:before {
+  border-color: var(--btf-theme);
+}
+
+[data-theme="dark"] .search-dialog .search-nav {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .search-dialog .search-nav .search-close-button:hover {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .search-dialog .search-result-list .local-search-hit-item[value]::before,
+[data-theme="dark"] .search-dialog .ais-Hits-list .local-search-hit-item[value]::before,
+[data-theme="dark"] .search-dialog .search-result-list .ais-Hits-item[value]::before,
+[data-theme="dark"] .search-dialog .ais-Hits-list .ais-Hits-item[value]::before {
+  color: var(--btf-theme);
+}
+
+[data-theme="dark"] .search-dialog .search-result-list .local-search-hit-item a:hover,
+[data-theme="dark"] .search-dialog .ais-Hits-list .local-search-hit-item a:hover,
+[data-theme="dark"] .search-dialog .search-result-list .ais-Hits-item a:hover,
+[data-theme="dark"] .search-dialog .ais-Hits-list .ais-Hits-item a:hover {
+  color: var(--btf-theme);
+}
+
+
+/* ==========================================================================
+   深色模式：文字选中色
+   主题把 theme_color.text_selection 编译成字面量 #425aef（*::selection），
+   深色下不会跟随 --btf-theme。这里只在深色模式覆盖：
+   底色取 --btf-cover-theme（custom.js 从当前文章封面提取、同步到根节点的主色），
+   和右侧「随机一篇文章」按钮的 hover 底色同源；没有封面的页面回落到 --btf-theme。
+   降透明度是为了在深色底上不抢眼、且浅色文字仍然可读。
+   ========================================================================== */
+
+[data-theme="dark"] *::selection {
+  background: color-mix(in srgb, var(--btf-cover-theme, var(--btf-theme)) 42%, transparent);
+  color: var(--btf-font-color);
 }

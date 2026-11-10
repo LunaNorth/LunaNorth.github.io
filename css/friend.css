@@ -58,24 +58,12 @@ body:has(.friend-page) #page {
   border-radius: var(--btf-radius);
   background: var(--btf-card-bg);
   border: 1px solid var(--btf-card-border);
-  transition: border-color .25s, background-color .25s;
+  transition: border-color .25s;
 }
 
-/* 悬停色：JS 从头像提取到主色时会挂上 .has-color 并写入 --fh/--fs，
-   取不到（跨域、头像挂了）就回落到站点主题色 */
-.flink-card.has-color {
-  --flink-accent: hsl(var(--fh), var(--fs), 45%);
-  --flink-tint: hsla(var(--fh), var(--fs), 45%, .07);
-}
-
-[data-theme="dark"] .flink-card.has-color {
-  --flink-accent: hsl(var(--fh), var(--fs), 62%);
-  --flink-tint: hsla(var(--fh), var(--fs), 62%, .14);
-}
-
+/* 悬停只变边框颜色；宽度固定 1px，不会出现粗细跳动 */
 .flink-card:hover {
-  border-color: var(--flink-accent, var(--btf-theme));
-  background: var(--flink-tint, var(--btf-theme-op-light));
+  border-color: var(--btf-theme);
 }
 
 .flink-avatar {
@@ -113,10 +101,6 @@ body:has(.friend-page) #page {
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: color .25s;
-}
-
-.flink-card:hover .flink-name {
-  color: var(--flink-accent, var(--btf-theme));
 }
 
 .flink-descr {
