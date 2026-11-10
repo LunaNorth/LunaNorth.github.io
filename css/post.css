@@ -268,11 +268,11 @@ figure.highlight .highlight-tools {
   font-family: Consolas !important;
 }
 
-/* ---------- 全站文字描边 ----------
-   0.1px 极细描边，让文字边缘更清晰、更有实感。
-   用 currentColor 跟随文字颜色，所以亮色 / 暗色模式都自动适配，
-   不需要额外写 [data-theme="dark"] 的覆盖。
-   数值同样来自 --site-text-stroke，跟着字体方案走，换字体时好调整。 */
+/* ---------- 全站文字描边（仅明亮模式） ----------
+   极细描边让文字边缘更清晰，用 currentColor 跟随文字颜色。
+   数值来自 --site-text-stroke，由 scripts/font-preset.js 按字体方案给出；
+   该文件同时输出 [data-theme="dark"]{--site-text-stroke:0px}，
+   所以暗色模式下这里自动变成 0（不描边），无需在本文件再写覆盖。 */
 
 body,
 body * {
