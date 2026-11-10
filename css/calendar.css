@@ -1,0 +1,343 @@
+/* ==========================================================================
+   侧边栏日历 / 节日倒计时卡片（calendar.css）
+
+   配合 themes/butterfly/layout/includes/widget/card_calendar.pug、
+   card_schedule.pug 与 source/js/calendar.js 使用。
+   所有颜色取自 custom.css 的 --btf-* 令牌，自动跟随浅色 / 深色主题。
+   ========================================================================== */
+
+/* ---------- 日历卡片 ---------- */
+
+#card-calendar {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding: 16px 14px !important;
+}
+
+#calendar-area-left {
+  width: 36%;
+  min-height: 172px;
+  padding-right: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#calendar-area-right {
+  width: 64%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#calendar-week {
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: .3px;
+  font-weight: 600;
+  color: var(--btf-second-text);
+  font-variant-numeric: tabular-nums;
+}
+
+#calendar-date {
+  margin: 2px 0;
+  font-size: 52px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--btf-theme);
+  font-variant-numeric: tabular-nums;
+}
+
+#calendar-solar,
+#calendar-lunar {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--btf-second-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+#calendar-lunar {
+  margin-top: 1px;
+  opacity: .85;
+}
+
+.calendar-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.calendar-head span {
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--btf-second-text);
+  opacity: .8;
+}
+
+#calendar-main {
+  width: 100%;
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* 一格两行：公历数字 + 节日 / 节气小字 */
+#calendar-main a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  height: 30px;
+  border-radius: 9px;
+  transition: background-color var(--btf-transition), color var(--btf-transition);
+}
+
+#calendar-main a .cal-d {
+  font-size: 12px;
+  line-height: 1;
+  color: var(--btf-font-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 小字标记用无衬线字体：10px 下楷体的"感恩/圣诞"这类密集字会糊成一团 */
+#calendar-main a .cal-m {
+  width: 100%;
+  height: 11px;
+  text-align: center;
+  overflow: hidden;
+  font-family: "HarmonyOS Sans SC", -apple-system, "Segoe UI", "PingFang SC", sans-serif;
+  font-size: 10px;
+  line-height: 1.1;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -.4px;
+  white-space: nowrap;
+  color: var(--btf-second-text);
+  opacity: .9;
+}
+
+#calendar-main a.is-fest .cal-m {
+  color: var(--btf-theme);
+}
+
+#calendar-main a.empty {
+  color: transparent;
+}
+
+#calendar-main a:not(.now):not(.empty):hover {
+  background: var(--btf-theme-op-light);
+}
+
+#calendar-main a:not(.now):not(.empty):hover .cal-d,
+#calendar-main a:not(.now):not(.empty):hover .cal-m {
+  color: var(--btf-theme);
+}
+
+#calendar-main a.now {
+  background: var(--btf-theme);
+}
+
+#calendar-main a.now .cal-d {
+  color: var(--btf-card-bg);
+  font-weight: 700;
+}
+
+#calendar-main a.now .cal-m {
+  color: var(--btf-card-bg);
+  opacity: .85;
+}
+
+/* ---------- 节日倒计时卡片 ---------- */
+
+#card-schedule {
+  padding: 16px 14px !important;
+}
+
+.schedule-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.schedule-head-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--btf-font-color);
+}
+
+.schedule-head-left i {
+  font-size: 13px;
+  color: var(--btf-theme);
+}
+
+#schedule-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schedule-date {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--btf-second-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-days-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-bottom: 12px;
+}
+
+#schedule-days {
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  color: var(--btf-theme);
+  font-variant-numeric: tabular-nums;
+}
+
+#schedule-days.is-today {
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+.schedule-unit {
+  font-size: 13px;
+  color: var(--btf-second-text);
+}
+
+.schedule-unit.is-hidden {
+  display: none;
+}
+
+.schedule-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "label meta"
+    "bar bar";
+  align-items: baseline;
+  column-gap: 8px;
+  row-gap: 6px;
+}
+
+.schedule-label {
+  grid-area: label;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--btf-font-color);
+}
+
+.schedule-meta {
+  grid-area: meta;
+  justify-self: end;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.schedule-percent {
+  font-weight: 600;
+  color: var(--btf-theme);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-dot {
+  font-style: normal;
+  color: var(--btf-second-text);
+  opacity: .55;
+}
+
+.schedule-rest {
+  color: var(--btf-second-text);
+}
+
+.schedule-rest a {
+  margin: 0 1px;
+  color: var(--btf-font-color);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.schedule-progress {
+  grid-area: bar;
+  width: 100%;
+}
+
+.schedule-progress progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  border: none;
+  border-radius: 99px;
+  overflow: hidden;
+  background: var(--btf-second-bg-strong);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.schedule-progress progress::-webkit-progress-bar {
+  background: var(--btf-second-bg-strong);
+  border-radius: 99px;
+}
+
+.schedule-progress progress::-webkit-progress-value {
+  background: var(--btf-theme);
+  border-radius: 99px;
+  transition: width var(--btf-transition);
+}
+
+.schedule-progress progress::-moz-progress-bar {
+  background: var(--btf-theme);
+  border-radius: 99px;
+}
+
+/* ---------- 小屏适配 ---------- */
+
+@media screen and (max-width: 768px) {
+  #calendar-date {
+    font-size: 46px;
+  }
+
+  #calendar-main a {
+    height: 32px;
+  }
+
+  #calendar-main a .cal-d {
+    font-size: 13px;
+  }
+
+  #calendar-main a .cal-m {
+    font-size: 9px;
+  }
+
+  #schedule-days {
+    font-size: 36px;
+  }
+}
