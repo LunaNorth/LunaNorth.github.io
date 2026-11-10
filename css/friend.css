@@ -1,0 +1,148 @@
+/* ==========================================================================
+   友链页（/friend/）
+   结构 includes/page/friend.pug，数据 source/_data/link.yml
+   - 分组标题用 h3，字号 / 配色 / 点标识交给 post.css 的标题体系统一管
+   - 成员卡：头像 + 名称 + 一句话，自适应多列
+   - 底部「交换友链」给出来站信息和一个复制按钮
+   - 颜色全走 --btf-* 令牌，深浅主题自动适配
+   ========================================================================== */
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.friend-page) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#body-wrap.type-friend #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-friend #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ---------- 分组 ---------- */
+.flink-group + .flink-group {
+  margin-top: 1.9rem;
+}
+
+.friend-page .flink-group-title {
+  margin-bottom: .3rem;
+}
+
+.flink-group-desc {
+  margin: 0 0 1rem;
+  font-size: .78rem;
+  line-height: 1.6;
+  color: var(--btf-second-text);
+}
+
+/* ---------- 友链卡 ---------- */
+.flink-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+  gap: .8rem;
+}
+
+.flink-card {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .8rem .9rem;
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  border: 1px solid var(--btf-card-border);
+  transition: border-color .25s, background-color .25s;
+}
+
+/* 悬停色：JS 从头像提取到主色时会挂上 .has-color 并写入 --fh/--fs，
+   取不到（跨域、头像挂了）就回落到站点主题色 */
+.flink-card.has-color {
+  --flink-accent: hsl(var(--fh), var(--fs), 45%);
+  --flink-tint: hsla(var(--fh), var(--fs), 45%, .07);
+}
+
+[data-theme="dark"] .flink-card.has-color {
+  --flink-accent: hsl(var(--fh), var(--fs), 62%);
+  --flink-tint: hsla(var(--fh), var(--fs), 62%, .14);
+}
+
+.flink-card:hover {
+  border-color: var(--flink-accent, var(--btf-theme));
+  background: var(--flink-tint, var(--btf-theme-op-light));
+}
+
+.flink-avatar {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--btf-second-bg);
+  transition: transform .3s ease;
+}
+
+.flink-card:hover .flink-avatar {
+  transform: scale(1.06);
+}
+
+.flink-avatar-empty {
+  display: block;
+  background: var(--btf-second-bg-strong);
+}
+
+.flink-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.flink-name {
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--btf-font-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color .25s;
+}
+
+.flink-card:hover .flink-name {
+  color: var(--flink-accent, var(--btf-theme));
+}
+
+.flink-descr {
+  font-size: .74rem;
+  line-height: 1.5;
+  color: var(--btf-second-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- 空状态 ---------- */
+.flink-empty {
+  margin: 0;
+  padding: 1.4rem 1.15rem;
+  border-radius: var(--btf-radius);
+  border: 1.5px dashed var(--btf-card-border);
+  font-size: .8rem;
+  color: var(--btf-second-text);
+  text-align: center;
+}
+
+/* ---------- 窄屏 ---------- */
+@media screen and (max-width: 768px) {
+  .flink-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
