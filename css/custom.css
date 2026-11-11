@@ -1689,13 +1689,175 @@
   color: var(--btf-theme);
 }
 
-#aside-content .card-tag-cloud a {
-  border-radius: var(--btf-radius-sm);
+#aside-content .card-tags .card-tag-cloud {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
-#aside-content .card-tag-cloud a:hover {
+#aside-content .card-tags .card-tag-cloud a {
+  padding: 0 .3rem;
+  font-size: 14px;
+  line-height: 1.9;
+  font-weight: 400;
+  color: var(--btf-font-color);
+  border-radius: 8px;
+  transition: all .3s;
+}
+
+#aside-content .card-tags .card-tag-cloud a:hover {
   background: var(--btf-theme);
   color: var(--btf-nav-hover-text) !important;
+}
+
+/* {% checkbox %} / {% radio %} 标签样式
+   移植自 hexo-butterfly-tag-plugins-plus 的 checkbox 样式：
+   不写颜色时跟随站点主题色；插件原来用 brightness(0.7) 做暗色适配，
+   这里改成直接用主题变量，暗色下不会被整体压暗。 */
+.checkbox,
+.radio {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox input[type="checkbox"],
+.radio input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  height: 16px;
+  width: 16px;
+  transition: all .15s ease-out 0s;
+  cursor: pointer;
+  display: inline-block;
+  outline: none;
+  flex-shrink: 0;
+  margin-right: 8px;
+  pointer-events: none;
+}
+
+.checkbox input[type="checkbox"] {
+  border-radius: 2px;
+  border: 2px solid var(--btf-theme);
+}
+
+.checkbox input[type="checkbox"]:before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 5px;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: all .2s ease-in;
+  transform: rotate(45deg);
+}
+
+.checkbox input[type="checkbox"]:after {
+  content: "";
+  position: absolute;
+  right: 7px;
+  bottom: 3px;
+  width: 2px;
+  height: 0;
+  background: #fff;
+  transition: all .2s ease-out;
+  transform: rotate(40deg);
+  transition-delay: .25s;
+}
+
+.checkbox input[type="checkbox"]:checked {
+  background: var(--btf-theme);
+}
+
+.checkbox input[type="checkbox"]:checked:before {
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 2px;
+}
+
+.checkbox input[type="checkbox"]:checked:after {
+  right: 3px;
+  bottom: 1px;
+  width: 2px;
+  height: 10px;
+}
+
+.radio input[type="radio"] {
+  border-radius: 50%;
+  border: 2px solid var(--btf-theme);
+}
+
+.radio input[type="radio"]:before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 2px;
+  background: var(--btf-theme);
+  transform: scale(0);
+  transition: all .25s ease-out;
+}
+
+.radio input[type="radio"]:checked:before {
+  transform: scale(1);
+}
+
+/* 颜色修饰类：不写则用主题色 */
+.checkbox.red input,
+.radio.red input {
+  border-color: #fe5f58;
+}
+
+.checkbox.red input[type="checkbox"]:checked {
+  background: #fe5f58;
+}
+
+.checkbox.green input,
+.radio.green input {
+  border-color: #3dc550;
+}
+
+.checkbox.green input[type="checkbox"]:checked {
+  background: #3dc550;
+}
+
+.checkbox.yellow input,
+.radio.yellow input {
+  border-color: #ffbd2b;
+}
+
+.checkbox.yellow input[type="checkbox"]:checked {
+  background: #ffbd2b;
+}
+
+.checkbox.cyan input,
+.radio.cyan input {
+  border-color: #1bcdfc;
+}
+
+.checkbox.cyan input[type="checkbox"]:checked {
+  background: #1bcdfc;
+}
+
+.checkbox.blue input,
+.radio.blue input {
+  border-color: #2196f3;
+}
+
+.checkbox.blue input[type="checkbox"]:checked {
+  background: #2196f3;
+}
+
+/* 标签文字：markdown 会再包一层 <p>，这里压掉它的默认间距 */
+.checkbox p,
+.radio p {
+  display: inline-block;
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
 }
 
 #sidebar-menus {
@@ -2291,6 +2453,10 @@ html.search-open {
 .card-tag-cloud a:hover .tag-cloud-count {
   color: var(--btf-nav-hover-text);
   opacity: .85;
+}
+
+.card-tag-cloud .tag-cloud-count {
+  opacity: .6;
 }
 
 /* 标签云暗色模式适配（浅底浅边 → 深底深边） */
@@ -3001,8 +3167,16 @@ html.search-open {
   color: var(--btf-theme);
 }
 
-[data-theme="dark"] #aside-content .card-tag-cloud a:hover {
-  color: var(--btf-theme) !important;
+/* 暗色模式：主题色是金色，标签悬停若继续用「金色文字 + 金色实底」会糊成一片，
+   什么也看不见。改用和侧栏「Follow Me」按钮同一套气质——半透明主题色底 + 浅色文字。 */
+[data-theme="dark"] #aside-content .card-tags .card-tag-cloud a:hover {
+  background: var(--btf-theme-soft);
+  color: var(--btf-font-color) !important;
+}
+
+[data-theme="dark"] #aside-content .card-tags .card-tag-cloud a:hover .tag-cloud-count {
+  color: var(--btf-font-color);
+  opacity: .9;
 }
 
 [data-theme="dark"] #aside-content .aside-list > .aside-list-item .content > .title:hover,

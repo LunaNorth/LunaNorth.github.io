@@ -11,7 +11,28 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-10T13:06:03.004Z</updated>
+  <updated>2026-11-11T01:10:34.541Z</updated>
+  <entry>
+    <author>
+      <name>春煦景明</name>
+    </author>
+    <category term="博客日志" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%97%A5%E5%BF%97/"/>
+    <category term="随记" scheme="https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/"/>
+    <content>
+      <![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下</p><div class='checkbox green'><input type="checkbox" /><p>标签页样式</p></div><div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div><hr><p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p><p>‍</p>]]>
+    </content>
+    <id>https://lunanorth.github.io/posts/5e7b.html</id>
+    <link href="https://lunanorth.github.io/posts/5e7b.html"/>
+    <published>2026-11-11T00:55:36.000Z</published>
+    <summary>
+      <![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下</p>
+<div class='checkbox green'><input type="checkbox" /><p>标签页样式</p></div>
+
+<div class='checkbox green]]>
+    </summary>
+    <title>2026-11-11博客更新日志</title>
+    <updated>2026-11-11T01:10:34.541Z</updated>
+  </entry>
   <entry>
     <author>
       <name>春煦景明</name>
