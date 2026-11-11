@@ -1097,11 +1097,15 @@
 /* ---------- 12. 移动端 ---------- */
 
 @media (max-width: 820px) {
+  /* 移动端：应用块吃掉 .layout 的 10px 内边距、铺满整屏，
+     便签卡片再按 10px 排，屏幕上的左右边距就和文章页卡片一致了。
+     之前应用块自身还留 10px，里面列表再 16px，两层叠加显得两侧空。 */
   .lumina-app {
     flex-direction: column;
     height: auto;
     min-height: 0;
-    border-radius: 10px;
+    margin: 0 -10px;
+    border-radius: 0;
   }
 
   .lumina-sidebar {
@@ -1115,19 +1119,44 @@
     display: none;
   }
 
+  /* 统计：三等分 + 细分隔线，收成一条数据栏。
+     原来 space-between 把三个数字顶到屏幕两端，手机上中间会空出一大片。 */
   .lumina-stats {
-    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 14px;
+    padding: 2px 0;
+    border: 1px solid color-mix(in srgb, var(--lumina-border) 45%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--lumina-card-surface) 55%, transparent);
+  }
+
+  .lumina-stat {
+    padding: 8px 0;
+  }
+
+  .lumina-stat + .lumina-stat {
+    border-left: 1px solid color-mix(in srgb, var(--lumina-border) 45%, transparent);
+  }
+
+  .lumina-stat-num {
+    margin-bottom: 2px;
+    font-size: 18px;
   }
 
   .lumina-heatmap {
     display: none;
   }
 
+  /* 筛选胶囊：等宽铺满一行并居中，放不下就整体换行。
+     原来 flex:0 0 auto 会导致换行后每行长短不一，看着参差。 */
   .lumina-menu {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 8px;
     margin-bottom: 12px;
-    overflow-x: auto;
+    overflow: visible;
     scrollbar-width: none;
   }
 
@@ -1136,10 +1165,13 @@
   }
 
   .lumina-menu-item {
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: max-content;
     margin-bottom: 0;
-    padding: 6px 14px;
-    border-radius: 99px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 13px;
     background: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
     border: 1px solid color-mix(in srgb, var(--lumina-border) 55%, transparent);
   }
@@ -1151,6 +1183,25 @@
 
   .lumina-menu-arrow {
     display: none;
+  }
+
+  /* 快速筛选面板靠桌面端的箭头展开，移动端箭头已隐藏、没有入口，
+     因此从布局里彻底移除；否则它会作为一个零高度的弹性项，
+     在「全部笔记」和「每日回顾」之间撑出一段空白。 */
+  .lumina-quick-filter {
+    display: none;
+  }
+
+  /* 图标与文字作为一组整体居中（桌面上文字是 flex:1 撑满的） */
+  .lumina-menu-icon {
+    flex: 0 0 16px;
+    width: 16px;
+    margin-right: 7px;
+  }
+
+  .lumina-menu-text {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 
   .lumina-tags {
@@ -1170,7 +1221,7 @@
   .lumina-tag-item {
     min-height: 28px;
     padding: 4px 10px;
-    border-radius: 99px;
+    border-radius: 8px;
     background: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
     border: 1px solid color-mix(in srgb, var(--lumina-border) 55%, transparent);
   }
@@ -1194,14 +1245,17 @@
     overflow: visible;
   }
 
+  /* 应用块已经铺满整屏（margin 负值抵消了 .layout 的 10px），
+     这里左右留 16px，正好和顶部导航胶囊的 16px 对齐：
+     便签卡片、侧栏内容和导航在同一垂直线上。 */
   .lumina-notes-list {
-    padding: 16px;
+    padding: 12px 16px;
     overflow: visible;
   }
 
   /* 朋友圈样式：窄屏下保留紧凑留白 */
   .lumina-app.lumina-moment-mode .lumina-notes-list {
-    padding: 16px;
+    padding: 12px 16px;
   }
 
   /* 朋友圈样式：窄屏下头像略小，正文自然换行 */
