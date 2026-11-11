@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-11T03:17:48.108Z</updated>
+  <updated>2026-11-11T12:43:53.686Z</updated>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -19,7 +19,7 @@
     <category term="博客日志" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%97%A5%E5%BF%97/"/>
     <category term="随记" scheme="https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/"/>
     <content>
-      <![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p><div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div><div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div><hr><p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p><p>接下来就开始实现标签页样式了</p><p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p><p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p><p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p><p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p><p>如图 ，修复完毕 ，今日份修改完工</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p><p>最后优化了下首页 banner , 现在访问速度更高了</p>]]>
+      <![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p><div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div><div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div><hr><p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p><p>接下来就开始实现标签页样式了</p><p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p><p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p><p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p><p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p><p>如图 ，修复完毕 ，今日份修改完工</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p><p>最后优化了下首页 banner , 现在访问速度更高了</p><hr><p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>]]>
     </content>
     <id>https://lunanorth.github.io/posts/5e7b.html</id>
     <link href="https://lunanorth.github.io/posts/5e7b.html"/>
@@ -29,7 +29,7 @@
 <div class='checkbox green checked'><input type="checkbox"]]>
     </summary>
     <title>2026-11-11博客更新日志</title>
-    <updated>2026-11-11T03:17:48.108Z</updated>
+    <updated>2026-11-11T12:43:53.686Z</updated>
   </entry>
   <entry>
     <author>
