@@ -1082,8 +1082,12 @@
     white-space: nowrap;
   }
 
+  /* 右侧按钮胶囊贴到 #nav-group 的右边界（即 #nav 的 16px 内边距处），
+     和左侧站名胶囊的左边界对称。
+     原来写 right:12px，等于在 #nav 的 16px 之外又叠了 #nav-group 的 12px 右内边距，
+     实际离屏幕右沿 28px，比左边多出 12px。 */
   #nav #nav-right {
-    right: 12px;
+    right: 0;
   }
 
   /* 滚动后 / 无头图页面：不再铺满整条导航的浅色玻璃带，
