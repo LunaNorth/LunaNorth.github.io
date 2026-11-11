@@ -1001,13 +1001,16 @@
 
   #nav #blog-info {
     position: static;
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-width: 0;
-    width: auto;
-    padding: 0 12px 0 0;
+    width: fit-content;
+    max-width: calc(100% - 132px);
+    padding: 0 10px;
+    border-radius: 99px;
     overflow: hidden;
     background: transparent;
     box-shadow: none;
+    transition: background-color .3s, box-shadow .3s;
   }
 
   /* 移动端头像保持圆形（去掉内边距后主题的圆形样式不再命中） */
@@ -1018,9 +1021,58 @@
   }
 
   #nav #blog-info .nav-site-title {
+    position: relative;
     display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 0;
+    height: 35px;
+    border-radius: 40px;
     overflow: hidden;
+    transition: background-color .3s;
+  }
+
+  /* 移动端没有 hover：首页图标默认压在站名底下不显示，按住胶囊时才淡入。
+     这段定位/透明度之前只写在 ≥769px 里，移动端图标会掉回文档流，
+     和站名并排粘在一起（就是截图上「春煦景明🏠」的样子）。 */
+  #nav #blog-info .nav-site-title > i.fas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    line-height: 1;
+    color: inherit;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  #nav #blog-info .nav-site-title > span.site-name {
+    transition: opacity .3s;
+  }
+
+  /* 按住时给一层薄底，和桌面端的 hover 是同一套观感 */
+  #nav #blog-info .nav-site-title:active {
+    background: var(--btf-header-white-op, rgba(255, 255, 255, .22));
+  }
+
+  /* 按住时不要 iOS 默认的灰色方块高亮，否则会盖住刚浮现的首页图标 */
+  #nav #blog-info .nav-site-title {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  #nav #blog-info .nav-site-title:active > span.site-name {
+    opacity: 0;
+  }
+
+  #nav #blog-info .nav-site-title:active > i.fas {
+    opacity: 1;
   }
 
   #nav #blog-info .site-name {
@@ -1034,6 +1086,26 @@
     right: 12px;
   }
 
+  /* 滚动后 / 无头图页面：不再铺满整条导航的浅色玻璃带，
+     改成和桌面端一致的「左侧站名胶囊 + 右侧按钮胶囊」两颗悬浮胶囊。
+     原来这条透明处理只写在 ≥769px 里，移动端会留下一条贯穿全屏的底色。 */
+  #page-header.nav-fixed > #nav,
+  #page-header.not-top-img > #nav {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  #page-header.nav-fixed #nav #blog-info,
+  #page-header.not-top-img #nav #blog-info {
+    background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
+    box-shadow: var(--btf-shadow-border);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
   /* 窄屏空间不足时隐藏随机文章，保证品牌、搜索和菜单不重叠。 */
   @media (max-width: 480px) {
     #nav #nav-right #random-post-button {
@@ -1041,7 +1113,7 @@
     }
 
     #nav #blog-info {
-      padding-right: 96px;
+      max-width: calc(100% - 116px);
     }
   }
 
