@@ -258,6 +258,19 @@
   background: none;
 }
 
+/* ---------- 下划线（u）----------
+   参考思源笔记：不用浏览器默认的实线下划线，改成 2px 虚线贴在文字底部。
+   画法和上面的分割线同源（2px dashed + --btf-theme），一篇文里两种线风格一致。
+   text-decoration: none 必须写，否则默认实线会和虚线叠成两条。
+   不加 padding-bottom：正文 line-height 是 2，本来就有足够留白，
+   再加内边距虚线会离文字太远，看着像两行。
+   只作用在正文容器，侧栏和评论区里的 u 不受影响。 */
+
+#article-container u {
+  border-bottom: 2px dashed var(--btf-theme);
+  text-decoration: none;
+}
+
 /* ---------- 代码块字体 ----------
    正文代码字体与字号由 _config.butterfly.yml 的 font.code_font_family /
    font.code_font_size 控制（Consolas / 13px）。

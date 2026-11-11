@@ -11,7 +11,27 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-11T12:43:53.686Z</updated>
+  <updated>2026-11-11T23:41:15.661Z</updated>
+  <entry>
+    <author>
+      <name>春煦景明</name>
+    </author>
+    <category term="博客日志" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%97%A5%E5%BF%97/"/>
+    <category term="随记" scheme="https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/"/>
+    <content>
+      <![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p><p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>]]>
+    </content>
+    <id>https://lunanorth.github.io/posts/1a3f.html</id>
+    <link href="https://lunanorth.github.io/posts/1a3f.html"/>
+    <published>2026-11-11T23:41:15.000Z</published>
+    <summary>
+      <![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
+<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
+<p><img]]>
+    </summary>
+    <title>2026-11-12博客更新日志</title>
+    <updated>2026-11-11T23:41:15.661Z</updated>
+  </entry>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -29,7 +49,7 @@
 <div class='checkbox green checked'><input type="checkbox"]]>
     </summary>
     <title>2026-11-11博客更新日志</title>
-    <updated>2026-11-11T12:43:53.686Z</updated>
+    <updated>2026-11-11T12:43:58.289Z</updated>
   </entry>
   <entry>
     <author>
@@ -138,6 +158,6 @@
     <published>2026-11-09T12:29:12.000Z</published>
     <summary>记录Lumina博客更新日志</summary>
     <title>Lumina日志</title>
-    <updated>2026-11-11T03:55:58.121Z</updated>
+    <updated>2026-11-11T23:38:21.683Z</updated>
   </entry>
 </feed>
