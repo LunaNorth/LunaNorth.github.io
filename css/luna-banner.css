@@ -1,0 +1,168 @@
+/* ==========================================================================
+   顶部横幅（Banner）
+   结构 includes/page/luna_banner.pug
+   用法：页面 front-matter 里写 top_page: true 与 top_bg
+
+   设计约定：
+     - 颜色走 --btf-* 令牌，深浅主题自动适配
+     - 尺寸 / 遮罩 / 文字阴影收敛到 .luna-banner 下的 --luna-banner-* 局部变量
+     - 照片上的文字固定用白字 + 遮罩，不跟随主题反色（换图也不会糊）
+   ========================================================================== */
+
+.luna-banner {
+  /* ---------- 可调项：只改这里 ---------- */
+  --luna-banner-height: 19rem;
+  --luna-banner-radius: var(--btf-radius);
+  --luna-banner-padding: 1.6rem 2rem;
+  /* 横向压暗：左侧重，右侧轻，保证左上角小字与右下角按钮都看得清 */
+  --luna-banner-shade-x: linear-gradient(90deg, rgba(0, 0, 0, .62) 0%, rgba(0, 0, 0, .28) 45%, rgba(0, 0, 0, .06) 100%);
+  /* 纵向压暗：压住底部描述与按钮 */
+  --luna-banner-shade-y: linear-gradient(to top, rgba(0, 0, 0, .58) 0%, rgba(0, 0, 0, 0) 55%);
+  --luna-banner-text: var(--btf-white);
+  --luna-banner-text-soft: rgba(255, 255, 255, .82);
+  --luna-banner-text-shadow: 0 1px 12px rgba(0, 0, 0, .35);
+
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  height: var(--luna-banner-height);
+  margin: 0 0 1.5rem;
+  overflow: hidden;
+  border-radius: var(--luna-banner-radius);
+  background-color: var(--btf-second-bg-strong);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--luna-banner-text);
+}
+
+/* 双层遮罩叠在图上，文字始终压在遮罩之上 */
+.luna-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--luna-banner-shade-y), var(--luna-banner-shade-x);
+  pointer-events: none;
+}
+
+/* 没填 top_bg 时的兜底：用主题色渐变，不留一块白板 */
+.luna-banner.is-plain {
+  background-image: linear-gradient(135deg, var(--btf-theme) 0%, var(--btf-theme-op-deep) 100%);
+}
+
+/* 纯色底没有照片的明暗层次，白字容易发飘，再压一层均匀暗色 */
+.luna-banner.is-plain::after {
+  background-image: linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35)), var(--luna-banner-shade-y);
+}
+
+/* ---------- 内容 ---------- */
+.luna-banner__inner {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--luna-banner-padding);
+}
+
+.luna-banner__eyebrow {
+  margin-bottom: .55rem;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--luna-banner-text-soft);
+  text-shadow: var(--luna-banner-text-shadow);
+}
+
+.luna-banner__title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--luna-banner-text);
+  text-shadow: var(--luna-banner-text-shadow);
+}
+
+.luna-banner__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.luna-banner__tips {
+  overflow: hidden;
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--luna-banner-text-soft);
+  text-shadow: var(--luna-banner-text-shadow);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 右下角按钮：白底胶囊，悬停转主题色 */
+.luna-banner__link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .35rem;
+  height: 40px;
+  padding: 0 22px;
+  border-radius: var(--btf-radius-pill);
+  background: var(--luna-banner-text);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, .28);
+  color: #1f1f21;
+  font-size: .9rem;
+  transition: background-color var(--btf-transition), color var(--btf-transition);
+}
+
+.luna-banner__link i {
+  font-size: .8rem;
+}
+
+.luna-banner__link:hover {
+  background: var(--btf-theme);
+  color: var(--btf-white);
+}
+
+/* ---------- 与页面容器的配合 ----------
+   有横幅时页面不再套卡片外壳，横幅直接铺满主栏 */
+#page:has(.luna-banner) {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 非 .nc 的普通页面保留内边距，只把上边距交给横幅自己控制 */
+@media screen and (min-width: 769px) {
+  #page:has(.luna-banner):not(.nc) {
+    padding-top: 0;
+  }
+}
+
+/* ---------- 移动端 ---------- */
+@media screen and (max-width: 768px) {
+  .luna-banner {
+    --luna-banner-height: 13rem;
+    --luna-banner-padding: 1.1rem 1.2rem;
+  }
+
+  .luna-banner__title {
+    font-size: 26px;
+  }
+
+  .luna-banner__tips {
+    font-size: .85rem;
+  }
+
+  .luna-banner__link {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .luna-banner__link span {
+    display: none;
+  }
+}
