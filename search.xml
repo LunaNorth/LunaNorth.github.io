@@ -119,84 +119,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
-    <url>/posts/dcdb.html</url>
-    <content><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><span data-type="text" style="color: var(--b3-font-color8);">问题描述</span></h3><p>建议：如果是刚开始写WinForm项目 ，建议刚开始就去进行一个替换 ，要不然后面会很麻烦的 ，不仅要计算size 还要去 计算 location 的值</p>
-<p>昨天碰到了这个问题 ，当时设置完之后界面就非常的模糊 ，虽然说界面变大了 ，但是看着异常难受 ，很模糊</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a><span data-type="text" style="color: var(--b3-font-color8);">解决方案</span></h3><ol>
-<li><p>新建​<code>应用程序清单文件（Application Manifest File）</code>​ ， 保持默认名称 ​<code>app.manifest</code>，点击添加。</p>
-</li>
-<li><p>找到这段代码：</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202510/3509019-20251004072422062-1722481762.png" alt="image"></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>替换DPI相关配置：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true/pm<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Windows 10 1703+ 支持 Per-Monitor v2 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAwareness</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>permonitorv2,permonitor<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAwareness</span>&gt;</span><br>     <span class="hljs-comment">&lt;!-- 保留长路径支持（如果需要） --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">longPathAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">longPathAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>保存文件，重新生成项目即可生效。</p>
-</li>
-</ol>
-<h3 id="替换方案-尺寸不一致解决方案"><a href="#替换方案-尺寸不一致解决方案" class="headerlink" title="替换方案(尺寸不一致解决方案)"></a><span data-type="text" style="color: var(--b3-font-color8);">替换方案(尺寸不一致解决方案)</span></h3><p>因为你刚替换完 ，尺寸与原来的是不一致的 ，所以就需要进一步的替换原先的尺寸</p>
-<hr>
-<p>在 DPI 感知的应用程序中，当系统缩放比例从 100% 变为 150% 时，界面元素的实际像素尺寸计算遵循   <strong>“逻辑尺寸 × 缩放比例 &#x3D; 实际像素尺寸”</strong>   的规则。以下是具体说明：</p>
-<p>假设在 100% 缩放时，某按钮的逻辑尺寸为宽度 100 像素、高度 30 像：</p>
-<ul>
-<li>100% 缩放（系数 1.0）：实际像素尺寸 = 100 × 1.0 = 100 像素（宽），30 × 1.0 = 30 像素（高）。</li>
-<li>150% 缩放（系数 1.5）：实际像素尺寸 = 100 × 1.5 = 150 像素（宽），30 × 1.5 = 45 像素（高）。</li>
-</ul>
-<p><span data-type="text" style="color: var(--b3-font-color3);">举例说明：尺寸计算表（基准：89 × 31）</span></p>
-<table>
-<thead>
-<tr>
-<th>缩放比例</th>
-<th>缩放系数</th>
-<th>实际宽度（像素）</th>
-<th>实际高度（像素）</th>
-<th>计算逻辑</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>100%</td>
-<td>1.0</td>
-<td>89</td>
-<td>31</td>
-<td>89 × 1.0 = 89；31 × 1.0 = 31</td>
-</tr>
-<tr>
-<td>150%</td>
-<td>1.5</td>
-<td>133.5</td>
-<td>46.5</td>
-<td>89 × 1.5 = 133.5；31 × 1.5 = 46.5</td>
-</tr>
-</tbody></table>
-<hr>
-<p>在 WinForms 应用中开启 DPI 感知后，系统缩放比例从 100% 变为 150% 时，​<code>Location</code>​（控件位置，即 X、Y 坐标）的计算核心遵循   <strong>“基准逻辑坐标 × 缩放系数（150%</strong>     <strong>&#x3D;</strong>   <strong>1.5）&#x3D;</strong>   <strong>实际像素坐标”</strong>   规则，同时需结合 WinForms 的 DPI 适配机制（尤其是 .NET Framework 4.6+ 或 .NET Core 3.0+ 的高 DPI 支持），具体细节如下：</p>
-<p>一、核心计算逻辑（手动计算场景）</p>
-<p>若需手动计算 ​<code>Location</code>，需明确两个前提：</p>
-<ol>
-<li><strong>基准坐标</strong>​：100% 缩放时，控件在代码中定义的 ​<code>Location</code>​（如 ​<code>new Point(20, 30)</code>​，即 X=20，Y=30），这是 “逻辑坐标”，对应 100% 缩放时的实际像素。</li>
-<li><strong>缩放系数</strong>​：系统缩放比例对应的系数（100% = 1.0，150% = 1.5）。</li>
-</ol>
-<p>计算公式：：实际像素坐标（150% 缩放）&#x3D; 基准逻辑坐标 × 1.5</p>
-<p>示例：</p>
-<p>假设 100% 缩放时控件基准 ​<code>Location</code>​ 为 ​<code>(14, 6)</code>​（X=14，Y=6）：</p>
-<ul>
-<li>100% 缩放（系数 1.0）：实际坐标 = ​<code>(14×1.0, 6×1.0)</code>​ = ​<code>(14, 6)</code>（像素）。</li>
-<li>150% 缩放（系数 1.5）：实际坐标 = ​<code>(14×1.5, 6×1.5)</code>​ = ​<code>(21, 9)</code>（像素）。</li>
-</ul>
-<hr>
-<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>当然还有像这种自动适配的 ，不需要手动计算 ，就比如DPI自动缩放功能 ，但是我目前还不会这个 ，想着项目刚开始 ，就先以最简单的开始做起 ，也避免了代码中诸多的麻烦所在</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>WinForm</category>
-      </categories>
-      <tags>
-        <tag>问题记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>忆往昔</title>
     <url>/posts/1ec6.html</url>
     <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
@@ -223,6 +145,44 @@
       </categories>
       <tags>
         <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lumina日志</title>
+    <url>/posts/286c.html</url>
+    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>Lumina日志</p>
+</div>
+        </div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 11:26</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 09:14</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-09 20:30</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
+</div>
+      </div></div>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -301,41 +261,81 @@
       </tags>
   </entry>
   <entry>
-    <title>Lumina日志</title>
-    <url>/posts/286c.html</url>
-    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>Lumina日志</p>
-</div>
-        </div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 11:26</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 09:14</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-09 20:30</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
-</div>
-      </div></div>
+    <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
+    <url>/posts/dcdb.html</url>
+    <content><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><span data-type="text" style="color: var(--b3-font-color8);">问题描述</span></h3><p>建议：如果是刚开始写WinForm项目 ，建议刚开始就去进行一个替换 ，要不然后面会很麻烦的 ，不仅要计算size 还要去 计算 location 的值</p>
+<p>昨天碰到了这个问题 ，当时设置完之后界面就非常的模糊 ，虽然说界面变大了 ，但是看着异常难受 ，很模糊</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a><span data-type="text" style="color: var(--b3-font-color8);">解决方案</span></h3><ol>
+<li><p>新建​<code>应用程序清单文件（Application Manifest File）</code>​ ， 保持默认名称 ​<code>app.manifest</code>，点击添加。</p>
+</li>
+<li><p>找到这段代码：</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202510/3509019-20251004072422062-1722481762.png" alt="image"></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>替换DPI相关配置：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true/pm<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Windows 10 1703+ 支持 Per-Monitor v2 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAwareness</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>permonitorv2,permonitor<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAwareness</span>&gt;</span><br>     <span class="hljs-comment">&lt;!-- 保留长路径支持（如果需要） --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">longPathAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">longPathAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>保存文件，重新生成项目即可生效。</p>
+</li>
+</ol>
+<h3 id="替换方案-尺寸不一致解决方案"><a href="#替换方案-尺寸不一致解决方案" class="headerlink" title="替换方案(尺寸不一致解决方案)"></a><span data-type="text" style="color: var(--b3-font-color8);">替换方案(尺寸不一致解决方案)</span></h3><p>因为你刚替换完 ，尺寸与原来的是不一致的 ，所以就需要进一步的替换原先的尺寸</p>
+<hr>
+<p>在 DPI 感知的应用程序中，当系统缩放比例从 100% 变为 150% 时，界面元素的实际像素尺寸计算遵循   <strong>“逻辑尺寸 × 缩放比例 &#x3D; 实际像素尺寸”</strong>   的规则。以下是具体说明：</p>
+<p>假设在 100% 缩放时，某按钮的逻辑尺寸为宽度 100 像素、高度 30 像：</p>
+<ul>
+<li>100% 缩放（系数 1.0）：实际像素尺寸 = 100 × 1.0 = 100 像素（宽），30 × 1.0 = 30 像素（高）。</li>
+<li>150% 缩放（系数 1.5）：实际像素尺寸 = 100 × 1.5 = 150 像素（宽），30 × 1.5 = 45 像素（高）。</li>
+</ul>
+<p><span data-type="text" style="color: var(--b3-font-color3);">举例说明：尺寸计算表（基准：89 × 31）</span></p>
+<table>
+<thead>
+<tr>
+<th>缩放比例</th>
+<th>缩放系数</th>
+<th>实际宽度（像素）</th>
+<th>实际高度（像素）</th>
+<th>计算逻辑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100%</td>
+<td>1.0</td>
+<td>89</td>
+<td>31</td>
+<td>89 × 1.0 = 89；31 × 1.0 = 31</td>
+</tr>
+<tr>
+<td>150%</td>
+<td>1.5</td>
+<td>133.5</td>
+<td>46.5</td>
+<td>89 × 1.5 = 133.5；31 × 1.5 = 46.5</td>
+</tr>
+</tbody></table>
+<hr>
+<p>在 WinForms 应用中开启 DPI 感知后，系统缩放比例从 100% 变为 150% 时，​<code>Location</code>​（控件位置，即 X、Y 坐标）的计算核心遵循   <strong>“基准逻辑坐标 × 缩放系数（150%</strong>     <strong>&#x3D;</strong>   <strong>1.5）&#x3D;</strong>   <strong>实际像素坐标”</strong>   规则，同时需结合 WinForms 的 DPI 适配机制（尤其是 .NET Framework 4.6+ 或 .NET Core 3.0+ 的高 DPI 支持），具体细节如下：</p>
+<p>一、核心计算逻辑（手动计算场景）</p>
+<p>若需手动计算 ​<code>Location</code>，需明确两个前提：</p>
+<ol>
+<li><strong>基准坐标</strong>​：100% 缩放时，控件在代码中定义的 ​<code>Location</code>​（如 ​<code>new Point(20, 30)</code>​，即 X=20，Y=30），这是 “逻辑坐标”，对应 100% 缩放时的实际像素。</li>
+<li><strong>缩放系数</strong>​：系统缩放比例对应的系数（100% = 1.0，150% = 1.5）。</li>
+</ol>
+<p>计算公式：：实际像素坐标（150% 缩放）&#x3D; 基准逻辑坐标 × 1.5</p>
+<p>示例：</p>
+<p>假设 100% 缩放时控件基准 ​<code>Location</code>​ 为 ​<code>(14, 6)</code>​（X=14，Y=6）：</p>
+<ul>
+<li>100% 缩放（系数 1.0）：实际坐标 = ​<code>(14×1.0, 6×1.0)</code>​ = ​<code>(14, 6)</code>（像素）。</li>
+<li>150% 缩放（系数 1.5）：实际坐标 = ​<code>(14×1.5, 6×1.5)</code>​ = ​<code>(21, 9)</code>（像素）。</li>
+</ul>
+<hr>
+<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>当然还有像这种自动适配的 ，不需要手动计算 ，就比如DPI自动缩放功能 ，但是我目前还不会这个 ，想着项目刚开始 ，就先以最简单的开始做起 ，也避免了代码中诸多的麻烦所在</p>
+<p>‍</p>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>WinForm</category>
       </categories>
       <tags>
-        <tag>记录</tag>
+        <tag>问题记录</tag>
       </tags>
   </entry>
 </search>
