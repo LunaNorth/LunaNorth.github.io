@@ -3431,3 +3431,15 @@ html.search-open {
   background: color-mix(in srgb, var(--btf-theme) 62%, transparent);
   color: var(--btf-font-color);
 }
+
+
+/* ==========================================================================
+   文章内 label 标签：{% label text color %}
+   主题自带 .hl-label 的文字色取 var(--btn-color)，而本站把 --btn-color
+   定义成了正文色（亮色模式下是深灰），导致彩色底上出现深色小字。
+   这里单独给 label 用浅色文字，彩色底 + 白字更清晰，也与 Solitude 一致。
+   ========================================================================== */
+
+.hl-label {
+  color: var(--btf-white, #fff);
+}
