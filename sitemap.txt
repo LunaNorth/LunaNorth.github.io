@@ -1,4 +1,6 @@
 https://lunanorth.github.io/posts/5e7b.html
+https://lunanorth.github.io/categories/index.html
+https://lunanorth.github.io/tags/index.html
 https://lunanorth.github.io/posts/7d8a.html
 https://lunanorth.github.io/posts/56b9.html
 https://lunanorth.github.io/friend/index.html
@@ -8,12 +10,10 @@ https://lunanorth.github.io/posts/286c.html
 https://lunanorth.github.io/posts/210a.html
 https://lunanorth.github.io/posts/dcdb.html
 https://lunanorth.github.io/health/index.html
-https://lunanorth.github.io/tags/index.html
 https://lunanorth.github.io/posts/7a6a.html
 https://lunanorth.github.io/posts/2c9c.html
 https://lunanorth.github.io/posts/3eeb.html
 https://lunanorth.github.io/lumina/index.html
-https://lunanorth.github.io/categories/index.html
 https://lunanorth.github.io/
 https://lunanorth.github.io/tags/Hexo/
 https://lunanorth.github.io/tags/Butterfly/

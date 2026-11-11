@@ -2234,12 +2234,14 @@ html.search-open {
   margin: 0 0 1em;
 }
 
-/* 标签页去掉卡片外壳，标签云直接铺在页面背景上 */
-#body-wrap.type-tags #content-inner.layout {
+/* 标签页 / 分类页去掉卡片外壳，内容直接铺在页面背景上并占满可用宽度 */
+#body-wrap.type-tags #content-inner.layout,
+#body-wrap.type-categories #content-inner.layout {
   max-width: var(--btf-layout-width);
 }
 
-#body-wrap.type-tags #content-inner.layout > #page.nc {
+#body-wrap.type-tags #content-inner.layout > #page.nc,
+#body-wrap.type-categories #content-inner.layout > #page.nc {
   flex: 1 1 auto;
   width: 100%;
   max-width: 100%;
@@ -2405,39 +2407,77 @@ html.search-open {
   }
 }
 
+/* ---------- 标签页（/tags/）标签云：仿 Solitude ---------- */
+/* 白底描边胶囊 + 淡色 # 前缀 + 独立的计数徽章，不用随机配色 */
+#page .category-lists {
+  padding: 1rem 0 1.5rem;
+}
+
+.tag-cloud-list.is-center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+
 .tag-cloud-list a {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
   width: fit-content;
-  padding: .2em .55em;
-  margin: .35em .4em;
-  background: var(--btf-card-bg) !important;
-  border: 1.5px solid var(--btf-card-border);
+  padding: .2em .5em;
+  background: var(--btf-card-bg);
+  border: 1px solid var(--btf-card-border);
   border-radius: 12px;
-  box-shadow: 0 8px 16px -4px #2c2d300c !important;
-  color: inherit;
-  font-size: 18px !important;
+  box-shadow: 0 8px 16px -4px #2c2d300c;
+  color: var(--btf-font-color) !important;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 1.7;
-  transition: all var(--btf-transition);
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: all .3s ease 0s;
 }
 
 .tag-cloud-list a:hover {
-  /* 覆盖 Butterfly 原生的主题色实心背景，避免文字与背景同色看不见 */
-  background: var(--btf-theme-op) !important;
+  background: var(--btf-theme) !important;
   border-color: var(--btf-theme);
-  color: var(--btf-theme) !important;
-  box-shadow: 0 8px 16px -4px #2c2d301f !important;
-  transform: scale(1.05) !important;
+  color: var(--btf-nav-hover-text) !important;
+  box-shadow: var(--btf-shadow-theme);
 }
 
-/* 标签名后面的小号上标：该标签下的文章数 */
-.tag-cloud-list .tag-cloud-count {
-  margin-left: 3px;
-  font-size: .62em;
+/* 悬停单个标签时，其余标签保持原样（覆盖主题「整排变暗 + 缩小」效果） */
+.tag-cloud-list:hover a:not(:hover) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.tag-cloud-list .tags-punctuation {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 右侧独立的计数徽章 */
+.tag-cloud-list .tagsPageCount {
+  margin-left: 8px;
+  padding: 4px 7px;
+  border-radius: 8px;
+  background: var(--btf-second-bg);
+  color: var(--btf-second-text);
+  font-size: .7em;
   font-weight: 500;
   line-height: 1;
-  vertical-align: super;
-  color: inherit;
+  text-align: center;
+}
+
+/* 悬停时徽章反色：浅色底 + 主题色数字，保证在彩色胶囊上清晰可读 */
+.tag-cloud-list a:hover .tagsPageCount {
+  background: var(--btf-card-bg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+  color: var(--btf-theme);
+  opacity: 1;
 }
 
 .card-tag-cloud .tag-cloud-count {
