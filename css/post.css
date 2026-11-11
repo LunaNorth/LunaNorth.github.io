@@ -268,6 +268,130 @@ figure.highlight .highlight-tools {
   font-family: Consolas !important;
 }
 
+/* ---------- 文章版权卡 ----------
+   模板 includes/post/post-copyright.pug
+   结构：标题 / 永久链接 / 四列信息（作者、发布于、更新于、许可协议）
+   底色比正文卡片低一档，和引用块同源；右侧一枚放大的 CC 图标做水印，
+   压在文字下层，不参与点击。
+   注意：主题原本在 ::before 里画了个小版权图标，这里用 content:none 关掉，
+   换成标记里那枚 .post-copyright__watermark。 */
+
+#post .post-copyright {
+  position: relative;
+  margin: 2rem 0 .5rem;
+  padding: 1.1rem 1.35rem;
+  overflow: hidden;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-second-bg);
+  box-shadow: none;
+}
+
+#post .post-copyright::before {
+  content: none;
+}
+
+#post .post-copyright__watermark {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%) rotate(-8deg);
+  color: var(--btf-font-color);
+  font-size: 170px;
+  line-height: 1;
+  opacity: .05;
+  pointer-events: none;
+  user-select: none;
+}
+
+#post .post-copyright__inner {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+#post .post-copyright__title {
+  margin: 0 0 .3rem;
+  color: var(--btf-font-color);
+  font-size: 1.1rem;
+  line-height: 1.45;
+}
+
+#post .post-copyright__link {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  overflow-wrap: anywhere;
+  color: var(--btf-gray) !important;
+  font-size: .78rem;
+  text-decoration: none !important;
+}
+
+#post .post-copyright__link:hover {
+  color: var(--btf-theme) !important;
+}
+
+/* 四列按内容宽度靠左排，不铺满整行：
+   一是不让文字压到右侧水印上，二是窄屏时能自然折行 */
+#post .post-copyright__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem 2.6rem;
+}
+
+#post .post-copyright__item {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  min-width: 5.5rem;
+}
+
+#post .post-copyright__label {
+  color: var(--btf-gray);
+  font-size: .74rem;
+  line-height: 1;
+}
+
+#post .post-copyright__value {
+  overflow-wrap: anywhere;
+  color: var(--btf-second-text);
+  font-size: .85rem;
+  line-height: 1.5;
+}
+
+#post .post-copyright__license {
+  display: inline-flex;
+  align-items: center;
+  gap: .32rem;
+  color: var(--btf-theme) !important;
+  text-decoration: none !important;
+}
+
+#post .post-copyright__license i {
+  font-size: .95rem;
+}
+
+#post .post-copyright__license:hover {
+  opacity: .78;
+}
+
+@media screen and (max-width: 768px) {
+  #post .post-copyright {
+    padding: 1rem 1.05rem;
+  }
+
+  #post .post-copyright__meta {
+    gap: .75rem 1.8rem;
+  }
+
+  /* 窄屏四列排得满，水印往右再退一点、压得更淡，别跟日期抢注意力 */
+  #post .post-copyright__watermark {
+    right: -36px;
+    font-size: 130px;
+    opacity: .035;
+  }
+}
+
 /* ---------- 全站文字描边（仅明亮模式） ----------
    极细描边让文字边缘更清晰，用 currentColor 跟随文字颜色。
    数值来自 --site-text-stroke，由 scripts/font-preset.js 按字体方案给出；

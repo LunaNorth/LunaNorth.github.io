@@ -197,81 +197,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-11博客更新日志</title>
-    <url>/posts/5e7b.html</url>
-    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
-
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
-
-<hr>
-<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
-<p>接下来就开始实现标签页样式了</p>
-<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
-<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
-<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
-<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
-<p>如图 ，修复完毕 ，今日份修改完工</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
-<p>最后优化了下首页 banner , 现在访问速度更高了</p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>更换文章字体记录</title>
-    <url>/posts/210a.html</url>
-    <content><![CDATA[<p>今天在逛魔改文章的时候 ，偶然发现 <a href="https://blog.june-pj.cn/">june佬的博客</a> 中有提到可以更换博客字体 ，文章：<a href="https://blog.june-pj.cn/posts/8a0c5a62/">Butterfly美化总结</a> ，然后来了兴趣更换下自己的博客字体看看样式 ，下面这些都是测试得来的 ，准备更换成动态的 ，不同的字体显示的效果不同 ，同时将字体进行一个压缩即可</p>
-<p>通过测试最后决定当切换字体后 ，字体大小改为：16.5px , 描边为：0.15</p>
-<p>也就是：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-attr">size</span>: <span class="hljs-string">&#x27;16.5px&#x27;</span>,<br><span class="hljs-attr">stroke</span>: <span class="hljs-string">&#x27;0.15px&#x27;</span>,<br></code></pre></td></tr></table></figure>
-
-<hr>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104408633-373689217.png" alt="image"></p>
-<hr>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104409397-1846506855.png" alt="image"></p>
-<hr>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104410018-1196326389.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>博客重构随记</title>
-    <url>/posts/56b9.html</url>
-    <content><![CDATA[<p>博客之初当时是因为兴趣 ，看到别人的博客非常的好看 ，于是自己也加入到了魔改博客的队伍中去 ，一点点的跟着教程慢慢去搭建的 ，到后面自己接触AI之后开始让AI慢慢的去进行修改自己的博客 ，同时也构造出了好多有意思的页面</p>
-<p>比如工作台</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194440598-1349756367.png" alt="image"></p>
-<p>‍</p>
-<p>倒计时…等等</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194441482-602399121.png" alt="image"></p>
-<p>很多有意思的页面 ，但到后面有段时间我在发博文的时候无论有没有用 ，我都一股脑的去发到自己的博客上面去 ，不过这些我自己甚至都没有来的急去看 ，就直接发上去了 ，似乎是为了满足我这一丝丝的博文多的虚荣感！</p>
-<p>再到上周我在看文章的时候发现别人更多是写生活 ，写自己的笔记​<code>就是那种自己亲身经历的</code>而不是我这种看都没看直接发过来了，没有任何纪念的意义 ，我似乎突然醒悟那样 ，是啊 ，自己当初搭建博客的初衷不就是记录自己生活的点点滴滴吗，怎么自己离这条路越来越远了</p>
-<p>于是我在上周末决定自己需要重构博客 ，将之前的文章全部移除 ，转变成记录自己生活的博客，首先就是选择框架，是​<code>Hexo</code>​还是​<code>Astro</code>​ , 最后在考虑自己的熟练性还是选择了​<code>Hexo</code>​诚然Hexo由许多的不足 ，但还是有很多的一个情怀在里面的吧 ，毕竟这么多年了 ，坚定之后就是选择主题挑选了一圈时候还是回归到​<code>Butterfly</code>​ 主题了 ，无他 ，好看美观，自己也非常熟悉 ，既然选择了重构那么就什么都是选择新的吧 ，然后就是框架<a href="https://hexo.io/">Hexo 7.3.0</a>·主题<a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.2</a> 这样字的一个组合</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194441993-586137534.png" alt="image"></p>
-<p>说起重构的话 ，起始并不容易 ，主题选择之后就开始着手准备魔改 ，是的没听错 ，又是新的一轮魔改 ，不过还好有了AI的协助大部分都给解决了还剩一些细节上的去等着我发现 ，在我连续不断的改了3天之后终于是可以勉强使用了 ，不过结果还是令我很满意的 ，也发现自己的很多不足 ，后面我也准备慢慢的去认真生活 ，认真记录了</p>
-<p>最后就是希望自己可以坚持下去 ，不会中途放弃 ，坚持记录自己所思所想！</p>
-<p>好了 ，我要去着手准备重构轻舟这个插件了 ，打通思源笔记一键发布Hexo的流程！</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>忆往昔</title>
     <url>/posts/1ec6.html</url>
     <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
@@ -336,6 +261,81 @@
       </categories>
       <tags>
         <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-11博客更新日志</title>
+    <url>/posts/5e7b.html</url>
+    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
+
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
+
+<hr>
+<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
+<p>接下来就开始实现标签页样式了</p>
+<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
+<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
+<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
+<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
+<p>如图 ，修复完毕 ，今日份修改完工</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
+<p>最后优化了下首页 banner , 现在访问速度更高了</p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>博客重构随记</title>
+    <url>/posts/56b9.html</url>
+    <content><![CDATA[<p>博客之初当时是因为兴趣 ，看到别人的博客非常的好看 ，于是自己也加入到了魔改博客的队伍中去 ，一点点的跟着教程慢慢去搭建的 ，到后面自己接触AI之后开始让AI慢慢的去进行修改自己的博客 ，同时也构造出了好多有意思的页面</p>
+<p>比如工作台</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194440598-1349756367.png" alt="image"></p>
+<p>‍</p>
+<p>倒计时…等等</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194441482-602399121.png" alt="image"></p>
+<p>很多有意思的页面 ，但到后面有段时间我在发博文的时候无论有没有用 ，我都一股脑的去发到自己的博客上面去 ，不过这些我自己甚至都没有来的急去看 ，就直接发上去了 ，似乎是为了满足我这一丝丝的博文多的虚荣感！</p>
+<p>再到上周我在看文章的时候发现别人更多是写生活 ，写自己的笔记​<code>就是那种自己亲身经历的</code>而不是我这种看都没看直接发过来了，没有任何纪念的意义 ，我似乎突然醒悟那样 ，是啊 ，自己当初搭建博客的初衷不就是记录自己生活的点点滴滴吗，怎么自己离这条路越来越远了</p>
+<p>于是我在上周末决定自己需要重构博客 ，将之前的文章全部移除 ，转变成记录自己生活的博客，首先就是选择框架，是​<code>Hexo</code>​还是​<code>Astro</code>​ , 最后在考虑自己的熟练性还是选择了​<code>Hexo</code>​诚然Hexo由许多的不足 ，但还是有很多的一个情怀在里面的吧 ，毕竟这么多年了 ，坚定之后就是选择主题挑选了一圈时候还是回归到​<code>Butterfly</code>​ 主题了 ，无他 ，好看美观，自己也非常熟悉 ，既然选择了重构那么就什么都是选择新的吧 ，然后就是框架<a href="https://hexo.io/">Hexo 7.3.0</a>·主题<a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.2</a> 这样字的一个组合</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110194441993-586137534.png" alt="image"></p>
+<p>说起重构的话 ，起始并不容易 ，主题选择之后就开始着手准备魔改 ，是的没听错 ，又是新的一轮魔改 ，不过还好有了AI的协助大部分都给解决了还剩一些细节上的去等着我发现 ，在我连续不断的改了3天之后终于是可以勉强使用了 ，不过结果还是令我很满意的 ，也发现自己的很多不足 ，后面我也准备慢慢的去认真生活 ，认真记录了</p>
+<p>最后就是希望自己可以坚持下去 ，不会中途放弃 ，坚持记录自己所思所想！</p>
+<p>好了 ，我要去着手准备重构轻舟这个插件了 ，打通思源笔记一键发布Hexo的流程！</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>更换文章字体记录</title>
+    <url>/posts/210a.html</url>
+    <content><![CDATA[<p>今天在逛魔改文章的时候 ，偶然发现 <a href="https://blog.june-pj.cn/">june佬的博客</a> 中有提到可以更换博客字体 ，文章：<a href="https://blog.june-pj.cn/posts/8a0c5a62/">Butterfly美化总结</a> ，然后来了兴趣更换下自己的博客字体看看样式 ，下面这些都是测试得来的 ，准备更换成动态的 ，不同的字体显示的效果不同 ，同时将字体进行一个压缩即可</p>
+<p>通过测试最后决定当切换字体后 ，字体大小改为：16.5px , 描边为：0.15</p>
+<p>也就是：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-attr">size</span>: <span class="hljs-string">&#x27;16.5px&#x27;</span>,<br><span class="hljs-attr">stroke</span>: <span class="hljs-string">&#x27;0.15px&#x27;</span>,<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104408633-373689217.png" alt="image"></p>
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104409397-1846506855.png" alt="image"></p>
+<hr>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261110104410018-1196326389.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
       </tags>
   </entry>
 </search>

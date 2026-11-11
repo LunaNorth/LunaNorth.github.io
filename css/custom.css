@@ -356,8 +356,7 @@
 #article-container .shuoshuo-item,
 .type-404 .error-content,
 .flink-list-item,
-.gallery-group,
-#post .post-copyright {
+.gallery-group {
   background: var(--btf-card-bg);
   box-shadow: var(--btf-shadow-card) !important;
   border: var(--btf-border);
@@ -370,8 +369,7 @@
 #article-container .shuoshuo-item:hover,
 .type-404 .error-content:hover,
 .flink-list-item:hover,
-.gallery-group:hover,
-#post .post-copyright:hover {
+.gallery-group:hover {
   box-shadow: var(--btf-shadow-card-hover) !important;
   border-color: var(--btf-card-border-hover);
 }
@@ -1591,21 +1589,7 @@
   color: var(--btf-nav-hover-text);
 }
 
-#post .post-copyright {
-  background: var(--btf-second-bg);
-}
-
-#post .post-copyright-meta {
-  color: var(--btf-theme);
-}
-
-#post .post-copyright-info a {
-  color: var(--btf-font-color);
-}
-
-#post .post-copyright-info a:hover {
-  color: var(--btf-theme);
-}
+/* 版权卡整套样式移到 post.css 里维护（结构已改为标题 + 四列信息） */
 
 /* ---------- 4.7 分页 ---------- */
 
@@ -2246,165 +2230,6 @@ html.search-open {
   width: 100%;
   max-width: 100%;
   padding: 0;
-}
-
-/* ---------- 标签页：标签统计图 ---------- */
-.tag-stats {
-  width: 100%;
-  margin: 3em 0 0;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  box-sizing: border-box;
-}
-
-.tag-stats-title {
-  margin: 0 0 1em;
-  color: var(--btf-font-color);
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.tag-stats-chart {
-  display: flex;
-  align-items: flex-start;
-  --tag-stat-h: 260px;
-}
-
-.tag-stats-yaxis {
-  position: relative;
-  flex: 0 0 46px;
-  height: var(--tag-stat-h);
-}
-
-.tag-stats-yaxis-title {
-  position: absolute;
-  top: -2.4em;
-  left: 0;
-  color: var(--btf-gray);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.tag-stats-tick {
-  position: absolute;
-  right: 8px;
-  transform: translateY(50%);
-  color: var(--btf-gray);
-  font-size: 12px;
-  line-height: 1;
-}
-
-.tag-stats-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.tag-stats-bars {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  height: var(--tag-stat-h);
-  border-left: 1px solid var(--btf-card-border);
-  border-bottom: 1px solid var(--btf-card-border);
-}
-
-.tag-stat-col {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 100%;
-  min-width: 0;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.tag-stat-bar {
-  width: 62%;
-  max-width: 96px;
-  border-radius: 6px 6px 0 0;
-  background: linear-gradient(to top, #35cfc9 0%, #a7e8a8 100%);
-  transition: all var(--btf-transition);
-}
-
-.tag-stat-col:hover .tag-stat-bar {
-  background: linear-gradient(to top, #26b8b2 0%, #8fdc90 100%);
-  transform: scaleY(1.02);
-  transform-origin: bottom;
-}
-
-.tag-stats-average {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: var(--tag-stat-avg);
-  border-top: 1px dashed var(--btf-gray);
-  pointer-events: none;
-}
-
-.tag-stats-average::after {
-  content: '';
-  position: absolute;
-  right: -1px;
-  top: -4px;
-  border: 4px solid transparent;
-  border-left-color: var(--btf-gray);
-  border-right: 0;
-}
-
-.tag-stats-avg-label {
-  position: absolute;
-  right: 8px;
-  bottom: 4px;
-  color: var(--btf-gray);
-  font-size: 12px;
-  line-height: 1;
-}
-
-.tag-stats-names {
-  display: flex;
-  gap: 10px;
-  padding-top: 10px;
-}
-
-.tag-stat-name {
-  flex: 1;
-  min-width: 0;
-  color: var(--btf-gray) !important;
-  font-size: 13px;
-  text-align: center;
-  text-decoration: none !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color var(--btf-transition);
-}
-
-.tag-stat-name:hover {
-  color: var(--btf-theme) !important;
-}
-
-@media screen and (max-width: 768px) {
-  .tag-stats {
-    padding: 0;
-  }
-
-  .tag-stats-chart {
-    --tag-stat-h: 200px;
-  }
-
-  .tag-stats-main {
-    overflow-x: auto;
-  }
-
-  .tag-stats-bars,
-  .tag-stats-names {
-    min-width: 620px;
-  }
 }
 
 /* ---------- 标签页（/tags/）标签云：仿 Solitude ---------- */
@@ -3255,14 +3080,6 @@ html.search-open {
 }
 
 [data-theme="dark"] #post .tag_share .post-meta__tags {
-  color: var(--btf-theme);
-}
-
-[data-theme="dark"] #post .post-copyright:before {
-  color: var(--btf-theme);
-}
-
-[data-theme="dark"] #post .post-copyright .post-copyright-meta {
   color: var(--btf-theme);
 }
 

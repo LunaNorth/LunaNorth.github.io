@@ -1,0 +1,423 @@
+/* ==========================================================================
+   统计页（/stats/）
+   结构 includes/page/stats.pug，数据在构建期由模板算出
+   - 概览：六格数字卡
+   - 发文趋势：按日 / 按月自动切换，按分类堆叠
+   - 年度发文、热门标签 Top 10、分类分布
+   颜色全走 --btf-* 令牌，图表配色收敛在本页的 --stats-c* 变量
+   ========================================================================== */
+
+.stats-page {
+  /* 图表配色：前 5 个分类各占一色，其余统一走「其他」 */
+  --stats-c1: #425aef;
+  --stats-c2: #7c6cf0;
+  --stats-c3: #2e8f6e;
+  --stats-c4: #d99a33;
+  --stats-c5: #c9648a;
+  --stats-c-other: #9aa0ad;
+
+  --stats-bar-h: 8px;
+  --stats-panel-pad: 1.25rem 1.4rem;
+}
+
+[data-theme="dark"] .stats-page {
+  --stats-c1: #8b9bff;
+  --stats-c2: #a99bff;
+  --stats-c3: #86d3ae;
+  --stats-c4: #e8bd72;
+  --stats-c5: #e392ae;
+  --stats-c-other: #7d818c;
+}
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.stats-page) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#body-wrap.type-stats #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-stats #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ---------- 概览 ---------- */
+.stats-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stats-kpi {
+  padding: 1rem 1.15rem;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  transition: border-color var(--btf-transition);
+}
+
+.stats-kpi:hover {
+  border-color: var(--btf-card-border-hover);
+}
+
+.stats-kpi-label {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--btf-second-text);
+  font-size: .82rem;
+}
+
+.stats-kpi-label i {
+  color: var(--btf-theme);
+  font-size: .85rem;
+}
+
+.stats-kpi-value {
+  margin: .45rem 0 0;
+  color: var(--btf-font-color);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+}
+
+.stats-kpi-unit {
+  margin-left: .2rem;
+  color: var(--btf-gray);
+  font-size: .8rem;
+  font-weight: 400;
+}
+
+/* ---------- 面板 ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* 年度窄、趋势宽，跟参考图的比重一致 */
+.stats-grid-trend {
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+}
+
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--stats-panel-pad);
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+}
+
+.stats-panel-head {
+  margin-bottom: 1.1rem;
+}
+
+.stats-panel-title {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: var(--btf-font-color);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.stats-panel-title::before,
+.stats-panel-title::after {
+  display: none;
+}
+
+.stats-panel-desc {
+  margin: .3rem 0 0;
+  color: var(--btf-gray);
+  font-size: .78rem;
+}
+
+/* ---------- 年度发文 ---------- */
+.stats-years {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: .55rem;
+}
+
+.stats-year-row {
+  display: grid;
+  grid-template-columns: 2.8em minmax(0, 1fr) 1.8em 2.6em;
+  align-items: center;
+  gap: .55rem;
+}
+
+.stats-year-name {
+  color: var(--btf-gray);
+  font-size: .8rem;
+}
+
+.stats-year-track {
+  height: var(--stats-bar-h);
+  border-radius: var(--btf-radius-pill);
+  background: var(--btf-second-bg);
+}
+
+.stats-year-bar {
+  height: 100%;
+  min-width: 6px;
+  border-radius: var(--btf-radius-pill);
+  background: var(--stats-c1);
+}
+
+.stats-year-count {
+  color: var(--btf-second-text);
+  font-size: .8rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.stats-year-words {
+  color: var(--btf-gray);
+  font-size: .74rem;
+  text-align: right;
+}
+
+/* 年度面板底部：首篇 / 最近更新，用真实信息把卡片撑满 */
+.stats-note {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: auto 0 0;
+  padding-top: .9rem;
+  border-top: 1px dashed var(--btf-card-border);
+  color: var(--btf-gray);
+  font-size: .74rem;
+}
+
+.stats-note-sep {
+  opacity: .5;
+}
+
+/* ---------- 发文趋势 ---------- */
+.stats-trend {
+  display: flex;
+  gap: .5rem;
+  height: 172px;
+  margin-top: .2rem;
+}
+
+.stats-trend-yaxis {
+  position: relative;
+  flex: 0 0 26px;
+}
+
+.stats-trend-tick {
+  position: absolute;
+  right: 0;
+  color: var(--btf-gray);
+  font-size: 10px;
+  line-height: 1;
+  transform: translateY(50%);
+}
+
+.stats-trend-body {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-bottom: 1px solid var(--btf-card-border);
+  border-left: 1px solid var(--btf-card-border);
+}
+
+/* 水平参考线：0 / 50% / 100%，压得很淡，只做读数的辅助 */
+.stats-trend-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to top, var(--btf-card-border) 1px, transparent 1px);
+  background-size: 100% 50%;
+  opacity: .55;
+  pointer-events: none;
+}
+
+.stats-trend-cols {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 100%;
+  padding: 0 4px;
+}
+
+.stats-trend-col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.stats-trend-stack {
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  min-height: 0;
+}
+
+/* 零篇的日期只留基线，柱子本身不画 */
+.stats-trend-seg {
+  width: 100%;
+  min-height: 2px;
+  transition: opacity var(--btf-transition);
+}
+
+.stats-trend-seg:last-child {
+  border-radius: 3px 3px 0 0;
+}
+
+.stats-trend-col:hover .stats-trend-seg {
+  opacity: .72;
+}
+
+.stats-trend-x {
+  height: 1.4em;
+  margin-top: .35rem;
+  color: var(--btf-gray);
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.stats-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1rem;
+  margin-top: 1rem;
+  padding-top: .85rem;
+  border-top: 1px dashed var(--btf-card-border);
+}
+
+.stats-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  color: var(--btf-second-text);
+  font-size: .76rem;
+}
+
+.stats-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.stats-legend-count {
+  color: var(--btf-gray);
+}
+
+/* ---------- 横向条形（标签 / 分类） ---------- */
+/* 条形一律从标题下方开始排，两栏第一行才能对齐；
+   行数少时宁可底部留白，也不要把整组行居中漂浮 */
+.stats-bars {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: .5rem;
+}
+
+.stats-bar-row {
+  display: grid;
+  grid-template-columns: 5.6em minmax(0, 1fr) 2.2em;
+  align-items: center;
+  gap: .65rem;
+  text-decoration: none !important;
+}
+
+.stats-bar-name {
+  overflow: hidden;
+  color: var(--btf-second-text);
+  font-size: .8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--btf-transition);
+}
+
+.stats-bar-track {
+  height: var(--stats-bar-h);
+  border-radius: var(--btf-radius-pill);
+  background: var(--btf-second-bg);
+}
+
+.stats-bar-fill {
+  height: 100%;
+  min-width: 6px;
+  border-radius: var(--btf-radius-pill);
+  background: var(--stats-c1);
+  transition: background-color var(--btf-transition);
+}
+
+.stats-bar-value {
+  color: var(--btf-second-text);
+  font-size: .78rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.stats-bar-row:hover .stats-bar-name {
+  color: var(--btf-theme);
+}
+
+.stats-bar-row:hover .stats-bar-fill {
+  background: var(--btf-theme);
+}
+
+/* ---------- 响应式 ---------- */
+@media screen and (max-width: 900px) {
+  .stats-grid,
+  .stats-grid-trend {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .stats-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stats-kpi {
+    padding: .85rem .95rem;
+  }
+
+  .stats-kpi-value {
+    font-size: 23px;
+  }
+
+  .stats-panel {
+    --stats-panel-pad: 1.05rem 1.05rem;
+  }
+
+  .stats-trend {
+    height: 148px;
+  }
+
+  .stats-bar-row {
+    grid-template-columns: 4.6em minmax(0, 1fr) 2em;
+    gap: .5rem;
+  }
+}
