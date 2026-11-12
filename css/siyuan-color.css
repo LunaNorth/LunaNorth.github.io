@@ -1,0 +1,176 @@
+/* ==========================================================================
+   思源文字样式（siyuan-color.css）
+
+   轻舟 QingZhou 发布插件把思源里的字体颜色、背景色写成两组类名：
+     .sy-c-1  ~ .sy-c-13    字体颜色
+     .sy-bg-1 ~ .sy-bg-13   背景色
+   （对应插件设置 → Hexo 博客 → 文字颜色与底色 → 换成类名）
+
+   类名本身不带颜色，色值全收在变量里：浅色一套、深色一套，
+   以后调色只改变量，不用碰下面成片的类名规则 —— 与 custom.css 的
+   维护约定一致（先令牌、组件只引用令牌、深浅只由 [data-theme] 决定）。
+
+   变量用 --sy- 而不是 --btf- 前缀：--btf- 是站点主题令牌（背景、文字、
+   圆角这些随主题走的骨架），这里是思源内容自带的 13 组色板，
+   属于「内容」而不属于「主题」，分开命名，以后翻代码不会混。
+
+   亮色那 13 组原本取自思源的个人代码片段（:root[data-theme-mode=light]）。
+   暗色不是把亮色反相，而是保持色相重定的一版：
+   字色按原明度 +28 提亮、夹在 70~82 之间（够亮才读得清），
+   底色压到 24%（跟 #121212 分得开，又不至于一整块跳出来抢正文）。
+   青绿 / 青蓝两组（6、10）额外压了一点饱和度 ——
+   高饱和的青色放在深底上会发荧光，盯久了眼睛累。
+
+   另外 4 / 7 / 8 / 11 号底色沿用思源里的「下半截高亮」：
+   色带只铺在文字底部约 0.55em 高的位置，不是整块铺满。
+   这是你在思源里自己调的观感，博客这边照搬。
+
+   由 _config.butterfly.yml 的 inject.head 引入。
+   ========================================================================== */
+
+/* ---------- 浅色 ----------
+   :root 也带一份：万一某个页面没挂 data-theme（RSS 渲染、某些静态片段），
+   至少还有一套颜色兜底，不至于整段文字掉回默认色。
+   与 [data-theme="dark"] 同特异性，深色定义在后，切换时自然覆盖。 */
+:root,
+[data-theme="light"] {
+  /* 字体颜色 */
+  --sy-c-1: #C2185B;
+  --sy-c-2: #D81B60;
+  --sy-c-3: #2979FF;
+  --sy-c-4: #388E3C;
+  --sy-c-5: #F57C00;
+  --sy-c-6: #00796B;
+  --sy-c-7: #E64A19;
+  --sy-c-8: #EF6C00;
+  --sy-c-9: #5F6368;
+  --sy-c-10: #00838F;
+  --sy-c-11: #1565C0;
+  --sy-c-12: #E64A19;
+  --sy-c-13: #6E4DFF;
+
+  /* 背景颜色 */
+  --sy-bg-1: #FFEBEE;
+  --sy-bg-2: #FCE4EC;
+  --sy-bg-3: #BBDEFB;
+  --sy-bg-4: #B7EDB1;
+  --sy-bg-5: #FFF3E0;
+  --sy-bg-6: #E0F7FA;
+  --sy-bg-7: #FBBFBC;
+  --sy-bg-8: #FFFCA3;
+  --sy-bg-9: #F1F3F4;
+  --sy-bg-10: #E0F7FA;
+  --sy-bg-11: #BACEFD;
+  --sy-bg-12: #FFF3E0;
+  --sy-bg-13: #CDB2FA;
+}
+
+/* ---------- 深色 ----------
+   与思源的暗色主题不是同一套值：思源那边你只写了 light，
+   这套是按亮色的色相重定的，字色提亮、底色压深，
+   保证换到深色主题后这些彩色文字依然读得清。 */
+[data-theme="dark"] {
+  /* 字体颜色 */
+  --sy-c-1: #EC7DA9;
+  --sy-c-2: #EF93B5;
+  --sy-c-3: #AAC7F8;
+  --sy-c-4: #93D296;
+  --sy-c-5: #F6C38E;
+  --sy-c-6: #66D9C8;
+  --sy-c-7: #F2B19C;
+  --sy-c-8: #F5BA88;
+  --sy-c-9: #AFB2B6;
+  --sy-c-10: #6ACBDA;
+  --sy-c-11: #78AFED;
+  --sy-c-12: #F2B19C;
+  --sy-c-13: #B9AAF8;
+
+  /* 背景颜色 */
+  --sy-bg-1: #54262D;
+  --sy-bg-2: #522936;
+  --sy-bg-3: #263F54;
+  --sy-bg-4: #304D2D;
+  --sy-bg-5: #544226;
+  --sy-bg-6: #2B4B50;
+  --sy-bg-7: #542926;
+  --sy-bg-8: #545326;
+  --sy-bg-9: #364045;
+  --sy-bg-10: #2B4B50;
+  --sy-bg-11: #263454;
+  --sy-bg-12: #544226;
+  --sy-bg-13: #382754;
+}
+
+/* ---------- 字体颜色 ----------
+   选择器带上 #article-container：一是把作用范围收在正文里，
+   二是把特异性提到 (1,1,0)，压得过 custom.css 里
+   #article-container a（1,0,1）那条 —— 着色文字落在链接里时也照样变色。 */
+
+#article-container .sy-c-1  { color: var(--sy-c-1); }
+#article-container .sy-c-2  { color: var(--sy-c-2); }
+#article-container .sy-c-3  { color: var(--sy-c-3); }
+#article-container .sy-c-4  { color: var(--sy-c-4); }
+#article-container .sy-c-5  { color: var(--sy-c-5); }
+#article-container .sy-c-6  { color: var(--sy-c-6); }
+#article-container .sy-c-7  { color: var(--sy-c-7); }
+#article-container .sy-c-8  { color: var(--sy-c-8); }
+#article-container .sy-c-9  { color: var(--sy-c-9); }
+#article-container .sy-c-10 { color: var(--sy-c-10); }
+#article-container .sy-c-11 { color: var(--sy-c-11); }
+#article-container .sy-c-12 { color: var(--sy-c-12); }
+#article-container .sy-c-13 { color: var(--sy-c-13); }
+
+/* ---------- 背景颜色（整块） ----------
+   1 / 2 / 3 / 5 / 6 / 9 / 10 / 12 / 13 铺满整块，
+   和思源里看到的完全一致。 */
+
+#article-container .sy-bg-1  { background-color: var(--sy-bg-1); }
+#article-container .sy-bg-2  { background-color: var(--sy-bg-2); }
+#article-container .sy-bg-3  { background-color: var(--sy-bg-3); }
+#article-container .sy-bg-5  { background-color: var(--sy-bg-5); }
+#article-container .sy-bg-6  { background-color: var(--sy-bg-6); }
+#article-container .sy-bg-9  { background-color: var(--sy-bg-9); }
+#article-container .sy-bg-10 { background-color: var(--sy-bg-10); }
+#article-container .sy-bg-12 { background-color: var(--sy-bg-12); }
+#article-container .sy-bg-13 { background-color: var(--sy-bg-13); }
+
+/* ---------- 背景颜色（下半截高亮） ----------
+   拆开写 background-image / -size / -position 而不是用 background 简写：
+   简写会把上面那些类里的 background-color 一起重置掉，
+   万一以后哪个颜色从「整块」改成「半截」，两个类叠加时也好排查。
+
+   色带走 linear-gradient，高度 0.6em（正文 16px 时约 9.6px，和你思源里调的一致），
+   贴在每行的底部。inline 元素的背景会跟着折行一段一段铺，
+   多行文字每行都有自己的色带，跟思源里的效果一致。 */
+
+#article-container .sy-bg-4 {
+  background-color: transparent;
+  background-image: linear-gradient(var(--sy-bg-4), var(--sy-bg-4));
+  background-size: 100% .6em;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+#article-container .sy-bg-7 {
+  background-color: transparent;
+  background-image: linear-gradient(var(--sy-bg-7), var(--sy-bg-7));
+  background-size: 100% .6em;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+#article-container .sy-bg-8 {
+  background-color: transparent;
+  background-image: linear-gradient(var(--sy-bg-8), var(--sy-bg-8));
+  background-size: 100% .6em;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+#article-container .sy-bg-11 {
+  background-color: transparent;
+  background-image: linear-gradient(var(--sy-bg-11), var(--sy-bg-11));
+  background-size: 100% .6em;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
