@@ -266,6 +266,9 @@
 [data-theme="dark"] #nav > .nav-page-title {
   background: color-mix(in srgb, #2a2b31 30%, transparent);
 }
+/* 悬停文字色沿用 --btf-nav-hover-text（暗色是深色 #1b1c20），
+   压在亮起的封面色底上正好，和随机文章按钮的白色/深色图标逻辑同源，
+   不需要为这颗胶囊单独翻白。 */
 
 [data-theme="dark"] #page-header.not-top-img #nav #blog-info,
 [data-theme="dark"] #page-header.not-top-img #nav #nav-right,
@@ -325,6 +328,20 @@
 #aside-content > .sticky_layout {
   width: 100%;
   max-width: 100%;
+}
+
+/* ---------- 4.1.2 侧栏 sticky 避开固定导航 ----------
+   #nav 被我们改成常驻 fixed（高 60px），但 Butterfly 原生的 .sticky_layout
+   仍是 top: 20px。滚动后目录卡片会钻到导航底下，右上角正好被 #nav-right
+   那组胶囊（随机文章 / 搜索 / 进度）盖住，标题和进度数字都看不见。
+
+   Solitude 的做法是 .sticky_layout { top: 60px }，让卡片停在导航下沿；
+   这里再留 12px 呼吸空间，取 72px。选择器刻意写满三级 id，
+   是为了压过主题 #page-header.fixed + .layout 那条 top: 70px 的动态覆盖。 */
+@media screen and (min-width: 900px) {
+  #body-wrap #content-inner.layout > #aside-content > .sticky_layout {
+    top: 72px;
+  }
 }
 
 #aside-content .card-widget {
@@ -1142,7 +1159,9 @@
     align-items: center;
     justify-content: flex-start;
     height: 44px;
-    padding: 2px 10px;
+    /* 上下环约 4.5px（44 - 35 再平分），左右也收到 5px，
+       与文章标题胶囊 hover 内圈的 5px 同心环保持一致 */
+    padding: 2px 5px;
     border-radius: 99px;
     transition: background-color .3s, box-shadow .3s, backdrop-filter .3s;
   }
@@ -1296,10 +1315,42 @@
     box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
+    /* 给 ::before 的悬停染色层单独建层叠上下文，否则负层级会掉到胶囊背后 */
+    isolation: isolate;
     opacity: 0;
     pointer-events: none;
     transform: translateX(-50%) scale(1.1);
-    transition: top .3s, transform .3s, opacity .3s;
+    transition: top .3s, transform .3s, opacity .3s, box-shadow .3s;
+  }
+
+  /* 悬停染色层：直接用右侧「随机一篇文章」按钮 hover 的同一个色
+     --btf-header-theme，两者背景色完全一致。
+     常态是 linear-gradient（background-image 无法做颜色过渡），
+     所以叠一层纯色、只动 opacity，才能平滑地"染"上去而不闪一下。
+
+     四周用同一个 5px（原来是上下 4 / 左右 10，左右比上下宽一倍）：
+     胶囊两端是半圆，只有四边等距，同心环看起来才均匀，不会左右像被拉长。
+     外圈露出常态玻璃渐变、内圈染色，和左上角品牌胶囊的双层结构同一路子。
+
+     注意这颗胶囊只在 nav-fixed（滚动后）出现，此时它悬在玻璃导航 / 正文上方，
+     而不是页面顶部那张同色头图上，所以不存在"染成封面色就融进背景"的问题。 */
+  #nav > .nav-page-title::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--btf-header-theme, var(--btf-theme));
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  #nav > .nav-page-title:hover {
+    box-shadow: 0 8px 12px -3px var(--btf-header-theme-op, var(--btf-theme-op));
+  }
+
+  #nav > .nav-page-title:hover::before {
+    opacity: 1;
   }
 
   #nav > .nav-page-title > .site-name {
@@ -1315,10 +1366,13 @@
     white-space: nowrap;
     opacity: 1;
     transform: none;
+    transition: color .3s;
   }
 
-  /* 主题对首/末子元素有悬停淡出规则，这里锁定标题始终显示 */
+  /* 主题对首/末子元素有悬停淡出规则，这里锁定标题始终显示；
+     同时把字色翻成白色，和随机文章按钮 hover 时的白色图标一致 */
   #nav > .nav-page-title:hover > .site-name {
+    color: var(--btf-nav-hover-text);
     opacity: 1;
     transform: none;
   }
