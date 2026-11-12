@@ -1,0 +1,464 @@
+/* ==========================================================================
+   404 页面
+   --------------------------------------------------------------------------
+   模板：themes/butterfly/layout/includes/page/404.pug
+   作用域：只在 #body-wrap.type-404 下生效，配色全部走 --btf-theme
+          （浅色 #425aef 蓝 / 深色 #ffc848 金），换主题色自动跟随
+   ========================================================================== */
+
+/* ---------- 布局：整屏铺满 + 内容垂直居中 ---------- */
+/* 不写死 calc(100vh - 60px)：header 自带 margin-bottom: 10px，移动端高度也不固定，
+   改由 #body-wrap 撑满视口、内容区弹性填满剩余空间，任何屏高都不会出滚动条 */
+.type-404 {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.type-404 #content-inner.layout {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.type-404 #page {
+  width: 100%;
+  /* flex 子项默认 min-width:auto，窄屏下会被内容撑破容器 */
+  min-width: 0;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ---------- 背景氛围 + 浮动装饰 ---------- */
+.type-404 .error-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 30%, color-mix(in srgb, var(--btf-theme) 12%, transparent) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 70%, color-mix(in srgb, var(--btf-theme) 10%, transparent) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 92%, color-mix(in srgb, var(--btf-theme) 8%, transparent) 0%, transparent 35%);
+}
+
+.type-404 .decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--btf-theme) 15%, transparent);
+}
+
+.type-404 .decor-circle.d1 {
+  top: -100px;
+  left: -100px;
+  width: 350px;
+  height: 350px;
+  border-width: 3px;
+  animation: f404Float 8s ease-in-out infinite;
+}
+
+.type-404 .decor-circle.d2 {
+  right: 3%;
+  bottom: 8%;
+  width: 180px;
+  height: 180px;
+  border-style: dashed;
+  animation: f404Spin 18s linear infinite;
+}
+
+.type-404 .decor-circle.d3 {
+  top: 25%;
+  left: 6%;
+  width: 100px;
+  height: 100px;
+  border: 0;
+  background: color-mix(in srgb, var(--btf-theme) 8%, transparent);
+  animation: f404Float 6s ease-in-out infinite reverse;
+}
+
+.type-404 .decor-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--btf-theme) 35%, transparent);
+  animation: f404Dot 4s ease-in-out infinite;
+}
+
+.type-404 .decor-dot.dot1 {
+  top: 18%;
+  left: 12%;
+  width: 10px;
+  height: 10px;
+}
+
+.type-404 .decor-dot.dot2 {
+  top: 55%;
+  left: 88%;
+  width: 7px;
+  height: 7px;
+  animation-delay: 0.8s;
+}
+
+.type-404 .decor-dot.dot3 {
+  top: 72%;
+  left: 15%;
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+  animation-delay: 1.6s;
+}
+
+.type-404 .decor-dot.dot4 {
+  top: 12%;
+  right: 18%;
+  animation-delay: 2.4s;
+}
+
+.type-404 .decor-dot.dot5 {
+  top: 40%;
+  left: 92%;
+  width: 6px;
+  height: 6px;
+  animation-delay: 3.2s;
+}
+
+.type-404 .decor-cross {
+  position: absolute;
+  font-size: 18px;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--btf-theme) 25%, transparent);
+  animation: f404Dot 5s ease-in-out infinite;
+}
+
+.type-404 .decor-cross.x1 {
+  top: 30%;
+  right: 12%;
+  font-size: 22px;
+  animation-delay: 0.5s;
+}
+
+.type-404 .decor-cross.x2 {
+  top: 65%;
+  left: 10%;
+  font-size: 16px;
+  animation-delay: 1.5s;
+}
+
+.type-404 .decor-cross.x3 {
+  right: 25%;
+  bottom: 20%;
+  font-size: 20px;
+  animation-delay: 2.5s;
+}
+
+/* ---------- 主体 ---------- */
+#error-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.type-404 .error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.type-404 .error-illustration {
+  margin-bottom: 28px;
+}
+
+.type-404 .glitch-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.type-404 .glitch {
+  position: relative;
+  display: inline-block;
+  /* 正文是霞鹜文楷（手写感、字形略斜），404 数字单独走无衬线，
+     故障艺术效果才立得住；900 只有 400/700 可用，这里取真实粗体 700 */
+  font-family: "HarmonyOS Sans SC", "Helvetica Neue", Arial, sans-serif;
+  font-style: normal;
+  font-size: clamp(6rem, 22vw, 12rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -5px;
+  color: var(--btf-theme);
+  animation: f404Shift 5s infinite;
+}
+
+.type-404 .glitch::before,
+.type-404 .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--btf-theme);
+}
+
+.type-404 .glitch::before {
+  opacity: 0.8;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  animation: f404Top 2s infinite;
+}
+
+.type-404 .glitch::after {
+  opacity: 0.6;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  animation: f404Bottom 1.8s infinite;
+}
+
+.type-404 .lost-text {
+  margin: 8px 0 0;
+  font-size: 1.05em;
+  font-weight: 500;
+  letter-spacing: 0.45em;
+  /* 字距会把最后一个字顶偏，向左补回一半 */
+  text-indent: 0.45em;
+  color: var(--card-meta);
+}
+
+.type-404 .error-divider {
+  width: 50px;
+  height: 3px;
+  margin: 22px 0;
+  border-radius: 2px;
+  background: var(--btf-theme);
+  opacity: 0.6;
+}
+
+.type-404 .error_subtitle {
+  margin: 0 0 8px;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--font-color);
+}
+
+.type-404 .error_desc {
+  margin: 0 0 30px;
+  font-size: 0.92em;
+  color: var(--card-meta);
+}
+
+/* ---------- 按钮 ---------- */
+.type-404 .error_buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.type-404 .error_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border: 1px solid var(--hr-border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--font-color);
+  font-size: 0.88em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.type-404 .error_btn i {
+  font-size: 0.95em;
+}
+
+.type-404 .error_btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--btf-theme);
+  color: var(--btf-theme);
+  box-shadow: 0 4px 12px var(--btf-theme-op);
+}
+
+/* ---------- 动画 ---------- */
+@keyframes f404Top {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-3px, -2px);
+  }
+  40% {
+    transform: translate(3px, 2px);
+  }
+  60% {
+    transform: translate(-2px, 1px);
+  }
+  80% {
+    transform: translate(2px, -1px);
+  }
+}
+
+@keyframes f404Bottom {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(3px, 2px);
+  }
+  50% {
+    transform: translate(-2px, -1px);
+  }
+  75% {
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes f404Shift {
+  0%,
+  85%,
+  100% {
+    transform: translate(0);
+  }
+  87% {
+    transform: translate(-4px, 2px);
+  }
+  89% {
+    transform: translate(4px, -2px);
+  }
+  91% {
+    transform: translate(-3px, -1px);
+  }
+  93% {
+    transform: translate(3px, 1px);
+  }
+  95% {
+    transform: translate(-2px, 3px);
+  }
+  97% {
+    transform: translate(2px, -3px);
+  }
+}
+
+@keyframes f404Spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes f404Float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes f404Dot {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-8px) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* ---------- 移动端 ---------- */
+@media screen and (max-width: 768px) {
+  .type-404 #page {
+    padding: 30px 16px;
+  }
+
+  .type-404 .glitch {
+    letter-spacing: -3px;
+  }
+
+  .type-404 .lost-text {
+    font-size: 0.95em;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+
+  .type-404 .error_buttons {
+    gap: 10px;
+  }
+
+  .type-404 .error_btn {
+    padding: 9px 16px;
+    font-size: 0.84em;
+  }
+
+  .type-404 .decor-circle.d1 {
+    top: -140px;
+    left: -140px;
+    width: 260px;
+    height: 260px;
+  }
+
+  .type-404 .decor-circle.d2 {
+    width: 130px;
+    height: 130px;
+  }
+
+  .type-404 .decor-circle.d3 {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* 矮视口（窗口被拉矮 / 小屏笔记本横屏）：收紧节奏，保证一屏放得下 */
+@media screen and (max-height: 640px) {
+  .type-404 #page {
+    padding: 16px 20px;
+  }
+
+  .type-404 .glitch {
+    font-size: clamp(4rem, 16vw, 7rem);
+  }
+
+  .type-404 .error-illustration {
+    margin-bottom: 14px;
+  }
+
+  .type-404 .lost-text {
+    margin-top: 4px;
+  }
+
+  .type-404 .error-divider {
+    margin: 12px 0;
+  }
+
+  .type-404 .error_subtitle {
+    margin-bottom: 4px;
+  }
+
+  .type-404 .error_desc {
+    margin-bottom: 18px;
+  }
+}
+
+/* 尊重系统"减少动态效果"偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .type-404 .glitch,
+  .type-404 .glitch::before,
+  .type-404 .glitch::after,
+  .type-404 .decor-circle,
+  .type-404 .decor-dot,
+  .type-404 .decor-cross {
+    animation: none;
+  }
+}

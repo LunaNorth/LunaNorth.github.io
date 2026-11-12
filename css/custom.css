@@ -354,7 +354,6 @@
 #aside-content .card-widget,
 .layout > div:first-child:not(.nc),
 #article-container .shuoshuo-item,
-.type-404 .error-content,
 .flink-list-item,
 .gallery-group {
   background: var(--btf-card-bg);
@@ -367,7 +366,6 @@
 #recent-posts .recent-post-item:hover,
 #aside-content .card-widget:hover,
 #article-container .shuoshuo-item:hover,
-.type-404 .error-content:hover,
 .flink-list-item:hover,
 .gallery-group:hover {
   box-shadow: var(--btf-shadow-card-hover) !important;
