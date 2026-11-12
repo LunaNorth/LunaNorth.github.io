@@ -87,9 +87,15 @@
   flex-direction: column;
   min-height: 0;
   padding: 0 20px 20px;
+  /* 灰底顶端与右侧首张笔记卡片的顶边对齐（列表 padding-top 同为 12px）：
+     用一条透明上边框占出这段距离，背景只画在 padding-box，
+     于是灰底的起始线正好落在 12px 处，头像等内容位置不变。
+     滚动时这 12px 始终留空，等于一个不会滚走的顶部内边距。 */
+  border-top: 12px solid transparent;
+  background-color: color-mix(in srgb, var(--lumina-card-surface) 10%, transparent);
+  background-clip: padding-box;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: color-mix(in srgb, var(--lumina-card-surface) 10%, transparent);
   scrollbar-width: none;
   transition: width .3s ease, flex-basis .3s ease, padding .3s ease, opacity .25s ease;
 }
@@ -116,8 +122,11 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  /* 顶部 20px 与右侧列表 padding-top 对齐 */
-  padding: 20px 0 16px;
+  /* 顶部那 12px 交给侧栏的透明上边框（灰底顶边才与右侧首张卡片齐平），
+     这里只留 10px 作为头像与灰底顶边之间的呼吸位。
+     用 padding 而不是 margin：两者视觉一致，但 margin 在滚动容器里
+     会和后续布局的间距叠加，padding 更可控 */
+  padding: 10px 0 16px;
 }
 
 .lumina-avatar-wrap {
@@ -442,9 +451,9 @@
   height: 14px;
 }
 
-/* ---------- 8. 标签列表 ---------- */
+/* ---------- 8. 时间归档 ---------- */
 
-.lumina-tags {
+.lumina-archive {
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
@@ -460,10 +469,10 @@
   color: var(--lumina-primary);
 }
 
-.lumina-tags-list {
+.lumina-archive-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 14px;
   flex: 1 1 auto;
   min-height: 0;
   padding: 0 0 16px;
@@ -473,70 +482,193 @@
   scrollbar-width: none;
 }
 
-.lumina-tags-list::-webkit-scrollbar {
+.lumina-archive-list::-webkit-scrollbar {
   display: none;
 }
 
-.lumina-tag-item {
+.lumina-archive-year {
+  min-width: 0;
+}
+
+.lumina-archive-year-head {
   display: flex;
   align-items: center;
-  min-height: 32px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  color: var(--lumina-on-surface);
+  gap: 5px;
+  width: 100%;
+  margin: 0;
+  padding: 2px 2px 6px;
+  border: 0;
+  background: transparent;
+  color: var(--lumina-on-surface-light);
+  font-family: inherit;
+  text-align: left;
   cursor: pointer;
-  transition: background-color .15s;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 6px;
+  transition: color .15s;
 }
 
-.lumina-tag-item:hover {
-  background-color: var(--lumina-list-hover);
+/* 年份行整行就是开关：点一下展开、再点收起，不带箭头图标。
+   hover 时年份数字转主色，作为「这一行可以点」的提示。 */
+.lumina-archive-year-head:hover {
+  color: var(--lumina-on-surface);
 }
 
-.lumina-tag-item.active {
-  background-color: var(--lumina-list-hover);
-}
-
-.lumina-tag-item.active .lumina-tag-name,
-.lumina-tag-item.active .lumina-tag-count,
-.lumina-tag-item.active .lumina-tag-icon {
+.lumina-archive-year-head:hover .lumina-archive-year-label {
   color: var(--lumina-primary);
 }
 
-.lumina-tag-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--lumina-on-surface);
-  font-size: 13px;
-  opacity: .75;
+.lumina-archive-year-head:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--lumina-primary) 40%, transparent);
+  outline-offset: 1px;
 }
 
-.lumina-tag-name {
-  flex: 1;
-  min-width: 0;
+.lumina-archive-year-label {
+  flex-shrink: 0;
   font-size: 14px;
+  font-weight: 600;
   line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.lumina-archive-year-unit {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  opacity: .8;
+  margin-left: -2px;
+}
+
+.lumina-archive-year-line {
+  flex: 1;
+  height: 1px;
+  margin: 0 4px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--lumina-border) 55%, transparent),
+    transparent);
+}
+
+.lumina-archive-year-count {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  opacity: .8;
+}
+
+.lumina-archive-months {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 22px;
+  padding: 2px 0 3px 18px;
+}
+
+.lumina-archive-year.collapsed .lumina-archive-months {
+  display: none;
+}
+
+.lumina-archive-month {
+  /* 跟侧栏标签云（.card-tag-cloud a）同一种排法：外层 inline-block，
+     计数用 vertical-align: super 做上标 —— flex 容器会忽略 vertical-align，
+     所以这里不能用 inline-flex */
+  display: inline-block;
+  position: relative;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 2px 0;
+  margin: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--lumina-on-surface);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: color .15s;
+}
+
+.lumina-archive-month::before {
+  content: none;
+}
+
+.lumina-archive-month:hover {
+  color: var(--lumina-primary);
+}
+
+.lumina-archive-month:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--lumina-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+
+.lumina-archive-month.active {
+  color: var(--lumina-primary);
+}
+
+.lumina-archive-month-name {
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 0;
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-.lumina-tag-count {
-  flex-shrink: 0;
-  min-width: 20px;
-  margin-left: 4px;
-  font-size: 13px;
+.lumina-archive-month-num {
+  font-size: 15px;
   font-weight: 500;
+  line-height: 1.5;
   font-variant-numeric: tabular-nums;
-  text-align: right;
-  color: var(--lumina-on-surface-light);
+  color: inherit;
+  transition: color .18s;
 }
 
-.lumina-tag-empty {
+.lumina-archive-month-unit {
+  font-size: 12px;
+  font-weight: 400;
+  color: inherit;
+  opacity: .8;
+  /* 数字与「月」之间默认空隙偏大（等宽数字 + 全角汉字），收 2px 更贴 */
+  margin-left: -2px;
+}
+
+/* 计数：完全对齐侧栏标签云的 .tag-cloud-count —— 紧跟月份名、缩到 .62em、
+   用 vertical-align: super 抬成上标。之前用 translateY(-6px) 是硬位移，
+   上浮过头才会飘到「月」的右上方；super 只抬约 0.3 个字高，贴着不走散。 */
+.lumina-archive-count {
+  display: inline;
+  flex-shrink: 0;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  margin: 0 0 0 2px;
+  border-radius: 0;
+  font-size: .62em;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  vertical-align: super;
+  color: inherit;
+  background: transparent;
+  opacity: .6;
+  transition: color .15s, opacity .15s;
+}
+
+.lumina-archive-month:hover .lumina-archive-count,
+.lumina-archive-month.active .lumina-archive-count {
+  opacity: .9;
+}
+
+.lumina-archive-month.active .lumina-archive-month-num,
+.lumina-archive-month.active .lumina-archive-month-unit,
+.lumina-archive-month.active .lumina-archive-count {
+  color: var(--lumina-primary);
+}
+
+.lumina-archive-empty {
   padding: 8px 12px;
   font-size: 12px;
   font-style: italic;
@@ -568,14 +700,15 @@
 .lumina-notes-list {
   flex: 1;
   min-height: 0;
-  padding: 20px 30px;
+  /* 顶部 12px 与左侧栏透明边框同值，保证灰底顶边和首卡顶边齐平 */
+  padding: 12px 30px 20px;
   overflow-y: auto;
   scrollbar-width: none;
 }
 
 /* 朋友圈样式（columns: 4）：左右留白更宽，视觉上更透气 */
 .lumina-app.lumina-moment-mode .lumina-notes-list {
-  padding: 20px 60px;
+  padding: 12px 60px 20px;
 }
 
 .lumina-notes-list::-webkit-scrollbar {
@@ -1111,8 +1244,15 @@
   .lumina-sidebar {
     width: 100%;
     flex: 0 0 auto;
+    /* 移动端是上下排列，不需要桌面上那条「对齐用」的透明上边框 */
+    border-top-width: 0;
     padding: 10px 16px 12px;
     overflow: visible;
+  }
+
+  /* 移动端保持紧凑，避免头像离导航过远 */
+  .lumina-profile {
+    padding-top: 20px;
   }
 
   .lumina-app.lumina-collapsed .lumina-sidebar {
@@ -1204,40 +1344,53 @@
     white-space: nowrap;
   }
 
-  .lumina-tags {
+  .lumina-archive {
     flex: 0 0 auto;
     min-height: 0;
     overflow: visible;
   }
 
-  .lumina-tags-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 6px;
+  .lumina-archive-list {
+    gap: 10px;
     padding-bottom: 12px;
     overflow: visible;
   }
 
-  .lumina-tag-item {
-    min-height: 28px;
-    padding: 4px 10px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--lumina-card-surface) 30%, transparent);
-    border: 1px solid color-mix(in srgb, var(--lumina-border) 55%, transparent);
+  /* 移动端沿用标签云样式，只收紧字号和间距 */
+  .lumina-archive-year-head {
+    padding-bottom: 5px;
   }
 
-  .lumina-tag-icon {
-    display: none;
-  }
-
-  .lumina-tag-name {
-    flex: 0 0 auto;
+  .lumina-archive-year-label {
     font-size: 13px;
   }
 
-  .lumina-tag-count {
-    margin-left: 6px;
-    font-size: 12px;
+  .lumina-archive-months {
+    gap: 8px 24px;
+    padding-left: 18px;
+  }
+
+  .lumina-archive-month {
+    min-height: 0;
+    padding: 2px 0;
+    border-radius: 4px;
+  }
+
+  .lumina-archive-month::before {
+    display: none;
+  }
+
+  .lumina-archive-month-num {
+    font-size: 14px;
+  }
+
+  .lumina-archive-month-unit {
+    font-size: 11px;
+  }
+
+  /* 移动端沿用标签云上标，字号由 .62em 自适应月份大小，只把间距对齐桌面 */
+  .lumina-archive-count {
+    margin-left: 2px;
   }
 
   .lumina-main {
@@ -1249,13 +1402,13 @@
      这里左右留 16px，正好和顶部导航胶囊的 16px 对齐：
      便签卡片、侧栏内容和导航在同一垂直线上。 */
   .lumina-notes-list {
-    padding: 12px 16px;
+    padding: 22px 16px 12px;
     overflow: visible;
   }
 
   /* 朋友圈样式：窄屏下保留紧凑留白 */
   .lumina-app.lumina-moment-mode .lumina-notes-list {
-    padding: 12px 16px;
+    padding: 22px 16px 12px;
   }
 
   /* 朋友圈样式：窄屏下头像略小，正文自然换行 */
@@ -1321,6 +1474,16 @@
   #body-wrap.type-lumina {
     height: 100vh;
     overflow: hidden;
+  }
+
+  /* 导航头部固定占 60px，不参与 flex 压缩。
+     不加这条时：#body-wrap 是纵向 flex，总高超出视口后浏览器会按比例
+     压缩各子项，头部被压扁到 37px（60-23）；而压缩量取决于右侧列表的
+     内容长度 —— 切换「每日回顾 / 本周记录」等筛选后列表变短，头部又
+     弹回 60px，于是整个内容区上下跳 23px，看起来像左侧面板在移动。 */
+  #body-wrap.type-lumina #page-header {
+    flex: 0 0 auto;
+    height: 60px;
   }
 
   /* 主区吃掉导航之外的全部高度 */

@@ -151,17 +151,26 @@
     return b.date - a.date;
   });
 
-  var allTags = (function () {
+  // 时间归档：按「年 → 月」聚合，保持从新到旧的顺序
+  var archiveMonths = (function () {
     var map = {};
     notes.forEach(function (n) {
-      n.tags.forEach(function (t) {
-        map[t] = (map[t] || 0) + 1;
-      });
+      var month = n.date.getMonth() + 1;
+      var key = n.date.getFullYear() + '-' + pad2(month);
+      if (!map[key]) {
+        map[key] = {
+          key: key,
+          year: n.date.getFullYear(),
+          month: month,
+          count: 0
+        };
+      }
+      map[key].count += 1;
     });
-    return Object.keys(map).map(function (name) {
-      return { name: name, count: map[name] };
+    return Object.keys(map).map(function (key) {
+      return map[key];
     }).sort(function (a, b) {
-      return b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN');
+      return b.key.localeCompare(a.key);
     });
   })();
 
@@ -177,6 +186,9 @@
     keyword: '',
     tag: '',
     day: '',
+    month: '',
+    // 展开的年份；只存年份字符串，默认展开最新一年
+    openYears: {},
     view: 'all',
     reviewDay: '',
     // 快速筛选：'' | no-tag | has-image | no-image | pinned
@@ -198,7 +210,7 @@
     menuWeek: document.getElementById('luminaMenuWeek'),
     menuArrow: document.getElementById('luminaMenuArrow'),
     quickFilter: document.getElementById('luminaQuickFilter'),
-    tagsList: document.getElementById('luminaTagsList'),
+    archiveList: document.getElementById('luminaArchiveList'),
     list: document.getElementById('luminaNotesList')
   };
 
@@ -214,22 +226,48 @@
 
   function renderStats() {
     if (els.statNotes) els.statNotes.textContent = notes.length;
-    if (els.statTags) els.statTags.textContent = allTags.length;
+    if (els.statTags) els.statTags.textContent = archiveMonths.length;
     if (els.statDays) els.statDays.textContent = Object.keys(allDays).length;
   }
 
-  function renderTags() {
-    if (!els.tagsList) return;
-    if (!allTags.length) {
-      els.tagsList.innerHTML = '<div class="lumina-tag-empty">还没有标签</div>';
+  function renderArchive() {
+    if (!els.archiveList) return;
+    if (!archiveMonths.length) {
+      els.archiveList.innerHTML = '<div class="lumina-archive-empty">还没有记录</div>';
       return;
     }
-    els.tagsList.innerHTML = allTags.map(function (t) {
-      var active = state.tag === t.name ? ' active' : '';
-      return '<div class="lumina-tag-item' + active + '" data-tag="' + escapeHtml(t.name) + '">' +
-        '<span class="lumina-tag-icon"><i class="fa-solid fa-tag"></i></span>' +
-        '<span class="lumina-tag-name">' + escapeHtml(t.name) + '</span>' +
-        '<span class="lumina-tag-count">' + t.count + '</span>' +
+
+    var years = [];
+    archiveMonths.forEach(function (item) {
+      var group = years[years.length - 1];
+      if (!group || group.year !== item.year) {
+        group = { year: item.year, months: [], count: 0 };
+        years.push(group);
+      }
+      group.months.push(item);
+      group.count += item.count;
+    });
+
+    els.archiveList.innerHTML = years.map(function (group, index) {
+      var yearKey = String(group.year);
+      // 默认全部折叠，点年份标题才展开（用户偏好：侧栏保持清爽）
+      var open = state.openYears[yearKey] !== undefined ? state.openYears[yearKey] : false;
+      var collapsed = open ? '' : ' collapsed';
+      var months = group.months.map(function (item) {
+        var active = state.month === item.key ? ' active' : '';
+        return '<button class="lumina-archive-month' + active + '" type="button" data-month="' + item.key + '" title="' + item.year + '年' + item.month + '月 · ' + item.count + ' 条">' +
+          '<span class="lumina-archive-month-name"><span class="lumina-archive-month-num">' + item.month + '</span><span class="lumina-archive-month-unit">月</span></span>' +
+          '<span class="lumina-archive-count">' + item.count + '</span>' +
+          '</button>';
+      }).join('');
+      return '<div class="lumina-archive-year' + collapsed + '" data-year="' + yearKey + '">' +
+        '<button class="lumina-archive-year-head" type="button" data-year-toggle="' + yearKey + '" aria-expanded="' + (open ? 'true' : 'false') + '">' +
+        '<span class="lumina-archive-year-label">' + group.year + '</span>' +
+        '<span class="lumina-archive-year-unit">年</span>' +
+        '<span class="lumina-archive-year-line"></span>' +
+        '<span class="lumina-archive-year-count">' + group.count + ' 条</span>' +
+        '</button>' +
+        '<div class="lumina-archive-months">' + months + '</div>' +
         '</div>';
     }).join('');
   }
@@ -323,8 +361,10 @@
       var key = cell.getAttribute('data-date');
       state.day = state.day === key ? '' : key;
       state.view = 'all';
+      state.month = '';
       state.page = 1;
       updateMenu();
+      renderArchive();
       renderHeatmap();
       renderList();
     });
@@ -384,14 +424,15 @@
     // 切视图等于「重新开始看」：清掉日期/标签筛选，避免和旧筛选叠加成空列表
     state.day = '';
     state.tag = '';
+    state.month = '';
     state.quick = '';
     state.page = 1;
     if (view === 'daily') state.reviewDay = randomReviewDay();
     updateMenu();
-    renderTags();
+    renderArchive();
     renderHeatmap();
     renderList();
-    els.list.scrollTop = 0;
+    resetScrollState();
   }
 
   /* ---------- 列表渲染 ---------- */
@@ -411,6 +452,7 @@
   function visibleNotes() {
     var keyword = state.keyword.trim();
     return notes.filter(function (note) {
+      if (state.month && note.date.getFullYear() + '-' + pad2(note.date.getMonth() + 1) !== state.month) return false;
       if (state.tag && note.tags.indexOf(state.tag) === -1) return false;
       if (state.day && note.key !== state.day) return false;
       if (state.view === 'daily' && note.key !== state.reviewDay) return false;
@@ -527,6 +569,15 @@
   }
 
   function barHtml() {
+    if (state.month) {
+      var parts = state.month.split('-');
+      var monthCount = visibleNotes().length;
+      return '<div class="lumina-bar">' +
+        '<div class="lumina-bar-left"><i class="fa-regular fa-calendar"></i><span>' + parts[0] + '年' + (+parts[1]) + '月 · 共 ' + monthCount + ' 条</span></div>' +
+        '<div class="lumina-bar-center">这个月留下的点滴</div>' +
+        '<div class="lumina-bar-actions"><button class="lumina-bar-btn" type="button" data-act="all-time">全部时间</button></div>' +
+        '</div>';
+    }
     if (state.view === 'week') {
       var weekCount = visibleNotes().length;
       return '<div class="lumina-bar">' +
@@ -553,6 +604,7 @@
     var hint = '';
     if (state.view === 'daily') hint = '换一天看看，或者回到首页';
     else if (state.view === 'week') hint = '这周还没有留下什么';
+    else if (state.month) hint = '这个月还没有记录';
     else if (state.day) hint = '这一天还没有记录';
     else if (state.tag) hint = '换个标签试试';
     else if (state.keyword) hint = '换个关键词试试';
@@ -693,12 +745,23 @@
   // 当前筛选结果的总页数（goPage 用）
   var pageTotal = 1;
 
+  // 切视图时把「页面 + 左侧面板 + 右侧列表」一起归零。
+  // 桌面端整页不滚动，移动端左侧面板会跟随页面滚动；只清右侧列表的话，
+  // 从滚动后的「全部笔记」切到「每日回顾」时左侧面板仍停在半途，看起来就像顶部间距不一致。
+  function resetScrollState() {
+    els.list.scrollTop = 0;
+    if (els.sidebar) els.sidebar.scrollTop = 0;
+    window.scrollTo(0, 0);
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }
+
   function goPage(page) {
     var target = Math.min(Math.max(1, page), Math.max(1, pageTotal));
     if (target === state.page) return;
     state.page = target;
     renderList();
-    els.list.scrollTop = 0;
+    resetScrollState();
   }
 
   function renderList() {
@@ -762,7 +825,7 @@
   function renderAll() {
     renderStats();
     updateMenu();
-    renderTags();
+    renderArchive();
     renderHeatmap();
     renderList();
   }
@@ -836,28 +899,57 @@
       state.view = 'all';
       state.day = '';
       state.tag = '';
+      state.month = '';
       state.page = 1;
       updateMenu();
-      renderTags();
+      renderArchive();
       renderHeatmap();
       renderList();
-      els.list.scrollTop = 0;
+      resetScrollState();
     });
   }
 
   // 标签点击（侧栏 + 正文内联）
   app.addEventListener('click', function (e) {
+    var yearToggle = e.target.closest('[data-year-toggle]');
+    if (yearToggle) {
+      var year = yearToggle.getAttribute('data-year-toggle');
+      var yearBox = yearToggle.closest('.lumina-archive-year');
+      var willOpen = yearBox && yearBox.classList.contains('collapsed');
+      state.openYears[year] = willOpen;
+      renderArchive();
+      return;
+    }
+
+    var monthEl = e.target.closest('[data-month]');
+    if (monthEl) {
+      var month = monthEl.getAttribute('data-month');
+      state.month = state.month === month ? '' : month;
+      state.view = 'all';
+      state.day = '';
+      state.tag = '';
+      state.page = 1;
+      updateMenu();
+      renderArchive();
+      renderHeatmap();
+      renderList();
+      resetScrollState();
+      return;
+    }
+
     var tagEl = e.target.closest('[data-tag]');
     if (!tagEl) return;
     var name = tagEl.getAttribute('data-tag');
     state.tag = state.tag === name ? '' : name;
     state.view = 'all';
     state.day = '';
+    state.month = '';
     state.page = 1;
     updateMenu();
-    renderTags();
+    renderArchive();
     renderHeatmap();
     renderList();
+    resetScrollState();
   });
 
   // 顶部信息条按钮 + 分页
@@ -867,6 +959,13 @@
       var act = btn.getAttribute('data-act');
       if (act === 'home') setView('all');
       else if (act === 'shuffle') setView('daily');
+      else if (act === 'all-time') {
+        state.month = '';
+        state.page = 1;
+        renderArchive();
+        renderList();
+        resetScrollState();
+      }
       return;
     }
 

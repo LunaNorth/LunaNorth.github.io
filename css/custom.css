@@ -53,6 +53,11 @@
   --btf-shadow-theme: 0 8px 12px -3px var(--btf-theme-op);
   --btf-shadow-lightblack: 0 5px 12px -5px rgba(102, 68, 68, 0);
   --btf-shadow-black: 0 0 12px 4px rgba(0, 0, 0, .05);
+  /* 导航玻璃胶囊不要投影。
+     最初用 0 5px 100px -5px 会在滚动后铺出一大片淡灰；收敛到 16px 贴边后，
+     每颗胶囊下方仍挂着一条可见的淡影（4px / 8px 向下偏移），滚动时很显脏。
+     胶囊靠半透明玻璃底 + backdrop-filter 就已经能立住，这里直接给 none。 */
+  --btf-shadow-glass: none;
 }
 
 /* ==========================================================================
@@ -204,6 +209,7 @@
   --btf-shadow-border: 0 8px 16px -4px #00000050;
   --btf-shadow-card: none;
   --btf-shadow-card-hover: none;
+  /* 深色下导航胶囊同样不给投影，沿用 :root 的 none */
 
   /* 映射到 Butterfly 变量 */
   --global-bg: var(--btf-background);
@@ -634,7 +640,7 @@
   transform: scale(1);
   pointer-events: auto;
   background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  box-shadow: var(--btf-shadow-glass, none);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
@@ -657,7 +663,7 @@
 /* 没有头图的页面（404 等）：导航直接压在页面背景上，胶囊需要常驻玻璃底 */
 #page-header.not-top-img #nav #menus > .menus_items {
   background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  box-shadow: var(--btf-shadow-glass, none);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
@@ -974,7 +980,7 @@
 #page-header.nav-fixed #nav #nav-right,
 #page-header.not-top-img #nav #nav-right {
   background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-  box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+  box-shadow: var(--btf-shadow-glass, none);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
@@ -1120,7 +1126,7 @@
   #page-header.nav-fixed #nav #blog-info,
   #page-header.not-top-img #nav #blog-info {
     background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-    box-shadow: var(--btf-shadow-border);
+    box-shadow: none;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   }
@@ -1198,7 +1204,7 @@
   #page-header.nav-fixed #nav #blog-info,
   #page-header.not-top-img #nav #blog-info {
     background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-    box-shadow: var(--btf-shadow-border);
+    box-shadow: none;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   }
@@ -1312,7 +1318,7 @@
     overflow: hidden;
     border-radius: 99px;
     background: linear-gradient(to bottom, var(--btf-mask-bg), var(--btf-mask-bg-deep));
-    box-shadow: var(--btf-shadow-glass, 0 5px 100px -5px rgba(140, 140, 140, .55));
+    box-shadow: var(--btf-shadow-glass, none);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     /* 给 ::before 的悬停染色层单独建层叠上下文，否则负层级会掉到胶囊背后 */
