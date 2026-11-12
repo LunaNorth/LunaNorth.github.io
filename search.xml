@@ -175,9 +175,9 @@
 </tbody></table>
 <p>三种带上传的模式都有缓存，只是缓存表不同：PicGo 用 ​<code>picgoCache</code>​，博客园用 ​<code>assetCache</code>。</p>
 <h2 id="三个会让你「以为要重传」的例外"><a href="#三个会让你「以为要重传」的例外" class="headerlink" title="三个会让你「以为要重传」的例外"></a>三个会让你「以为要重传」的例外</h2><ol>
-<li><strong>手动点了「清空图片缓存」</strong> ：缓存清空后，下次发布就会被当作从未上传过，图床（博客园）里会多出一份重复图片，已发布文章里的链接不受影响。弹窗里那句确认文案说的就是这个。</li>
+<li><strong>手动点了「清空图片缓存」</strong> ：<span data-type="text" class="sy-bg-12">缓存清空后，下次发布就会被当作从未上传过，图床（博客园）</span>里会多出一份重复图片，<span data-type="text" class="sy-bg-9">已发布文章里的链接不受影响。弹窗里那句确认文案说的就是这个。</span></li>
 <li><strong>在思源里给图片换了名</strong>（重命名或换了一张同位置的新图，路径变了）：换名等于换 key，会重新上传，旧图留在图床成为孤儿。这是「路径当 key」的代价；换内容不换名反而更隐蔽，会继续用旧地址，博客上显示的还是旧图。</li>
-<li><strong>换图床</strong>（PicGo 里从 SM.MS 换成阿里云或 GitHub）：缓存里存的是旧图床 URL，不会自动迁移，得清缓存才会重传到新图床。</li>
+<li><strong>换图床</strong>（PicGo 里从 SM.MS 换成阿里云或 GitHub）：<span data-type="text" class="sy-bg-13">缓存里存的是旧图床 URL，不会自动迁移，得清缓存才会重传到新图床。</span></li>
 </ol>
 <h2 id="顺手发现一个不一致，要不要修"><a href="#顺手发现一个不一致，要不要修" class="headerlink" title="顺手发现一个不一致，要不要修"></a>顺手发现一个不一致，要不要修</h2><p>设置里的「清空图片缓存」按钮（​<code>_wirePaneData</code>​，7402 行）只清 ​<code>assetCache</code>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">assetCache</span> = &#123;&#125;;<br></code></pre></td></tr></table></figure>
@@ -190,6 +190,35 @@
       </categories>
       <tags>
         <tag>插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>忆往昔</title>
+    <url>/posts/1ec6.html</url>
+    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
+<p>等这周有时间再写吧</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
       </tags>
   </entry>
   <entry>
@@ -274,35 +303,6 @@
       </categories>
       <tags>
         <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>忆往昔</title>
-    <url>/posts/1ec6.html</url>
-    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
-<p>等这周有时间再写吧</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
       </tags>
   </entry>
 </search>
