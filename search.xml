@@ -119,6 +119,15 @@
 <p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
 <hr>
 <p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
+<ol>
+<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
+</ol>
+<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
+<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
+<p>接下来就是Hexo加粗样式的美化了</p>
+<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
 ]]></content>
       <categories>
         <category>博客日志</category>
@@ -139,6 +148,59 @@
       </categories>
       <tags>
         <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lumina日志</title>
+    <url>/posts/286c.html</url>
+    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>Lumina日志</p>
+</div>
+        </div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 11:26</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 09:14</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-09 20:30</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
+</div>
+      </div></div>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -204,59 +266,6 @@
       </categories>
       <tags>
         <tag>插件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lumina日志</title>
-    <url>/posts/286c.html</url>
-    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>Lumina日志</p>
-</div>
-        </div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 11:26</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 09:14</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-09 20:30</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
-</div>
-      </div></div>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>记录</tag>
       </tags>
   </entry>
   <entry>

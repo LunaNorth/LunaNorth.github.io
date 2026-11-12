@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-12T02:36:03.866Z</updated>
+  <updated>2026-11-12T02:36:10.042Z</updated>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -28,7 +28,7 @@
       <![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给]]>
     </summary>
     <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
-    <updated>2026-11-12T02:36:03.866Z</updated>
+    <updated>2026-11-12T02:36:10.042Z</updated>
   </entry>
   <entry>
     <author>
@@ -37,7 +37,7 @@
     <category term="博客日志" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%97%A5%E5%BF%97/"/>
     <category term="随记" scheme="https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/"/>
     <content>
-      <![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p><p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p><hr><p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>]]>
+      <![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p><p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p><hr><p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p><ol><li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li></ol><p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p><p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p><p>接下来就是Hexo加粗样式的美化了</p><p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p><p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>]]>
     </content>
     <id>https://lunanorth.github.io/posts/1a3f.html</id>
     <link href="https://lunanorth.github.io/posts/1a3f.html"/>
@@ -48,7 +48,7 @@
 <p><img]]>
     </summary>
     <title>2026-11-12博客更新日志</title>
-    <updated>2026-11-12T01:19:00.901Z</updated>
+    <updated>2026-11-12T02:38:07.961Z</updated>
   </entry>
   <entry>
     <author>
