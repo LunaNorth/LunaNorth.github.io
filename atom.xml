@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-12T02:24:16.992Z</updated>
+  <updated>2026-11-12T02:36:03.866Z</updated>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -28,7 +28,7 @@
       <![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给]]>
     </summary>
     <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
-    <updated>2026-11-12T02:24:16.992Z</updated>
+    <updated>2026-11-12T02:36:03.866Z</updated>
   </entry>
   <entry>
     <author>

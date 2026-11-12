@@ -47,6 +47,29 @@
   box-decoration-break: clone;
 }
 
+/* ---------- 加粗文字 ----------
+   正文里的 strong 统一走品红紫 + 一层柔光，比纯深灰更抓眼。
+   色值 #A44185 是从效果图上取的（偏洋红的紫，不是偏蓝的紫罗兰）。
+   text-shadow 用 8 位 hex，末两位 59 = 35% 透明度 —— 一开始给的 45%（73）偏亮，
+   压淡一档后紫字本身更实，光晕只负责让它在纸上轻轻浮起来。
+
+   限定在 #article-container 里：侧栏、导航、评论区里的加粗不受影响。
+   深色主题下若觉得偏暗，把 color 换成 #C96AAB（同色相提亮一档）。 */
+
+#article-container strong {
+  color: #A44185;
+  text-shadow: 0 0 12px #A4418559;
+  font-weight: 600;
+}
+
+/* 块级背景色（卡片色）里的加粗跟着卡片自己的文字色走：
+   品红紫压在浅粉 / 浅黄底上对比度不够，染上去会糊。 */
+
+#article-container .sy-block strong {
+  color: inherit;
+  text-shadow: none;
+}
+
 /* ---------- 文章标题（h1-h6）----------
    参考思源笔记（Neo）的主题思路，做三件事：
    1. 层级：字号用 em 相对正文，body 的 font-size 换成 --site-font-size 后
