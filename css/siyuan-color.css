@@ -6,31 +6,26 @@
      .sy-bg-1 ~ .sy-bg-13   背景色
    （对应插件设置 → Hexo 博客 → 文字颜色与底色 → 换成类名）
 
-   类名本身不带颜色，色值全收在变量里：浅色一套、深色一套，
-   以后调色只改变量，不用碰下面成片的类名规则 —— 与 custom.css 的
-   维护约定一致（先令牌、组件只引用令牌、深浅只由 [data-theme] 决定）。
+   色值全收在令牌里，规则只引用令牌 —— 与 custom.css 的维护约定一致：
+   先令牌、组件只引用令牌、深浅只由 [data-theme] 决定。
+   变量用 --sy- 而非 --btf- 前缀：--btf- 是站点主题骨架，
+   这里是思源内容自带的 13 组色板，属于「内容」不属于「主题」。
 
-   变量用 --sy- 而不是 --btf- 前缀：--btf- 是站点主题令牌（背景、文字、
-   圆角这些随主题走的骨架），这里是思源内容自带的 13 组色板，
-   属于「内容」而不属于「主题」，分开命名，以后翻代码不会混。
+   色值来源（思源 → 设置 → 外观 → 代码片段）：
+     · 「明亮主题-文字配色」：13 组字色与底色，原样照搬
+     · 「明亮主题-背景色效果」：9 / 12 / 13 三个编号各自带一整套装饰
+       （粉红渐变标签、橙色虚线下划线、彩虹渐变边框），也一并复刻
+     · 「暗色主题-文字背景色」：13 组暗色值，同样原样照搬
+     · 4 / 7 / 8 / 11：色带只铺文字底部 0.6em 的「下半截高亮」
 
-   亮色那 13 组原本取自思源的个人代码片段（:root[data-theme-mode=light]）。
-   暗色不是把亮色反相，而是保持色相重定的一版：
-   字色按原明度 +28 提亮、夹在 70~82 之间（够亮才读得清），
-   底色压到 24%（跟 #121212 分得开，又不至于一整块跳出来抢正文）。
-   青绿 / 青蓝两组（6、10）额外压了一点饱和度 ——
-   高饱和的青色放在深底上会发荧光，盯久了眼睛累。
-
-   另外 4 / 7 / 8 / 11 号底色沿用思源里的「下半截高亮」：
-   色带只铺在文字底部约 0.55em 高的位置，不是整块铺满。
-   这是你在思源里自己调的观感，博客这边照搬。
-
-   由 _config.butterfly.yml 的 inject.head 引入。
+   三种背景形态：
+     1 / 2 / 3 / 5 / 6 / 10  整块底色
+     9 / 12 / 13            带装饰的标签效果
+     4 / 7 / 8 / 11         下半截高亮
    ========================================================================== */
 
-/* ---------- 浅色 ----------
-   :root 也带一份：万一某个页面没挂 data-theme（RSS 渲染、某些静态片段），
-   至少还有一套颜色兜底，不至于整段文字掉回默认色。
+/* ---------- 浅色令牌 ----------
+   :root 也带一份：万一某个页面没挂 data-theme，至少还有一套颜色兜底。
    与 [data-theme="dark"] 同特异性，深色定义在后，切换时自然覆盖。 */
 :root,
 [data-theme="light"] {
@@ -63,43 +58,93 @@
   --sy-bg-11: #BACEFD;
   --sy-bg-12: #FFF3E0;
   --sy-bg-13: #CDB2FA;
+
+  /* 9 / 12 / 13 三个标签效果的专用令牌。
+     9 号的渐变与字色直接取 1、2 号的值（思源原效果就是这么配的），
+     所以不用另写，跟着上面自动变。 */
+  --sy-plate: #FFFFFF;      /* 13 号渐变边框的填充底 */
+  --sy-ink-13: #4527A0;     /* 13 号字色 */
+  --sy-ink-12: #3E2723;     /* 12 号字色 */
+  --sy-dash-12: #FF9800;    /* 12 号虚线下划线 */
+
+  /* 标记 ==文字== 的底色：取自思源主题的 --b3-protyle-inline-mark-background */
+  --sy-mark: #FFBB00;
 }
 
-/* ---------- 深色 ----------
-   与思源的暗色主题不是同一套值：思源那边你只写了 light，
-   这套是按亮色的色相重定的，字色提亮、底色压深，
-   保证换到深色主题后这些彩色文字依然读得清。 */
+/* ---------- 深色令牌 ----------
+   直接采用思源里「暗色主题-文字背景色」那套值，不再另行推算：
+   既然那套是你自己调过的，博客这边就没有理由另造一份。 */
 [data-theme="dark"] {
   /* 字体颜色 */
-  --sy-c-1: #EC7DA9;
-  --sy-c-2: #EF93B5;
-  --sy-c-3: #AAC7F8;
-  --sy-c-4: #93D296;
-  --sy-c-5: #F6C38E;
-  --sy-c-6: #66D9C8;
-  --sy-c-7: #F2B19C;
-  --sy-c-8: #F5BA88;
-  --sy-c-9: #AFB2B6;
-  --sy-c-10: #6ACBDA;
-  --sy-c-11: #78AFED;
-  --sy-c-12: #F2B19C;
-  --sy-c-13: #B9AAF8;
+  --sy-c-1: #F08080;
+  --sy-c-2: #E8A8D0;
+  --sy-c-3: #7BADFF;
+  --sy-c-4: #55B594;
+  --sy-c-5: #E8D538;
+  --sy-c-6: #6ED3B8;
+  --sy-c-7: #FF4B36;
+  --sy-c-8: #F2B866;
+  --sy-c-9: #E0A8A8;
+  --sy-c-10: #3FC9B9;
+  --sy-c-11: #6EA7F0;
+  --sy-c-12: #E09000;
+  --sy-c-13: #C09EFF;
 
   /* 背景颜色 */
-  --sy-bg-1: #54262D;
-  --sy-bg-2: #522936;
-  --sy-bg-3: #263F54;
-  --sy-bg-4: #304D2D;
-  --sy-bg-5: #544226;
-  --sy-bg-6: #2B4B50;
-  --sy-bg-7: #542926;
-  --sy-bg-8: #545326;
-  --sy-bg-9: #364045;
-  --sy-bg-10: #2B4B50;
-  --sy-bg-11: #263454;
-  --sy-bg-12: #544226;
-  --sy-bg-13: #382754;
+  --sy-bg-1: #3A1F1F;
+  --sy-bg-2: #42343A;
+  --sy-bg-3: #1C3144;
+  --sy-bg-4: #263D34;
+  --sy-bg-5: #443D12;
+  --sy-bg-6: #2A423C;
+  --sy-bg-7: #4F1C1C;
+  --sy-bg-8: #453311;
+  --sy-bg-9: #3E2E2E;
+  --sy-bg-10: #1F3F3A;
+  --sy-bg-11: #22304A;
+  --sy-bg-12: #4C3000;
+  --sy-bg-13: #32204A;
+
+  /* 13 号的白底换成本站深色卡片色，不然深色主题里会亮出一块白斑 */
+  --sy-plate: #241E33;
+  --sy-ink-13: #C09EFF;
+  --sy-ink-12: #F2C48A;
+  --sy-dash-12: #FFB74D;
+
+  /* 思源暗色主题里这个变量没改，仍是 #ffbb00，所以这里也保持一致 */
+  --sy-mark: #FFBB00;
 }
+
+/* ---------- 块级背景色（整段） ----------
+   思源里给整段文字上的卡片色，发布时被插件包成 <span class="sy-block …">。
+   用 span 而不是 div 是必须的：marked 遇到 div 会把里面的内容当纯 HTML，
+   行内代码和加粗全会变回字面量；span 是行内标签，里面的 Markdown 照常解析。
+   这里再用 display:block 把它变回块级，补上思源那套内边距与圆角。
+
+   不设 margin：它渲染出来是 <p><span class="sy-block">…</span></p>，
+   段间距交给外层那个 p 自己的 margin，重复设会撑出一段多余空白。
+
+   四种颜色对应思源的 --b3-card-*，值取自 Neo 主题的 oklch。
+   这一节必须排在 .sy-c-* 之前 —— 块内要是还有行内字色，
+   同特异性下靠后的 .sy-c-N 才能盖过这里的整体字色。 */
+
+#article-container .sy-block {
+  display: block;
+  padding: .7em 1em;
+  border-radius: 8px;
+  background-color: var(--sy-block-bg, transparent);
+  color: var(--sy-block-fg, inherit);
+}
+
+#article-container .sy-block-error   { --sy-block-bg: oklch(.96 .075 30);  --sy-block-fg: oklch(.58 .12 30); }
+#article-container .sy-block-warning { --sy-block-bg: oklch(.96 .075 75);  --sy-block-fg: oklch(.58 .12 75); }
+#article-container .sy-block-info    { --sy-block-bg: oklch(.96 .075 265); --sy-block-fg: oklch(.58 .12 265); }
+#article-container .sy-block-success { --sy-block-bg: oklch(.96 .075 145); --sy-block-fg: oklch(.58 .12 145); }
+
+[data-theme="dark"] #article-container .sy-block-error   { --sy-block-bg: oklch(.32 .03 30);  --sy-block-fg: oklch(.82 .12 30); }
+[data-theme="dark"] #article-container .sy-block-warning { --sy-block-bg: oklch(.32 .03 75);  --sy-block-fg: oklch(.82 .12 75); }
+[data-theme="dark"] #article-container .sy-block-info    { --sy-block-bg: oklch(.32 .03 265); --sy-block-fg: oklch(.82 .12 265); }
+[data-theme="dark"] #article-container .sy-block-success { --sy-block-bg: oklch(.32 .03 145); --sy-block-fg: oklch(.82 .12 145); }
 
 /* ---------- 字体颜色 ----------
    选择器带上 #article-container：一是把作用范围收在正文里，
@@ -120,28 +165,72 @@
 #article-container .sy-c-12 { color: var(--sy-c-12); }
 #article-container .sy-c-13 { color: var(--sy-c-13); }
 
-/* ---------- 背景颜色（整块） ----------
-   1 / 2 / 3 / 5 / 6 / 9 / 10 / 12 / 13 铺满整块，
-   和思源里看到的完全一致。 */
+/* ---------- 背景颜色 · 整块 ---------- */
 
 #article-container .sy-bg-1  { background-color: var(--sy-bg-1); }
 #article-container .sy-bg-2  { background-color: var(--sy-bg-2); }
 #article-container .sy-bg-3  { background-color: var(--sy-bg-3); }
 #article-container .sy-bg-5  { background-color: var(--sy-bg-5); }
 #article-container .sy-bg-6  { background-color: var(--sy-bg-6); }
-#article-container .sy-bg-9  { background-color: var(--sy-bg-9); }
 #article-container .sy-bg-10 { background-color: var(--sy-bg-10); }
-#article-container .sy-bg-12 { background-color: var(--sy-bg-12); }
-#article-container .sy-bg-13 { background-color: var(--sy-bg-13); }
 
-/* ---------- 背景颜色（下半截高亮） ----------
-   拆开写 background-image / -size / -position 而不是用 background 简写：
-   简写会把上面那些类里的 background-color 一起重置掉，
-   万一以后哪个颜色从「整块」改成「半截」，两个类叠加时也好排查。
+/* ---------- 背景颜色 · 9 号：粉红渐变标签 ----------
+   渐变的两个色取自 1、2 号底色，字色取 1 号字色 —— 思源原效果就是
+   这么配的（浅粉底 + 玫瑰红加粗小字 + 底部一道内阴影），跟着令牌自动适配深色。
+   color-mix 算出 20% 透明度的内阴影，亮暗都能用同一行。 */
 
-   色带走 linear-gradient，高度 0.6em（正文 16px 时约 9.6px，和你思源里调的一致），
-   贴在每行的底部。inline 元素的背景会跟着折行一段一段铺，
-   多行文字每行都有自己的色带，跟思源里的效果一致。 */
+#article-container .sy-bg-9 {
+  border-radius: 2px;
+  padding: .18em .32em;
+  background: linear-gradient(135deg, var(--sy-bg-1) 0%, var(--sy-bg-2) 100%);
+  color: var(--sy-c-1);
+  font-weight: 700;
+  font-size: .88em;
+  line-height: 1.2;
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--sy-c-1) 20%, transparent);
+}
+
+/* ---------- 背景颜色 · 12 号：橙色虚线下划线 ----------
+   底色只有三成透明度，靠一条 2px 的橙色虚线把语义压在文字下面。 */
+
+#article-container .sy-bg-12 {
+  border-radius: 3px;
+  padding: .1em .3em;
+  background: color-mix(in srgb, var(--sy-bg-12) 30%, transparent);
+  color: var(--sy-ink-12);
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--sy-dash-12);
+  text-decoration-thickness: 2px;
+  text-underline-offset: .2em;
+}
+
+/* ---------- 背景颜色 · 13 号：彩虹渐变边框 ----------
+   两层 background：底层用 padding-box 铺一块纯色把中间盖住，
+   顶层用 border-box 铺彩虹渐变，只从 1px 的边框里透出来。
+   所以 --sy-plate 深色下必须换成深色，否则会亮出一块白斑。 */
+
+#article-container .sy-bg-13 {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: .18em .3em .12em;
+  background:
+    linear-gradient(var(--sy-plate), var(--sy-plate)) padding-box,
+    linear-gradient(90deg, #FF5252, #FF4081, #7C4DFF, #448AFF) border-box;
+  color: var(--sy-ink-13);
+  font-weight: 600;
+  font-size: .9em;
+  line-height: 1.2;
+  vertical-align: baseline;
+}
+
+/* ---------- 背景颜色 · 下半截高亮（4 / 7 / 8 / 11） ----------
+   拆开写 background-image / -size / -position，不用 background 简写：
+   简写会把上面那些整块类的 background-color 一起重置掉，
+   以后哪个编号从「整块」改成「半截」时也好排查。
+
+   色带 0.6em 高，贴在每行底部。inline 元素的背景会跟着折行一段段铺，
+   多行文字每行都有自己的色带。 */
 
 #article-container .sy-bg-4 {
   background-color: transparent;
@@ -173,4 +262,20 @@
   background-size: 100% .6em;
   background-position: center bottom;
   background-repeat: no-repeat;
+}
+
+/* ---------- 标记（==文字== → <mark>） ----------
+   思源里那套：文字保持原色，背景透明，用一条 inset 阴影铺出
+   文字底部 0.6em 的色带（不是整块黄底）。
+
+   这边要把浏览器默认样式顶掉：mark 自带黄底黑字，
+   所以 background 和 color 都得显式写。
+   span[data-type~="mark"] 是思源另一种存法，一并兜住。 */
+
+#article-container mark,
+#article-container span[data-type~="mark"] {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  box-shadow: inset 0 -.6em 0 0 color-mix(in srgb, var(--sy-mark) 35%, transparent);
 }
