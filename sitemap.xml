@@ -187,13 +187,6 @@
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/tags/%E6%8F%92%E4%BB%B6/</loc>
-    <lastmod>2026-11-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lunanorth.github.io/tags/%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -202,6 +195,13 @@
   
   <url>
     <loc>https://lunanorth.github.io/tags/%E8%BD%BB%E8%AF%AD/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunanorth.github.io/tags/%E6%8F%92%E4%BB%B6/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -224,7 +224,7 @@
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/categories/%E6%80%9D%E6%BA%90%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://lunanorth.github.io/categories/Hexo/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -238,7 +238,7 @@
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/categories/Hexo/</loc>
+    <loc>https://lunanorth.github.io/categories/%E6%80%9D%E6%BA%90%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
