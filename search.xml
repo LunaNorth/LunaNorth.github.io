@@ -144,6 +144,83 @@
       </tags>
   </entry>
   <entry>
+    <title>2026-11-12-碎碎念</title>
+    <url>/posts/2eec.html</url>
+    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
+<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
+<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
+<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
+    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
+  </div>
+
+<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
+<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
+<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
+<ul>
+<li><input disabled="" type="checkbox"> 有氧</li>
+<li><input disabled="" type="checkbox"> 无氧</li>
+<li><input disabled="" type="checkbox"> 看书</li>
+<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
+</ul>
+<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
+<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>忆往昔</title>
+    <url>/posts/1ec6.html</url>
+    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
+<p>等这周有时间再写吧</p>
+<p>‍<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div></p>
+<div class="note blue icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p>
+</div>
+
+<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p>
+</div>
+
+<div class="note red icon-padding modern"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p>
+</div>
+
+<div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div>
+
+<div class="note purple icon-padding modern"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p>
+</div>
+
+<div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
+</div>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
     <url>/posts/200b.html</url>
     <content><![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给 PicGo。</span></p>
@@ -190,6 +267,9 @@
 </tr>
 </tbody></table>
 <p><span class="sy-block sy-block-error">三种带上传的模式都有缓存，只是缓存表不同：PicGo 用 ​<code>picgoCache</code>​，博客园用 ​<code>assetCache</code>。</span></p>
+<p><span class="sy-block sy-block-warning"><span class="sy-block sy-block-success"><span class="sy-block sy-block-info">测试1</span></span></span></p>
+<p>测试1</p>
+<p>测试1</p>
 <h2 id="三个会让你「以为要重传」的例外"><a href="#三个会让你「以为要重传」的例外" class="headerlink" title="三个会让你「以为要重传」的例外"></a>三个会让你「以为要重传」的例外</h2><ol>
 <li><strong>手动点了「清空图片缓存」</strong> ：<span data-type="text" class="sy-bg-12">缓存清空后，下次发布就会被当作从未上传过，图床（博客园）</span>里会多出一份重复图片，<span data-type="text" class="sy-bg-9">已发布文章里的链接不受影响。弹窗里那句确认文案说的就是这个。</span></li>
 <li><strong>在思源里给图片换了名</strong>（重命名或换了一张同位置的新图，路径变了）：<mark>换名等于换 key，会重新上传，旧图留在图床成为孤儿</mark>。这是「路径当 key」的代价；换内容不换名反而更隐蔽，会继续用旧地址，博客上显示的还是旧图。</li>
@@ -206,65 +286,6 @@
       </categories>
       <tags>
         <tag>插件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2026-11-12-碎碎念</title>
-    <url>/posts/2eec.html</url>
-    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
-<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
-<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
-<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
-    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
-  </div>
-
-<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
-<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
-<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
-<ul>
-<li><input disabled="" type="checkbox"> 有氧</li>
-<li><input disabled="" type="checkbox"> 无氧</li>
-<li><input disabled="" type="checkbox"> 看书</li>
-<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
-</ul>
-<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
-<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>忆往昔</title>
-    <url>/posts/1ec6.html</url>
-    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
-<p>等这周有时间再写吧</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
       </tags>
   </entry>
   <entry>
