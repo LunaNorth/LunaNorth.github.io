@@ -79,38 +79,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12博客更新日志</title>
-    <url>/posts/1a3f.html</url>
-    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
-<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
-<hr>
-<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
-<ol>
-<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
-</ol>
-<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
-<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
-<p>接下来就是Hexo加粗样式的美化了</p>
-<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
-<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
-<hr>
-<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
-<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2026-11-11博客更新日志</title>
     <url>/posts/5e7b.html</url>
     <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
@@ -135,6 +103,103 @@
 <p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
 <p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
 <p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
+    <url>/posts/200b.html</url>
+    <content><![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给 PicGo。</span></p>
+<h2 id="代码里的依据"><a href="#代码里的依据" class="headerlink" title="代码里的依据"></a>代码里的依据</h2><p>Hexo 发布链路在 ​<code>index.js</code>​ 的 ​<code>uploadDocImagesToPicGo()</code>（2235 行）：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> url <span class="hljs-keyword">of</span> pending) &#123;<br>  <span class="hljs-keyword">const</span> assetPath = <span class="hljs-title function_">toAssetPath</span>(url);<br>  <span class="hljs-keyword">if</span> (cache[assetPath]) &#123;          <span class="hljs-comment">// ← 命中缓存</span><br>    cached++;<br>    urlMap.<span class="hljs-title function_">set</span>(url, cache[assetPath]);<br>    <span class="hljs-keyword">continue</span>;                      <span class="hljs-comment">// ← 直接跳过，不发请求</span><br>  &#125;<br>  ...stageAssetToTemp → <span class="hljs-title class_">PicGo</span> 上传 → cache[assetPath] = remote<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>有三个关键点：</p>
+<ul>
+<li><strong>缓存键是归一化后的资源路径</strong>，比如 ​<code>/assets/image-20250101120000-abc.png</code>​，不是文档 ID，也不是 URL 原文。​<code>toAssetPath()</code>​ 会把 ​<code>assets/x.png</code>​、​<code>/assets/x.png</code>​、​<code>http://127.0.0.1:6806/assets/x.png</code> 这三种写法都归一成同一个 key，所以就算你在思源里换了一种引用写法，也能命中同一条缓存。</li>
+<li><strong>缓存持久化在磁盘上</strong>：​<code>&lt;工作空间&gt;/data/storage/petal/QingZhou/settings</code>​ 的 ​<code>picgoCache</code> 字段。插件重载、思源重启、换设备登录同一个工作空间，缓存都还在。</li>
+<li><strong>重新发布其实只是覆盖同一个 .md 文件</strong>：​<code>hexoMappings</code>​ 记着 file 路径，​<code>mine === true</code>​ 时不弹确认直接 ​<code>writeTextFileSync</code> 覆盖。文章里旧图的链接还是上次那批图床 URL。</li>
+</ul>
+<h2 id="怎么自己确认"><a href="#怎么自己确认" class="headerlink" title="怎么自己确认"></a>怎么自己确认</h2><p>每次发布，弹窗底部的日志都会打一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">图片处理完成:新上传 0,复用缓存 7,失败 0<br></code></pre></td></tr></table></figure>
+
+<p>「新上传 0」就是你要的结果。第一次发布是「新上传 7，复用缓存 0」，之后只要不改图，就一直是前者。</p>
+<h2 id="四种模式的差异，顺便理一下"><a href="#四种模式的差异，顺便理一下" class="headerlink" title="四种模式的差异，顺便理一下"></a>四种模式的差异，顺便理一下</h2><table>
+<thead>
+<tr>
+<th>图片处理方式</th>
+<th>第一次</th>
+<th>重新发布</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上传到图床（PicGo）</td>
+<td>上传</td>
+<td>查 ​<code>picgoCache</code>，命中即跳过</td>
+</tr>
+<tr>
+<td>复制到博客仓库</td>
+<td>写进仓库</td>
+<td><code>fs.existsSync</code>​ 有就直接跳过（​<code>copyDocImagesToRepo</code>，2146 行）</td>
+</tr>
+<tr>
+<td>上传到博客园图床</td>
+<td>上传</td>
+<td>查 ​<code>assetCache</code>，命中即跳过</td>
+</tr>
+<tr>
+<td>保持原样</td>
+<td>不动</td>
+<td>不动</td>
+</tr>
+</tbody></table>
+<p><span class="sy-block sy-block-error">三种带上传的模式都有缓存，只是缓存表不同：PicGo 用 ​<code>picgoCache</code>​，博客园用 ​<code>assetCache</code>。</span></p>
+<h2 id="三个会让你「以为要重传」的例外"><a href="#三个会让你「以为要重传」的例外" class="headerlink" title="三个会让你「以为要重传」的例外"></a>三个会让你「以为要重传」的例外</h2><ol>
+<li><strong>手动点了「清空图片缓存」</strong> ：<span data-type="text" class="sy-bg-12">缓存清空后，下次发布就会被当作从未上传过，图床（博客园）</span>里会多出一份重复图片，<span data-type="text" class="sy-bg-9">已发布文章里的链接不受影响。弹窗里那句确认文案说的就是这个。</span></li>
+<li><strong>在思源里给图片换了名</strong>（重命名或换了一张同位置的新图，路径变了）：<mark>换名等于换 key，会重新上传，旧图留在图床成为孤儿</mark>。这是「路径当 key」的代价；换内容不换名反而更隐蔽，会继续用旧地址，博客上显示的还是旧图。</li>
+<li><strong>换图床</strong>（PicGo 里从 SM.MS 换成阿里云或 GitHub）：<span data-type="text" class="sy-bg-13">缓存里存的是旧图床 URL，不会自动迁移，得清缓存才会重传到新图床。</span></li>
+</ol>
+<h2 id="顺手发现一个不一致，要不要修"><a href="#顺手发现一个不一致，要不要修" class="headerlink" title="顺手发现一个不一致，要不要修"></a>顺手发现一个不一致，要不要修</h2><p>设置里的「清空图片缓存」按钮（​<code>_wirePaneData</code>​，7402 行）只清 ​<code>assetCache</code>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">assetCache</span> = &#123;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><code>picgoCache</code>​ 没有任何清理入口，只能手动去改 ​<code>settings</code> 这个 JSON 文件。也就是说，走 Hexo 加 PicGo 的用户，遇到上面第 2、3 种情况时，在界面上根本清不掉缓存。README 里那句「清空图片缓存」写得像通用开关，实际只对博客园生效。</p>
+<p>建议的改法很小：按钮里两行都清，确认文案按当前 ​<code>hexoImageMode</code>​ 说对应的话；或者在「数据管理」里拆成两个条目（博客园图床缓存和 PicGo 图床缓存），各自显示条数。你倾向哪种？定了我就改 ​<code>index.js</code>​，​<code>index.css</code> 不用动。</p>
+]]></content>
+      <categories>
+        <category>思源笔记</category>
+      </categories>
+      <tags>
+        <tag>插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-12博客更新日志</title>
+    <url>/posts/1a3f.html</url>
+    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
+<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
+<hr>
+<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
+<ol>
+<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
+</ol>
+<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
+<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
+<p>接下来就是Hexo加粗样式的美化了</p>
+<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
+<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
+<hr>
+<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
+<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
 ]]></content>
       <categories>
         <category>博客日志</category>
@@ -256,71 +321,6 @@
       </categories>
       <tags>
         <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
-    <url>/posts/200b.html</url>
-    <content><![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给 PicGo。</span></p>
-<h2 id="代码里的依据"><a href="#代码里的依据" class="headerlink" title="代码里的依据"></a>代码里的依据</h2><p>Hexo 发布链路在 ​<code>index.js</code>​ 的 ​<code>uploadDocImagesToPicGo()</code>（2235 行）：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> url <span class="hljs-keyword">of</span> pending) &#123;<br>  <span class="hljs-keyword">const</span> assetPath = <span class="hljs-title function_">toAssetPath</span>(url);<br>  <span class="hljs-keyword">if</span> (cache[assetPath]) &#123;          <span class="hljs-comment">// ← 命中缓存</span><br>    cached++;<br>    urlMap.<span class="hljs-title function_">set</span>(url, cache[assetPath]);<br>    <span class="hljs-keyword">continue</span>;                      <span class="hljs-comment">// ← 直接跳过，不发请求</span><br>  &#125;<br>  ...stageAssetToTemp → <span class="hljs-title class_">PicGo</span> 上传 → cache[assetPath] = remote<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>有三个关键点：</p>
-<ul>
-<li><strong>缓存键是归一化后的资源路径</strong>，比如 ​<code>/assets/image-20250101120000-abc.png</code>​，不是文档 ID，也不是 URL 原文。​<code>toAssetPath()</code>​ 会把 ​<code>assets/x.png</code>​、​<code>/assets/x.png</code>​、​<code>http://127.0.0.1:6806/assets/x.png</code> 这三种写法都归一成同一个 key，所以就算你在思源里换了一种引用写法，也能命中同一条缓存。</li>
-<li><strong>缓存持久化在磁盘上</strong>：​<code>&lt;工作空间&gt;/data/storage/petal/QingZhou/settings</code>​ 的 ​<code>picgoCache</code> 字段。插件重载、思源重启、换设备登录同一个工作空间，缓存都还在。</li>
-<li><strong>重新发布其实只是覆盖同一个 .md 文件</strong>：​<code>hexoMappings</code>​ 记着 file 路径，​<code>mine === true</code>​ 时不弹确认直接 ​<code>writeTextFileSync</code> 覆盖。文章里旧图的链接还是上次那批图床 URL。</li>
-</ul>
-<h2 id="怎么自己确认"><a href="#怎么自己确认" class="headerlink" title="怎么自己确认"></a>怎么自己确认</h2><p>每次发布，弹窗底部的日志都会打一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">图片处理完成:新上传 0,复用缓存 7,失败 0<br></code></pre></td></tr></table></figure>
-
-<p>「新上传 0」就是你要的结果。第一次发布是「新上传 7，复用缓存 0」，之后只要不改图，就一直是前者。</p>
-<h2 id="四种模式的差异，顺便理一下"><a href="#四种模式的差异，顺便理一下" class="headerlink" title="四种模式的差异，顺便理一下"></a>四种模式的差异，顺便理一下</h2><table>
-<thead>
-<tr>
-<th>图片处理方式</th>
-<th>第一次</th>
-<th>重新发布</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>上传到图床（PicGo）</td>
-<td>上传</td>
-<td>查 ​<code>picgoCache</code>，命中即跳过</td>
-</tr>
-<tr>
-<td>复制到博客仓库</td>
-<td>写进仓库</td>
-<td><code>fs.existsSync</code>​ 有就直接跳过（​<code>copyDocImagesToRepo</code>，2146 行）</td>
-</tr>
-<tr>
-<td>上传到博客园图床</td>
-<td>上传</td>
-<td>查 ​<code>assetCache</code>，命中即跳过</td>
-</tr>
-<tr>
-<td>保持原样</td>
-<td>不动</td>
-<td>不动</td>
-</tr>
-</tbody></table>
-<p><span class="sy-block sy-block-error">三种带上传的模式都有缓存，只是缓存表不同：PicGo 用 ​<code>picgoCache</code>​，博客园用 ​<code>assetCache</code>。</span></p>
-<h2 id="三个会让你「以为要重传」的例外"><a href="#三个会让你「以为要重传」的例外" class="headerlink" title="三个会让你「以为要重传」的例外"></a>三个会让你「以为要重传」的例外</h2><ol>
-<li><strong>手动点了「清空图片缓存」</strong> ：<span data-type="text" class="sy-bg-12">缓存清空后，下次发布就会被当作从未上传过，图床（博客园）</span>里会多出一份重复图片，<span data-type="text" class="sy-bg-9">已发布文章里的链接不受影响。弹窗里那句确认文案说的就是这个。</span></li>
-<li><strong>在思源里给图片换了名</strong>（重命名或换了一张同位置的新图，路径变了）：<mark>换名等于换 key，会重新上传，旧图留在图床成为孤儿</mark>。这是「路径当 key」的代价；换内容不换名反而更隐蔽，会继续用旧地址，博客上显示的还是旧图。</li>
-<li><strong>换图床</strong>（PicGo 里从 SM.MS 换成阿里云或 GitHub）：<span data-type="text" class="sy-bg-13">缓存里存的是旧图床 URL，不会自动迁移，得清缓存才会重传到新图床。</span></li>
-</ol>
-<h2 id="顺手发现一个不一致，要不要修"><a href="#顺手发现一个不一致，要不要修" class="headerlink" title="顺手发现一个不一致，要不要修"></a>顺手发现一个不一致，要不要修</h2><p>设置里的「清空图片缓存」按钮（​<code>_wirePaneData</code>​，7402 行）只清 ​<code>assetCache</code>：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">assetCache</span> = &#123;&#125;;<br></code></pre></td></tr></table></figure>
-
-<p><code>picgoCache</code>​ 没有任何清理入口，只能手动去改 ​<code>settings</code> 这个 JSON 文件。也就是说，走 Hexo 加 PicGo 的用户，遇到上面第 2、3 种情况时，在界面上根本清不掉缓存。README 里那句「清空图片缓存」写得像通用开关，实际只对博客园生效。</p>
-<p>建议的改法很小：按钮里两行都清，确认文案按当前 ​<code>hexoImageMode</code>​ 说对应的话；或者在「数据管理」里拆成两个条目（博客园图床缓存和 PicGo 图床缓存），各自显示条数。你倾向哪种？定了我就改 ​<code>index.js</code>​，​<code>index.css</code> 不用动。</p>
-]]></content>
-      <categories>
-        <category>思源笔记</category>
-      </categories>
-      <tags>
-        <tag>插件</tag>
       </tags>
   </entry>
   <entry>
