@@ -1742,11 +1742,18 @@
   color: var(--btf-theme);
 }
 
-.layout .pagination .page-number.current,
-.layout .pagination .page-number.current:hover {
+/* 当前页码：主题在 index.css 里写死了
+   #pagination .page-number.current { background: #425aef; }
+   （ID + 两个类）。下面这组选择器原本只有三个类，特异性不够、一直没生效：
+   亮色下 #425aef 刚好等于主题色，看不出问题；深色下主题色变黄，就会残留蓝色。
+   前缀 #pagination 把特异性抬到 ID + 三个类，压过主题那条，
+   颜色重新走令牌 —— 亮色 #425AEF / 深色 #ffc848，与导航胶囊、信息卡按钮同源。 */
+#pagination .pagination .page-number.current,
+#pagination .pagination .page-number.current:hover {
   background: var(--btf-theme);
   border-color: var(--btf-theme);
   color: var(--btf-nav-hover-text);
+  box-shadow: none;
 }
 
 /* ---------- 4.8 按钮 / 右下角工具栏 ---------- */
@@ -1788,7 +1795,6 @@
 #aside-content #card-toc .toc-link.active {
   background: var(--btf-theme-op);
   color: var(--btf-theme);
-  font-weight: 700;
 }
 
 #aside-content .site-data a:hover div,

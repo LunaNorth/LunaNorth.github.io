@@ -299,6 +299,17 @@ figure.highlight .highlight-tools {
   font-family: Consolas !important;
 }
 
+/* 代码块行高：主题把 1.6 写死在 var.styl 的 $line-height-code-block 里，
+   _config.butterfly.yml 没有对应开关，只能在这里覆盖。
+   字号走上面的 code_font_size（14px），这里不重复声明。
+   行内代码不受影响：custom.css 里那条
+   .container code:not([class*="language-"]):not(.hljs) 特异性更高，
+   仍是 12px / 1.5。 */
+.container pre,
+.container code {
+  line-height: 1.8;
+}
+
 /* ---------- 文章版权卡 ----------
    模板 includes/post/post-copyright.pug
    结构：标题 / 永久链接 / 四列信息（作者、发布于、更新于、许可协议）
