@@ -144,33 +144,41 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12-碎碎念</title>
-    <url>/posts/2eec.html</url>
-    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
-<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
-<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
-<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
-    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
-  </div>
-
-<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
-<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
-<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
-<ul>
-<li><input disabled="" type="checkbox"> 有氧</li>
-<li><input disabled="" type="checkbox"> 无氧</li>
-<li><input disabled="" type="checkbox"> 看书</li>
-<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
-</ul>
-<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
-<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
-<p>‍</p>
+    <title>Lumina日志</title>
+    <url>/posts/286c.html</url>
+    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>Lumina日志</p>
+</div>
+        </div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 11:26</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 09:14</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-09 20:30</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
+</div>
+      </div></div>
 ]]></content>
       <categories>
-        <category>闲聊杂谈</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>轻语</tag>
+        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -197,6 +205,36 @@
 
 <div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
 </div>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-12-碎碎念</title>
+    <url>/posts/2eec.html</url>
+    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
+<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
+<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
+<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
+    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
+  </div>
+
+<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
+<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
+<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
+<ul>
+<li><input disabled="" type="checkbox"> 有氧</li>
+<li><input disabled="" type="checkbox"> 无氧</li>
+<li><input disabled="" type="checkbox"> 看书</li>
+<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
+</ul>
+<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
+<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
+<p>‍</p>
 ]]></content>
       <categories>
         <category>闲聊杂谈</category>
@@ -283,44 +321,6 @@
       </categories>
       <tags>
         <tag>插件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lumina日志</title>
-    <url>/posts/286c.html</url>
-    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>Lumina日志</p>
-</div>
-        </div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 11:26</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 09:14</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-09 20:30</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
-</div>
-      </div></div>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
