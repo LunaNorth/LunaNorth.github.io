@@ -124,27 +124,74 @@
    不设 margin：它渲染出来是 <p><span class="sy-block">…</span></p>，
    段间距交给外层那个 p 自己的 margin，重复设会撑出一段多余空白。
 
-   四种颜色对应思源的 --b3-card-*，值取自 Neo 主题的 oklch。
+   四种颜色跟 Butterfly 的 note 外挂标签一一对齐（都按 modern 风格）：
+     error   ↔ {% note pink   'fas fa-car-crash'    modern %}
+     warning ↔ {% note orange 'fas fa-battery-half' modern %}
+     info    ↔ {% note blue   'fas fa-bullhorn'     modern %}
+     success ↔ {% note green  'fab fa-internet-explorer' modern %}
+
+   只有 success 的图标没照搬：示范里那个 IE 浏览器图标表示「发布成功」太绕，
+   换成了对勾圆圈。其余三个（撞车 / 半格电池 / 喇叭）保持原样。
+
+   底色和字色不再自己写死，而是引用主题给 note 准备好的那两组令牌：
+     --tags-<色>-color          字色
+     --tags-<色>-color-lighten  底色
+   深色主题下主题已经换过一套暗色值（浅色是 #ffe9f4 这种，暗色是 15% 透明），
+   这里跟着引用就自动同步 —— 以后改标签色只需动主题，不用回来改这个文件。
+
    这一节必须排在 .sy-c-* 之前 —— 块内要是还有行内字色，
    同特异性下靠后的 .sy-c-N 才能盖过这里的整体字色。 */
 
 #article-container .sy-block {
   display: block;
-  padding: .7em 1em;
-  border-radius: 8px;
+  position: relative;
+  padding: 15px 15px 15px 3em;
+  border: 1px solid transparent;
+  border-radius: 3px;
   background-color: var(--sy-block-bg, transparent);
   color: var(--sy-block-fg, inherit);
 }
 
-#article-container .sy-block-error   { --sy-block-bg: oklch(.96 .075 30);  --sy-block-fg: oklch(.58 .12 30); }
-#article-container .sy-block-warning { --sy-block-bg: oklch(.96 .075 75);  --sy-block-fg: oklch(.58 .12 75); }
-#article-container .sy-block-info    { --sy-block-bg: oklch(.96 .075 265); --sy-block-fg: oklch(.58 .12 265); }
-#article-container .sy-block-success { --sy-block-bg: oklch(.96 .075 145); --sy-block-fg: oklch(.58 .12 145); }
+#article-container .sy-block-error   { --sy-block-bg: var(--tags-pink-color-lighten);   --sy-block-fg: var(--tags-pink-color); }
+#article-container .sy-block-warning { --sy-block-bg: var(--tags-orange-color-lighten); --sy-block-fg: var(--tags-orange-color); }
+#article-container .sy-block-info    { --sy-block-bg: var(--tags-blue-color-lighten);   --sy-block-fg: var(--tags-blue-color); }
+#article-container .sy-block-success { --sy-block-bg: var(--tags-green-color-lighten);  --sy-block-fg: var(--tags-green-color); }
 
-[data-theme="dark"] #article-container .sy-block-error   { --sy-block-bg: oklch(.32 .03 30);  --sy-block-fg: oklch(.82 .12 30); }
-[data-theme="dark"] #article-container .sy-block-warning { --sy-block-bg: oklch(.32 .03 75);  --sy-block-fg: oklch(.82 .12 75); }
-[data-theme="dark"] #article-container .sy-block-info    { --sy-block-bg: oklch(.32 .03 265); --sy-block-fg: oklch(.82 .12 265); }
-[data-theme="dark"] #article-container .sy-block-success { --sy-block-bg: oklch(.32 .03 145); --sy-block-fg: oklch(.82 .12 145); }
+/* 左侧图标：位置、字号照抄 note 的 .note-icon，字体族照抄主题的 .fontawesomeIcon。
+   四个都是 solid 图标，只用 Free 那一套字体就够了。 */
+#article-container .sy-block::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - .5em);
+  left: .8em;
+  font-size: larger;
+  font-style: normal;
+  font-weight: 900;
+  font-family: 'Font Awesome 7 Free', 'Font Awesome 6 Free';
+  line-height: 1;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+#article-container .sy-block-error::before   { content: "\f5e1"; }  /* car-crash */
+#article-container .sy-block-warning::before { content: "\f242"; }  /* battery-half */
+#article-container .sy-block-info::before    { content: "\f0a1"; }  /* bullhorn */
+#article-container .sy-block-success::before { content: "\f058"; }  /* circle-check（原来是 IE 浏览器图标） */
+
+/* 嵌套兜底：发布出去的正文里出现过 <span class="sy-block warning"><span class="sy-block success">…
+   这种层层包裹，如果每层都上卡片和内边距，会叠出三层留白、三个图标。
+   所以内层退回行内着色，卡片只由最外层那张出。 */
+#article-container .sy-block .sy-block {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+#article-container .sy-block .sy-block::before {
+  content: none;
+}
 
 /* ---------- 字体颜色 ----------
    选择器带上 #article-container：一是把作用范围收在正文里，
