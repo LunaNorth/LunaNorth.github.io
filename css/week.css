@@ -1,0 +1,440 @@
+/* ==========================================================================
+   本周页（/week/）
+   结构 includes/page/week.pug，渲染逻辑 source/js/week.js
+   - 顶部：三张进行中的卡（约定 / 打卡 / 体态）—— 代表「现在」，不随周折叠
+   - 下面：有记录的周各占一张卡，头部是「11.09 周一 — 11.15 周日 · 第 N 周 · X 条记录」，
+          本周默认展开，往前的周默认折叠，点一下展开
+   - 结尾：一句旧话
+   颜色全走 --btf-* 令牌，深浅主题自动适配
+   ========================================================================== */
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.wk-page) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#body-wrap.type-week #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-week #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+.wk-loading {
+  margin: 0;
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--btf-gray);
+  font-size: .85rem;
+}
+
+/* ---------- 三张进行中的卡 ---------- */
+.wk-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.wk-stat {
+  padding: 1rem 1.15rem;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  transition: border-color var(--btf-transition);
+}
+
+.wk-stat:hover {
+  border-color: var(--btf-card-border-hover);
+}
+
+.wk-stat__label {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--btf-second-text);
+  font-size: .82rem;
+}
+
+.wk-stat__label i {
+  color: var(--btf-theme);
+  font-size: .8rem;
+}
+
+.wk-stat__num {
+  margin: .55rem 0 .55rem;
+  color: var(--btf-font-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+.wk-stat__num b {
+  color: var(--btf-theme);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.wk-unit {
+  margin-left: .1rem;
+  color: var(--btf-gray);
+  font-size: .82rem;
+  font-weight: 400;
+}
+
+.wk-bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--btf-card-btn-bg);
+}
+
+.wk-bar.is-empty {
+  position: relative;
+}
+
+/* 起点小圈：还没开始的项目不画空槽，只标一个起跑线 */
+.wk-bar.is-empty::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid var(--btf-card-border-hover);
+  border-radius: 50%;
+  background: var(--btf-card-bg);
+  content: '';
+}
+
+.wk-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--btf-theme);
+  transition: width var(--btf-transition);
+}
+
+.wk-stat__meta {
+  margin-top: .6rem;
+  color: var(--btf-gray);
+  font-size: .77rem;
+  line-height: 1.65;
+}
+
+/* ---------- 周卡片（可折叠） ---------- */
+.wk-wk {
+  margin-bottom: 12px;
+  overflow: hidden;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-card-bg);
+  transition: border-color var(--btf-transition);
+}
+
+.wk-wk:hover {
+  border-color: var(--btf-card-border-hover);
+}
+
+.wk-wk__head {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .8rem 1.15rem;
+  border: 0;
+  background: transparent;
+  color: var(--btf-second-text);
+  font: inherit;
+  font-size: .87rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wk-wk__range b {
+  color: var(--btf-font-color);
+  font-weight: 600;
+}
+
+.wk-wk__meta {
+  margin-left: auto;
+  color: var(--btf-gray);
+  font-size: .78rem;
+}
+
+/* 箭头用两条边框画，不依赖图标字体 */
+.wk-wk__chev {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 7px;
+  height: 7px;
+  margin: 0 .15rem 0 .1rem;
+  border-right: 1.5px solid var(--btf-gray);
+  border-bottom: 1.5px solid var(--btf-gray);
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform var(--btf-transition);
+}
+
+.wk-wk.is-open .wk-wk__chev {
+  transform: rotate(-135deg) translate(-1px, -1px);
+}
+
+.wk-wk.is-open .wk-wk__head {
+  border-bottom: 1px dashed var(--btf-card-border);
+}
+
+.wk-wk__body {
+  display: none;
+  padding: 0 1.15rem .3rem;
+}
+
+.wk-wk.is-open .wk-wk__body {
+  display: block;
+}
+
+/* ---------- 一周里的每一天 ---------- */
+.wk-day {
+  display: flex;
+  gap: .9rem;
+  padding: .8rem 0;
+  border-bottom: 1px dashed var(--btf-card-border);
+}
+
+.wk-day:last-child {
+  border-bottom: 0;
+}
+
+.wk-day__date {
+  flex: 0 0 52px;
+  padding-top: .12rem;
+}
+
+.wk-day__date b {
+  display: block;
+  color: var(--btf-font-color);
+  font-size: .88rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+.wk-day__date span {
+  color: var(--btf-gray);
+  font-size: .73rem;
+}
+
+.wk-day.is-today .wk-day__date b {
+  color: var(--btf-theme);
+}
+
+.wk-day__items {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+}
+
+.wk-time {
+  flex: 0 0 38px;
+  padding-top: .15rem;
+  color: var(--btf-gray);
+  font-size: .75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* 类型标签：不用胶囊，改成小圆角方块
+   尺度参考：卡片 12px（--btf-radius）→ 小部件 8px（--btf-radius-sm）→ 标签 4px
+   标签本身只有 15px 左右高，半径到 6px 就接近半圆、7px 以上等于胶囊了 */
+.wk-tag {
+  flex: 0 0 auto;
+  margin-top: .08rem;
+  padding: .02rem .5rem;
+  border-radius: 4px;
+  background: var(--btf-theme-op-light);
+  color: var(--btf-theme);
+  font-size: .72rem;
+}
+
+.wk-tag--post {
+  background: rgba(46, 143, 110, .13);
+  color: #2e8f6e;
+}
+
+[data-theme="dark"] .wk-tag--post {
+  color: #86d3ae;
+}
+
+.wk-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: var(--btf-second-text);
+  font-size: .87rem;
+  line-height: 1.72;
+}
+
+.wk-text a {
+  color: var(--btf-font-color);
+}
+
+.wk-text a:hover {
+  color: var(--btf-theme);
+}
+
+.wk-where {
+  margin-left: .35rem;
+  color: var(--btf-gray);
+  font-size: .76rem;
+}
+
+.wk-empty {
+  flex: 1;
+  margin: 0;
+  padding-top: .12rem;
+  color: var(--btf-gray);
+  font-size: .83rem;
+  opacity: .7;
+}
+
+.wk-empty--week {
+  padding: .9rem 0;
+}
+
+/* ---------- 一句旧话 ---------- */
+.wk-quote {
+  position: relative;
+  margin-bottom: 12px;
+  padding: 1.15rem 1.35rem 1.05rem;
+  border: var(--btf-border);
+  border-radius: var(--btf-radius);
+  background: var(--btf-second-bg);
+}
+
+.wk-quote__mark {
+  position: absolute;
+  top: .2rem;
+  left: .85rem;
+  color: var(--btf-theme);
+  font-family: Georgia, serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  opacity: .18;
+}
+
+.wk-quote__text {
+  position: relative;
+  margin: 0 0 .6rem;
+  color: var(--btf-font-color);
+  font-size: .95rem;
+  line-height: 1.95;
+}
+
+.wk-quote__from {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  color: var(--btf-gray);
+  font-size: .77rem;
+}
+
+.wk-quote__from a {
+  color: var(--btf-gray);
+}
+
+.wk-quote__from a:hover {
+  color: var(--btf-theme);
+}
+
+.wk-quote__refresh {
+  margin-left: auto;
+  color: var(--btf-gray);
+  font-size: .77rem;
+  cursor: pointer;
+  transition: color var(--btf-transition);
+}
+
+.wk-quote__refresh:hover {
+  color: var(--btf-theme);
+}
+
+.wk-tip {
+  margin: 0;
+  color: var(--btf-gray);
+  font-size: .78rem;
+  text-align: center;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 640px) {
+  .wk-wk__head {
+    flex-wrap: wrap;
+    gap: .2rem .5rem;
+    padding: .75rem .9rem;
+  }
+
+  .wk-wk__meta {
+    margin-left: 0;
+    order: 3;
+    width: 100%;
+  }
+
+  .wk-wk__chev {
+    margin-left: auto;
+    order: 2;
+  }
+
+  .wk-wk__body {
+    padding: 0 .9rem .2rem;
+  }
+
+  /* 窄屏改成「时间 + 标签」一行、正文另起一行铺满，避免长句顶出卡片 */
+  .wk-item {
+    display: block;
+  }
+
+  .wk-time {
+    display: inline-block;
+    width: auto;
+    padding-top: 0;
+    margin-right: .45rem;
+    vertical-align: middle;
+  }
+
+  .wk-tag {
+    display: inline-block;
+    margin-top: 0;
+    vertical-align: middle;
+  }
+
+  .wk-text {
+    display: block;
+    width: 100%;
+    margin-top: .3rem;
+  }
+
+  .wk-day {
+    gap: .6rem;
+  }
+
+  .wk-day__date {
+    flex: 0 0 44px;
+  }
+}
