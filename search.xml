@@ -79,39 +79,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-11博客更新日志</title>
-    <url>/posts/5e7b.html</url>
-    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
-
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
-
-<hr>
-<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
-<p>接下来就开始实现标签页样式了</p>
-<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
-<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
-<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
-<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
-<p>如图 ，修复完毕 ，今日份修改完工</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
-<p>最后优化了下首页 banner , 现在访问速度更高了</p>
-<hr>
-<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>轻舟-后续更新内容时第一次上传的图片是否还需要再继续上传疑惑</title>
     <url>/posts/200b.html</url>
     <content><![CDATA[<p><strong>结论：不需要重传。</strong>  <span data-type="text" class="sy-bg-4">第二次发布（更新）时，插件会按「资源路径」查缓存，已经传过的图直接复用原来的图床地址，一个网络请求都不发；只有这一次新增的图片才真正交给 PicGo。</span></p>
@@ -177,35 +144,18 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12博客更新日志</title>
-    <url>/posts/1a3f.html</url>
-    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
-<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
-<hr>
-<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
-<ol>
-<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
-</ol>
-<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
-<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
-<p>接下来就是Hexo加粗样式的美化了</p>
-<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
-<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
-<hr>
-<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
-<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
 ]]></content>
       <categories>
-        <category>博客日志</category>
+        <category>闲聊杂谈</category>
       </categories>
       <tags>
-        <tag>随记</tag>
+        <tag>轻语</tag>
       </tags>
   </entry>
   <entry>
@@ -271,56 +221,68 @@
       </tags>
   </entry>
   <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
+    <title>2026-11-11博客更新日志</title>
+    <url>/posts/5e7b.html</url>
+    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
+
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
+
+<hr>
+<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
+<p>接下来就开始实现标签页样式了</p>
+<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
+<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
+<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
+<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
+<p>如图 ，修复完毕 ，今日份修改完工</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
+<p>最后优化了下首页 banner , 现在访问速度更高了</p>
+<hr>
+<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
 ]]></content>
       <categories>
-        <category>闲聊杂谈</category>
+        <category>博客日志</category>
       </categories>
       <tags>
-        <tag>轻语</tag>
+        <tag>随记</tag>
       </tags>
   </entry>
   <entry>
-    <title>Lumina日志</title>
-    <url>/posts/286c.html</url>
-    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>Lumina日志</p>
-</div>
-        </div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 11:26</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 09:14</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-09 20:30</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
-</div>
-      </div></div>
+    <title>2026-11-12博客更新日志</title>
+    <url>/posts/1a3f.html</url>
+    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
+<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
+<hr>
+<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
+<ol>
+<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
+</ol>
+<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
+<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
+<p>接下来就是Hexo加粗样式的美化了</p>
+<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
+<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
+<hr>
+<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
+<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>博客日志</category>
       </categories>
       <tags>
-        <tag>记录</tag>
+        <tag>随记</tag>
       </tags>
   </entry>
   <entry>
@@ -370,6 +332,44 @@
       </tags>
   </entry>
   <entry>
+    <title>Lumina日志</title>
+    <url>/posts/286c.html</url>
+    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>Lumina日志</p>
+</div>
+        </div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 11:26</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 09:14</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式</p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-09 20:30</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新博客相关细节部分</p>
+</div>
+      </div></div>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>周末小记</title>
     <url>/posts/2881.html</url>
     <content><![CDATA[<p><span class="sy-block sy-block-warning">本周是双休：2026-11-13 - 2026-11-15</span></p>
@@ -379,13 +379,15 @@
 <p>等下就准备出门了 ，不过好在今天并没有下雨 ，去健身房的话是不用打伞的 ，下午的话可能会在周围转上一圈 ，好好放松下自己 ，听听音乐 ，差不多一天就可能结束了</p>
 <p>今天也是自己百天打卡的第一天 ，所以下午有时间自己会做一下规划 ，并适当的在打卡过程中给自己一些奖励让自己能够坚持下去！</p>
 <p>再就是<mark>今天是有计划学习AI</mark>的 ，这个一直被自己耽搁 ，感觉自己的拖延症好严重啊哈哈 ，然后再研究下博客怎么部署评论的 ，这个也需要看一下</p>
+<h3 id="第二天小记"><a href="#第二天小记" class="headerlink" title="第二天小记"></a>第二天小记</h3><p>昨天晚上是不应该喝咖啡的 ，还有就是不能够睡前打游戏的 ，否则结果就是凌晨两三点才睡着 ，七点多又醒了 ，整个人完全没啥精神 ，昨天的课程什么的也是没有学习的 ，我发现我折腾博客什么的都很亢奋 ，很积极 ，但是到了学习的时候我竟然有一种本能的抗拒 ，这个肯定是需要改下的</p>
+<p>现在才八点多整个人都没啥精神 ，好烦！</p>
 ]]></content>
       <categories>
         <category>闲聊杂谈</category>
       </categories>
       <tags>
-        <tag>随记</tag>
         <tag>轻语</tag>
+        <tag>随记</tag>
       </tags>
   </entry>
 </search>
