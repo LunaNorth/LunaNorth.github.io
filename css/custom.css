@@ -3400,3 +3400,39 @@ html.search-open {
 .hl-label {
   color: var(--btf-white, #fff);
 }
+
+
+/* ==========================================================================
+   归档 / 分类 / 标签页：年份后面的生肖图标（2026-11-14）
+   --------------------------------------------------------------------------
+   图标是内联 SVG symbol（见 scripts/zodiac-year.js + data/zodiac-symbols.json），
+   和年份文字一起放在 .article-sort-item.year 这个 flex 行里，
+   所以用 margin-left 撑开间距，尺寸跟着年份字号（1.43em）走，不用写死 px。
+
+   暗色模式：图标自带的黑色描边是 #231F20，叠在深色卡片上几乎看不见。
+   <use> 引 symbol 时内容会被复制进影子树，外部 CSS 选择器进不去，
+   所以描边色不能靠属性选择器覆盖，只能在 symbol 里写成
+   fill:var(--zodiac-line, #231F20)（CSS 变量能穿过影子树继承下来），
+   这里只负责按主题给 --zodiac-line 换个值。
+   身体那几块马卡龙色（橙/粉/绿/蓝）在深底上反而更清爽，保持原样不动。
+   ========================================================================== */
+
+.zodiac-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.article-sort-item.year .zodiac-icon {
+  flex: 0 0 auto;
+  width: 1.5em;
+  height: 1.5em;
+  margin-left: .35em;
+  vertical-align: -.15em;
+  --zodiac-line: #231F20;
+}
+
+[data-theme="dark"] .article-sort-item.year .zodiac-icon {
+  --zodiac-line: #d8d8d8;
+}
