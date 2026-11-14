@@ -79,39 +79,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-11博客更新日志</title>
-    <url>/posts/5e7b.html</url>
-    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
-
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
-
-<hr>
-<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
-<p>接下来就开始实现标签页样式了</p>
-<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
-<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
-<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
-<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
-<p>如图 ，修复完毕 ，今日份修改完工</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
-<p>最后优化了下首页 banner , 现在访问速度更高了</p>
-<hr>
-<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2026-11-12博客更新日志</title>
     <url>/posts/1a3f.html</url>
     <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
@@ -144,80 +111,36 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12-碎碎念</title>
-    <url>/posts/2eec.html</url>
-    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
-<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
-<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
-<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
-    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
-  </div>
+    <title>2026-11-11博客更新日志</title>
+    <url>/posts/5e7b.html</url>
+    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
 
-<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
-<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
-<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
-<ul>
-<li><input disabled="" type="checkbox"> 有氧</li>
-<li><input disabled="" type="checkbox"> 无氧</li>
-<li><input disabled="" type="checkbox"> 看书</li>
-<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
-</ul>
-<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
-<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
-<p>‍</p>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
+
+<hr>
+<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
+<p>接下来就开始实现标签页样式了</p>
+<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
+<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
+<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
+<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
+<p>如图 ，修复完毕 ，今日份修改完工</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
+<p>最后优化了下首页 banner , 现在访问速度更高了</p>
+<hr>
+<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
 ]]></content>
       <categories>
-        <category>闲聊杂谈</category>
+        <category>博客日志</category>
       </categories>
       <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>近况叙事01</title>
-    <url>/posts/7d8a.html</url>
-    <content><![CDATA[<blockquote>
-<p>先开个题 ，等周末有时间了再去写</p>
-</blockquote>
-<p>突然发现引述块好像也是需要改下样式的</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>忆往昔</title>
-    <url>/posts/1ec6.html</url>
-    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
-<p>等这周有时间再写吧</p>
-<p>‍<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p>
-</div></p>
-<div class="note blue icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p>
-</div>
-
-<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p>
-</div>
-
-<div class="note red icon-padding modern"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p>
-</div>
-
-<div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p>
-</div>
-
-<div class="note purple icon-padding modern"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p>
-</div>
-
-<div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
-</div>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
+        <tag>随记</tag>
       </tags>
   </entry>
   <entry>
@@ -283,6 +206,83 @@
       </categories>
       <tags>
         <tag>插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-12-碎碎念</title>
+    <url>/posts/2eec.html</url>
+    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
+<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
+<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
+<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
+    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
+  </div>
+
+<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
+<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
+<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
+<ul>
+<li><input disabled="" type="checkbox"> 有氧</li>
+<li><input disabled="" type="checkbox"> 无氧</li>
+<li><input disabled="" type="checkbox"> 看书</li>
+<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
+</ul>
+<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
+<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>忆往昔</title>
+    <url>/posts/1ec6.html</url>
+    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
+<p>等这周有时间再写吧</p>
+<p>‍<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div></p>
+<div class="note blue icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p>
+</div>
+
+<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p>
+</div>
+
+<div class="note red icon-padding modern"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p>
+</div>
+
+<div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div>
+
+<div class="note purple icon-padding modern"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p>
+</div>
+
+<div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
+</div>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>近况叙事01</title>
+    <url>/posts/7d8a.html</url>
+    <content><![CDATA[<blockquote>
+<p>先开个题 ，等周末有时间了再去写</p>
+</blockquote>
+<p>突然发现引述块好像也是需要改下样式的</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
       </tags>
   </entry>
   <entry>
@@ -367,6 +367,23 @@
       </categories>
       <tags>
         <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
+    <url>/posts/c433.html</url>
+    <content><![CDATA[<p>世界越来越美了</p>
+<p>我独自一人 ，却很自在</p>
+<p>我别无所求 ，只想被阳光晒透</p>
+<p>我渴望程序 ，准备好死去 ，准备好重生</p>
+<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>月影墨书</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
       </tags>
   </entry>
   <entry>
