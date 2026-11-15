@@ -3591,3 +3591,24 @@ html.search-open {
 .container .timeline .timeline-item-content img {
   margin: 4px auto 0;
 }
+
+
+/* ==========================================================================
+   时间轴的月份锚点（2026-11-15）
+   --------------------------------------------------------------------------
+   由 scripts/timeline-month-toc.js 在每个月第一条前插一个看不见的 <h2>，
+   作用只是让原生目录能扫到它（toc() 只认 h1~h6）。
+   这里把它裁成 1px 不占位，正文视觉保持不变；屏幕阅读器仍能读到月份。
+   ========================================================================== */
+
+#article-container .tl-month-anchor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
