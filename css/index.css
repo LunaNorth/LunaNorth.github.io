@@ -1940,15 +1940,6 @@ blockquote > :last-child {
 .container figure.highlight.default pre::-webkit-scrollbar-thumb {
   background: var(--hlscrollbar-bg);
 }
-.container figure.highlight .line:before {
-  display: inline-block;
-  padding: 0 6px 0 0;
-  min-width: 30px;
-  color: var(--hlnumber-color);
-  content: counter(line);
-  counter-increment: line;
-  text-align: left;
-}
 .container figure.highlight .line.marked {
   background-color: rgba(128,203,196,0.251);
 }
@@ -1981,8 +1972,6 @@ blockquote > :last-child {
   background: var(--hl-bg);
   color: var(--hl-color);
   line-height: 1.6;
-  counter-reset: line;
-  white-space: pre-wrap;
 }
 .container pre,
 .container code {

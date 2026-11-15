@@ -19,7 +19,7 @@
   --hltools-bg: #f6f8fa;
   --hltools-color: #3c3c3c;
   --hlnumber-bg: #ffffff;
-  --hlnumber-color: #9aa0a6;
+  --hlnumber-color: #c3c8d0;
   --hlscrollbar-bg: #d7dbe0;
   --hlexpand-bg: linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .9));
 }
@@ -32,7 +32,7 @@
   --hltools-bg: #252526;
   --hltools-color: #cccccc;
   --hlnumber-bg: #1e1e1e;
-  --hlnumber-color: #858585;
+  --hlnumber-color: #6f7075;
   --hlscrollbar-bg: #3e3e42;
   --hlexpand-bg: linear-gradient(180deg, rgba(30, 30, 30, .6), rgba(30, 30, 30, .9));
 }
@@ -224,4 +224,21 @@
 
 [data-theme="dark"] .hljs-property {
   color: #9cdcfe;
+}
+
+/* ---------- 行号槽（_config.yml -> highlight.line_number: true） ----------
+   参考 NorthBlog 的观感：不画分隔线，行号只是"浮"在代码左边的那一列。
+   所以这里只做两件事 —— 去掉任何边框、把数字和代码之间的空隙收到 16px 上下。
+   颜色走 --hlnumber-color（亮色 #c3c8d0 / 暗色 #6f7075），已经压得很淡。 */
+
+#article-container figure.highlight .gutter pre {
+  padding-right: 6px;
+  border: 0;
+}
+
+/* 不改字号/行高：行号必须和代码逐行对齐，字号一动行高就跟着变，整列会错位。
+   只调左右留白。数字列右边 6px + 代码左边 10px（主题原本就是 10）= 中间 16px 左右，
+   和 NorthBlog 那套的疏密一致：分得清，但不至于空出一大块。 */
+#article-container figure.highlight .code pre {
+  padding-left: 10px;
 }
