@@ -194,8 +194,9 @@
     var meta = (isThis ? '本周' : (no ? '第 ' + no + ' 周' : '更早')) +
       ' · ' + (count ? count + ' 条记录' : '还没有记录')
 
-    return '<section class="wk-wk' + (isThis ? ' is-open' : '') + '">' +
-      '<button class="wk-wk__head" type="button" aria-expanded="' + (isThis ? 'true' : 'false') + '">' +
+    // 全部默认折叠（包括本周），点哪一周就展开哪一周
+    return '<section class="wk-wk">' +
+      '<button class="wk-wk__head" type="button" aria-expanded="false">' +
       '<span class="wk-wk__range"><b>' + fmtMD(week.monday) + ' 周一</b> — <b>' + fmtMD(sunday) + ' 周日</b></span>' +
       '<span class="wk-wk__meta">' + meta + '</span>' +
       '<span class="wk-wk__chev" aria-hidden="true"></span>' +
@@ -333,7 +334,7 @@
   /* ---------------- 拼装 ---------------- */
 
   box.innerHTML = statsBlock + weeksBlock + quoteHtml() +
-    '<p class="wk-tip">本周默认展开，往前的周自己点开看；这页每周一自动翻页。</p>'
+    '<p class="wk-tip">点开某一周看那几天的记录；这页每周一自动翻页。</p>'
 
   /* ---------------- 折叠 / 展开 ---------------- */
 
