@@ -98,6 +98,7 @@
       header.style.removeProperty('--btf-header-theme')
       header.style.removeProperty('--btf-header-theme-op')
       header.style.removeProperty('--btf-header-theme-op-deep')
+      header.style.removeProperty('--btf-nav-hover-text')
       setRootCover(null)
       return
     }
@@ -107,6 +108,14 @@
     const adjusted = brightness < 125
       ? rgbToHex([Math.min(r + 50, 255), Math.min(g + 50, 255), Math.min(b + 50, 255)])
       : color
+
+    // 悬停时的文字色要跟着染色底走：
+    // 底偏暗（比如深蓝封面、深色头图）就用白字，底偏亮才用深字。
+    // 之前一直是 --btf-nav-hover-text（暗色下是 #1b1c20），
+    // 碰到深一点的封面色就成了「深字压深底」，糊成一片看不清。
+    const [ar, ag, ab] = adjusted.match(/[0-9a-f]{2}/gi).map(part => parseInt(part, 16))
+    const tintBrightness = Math.round((ar * 299 + ag * 587 + ab * 114) / 1000)
+    header.style.setProperty('--btf-nav-hover-text', tintBrightness >= 150 ? '#1b1c20' : '#ffffff')
 
     header.style.setProperty('--btf-header-theme', adjusted)
     header.style.setProperty('--btf-header-theme-op', `${adjusted}23`)

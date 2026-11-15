@@ -272,9 +272,9 @@
 [data-theme="dark"] #nav > .nav-page-title {
   background: color-mix(in srgb, #2a2b31 30%, transparent);
 }
-/* 悬停文字色沿用 --btf-nav-hover-text（暗色是深色 #1b1c20），
-   压在亮起的封面色底上正好，和随机文章按钮的白色/深色图标逻辑同源，
-   不需要为这颗胶囊单独翻白。 */
+/* 悬停文字色跟着染色底的明暗走：custom.js 取到封面色后会按亮度把
+   --btf-nav-hover-text 改成白字或深字（暗色头图/深蓝封面 → 白字，
+   浅色封面 → 深字），所以这里直接用变量，不再写死。 */
 
 [data-theme="dark"] #page-header.not-top-img #nav #blog-info,
 [data-theme="dark"] #page-header.not-top-img #nav #nav-right,
