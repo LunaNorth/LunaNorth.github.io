@@ -367,8 +367,20 @@
   max-width: var(--btf-layout-width);
 }
 
+/* ---------- aside: false 的页面：铺满「正文 + 侧栏」的总宽 ----------
+   front-matter 里写 aside: false 只是让主题不渲染侧栏，
+   容器宽度还是原来那条 5/6（1375 × 5/6 ≈ 1146），正文又卡在 --btf-main-width（1030），
+   于是右边空出一条，看着像「侧栏没了但位置还留着」。
+   这里让这类页面直接吃到 --btf-layout-width，和分类 / 标签 / 统计页一个宽度。
+   分类那种页另有 #body-wrap.type-xxx 的专属规则，不受影响。 */
 .layout.hide-aside {
-  max-width: calc(var(--btf-layout-width) * 5 / 6);
+  max-width: var(--btf-layout-width);
+}
+
+.layout.hide-aside > div:first-child {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ---------- 4.2 卡片：细边框、无阴影 ---------- */
@@ -3564,4 +3576,18 @@ html.search-open {
   .luna-banner {
     animation: none;
   }
+}
+
+
+/* ==========================================================================
+   时间轴（{% timeline %}）里的图片间距（2026-11-15）
+   --------------------------------------------------------------------------
+   主题给 #article-container img 的是 margin: 0 auto 20px，
+   放进时间轴的粉色内容块里，图片下方会多留 20px，块底显得空。
+   这里把上边距留 4px（跟上一行文字贴住）、下边距归 0，
+   水平仍居中，不影响普通文章里的图片。
+   ========================================================================== */
+
+.container .timeline .timeline-item-content img {
+  margin: 4px auto 0;
 }
