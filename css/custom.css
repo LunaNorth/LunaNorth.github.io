@@ -3436,3 +3436,41 @@ html.search-open {
 [data-theme="dark"] .article-sort-item.year .zodiac-icon {
   --zodiac-line: #d8d8d8;
 }
+
+
+/* ==========================================================================
+   头图入场：模糊 → 清晰（2026-11-15）
+   --------------------------------------------------------------------------
+   出处是常见的 Butterfly 小配方（blur 渐变清晰），这里按本站情况改了三处：
+
+   1. 时长 10s → .9s。10 秒里用户已经在读文章了，画面还是糊的，像没加载完；
+      0.9s 刚好是「一眼对焦」的时间。
+   2. 去掉 #web_bg。本站背景是纯色 #f7f9fe（_config.butterfly.yml 的 background），
+      没有背景图可糊，对整屏固定元素做滤镜只会白烧显卡。
+   3. 补上 .luna-banner。本站大多数页面（归档 / 统计 / 友链…）的顶图是自定义横幅，
+      不是 #page-header，只写原配方的话那些页面根本没有效果。
+
+   两个细节：
+   - 不加 animation-fill-mode（默认 none）。只要动画结束还留着 filter，
+     首页 header 的 background-attachment: fixed 就会失效（filter 会新建层叠上下文），
+     首图视差就没了。
+   - prefers-reduced-motion 下直接关掉，晕动症用户不受影响。
+   ========================================================================== */
+
+@keyframes imgblur {
+  from { filter: blur(8px); }
+  to { filter: blur(0); }
+}
+
+/* .not-top-img 是主题给「没有顶图」的页面加的类，跳过它们免得白跑一遍动画 */
+#page-header:not(.not-top-img),
+.luna-banner {
+  animation: imgblur .9s cubic-bezier(.22, .61, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-header:not(.not-top-img),
+  .luna-banner {
+    animation: none;
+  }
+}
