@@ -11,7 +11,7 @@
   <rights>All rights reserved 2026, 春煦景明</rights>
   <subtitle>记录生活与成长</subtitle>
   <title>春煦景明</title>
-  <updated>2026-11-15T01:41:30.020Z</updated>
+  <updated>2026-11-15T01:54:24.258Z</updated>
   <entry>
     <author>
       <name>春煦景明</name>
@@ -19,7 +19,7 @@
     <category term="博客日志" scheme="https://lunanorth.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%97%A5%E5%BF%97/"/>
     <category term="日志" scheme="https://lunanorth.github.io/tags/%E6%97%A5%E5%BF%97/"/>
     <content>
-      <![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p><p>今天几个优化目标：</p><ul><li><input disabled="" type="checkbox"> 任务框样式的美化</li><li><input disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li><li><input disabled="" type="checkbox"> 优化思源 -&gt; hexo 格式的一个优化</li></ul><p>今天主要是针对插件处理的 ，准备先做下看看效果如何</p><p>‍</p>]]>
+      <![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p><p>今天几个优化目标：</p><ul><li><input checked="" disabled="" type="checkbox"> 任务框样式的美化</li><li><input checked="" disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li><li><input disabled="" type="checkbox"> 优化思源 -&gt; hexo 格式的一个优化</li></ul><p>今天主要是针对插件处理的 ，准备先做下看看效果如何</p><p>‍</p>]]>
     </content>
     <id>https://lunanorth.github.io/posts/6e8a.html</id>
     <link href="https://lunanorth.github.io/posts/6e8a.html"/>
@@ -28,10 +28,10 @@
       <![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p>
 <p>今天几个优化目标：</p>
 <ul>
-<li><input disabled="" type="checkbox">]]>
+<li><input checked="" disabled=""]]>
     </summary>
     <title>2026-11-15博客更新日志</title>
-    <updated>2026-11-15T01:41:30.020Z</updated>
+    <updated>2026-11-15T01:54:24.258Z</updated>
   </entry>
   <entry>
     <author>

@@ -79,38 +79,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12博客更新日志</title>
-    <url>/posts/1a3f.html</url>
-    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
-<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
-<hr>
-<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
-<ol>
-<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
-</ol>
-<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
-<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
-<p>接下来就是Hexo加粗样式的美化了</p>
-<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
-<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
-<hr>
-<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
-<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2026-11-11博客更新日志</title>
     <url>/posts/5e7b.html</url>
     <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
@@ -144,13 +112,45 @@
       </tags>
   </entry>
   <entry>
+    <title>2026-11-12博客更新日志</title>
+    <url>/posts/1a3f.html</url>
+    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
+<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
+<hr>
+<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
+<ol>
+<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
+</ol>
+<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
+<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
+<p>接下来就是Hexo加粗样式的美化了</p>
+<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
+<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
+<hr>
+<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
+<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2026-11-15博客更新日志</title>
     <url>/posts/6e8a.html</url>
     <content><![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p>
 <p>今天几个优化目标：</p>
 <ul>
-<li><input disabled="" type="checkbox"> 任务框样式的美化</li>
-<li><input disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li>
+<li><input checked="" disabled="" type="checkbox"> 任务框样式的美化</li>
+<li><input checked="" disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li>
 <li><input disabled="" type="checkbox"> 优化思源 -&gt; hexo 格式的一个优化</li>
 </ul>
 <p>今天主要是针对插件处理的 ，准备先做下看看效果如何</p>
@@ -344,6 +344,23 @@
       </tags>
   </entry>
   <entry>
+    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
+    <url>/posts/c433.html</url>
+    <content><![CDATA[<p>世界越来越美了</p>
+<p>我独自一人 ，却很自在</p>
+<p>我别无所求 ，只想被阳光晒透</p>
+<p>我渴望程序 ，准备好死去 ，准备好重生</p>
+<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>月影墨书</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>博客重构随记</title>
     <url>/posts/56b9.html</url>
     <content><![CDATA[<p>博客之初当时是因为兴趣 ，看到别人的博客非常的好看 ，于是自己也加入到了魔改博客的队伍中去 ，一点点的跟着教程慢慢去搭建的 ，到后面自己接触AI之后开始让AI慢慢的去进行修改自己的博客 ，同时也构造出了好多有意思的页面</p>
@@ -387,23 +404,6 @@
       </categories>
       <tags>
         <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
-    <url>/posts/c433.html</url>
-    <content><![CDATA[<p>世界越来越美了</p>
-<p>我独自一人 ，却很自在</p>
-<p>我别无所求 ，只想被阳光晒透</p>
-<p>我渴望程序 ，准备好死去 ，准备好重生</p>
-<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>月影墨书</category>
-      </categories>
-      <tags>
-        <tag>摘抄</tag>
       </tags>
   </entry>
   <entry>
