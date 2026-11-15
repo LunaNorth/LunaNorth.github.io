@@ -1835,21 +1835,44 @@
   color: var(--btf-nav-hover-text) !important;
 }
 
-/* {% checkbox %} / {% radio %} 标签样式
-   移植自 hexo-butterfly-tag-plugins-plus 的 checkbox 样式：
-   不写颜色时跟随站点主题色；插件原来用 brightness(0.7) 做暗色适配，
-   这里改成直接用主题变量，暗色下不会被整体压暗。 */
+/* {% checkbox %} / {% radio %} 标签样式 —— 与思源任务列表共用一套皮肤
+   移植自 hexo-butterfly-tag-plugins-plus 的 checkbox 样式。
+
+   设计取向（2026-11-15 重定）：
+     · 未选中：灰色细描边 + 4px 圆角，安静地待在文字左边，不抢正文注意力
+     · 选中：整块填色（默认主题色；写了 red / green / … 就用自己的色）+ 白勾
+     · 颜色只收在 --cb-color 一个变量里：描边、选中底色、+ − × 图形都取它，
+       所以加一种颜色 = 改一个变量，勾和图形自动跟上
+
+   一条规则两个选择器，就是这套"共用皮肤"的做法：
+     .checkbox > input …                             ← 外挂标签 {%% checkbox %%}
+     :where(#article-container li:has(…)) > input …   ← 思源任务列表 - [ ]
+   marked 把 - [ ] 渲染成 <li><input disabled type="checkbox">文字</li>，
+   既不给 class 也去不掉圆点，只能按结构选（去圆点、排两列在 post.css 里做）。
+   皮肤只有这一份：文章里无论走标签还是走 markdown，出来的都是同一个方框。
+
+   为什么任务列表那半边套 :where() 而不是 :is()：:is() 会把里面最狠的选择器
+   （#article-container）的优先级算进来，一算进来就压过 .checkbox.red 这些颜色
+   修饰类，所有方框全变主题色。:where() 一律算 0 优先级，才不会喧宾夺主。 */
+
 .checkbox,
 .radio {
   display: flex;
-  align-items: center;
+  /* 长文字折行时方框留在第一行（原来 center 会把方框吊到整段中间） */
+  align-items: flex-start;
+  margin: 4px 0;
 }
 
-.checkbox input[type="checkbox"],
-.radio input[type="radio"] {
+.checkbox > input,
+.radio > input,
+:where(#article-container li:has(> input[type="checkbox"])) > input {
   -webkit-appearance: none;
   appearance: none;
   position: relative;
+  /* 写死 border-box：方框的 16px 是含描边的外廓，里面永远剩 13px。
+     不写的话在不同页面上可能被主题的 * 选择器 / 无重置的预览页算出两种盒模型，
+     短条和勾的居中坐标就会飘。 */
+  box-sizing: border-box;
   height: 16px;
   width: 16px;
   transition: all .15s ease-out 0s;
@@ -1857,56 +1880,54 @@
   display: inline-block;
   outline: none;
   flex-shrink: 0;
-  margin-right: 8px;
+  /* 正文行高 2、1em=16px 时行盒 32px，方框 16px，
+     与首行文字垂直居中的偏移就是 (32 - 16) / 2 = 8px */
+  margin: .5em 8px 0 0;
   pointer-events: none;
 }
 
-.checkbox input[type="checkbox"] {
-  border-radius: 2px;
-  border: 2px solid var(--btf-theme);
+.checkbox > input[type="checkbox"],
+:where(#article-container li:has(> input[type="checkbox"])) > input[type="checkbox"] {
+  /* 两个变量管住整只方框：
+       --cb-color 未选中时的描边（默认灰，写 .red 等就换成那个色）
+       --cb-fill  选中后填的底色（默认站点主题色）
+     颜色修饰类两个一起改，所以"红叉""绿加号"永远同色。 */
+  --cb-color: var(--btf-gray);
+  --cb-fill: var(--btf-theme);
+  border: 1.5px solid var(--cb-color);
+  border-radius: 4px;
 }
 
-.checkbox input[type="checkbox"]:before {
-  content: "";
-  position: absolute;
-  left: 1px;
-  top: 5px;
-  width: 0;
-  height: 2px;
-  background: #fff;
-  transition: all .2s ease-in;
-  transform: rotate(45deg);
+/* 选中态：整块填色 + 居中的白色勾。
+   勾用内联 SVG 而不是原来那两根绝对定位的短条 —— 短条要一点点凑 left/top，
+   换个描边粗细或方框尺寸就跑偏（放大看会明显偏左上角）；SVG 交给
+   background-position: center，方框变成 18px 或圆角改成 6px 都不用再调。
+   尺寸：viewBox 16 格、勾本身占 10 格，占内宽 13px 的九成、约 8.7px 宽（笔帽再撑一点）——
+   之前 74% 配 24 格 viewBox，实际只有 6.8px，所以看着小。 */
+
+/* 先填色（所有复选框都走这条） */
+.checkbox > input[type="checkbox"]:is(:checked, [checked]),
+:where(#article-container li:has(> input[type="checkbox"])) > input[type="checkbox"]:is(:checked, [checked]) {
+  border-color: var(--cb-fill);
+  background-color: var(--cb-fill);
 }
 
-.checkbox input[type="checkbox"]:after {
-  content: "";
-  position: absolute;
-  right: 7px;
-  bottom: 3px;
-  width: 2px;
-  height: 0;
-  background: #fff;
-  transition: all .2s ease-out;
-  transform: rotate(40deg);
-  transition-delay: .25s;
+/* 再贴勾 —— 但 plus / minus / times 例外：它们自己用伪元素画符号，
+   贴了勾就成了「勾 + 符号」两层叠在一起（放大看是一团糊的）。
+   所以这里用 :not() 把三种符号变体排除掉。 */
+.checkbox:not(.plus, .minus, .times) > input[type="checkbox"]:is(:checked, [checked]),
+:where(#article-container li:has(> input[type="checkbox"])) > input[type="checkbox"]:is(:checked, [checked]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.4l3.4 3.4L13 4.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;
 }
 
-.checkbox input[type="checkbox"]:checked {
-  background: var(--btf-theme);
-}
-
-.checkbox input[type="checkbox"]:checked:before {
-  left: 0;
-  top: 7px;
-  width: 6px;
-  height: 2px;
-}
-
-.checkbox input[type="checkbox"]:checked:after {
-  right: 3px;
-  bottom: 1px;
-  width: 2px;
-  height: 10px;
+/* 暗色主题里站点主题色是亮黄 #ffc848，白勾压在上面对比度只有 1.7:1，
+   换个深色勾。只对"没写颜色、也不是符号变体"的方框生效 —— 写了 red/green
+   之类底色是那个颜色，白勾该留着；符号变体压根不贴勾。 */
+[data-theme="dark"] :is(.checkbox, #article-container li:has(> input[type="checkbox"])):not(.red, .green, .yellow, .cyan, .blue):not(.plus, .minus, .times) > input[type="checkbox"]:is(:checked, [checked]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231b1c20' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.4l3.4 3.4L13 4.6'/%3E%3C/svg%3E");
 }
 
 .radio input[type="radio"] {
@@ -1930,58 +1951,128 @@
   transform: scale(1);
 }
 
-/* 颜色修饰类：不写则用主题色 */
-.checkbox.red input,
-.radio.red input {
+/* 颜色修饰类：只改 --cb-color 一个变量。
+   描边、选中底色、+ − × 图形都取这个变量，所以一条声明就够；
+   不写颜色时是灰色（见上面 --cb-color 的默认值），跟正文一样安静。
+   给 .radio 补 border-color：它的描边是 2px 主题色，不吃 --cb-color。 */
+.checkbox.red > input,
+.radio.red > input {
+  --cb-color: #fe5f58;
+  --cb-fill: #fe5f58;
   border-color: #fe5f58;
 }
 
-.checkbox.red input[type="checkbox"]:checked {
-  background: #fe5f58;
-}
-
-.checkbox.green input,
-.radio.green input {
+.checkbox.green > input,
+.radio.green > input {
+  --cb-color: #3dc550;
+  --cb-fill: #3dc550;
   border-color: #3dc550;
 }
 
-.checkbox.green input[type="checkbox"]:checked {
-  background: #3dc550;
-}
-
-.checkbox.yellow input,
-.radio.yellow input {
+.checkbox.yellow > input,
+.radio.yellow > input {
+  --cb-color: #ffbd2b;
+  --cb-fill: #ffbd2b;
   border-color: #ffbd2b;
 }
 
-.checkbox.yellow input[type="checkbox"]:checked {
-  background: #ffbd2b;
-}
-
-.checkbox.cyan input,
-.radio.cyan input {
+.checkbox.cyan > input,
+.radio.cyan > input {
+  --cb-color: #1bcdfc;
+  --cb-fill: #1bcdfc;
   border-color: #1bcdfc;
 }
 
-.checkbox.cyan input[type="checkbox"]:checked {
-  background: #1bcdfc;
-}
-
-.checkbox.blue input,
-.radio.blue input {
+.checkbox.blue > input,
+.radio.blue > input {
+  --cb-color: #2196f3;
+  --cb-fill: #2196f3;
   border-color: #2196f3;
 }
 
-.checkbox.blue input[type="checkbox"]:checked {
-  background: #2196f3;
-}
-
-/* 标签文字：markdown 会再包一层 <p>，这里压掉它的默认间距 */
+/* 标签文字：markdown 会再包一层 <p>，这里压掉它的默认间距。
+   原来靠 margin-top: 2px 去凑对齐，现在方框自己带 .5em 上边距，
+   <p> 归零才正好顶到同一行。 */
 .checkbox p,
 .radio p {
   display: inline-block;
-  margin-top: 2px !important;
-  margin-bottom: 0 !important;
+  margin: 0 !important;
+}
+
+/* plus / minus / times：把勾换成 + − ×
+   这份移植原来漏了这三种变体，写了也只有普通的勾。图形用两根 2px 短条拼，
+   不额外引图：未选中时用 --cb-color 画（默认灰、写了颜色就是那个色），
+   选中后填色块、图形转白。
+
+   几何全部用 left/right（或 top/bottom）互相撑开，不写死长度：
+   方框内宽是 16 - 1.5×2 = 13px，±2px 内缩后短条自动居中。
+   这样改方框尺寸、改描边粗细都不用回来重算坐标。 */
+.checkbox:is(.plus, .minus, .times) > input[type="checkbox"]:before,
+.checkbox:is(.plus, .minus, .times) > input[type="checkbox"]:after {
+  content: "";
+  position: absolute;
+  background: var(--cb-color);
+  transition: none;
+}
+
+.checkbox.plus > input[type="checkbox"]:before {
+  top: 5.5px;
+  left: 2px;
+  right: 2px;
+  width: auto;
+  height: 2px;
+  transform: none;
+}
+
+.checkbox.plus > input[type="checkbox"]:after {
+  top: 2px;
+  bottom: 2px;
+  left: 5.5px;
+  width: 2px;
+  height: auto;
+  transform: none;
+}
+
+.checkbox.minus > input[type="checkbox"]:before {
+  top: 5.5px;
+  left: 2px;
+  right: 2px;
+  width: auto;
+  height: 2px;
+  transform: none;
+}
+
+.checkbox.minus > input[type="checkbox"]:after {
+  display: none;
+}
+
+.checkbox.times > input[type="checkbox"]:before {
+  top: 5.5px;
+  left: 1.5px;
+  right: 1.5px;
+  width: auto;
+  height: 2px;
+  transform: rotate(45deg);
+}
+
+.checkbox.times > input[type="checkbox"]:after {
+  top: 5.5px;
+  left: 1.5px;
+  right: 1.5px;
+  width: auto;
+  height: 2px;
+  transform: rotate(-45deg);
+}
+
+.checkbox:is(.plus, .minus, .times) > input[type="checkbox"]:is(:checked, [checked]):before,
+.checkbox:is(.plus, .minus, .times) > input[type="checkbox"]:is(:checked, [checked]):after {
+  background: #fff;
+}
+
+/* 暗色 + 没写颜色：底色是亮黄 #ffc848，白图形看不清，换深色（同勾的处理） */
+[data-theme="dark"] .checkbox:is(.plus, .minus, .times):not(.red, .green, .yellow, .cyan, .blue) > input[type="checkbox"]:is(:checked, [checked]):before,
+[data-theme="dark"] .checkbox:is(.plus, .minus, .times):not(.red, .green, .yellow, .cyan, .blue) > input[type="checkbox"]:is(:checked, [checked]):after {
+  background: #1b1c20;
 }
 
 #sidebar-menus {

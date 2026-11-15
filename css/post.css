@@ -444,16 +444,18 @@ figure.highlight .highlight-tools {
    既不给 ul 加 task-list 之类的 class，也没把 li 上的默认圆点去掉。
    于是思源里那个干净的方框，到了博客变成「圆点 + 方框」两条腿。
 
-   这里按思源的样子重画，四条：
+   方框长什么样**不在这里定**：它和 {% checkbox %} 外挂标签共用同一套皮肤，
+   写在 custom.css 的「标签样式 —— 与思源任务列表共用一套皮肤」那一节。
+   这样文章里无论是 markdown 的 - [ ] 还是 {% checkbox red checked %}，
+   出来的都是同一个方框，不会随着两处维护慢慢走样。
+
+   这个文件只管版式，三件事：
    1. 列表项不画点，方框顶到段落左边缘 —— ul 的左内边距归零。
       只对「装任务项的 ul」生效，正文里的普通列表不受影响；
       嵌套在任务项里的任务列表也因此天然对齐到父项文字。
-   2. 方框用 appearance: none 自己画：.95em 见方、4px 圆角、
-      --btf-gray 描边；勾选态填主题色 —— 但暗色主题色是亮黄 #ffc848，
-      白勾在上面看不清，所以对勾颜色跟着主题换一版。
-   3. 缩进改用两列 grid：窄屏折行时第二行仍与文字左对齐，
+   2. 缩进改用两列 grid：窄屏折行时第二行仍与文字左对齐，
       不会缩到方框底下去（这是 grid 相比 inline 方框的用处）。
-   4. 勾选后的条目压暗一档，扫读时能跳过已完成的部分。
+   3. 勾选后的条目压暗一档，扫读时能跳过已完成的部分。
       不划删除线 —— 思源本身也不划，划了中文长句会很乱。
 
    为什么用 :has()：marked 不给任务列表加 class，只能按结构选。
@@ -468,7 +470,6 @@ figure.highlight .highlight-tools {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
-  column-gap: .5em;
   list-style: none;
 }
 
@@ -477,33 +478,11 @@ figure.highlight .highlight-tools {
   grid-column: 2;
 }
 
+/* 只钉位置：方框尺寸 / 描边 / 圆角 / 勾全在 custom.css。
+   右边 8px 与标签的 margin-right 对齐，两套的间距才是同一个数。 */
 #article-container li:has(> input[type="checkbox"]) > input[type="checkbox"] {
   grid-column: 1;
-  width: .95em;
-  height: .95em;
-  /* 正文行为 2，1em=16px 时行盒 32px，方框 15.2px，
-     垂直居中要的偏移就是 (32 - 15.2) / 2 ≈ 8px ≈ .5em */
-  margin: .5em 0 0;
-  border: 1.5px solid var(--btf-gray);
-  border-radius: 4px;
-  background: transparent none;
-  -webkit-appearance: none;
-  appearance: none;
-  pointer-events: none;
-  flex: none;
-}
-
-#article-container li:has(> input[type="checkbox"]) > input[type="checkbox"]:is(:checked, [checked]) {
-  border-color: var(--btf-theme);
-  background-color: var(--btf-theme);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 76%;
-}
-
-[data-theme="dark"] #article-container li:has(> input[type="checkbox"]) > input[type="checkbox"]:is(:checked, [checked]) {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231b1c20' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  margin: .5em 8px 0 0;
 }
 
 #article-container li:has(> input[type="checkbox"]):has(> input[type="checkbox"]:is(:checked, [checked])) {
