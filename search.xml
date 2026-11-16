@@ -1,90 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2026-11-11博客更新日志</title>
-    <url>/posts/5e7b.html</url>
-    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
-
-<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
-
-<hr>
-<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
-<p>接下来就开始实现标签页样式了</p>
-<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
-<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
-<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
-<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
-<p>如图 ，修复完毕 ，今日份修改完工</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
-<p>最后优化了下首页 banner , 现在访问速度更高了</p>
-<hr>
-<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2026-11-12博客更新日志</title>
-    <url>/posts/1a3f.html</url>
-    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
-<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
-<hr>
-<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
-<ol>
-<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
-</ol>
-<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
-<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
-<p>接下来就是Hexo加粗样式的美化了</p>
-<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
-<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
-<hr>
-<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
-<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2026-11-15博客更新日志</title>
-    <url>/posts/6e8a.html</url>
-    <content><![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p>
-<p>今天几个优化目标：</p>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> 任务框样式的美化</li>
-<li><input disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li>
-<li><input checked="" disabled="" type="checkbox"> 优化思源 -&gt; hexo 格式的一个优化</li>
-</ul>
-<p>今天主要是针对插件处理的 ，准备先做下看看效果如何</p>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
     <url>/posts/dcdb.html</url>
     <content><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><span data-type="text" style="color: var(--b3-font-color8);">问题描述</span></h3><p>建议：如果是刚开始写WinForm项目 ，建议刚开始就去进行一个替换 ，要不然后面会很麻烦的 ，不仅要计算size 还要去 计算 location 的值</p>
@@ -163,68 +79,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2026-11-12-碎碎念</title>
-    <url>/posts/2eec.html</url>
-    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
-<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
-<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
-<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
-    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
-  </div>
-
-<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
-<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
-<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
-<ul>
-<li><input disabled="" type="checkbox"> 有氧</li>
-<li><input disabled="" type="checkbox"> 无氧</li>
-<li><input disabled="" type="checkbox"> 看书</li>
-<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
-</ul>
-<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
-<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>忆往昔</title>
-    <url>/posts/1ec6.html</url>
-    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
-<p>等这周有时间再写吧</p>
-<p>‍<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p>
-</div></p>
-<div class="note blue icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p>
-</div>
-
-<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p>
-</div>
-
-<div class="note red icon-padding modern"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p>
-</div>
-
-<div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p>
-</div>
-
-<div class="note purple icon-padding modern"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p>
-</div>
-
-<div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
-</div>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>轻语时光</title>
     <url>/posts/1917.html</url>
     <content><![CDATA[<div class="timeline pink"><div class='timeline-item headline'>
@@ -233,6 +87,13 @@
 </div>
         </div>
       </div><h2 class="tl-month-anchor" id="tl-2026-11">2026-11</h2><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-16 20:34</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>AI还是要学习的啊 ，目前只能是一点点的去进行学习了 ，猥琐发育 ，静待机会到来  </p>
+</div>
+      </div><div class='timeline-item'>
         <div class='timeline-item-title'>
           <div class='item-circle'><p>2026-11-16 16:47</p>
 </div>
@@ -305,6 +166,68 @@
       </tags>
   </entry>
   <entry>
+    <title>忆往昔</title>
+    <url>/posts/1ec6.html</url>
+    <content><![CDATA[<p>这个还没有想好需要什么 ，先占个位置</p>
+<p>等这周有时间再写吧</p>
+<p>‍<div class="note icon-padding modern"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div></p>
+<div class="note blue icon-padding modern"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p>
+</div>
+
+<div class="note pink icon-padding modern"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p>
+</div>
+
+<div class="note red icon-padding modern"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p>
+</div>
+
+<div class="note orange icon-padding modern"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p>
+</div>
+
+<div class="note purple icon-padding modern"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p>
+</div>
+
+<div class="note green icon-padding modern"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p>
+</div>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-12-碎碎念</title>
+    <url>/posts/2eec.html</url>
+    <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
+<p>本来今天是准备下班之后买点菜做些东西吃的 ，好巧不巧的是天公不作美 ，今天就下起了小雨 ，计划被打乱 ，然后就准备去吃一碗麻辣烫算是近期为数不多的一次放纵餐了</p>
+<p>刚开始吃的时候我是觉得还蛮好吃的 ，因为自己本来也是想着去自己买菜然后煮泡面吃的 ，来到杨国福之后就图省事选了方便面作为主食去吃的</p>
+<div class="gallery-container" data-type="data" data-button="" data-limit="10" data-first="10">
+    <div class="gallery-items">[{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142299-407725854.jpg","alt":"df8e8ed98e5c79fec888242518b54ddd","title":""},{"url":"https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112190142939-1908922308.jpg","alt":"40955cd9f1fb252296896c405a1fc948","title":""}]</div>
+  </div>
+
+<p>吃到后面我自己都有点不太想去吃了 ，也可能是因为我吃的太多了吧</p>
+<p>吃完之后准备回去了 ，刚出门一看 ，糟了雨是下的越来越大了 ，没有办法只能够带着帽子回去了 ，回来之后就开始按照今天所想的那样子去收拾下房间 ，洗衣服什么的</p>
+<p>今天是准备晚上睡个好觉 ，为明天的假期做好准备 ，周末的话过得基本就很简单了</p>
+<ul>
+<li><input disabled="" type="checkbox"> 有氧</li>
+<li><input disabled="" type="checkbox"> 无氧</li>
+<li><input disabled="" type="checkbox"> 看书</li>
+<li><input disabled="" type="checkbox"> 学习工作相关课程</li>
+</ul>
+<p>还有最最最重要的就是以后没什么事情的话晚上就基本不吃饭或者吃一点点了 ，可能是因为健身的缘故 ，晚上吃饱或者稍微有一点饱的话就会令我很不舒服 ，我也说不清楚这是为什么</p>
+<p>最后就是想要对自己说的话：<span data-type="text" class="sy-bg-7">念旧的人 ，总是活得像个拾荒者</span></p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>近况叙事01</title>
     <url>/posts/7d8a.html</url>
     <content><![CDATA[<blockquote>
@@ -317,65 +240,6 @@
       </categories>
       <tags>
         <tag>轻语</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Lumina日志</title>
-    <url>/posts/286c.html</url>
-    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>Lumina日志</p>
-</div>
-        </div>
-      </div><h2 class="tl-month-anchor" id="tl-2026-11">2026-11</h2><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-16 13:29</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>优化了下代码块折叠和任务列表样式  </p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-15 11:29</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>处理了下思源笔记更新日志同步Hexo , 以后写更新日志会更加方便了<br>现在玩博客的也越来越少了 ，我才刚开始 ，我一定要坚持下去  </p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-15 10:38</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新了下任务框样式  </p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 11:26</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了  </p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-10 09:14</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式  </p>
-</div>
-      </div><div class='timeline-item'>
-        <div class='timeline-item-title'>
-          <div class='item-circle'><p>2026-11-09 20:30</p>
-</div>
-        </div>
-        <div class='timeline-item-content'><p>更新博客相关细节部分  </p>
-</div>
-      </div></div>
-]]></content>
-      <categories>
-        <category>博客日志</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
@@ -444,23 +308,6 @@
       </tags>
   </entry>
   <entry>
-    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
-    <url>/posts/c433.html</url>
-    <content><![CDATA[<p>世界越来越美了</p>
-<p>我独自一人 ，却很自在</p>
-<p>我别无所求 ，只想被阳光晒透</p>
-<p>我渴望程序 ，准备好死去 ，准备好重生</p>
-<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>月影墨书</category>
-      </categories>
-      <tags>
-        <tag>摘抄</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>博客重构随记</title>
     <url>/posts/56b9.html</url>
     <content><![CDATA[<p>博客之初当时是因为兴趣 ，看到别人的博客非常的好看 ，于是自己也加入到了魔改博客的队伍中去 ，一点点的跟着教程慢慢去搭建的 ，到后面自己接触AI之后开始让AI慢慢的去进行修改自己的博客 ，同时也构造出了好多有意思的页面</p>
@@ -485,6 +332,82 @@
       </tags>
   </entry>
   <entry>
+    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
+    <url>/posts/c433.html</url>
+    <content><![CDATA[<p>世界越来越美了</p>
+<p>我独自一人 ，却很自在</p>
+<p>我别无所求 ，只想被阳光晒透</p>
+<p>我渴望程序 ，准备好死去 ，准备好重生</p>
+<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>月影墨书</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lumina日志</title>
+    <url>/posts/286c.html</url>
+    <content><![CDATA[<div class="timeline orange"><div class='timeline-item headline'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>Lumina日志</p>
+</div>
+        </div>
+      </div><h2 class="tl-month-anchor" id="tl-2026-11">2026-11</h2><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-16 13:29</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>优化了下代码块折叠和任务列表样式  </p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-15 11:29</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>处理了下思源笔记更新日志同步Hexo , 以后写更新日志会更加方便了<br>现在玩博客的也越来越少了 ，我才刚开始 ，我一定要坚持下去  </p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-15 10:38</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新了下任务框样式  </p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 11:26</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>修改了下标题跟文章相关的细节 ，基本是能够正常使用了 ，接下来就是一些细节和页面上的修改了  </p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-10 09:14</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>新增字体配置 | 修改文章样式  </p>
+</div>
+      </div><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-09 20:30</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>更新博客相关细节部分  </p>
+</div>
+      </div></div>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>更换文章字体记录</title>
     <url>/posts/210a.html</url>
     <content><![CDATA[<p>今天在逛魔改文章的时候 ，偶然发现 <a href="https://blog.june-pj.cn/">june佬的博客</a> 中有提到可以更换博客字体 ，文章：<a href="https://blog.june-pj.cn/posts/8a0c5a62/">Butterfly美化总结</a> ，然后来了兴趣更换下自己的博客字体看看样式 ，下面这些都是测试得来的 ，准备更换成动态的 ，不同的字体显示的效果不同 ，同时将字体进行一个压缩即可</p>
@@ -501,6 +424,90 @@
 ]]></content>
       <categories>
         <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-15博客更新日志</title>
+    <url>/posts/6e8a.html</url>
+    <content><![CDATA[<p>刚好今天没什么事情 ，昨天是重新做了个新的页面 ，但是总觉得不太好 ，甚至还有一点鸡肋的 ，就决定给移除掉了 ，更应该是关注博客自身的</p>
+<p>今天几个优化目标：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 任务框样式的美化</li>
+<li><input disabled="" type="checkbox"> 轻舟插件新增视图 | 以及轻语视图处理图片粘贴和位置的一个调整</li>
+<li><input checked="" disabled="" type="checkbox"> 优化思源 -&gt; hexo 格式的一个优化</li>
+</ul>
+<p>今天主要是针对插件处理的 ，准备先做下看看效果如何</p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-12博客更新日志</title>
+    <url>/posts/1a3f.html</url>
+    <content><![CDATA[<p>今天突发奇想 ，想要去进行美化下文章中其他的样式</p>
+<p>比如下划线 ，在做了美化之后的效果如图所示 ，并适配了下其主题色 ，看着效果还蛮不错的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112074115487-862151061.png" alt="image"></p>
+<hr>
+<p>今天是想着看看能否打通 <mark>思源笔记样式同步到Hexo</mark>上面 ，这样子的话就很舒服了整个流程 ，目前还是在探索阶段</p>
+<ol>
+<li>我发现hexo 是没有适配​<code>标记</code>的 ，等下需要去进行适配下</li>
+</ol>
+<p>现在已经是打通了思源笔记样式同步到hexo上去 ，目前用起来很舒服了</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808168-270665343.png" alt="2353170d9b743f18e5debe3ee58605f6"></p>
+<p><mark>标记</mark>样式也已经生效了 ，就是​<code>==标记==</code>这种语法</p>
+<p>接下来就是Hexo加粗样式的美化了</p>
+<p>加粗样式也好了 ，后续的一个更新的话等使用过程中再慢慢发现吧</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112103808799-738874319.png" alt="image"></p>
+<p>总觉的不太好看，于是给改成了如图这个颜色 ，看着还是比较满意的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112123410741-623172728.png" alt="image"></p>
+<hr>
+<p>看到大佬的<a href="https://blog.june-pj.cn/posts/8a0c5a62/#%E6%95%88%E6%9E%9C">Butterfly美化总结</a>的教程 ，<span data-type="text" class="sy-bg-12">准备继续再做一下站点title</span></p>
+<p>新增了404界面 ，太炫酷了 ，感谢<a href="https://blog.june-pj.cn/">June大佬</a>的教程</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112706656-392935644.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261112112708121-540663805.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026-11-11博客更新日志</title>
+    <url>/posts/5e7b.html</url>
+    <content><![CDATA[<p>博客的大致方向基本是差不多了现在就还剩一些小问题需要给优化下 ，今天是准备将对象的一些细节方面的给优化下</p>
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>标签页样式</p></div>
+
+<div class='checkbox green checked'><input type="checkbox" checked="checked"/><p>侧边栏标签样式</p></div>
+
+<hr>
+<p>我在使用任务相关的外挂标签的时候发现最新版的<mark class="hl-label green">butterfly</mark>主题已经将其给移除了 ，通过AI辅助没有直接引入全部的外挂标签只是引入对应的checkbox相关的，如图</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111091033976-600008992.png" alt="image"></p>
+<p>接下来就开始实现标签页样式了</p>
+<p>标签页样式差不多了 ，后续的分类页样式直接可以复用标签样式的来 ，追求简洁美观</p>
+<p>后面就是侧边栏的网站信息那里了 ，需要移除​<code>本站访客数</code>​ 和 ​<code>本站总浏览量</code>这个我目前并不需要 ，也可以隐藏下 ，到这里侧边栏主要就优化的差不多了</p>
+<p>标签和分类页也整的差不多了 ，为了保持统一 ，标签页和分类页采用一致的结构和页面</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101102512-1361320060.png" alt="image"></p>
+<p>发现还有个小细节需要优化下就是鼠标移动上去时 ，如图数量是应该需要优化下的</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103075-148487789.png" alt="image"></p>
+<p>如图 ，修复完毕 ，今日份修改完工</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111101103407-977952637.png" alt="image"></p>
+<p>最后优化了下首页 banner , 现在访问速度更高了</p>
+<hr>
+<p>优化了下其他页面 ，目前用起来就很舒服了 ，接下来就是打通思源笔记样式同步到博客中的样式了 ，现在用起来很满意</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204350213-597126552.png" alt="image"></p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202611/3509019-20261111204353313-1153274322.png" alt="image"></p>
+]]></content>
+      <categories>
+        <category>博客日志</category>
       </categories>
       <tags>
         <tag>随记</tag>
@@ -562,79 +569,31 @@
       </tags>
   </entry>
   <entry>
-    <title>MainViewModel 像一个抽屉柜：WPF 多页签如何组织各自的 ViewModel</title>
-    <url>/posts/3415.html</url>
-    <content><![CDATA[<p>这个写法可以理解成一句话：</p>
-<blockquote>
-<p><code>MainWindow</code> 只负责拿一个“总数据源”，这个总数据源就是 <code>MainViewModel</code>；<code>MainViewModel</code> 里面再装着各个页面的小 ViewModel。</p>
-</blockquote>
-<p><strong>1.</strong>  <strong><code>this.DataContext = new MainViewModel();</code></strong>  <strong>做了什么</strong></p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MainWindow</span>()</span><br>&#123;<br>    InitializeComponent();<br>    <span class="hljs-keyword">this</span>.DataContext = <span class="hljs-keyword">new</span> MainViewModel();<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>可以拆成两步看：</p>
-<ol>
-<li><code>new MainViewModel()</code>：创建 <code>MainViewModel</code> 对象，并立刻执行它的构造函数。</li>
-<li><code>this.DataContext = ...</code>：把这个对象交给当前窗口，作为窗口的绑定起点。</li>
-</ol>
-<p><code>DataContext</code> 可以理解成“界面去哪里找属性”。</p>
-<p>设置以后，窗口里的：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Text=&quot;&#123;Binding Preparation&#125;&quot;<br></code></pre></td></tr></table></figure>
-
-<p>就会去 <code>MainViewModel</code> 里找 <code>Preparation</code> 属性。</p>
-<p><code>this</code> 就是当前这个 <code>MainWindow</code>，写不写都一样。</p>
-<p><strong>2.</strong>  <strong><code>MainViewModel</code></strong> <strong>像一个抽屉柜</strong></p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MainViewModel</span> : <span class="hljs-title">ViewModelBase</span><br>&#123;<br>    <span class="hljs-keyword">public</span> PreparationViewModel Preparation &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> BaseClassesViewModel BaseClasses &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> CommandViewModel CommandDemo &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> MessengerPageViewModel Messenger &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MainViewModel</span>()</span><br>    &#123;<br>        Preparation = <span class="hljs-keyword">new</span> PreparationViewModel();<br>        BaseClasses = <span class="hljs-keyword">new</span> BaseClassesViewModel();<br>        CommandDemo = <span class="hljs-keyword">new</span> CommandViewModel();<br>        Messenger = <span class="hljs-keyword">new</span> MessengerPageViewModel();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>可以这样理解：</p>
-<ul>
-<li><code>MainViewModel</code> 是柜子。</li>
-<li><code>Preparation</code>、<code>BaseClasses</code>、<code>CommandDemo</code>、<code>Messenger</code> 是四个抽屉。</li>
-<li>每个抽屉里放一个页面自己的 ViewModel。</li>
-<li>窗口只认柜子，具体页签再打开对应的抽屉。</li>
-</ul>
-<p>程序启动时，<code>new MainViewModel()</code> 会执行构造函数，四个页面 ViewModel 就都创建好了。</p>
-<p><strong>3. 页签是怎么拿到自己的 ViewModel 的</strong></p>
-<p>比如第 1 个页签：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">TabItem</span> <span class="hljs-attr">Header</span>=<span class="hljs-string">&quot;1 框架准备&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">Grid</span> <span class="hljs-attr">DataContext</span>=<span class="hljs-string">&quot;&#123;Binding Preparation&#125;&quot;</span>&gt;</span><br>        ...<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">Grid</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">TabItem</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>执行顺序是：</p>
-<ol>
-<li>窗口的 <code>DataContext</code> 是 <code>MainViewModel</code>。</li>
-<li><code>&#123;Binding Preparation&#125;</code> 找到 <code>MainViewModel.Preparation</code>。</li>
-<li>这个 <code>Grid</code> 的 <code>DataContext</code> 就变成了 <code>PreparationViewModel</code>。</li>
-<li><code>Grid</code> 里面再写 <code>&#123;Binding 某个属性&#125;</code>，找的就是 <code>PreparationViewModel</code> 里的属性。</li>
-</ol>
-<p>所以每个页签都可以有自己的小世界，但它们都挂在同一个 <code>MainViewModel</code> 下面。</p>
-<p><strong>4. 为什么属性写</strong>  <strong><code>&#123; get; private set; &#125;</code></strong> </p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> PreparationViewModel Preparation &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li><code>get</code>：XAML 可以读取这个属性。</li>
-<li><code>private set</code>：只有 <code>MainViewModel</code> 自己能在构造函数里赋值，外面不能随便替换。</li>
-<li>这些属性只在构造函数里赋值一次，之后不再变化，所以不需要 <code>Set(...)</code> 通知。</li>
-</ul>
-<p>如果以后你要在运行过程中替换某个页面 ViewModel，才需要给它加属性通知。</p>
-<p><strong>5. 为什么不直接</strong> <strong><code>new PreparationViewModel()</code></strong> </p>
-<p>如果窗口只有一个页面，直接写：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>也能用。</p>
-<p>但窗口有多个页签时，写一个 <code>MainViewModel</code> 来组合它们更清楚。否则窗口只能认一个页面，其他页签就没有统一入口了。</p>
-<p><strong>6. 一个小提醒</strong></p>
-<p>你贴的代码里：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> BaseClassesViewMode BaseClasses &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这里 <code>BaseClassesViewMode</code> 少了一个 <code>l</code>。如果类名是 <code>BaseClassesViewModel</code>，这里要写成一样的名字，否则会报“找不到类型”。</p>
-<p>这部分已经补进笔记第 2 章的 <code>6.1</code> 到 <code>6.3</code>：</p>
-<p><code>C:\Users\North\Desktop\WPFStudy\MvvmLight入门学习笔记.md:295</code></p>
-<p>笔记已重新生成，示例项目仍然是 0 个错误、0 个警告，自测 9 项全部通过。</p>
+    <title>周末小记</title>
+    <url>/posts/2881.html</url>
+    <content><![CDATA[<p><span class="sy-block sy-block-warning">本周是双休：2026-11-13 - 2026-11-15</span></p>
+<p>不过是休一天工作一天再休一天这样子 ，庆幸的是明天是居家上班，所以会比较自在一些</p>
+<h3 id="第一天小记"><a href="#第一天小记" class="headerlink" title="第一天小记"></a>第一天小记</h3><p>按照昨天的计划是想着早起就准备去进行有氧然后吃饭学习的 ，结果就是因为自己懒床把许多的计划都需要往后移了 ，等下就准备爬坡去了 ，然后就是吃饭 ，学习 ，锻炼 ，这一天也挺简单的</p>
+<p>还有就是可能会继续修改下文章中对标思源笔记的一个样式</p>
+<p>等下就准备出门了 ，不过好在今天并没有下雨 ，去健身房的话是不用打伞的 ，下午的话可能会在周围转上一圈 ，好好放松下自己 ，听听音乐 ，差不多一天就可能结束了</p>
+<p>今天也是自己百天打卡的第一天 ，所以下午有时间自己会做一下规划 ，并适当的在打卡过程中给自己一些奖励让自己能够坚持下去！</p>
+<p>再就是<mark>今天是有计划学习AI</mark>的 ，这个一直被自己耽搁 ，感觉自己的拖延症好严重啊哈哈 ，然后再研究下博客怎么部署评论的 ，这个也需要看一下</p>
+<h3 id="第二天小记"><a href="#第二天小记" class="headerlink" title="第二天小记"></a>第二天小记</h3><p>昨天晚上是不应该喝咖啡的 ，还有就是不能够睡前打游戏的 ，否则结果就是凌晨两三点才睡着 ，七点多又醒了 ，整个人完全没啥精神 ，昨天的课程什么的也是没有学习的 ，我发现我折腾博客什么的都很亢奋 ，很积极 ，但是到了学习的时候我竟然有一种本能的抗拒 ，这个肯定是需要改下的</p>
+<p>现在才八点多整个人都没啥精神 ，好烦！</p>
+<p>今天还要值班 ，这个倒是没什么 ，问题就是坐的不太舒服 ，还有消息需要及时回复 ，这个倒是有点不太开心的 ，ε&#x3D;(´ο｀*)))唉</p>
+<p>今天基本什么没有做 ，天气也是不太好的 ，然后下午又很忙碌 ，<mark>有一天倒是需要注意下的，就是不能够漫无目的的消耗时间 ，像昨天一样完全不知道自己需要做什么</mark></p>
+<p>等到了晚上的时候才出门 ，外面已经起了好大的雾了这个时候 ，买了点东西，回去就打会儿游戏，洗漱睡觉了</p>
+<p>感觉这一天很是浪费对我来说</p>
+<h3 id="第三天小记"><a href="#第三天小记" class="headerlink" title="第三天小记"></a>第三天小记</h3><p>时间过得还是很快的 ，今天早早就醒了 ，不过看了会手机 ，差不多半个多小时之后才起床 ，<span data-type="text" class="sy-c-3">以后早上还是不能够看手机的啊 ，太耽搁效率了</span></p>
+<p>今天的话是周末的最后一天了 ，我准备按照自己原本计划的那样子去渡过 ，<span data-type="text" class="sy-bg-4">早上有氧 - 吃饭 - 学习 - 练背 - 学习 - 休息 </span>差不多就这样子的一个状态</p>
+<p>就先记录到这吧 ，等到了晚上的时候再去进行补充</p>
 ]]></content>
       <categories>
-        <category>WPF</category>
+        <category>闲聊杂谈</category>
       </categories>
       <tags>
-        <tag>MVVM</tag>
-        <tag>MVVMLight</tag>
+        <tag>轻语</tag>
+        <tag>随记</tag>
       </tags>
   </entry>
   <entry>
@@ -781,230 +740,6 @@
         <category>WPF</category>
       </categories>
       <tags>
-        <tag>MVVMLight</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>WPF 命令绑定三件事：找命令、建命令、执行方法</title>
-    <url>/posts/a34.html</url>
-    <content><![CDATA[<p>我今天在看代码的时候 ，对WPF中命令的认知也是一知半解 ，所以就想要去进行搞懂这个WPF绑定的一个过程通过命令</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Margin</span>=<span class="hljs-string">&quot;0,16,0,0&quot;</span> <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>还有ViewModels下面的这个代码</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这段代码其实就是一条完整的“按钮点击链路”：</p>
-<blockquote>
-<p><strong>按钮只负责被点击，命令负责转交，真正做事的是 ViewModel 里的方法。</strong></p>
-</blockquote>
-<p>先看三个角色：</p>
-<table>
-<thead>
-<tr>
-<th>角色</th>
-<th>代码</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>按钮</td>
-<td><code>&lt;Button ... /&gt;</code></td>
-<td>接收用户点击</td>
-</tr>
-<tr>
-<td>命令</td>
-<td><code>CheckEnvironmentCommand</code></td>
-<td>把点击转交给方法</td>
-</tr>
-<tr>
-<td>方法</td>
-<td><code>CheckEnvironment()</code></td>
-<td>真正修改状态、执行逻辑</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="1-先看-XAML-这一行"><a href="#1-先看-XAML-这一行" class="headerlink" title="1. 先看 XAML 这一行"></a>1. 先看 XAML 这一行</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button<br>    Margin=<span class="hljs-string">&quot;0,16,0,0&quot;</span><br>    Command=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span><br>    Content=<span class="hljs-string">&quot;检查环境&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
-
-<p>拆开看：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Content=&quot;检查环境&quot;<br></code></pre></td></tr></table></figure>
-
-<p>这是按钮上显示的文字。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">Margin</span>=&quot;<span class="hljs-number">0</span>,<span class="hljs-number">16</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&quot;<br></code></pre></td></tr></table></figure>
-
-<p>这是按钮的外边距，顺序是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">左 上 右 下<br>0  16 0  0<br></code></pre></td></tr></table></figure>
-
-<p>也就是按钮上方留 16 像素距离。</p>
-<p>最关键的是这一句：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Command=&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;<br></code></pre></td></tr></table></figure>
-
-<p>它的意思是：</p>
-<blockquote>
-<p>去当前窗口的 <code>DataContext</code> 里，找一个名字叫 <code>CheckEnvironmentCommand</code> 的属性，把它当作按钮的命令。</p>
-</blockquote>
-<p>因为窗口里设置了：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>所以按钮会去 <code>PreparationViewModel</code> 里面找：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>找到以后，按钮就知道：</p>
-<blockquote>
-<p>我被点击时，不应该直接执行某个后台方法，而应该执行这个命令对象。</p>
-</blockquote>
-<hr>
-<h2 id="2-命令属性是什么意思"><a href="#2-命令属性是什么意思" class="headerlink" title="2. 命令属性是什么意思"></a>2. 命令属性是什么意思</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这行代码定义了一个“命令属性”。</p>
-<p>它可以拆成三部分理解：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public<br></code></pre></td></tr></table></figure>
-
-<p>表示外部可以读取它。XAML 绑定需要访问这个属性，所以必须是 <code>public</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">RelayCommand<br></code></pre></td></tr></table></figure>
-
-<p>表示这个属性的类型是 <code>RelayCommand</code>。它不是普通字符串，也不是普通方法，而是一个“命令对象”。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&#123; get; private set; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>表示：</p>
-<ul>
-<li>外部可以读取这个命令。</li>
-<li>只有 <code>PreparationViewModel</code> 内部可以给它赋值。</li>
-</ul>
-<p>为什么不写普通方法，而要搞一个命令对象？</p>
-<p>因为 WPF 的按钮认识的是 <code>ICommand</code> 接口，不是随便一个普通方法。<code>RelayCommand</code> 就是 MvvmLight 帮你写好的 <code>ICommand</code> 实现。</p>
-<p>你可以把它理解成一个中间人：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">按钮<br>  ↓<br>RelayCommand<br>  ↓<br>CheckEnvironment()<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="3-构造函数里做了什么"><a href="#3-构造函数里做了什么" class="headerlink" title="3. 构造函数里做了什么"></a>3. 构造函数里做了什么</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><code>PreparationViewModel()</code> 是构造函数。创建 ViewModel 时会执行一次：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>这时就会执行构造函数里的代码：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-<p>这行代码的意思是：</p>
-<blockquote>
-<p>创建一个 <code>RelayCommand</code> 对象，并告诉它：以后有人执行你时，你就去调用 <code>CheckEnvironment</code> 方法。</p>
-</blockquote>
-<p>注意，这里只是把方法“交给”命令对象，<strong>并没有立刻执行</strong> <strong><code>CheckEnvironment()</code></strong> 。</p>
-<p>可以把它想成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">把“检查环境”这个动作装进一个遥控器里<br></code></pre></td></tr></table></figure>
-
-<p>而不是现在就按下遥控器。</p>
-<p>更直白地写，它类似于：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(() =&gt; CheckEnvironment());<br></code></pre></td></tr></table></figure>
-
-<p>意思是：</p>
-<blockquote>
-<p>命令被执行时，调用 <code>CheckEnvironment()</code>。</p>
-</blockquote>
-<hr>
-<h2 id="4-真正做事的方法"><a href="#4-真正做事的方法" class="headerlink" title="4. 真正做事的方法"></a>4. 真正做事的方法</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这个方法没有参数，也没有返回值，正好符合 <code>RelayCommand</code> 需要的 <code>Action</code> 形式。</p>
-<p>它里面只做一件事：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>这行代码会进入你上一条问的 <code>private set</code>：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span><br>&#123;<br>    Set(<span class="hljs-keyword">ref</span> _environmentStatus, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(EnvironmentStatus));<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>然后：</p>
-<ol>
-<li><code>Set</code> 更新 <code>_environmentStatus</code>。</li>
-<li><code>Set</code> 发出 <code>PropertyChanged</code> 通知。</li>
-<li>WPF 重新读取 <code>EnvironmentStatus</code>。</li>
-<li>界面上的文字刷新。</li>
-</ol>
-<p>所以按钮点击后的完整链路是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">用户点击按钮<br>    ↓<br>Button 执行 Command<br>    ↓<br>RelayCommand.Execute()<br>    ↓<br>CheckEnvironment()<br>    ↓<br>EnvironmentStatus = &quot;环境检查完成...&quot;<br>    ↓<br>private set 调用 Set(...)<br>    ↓<br>发出 PropertyChanged 通知<br>    ↓<br>界面重新显示新文字<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="5-为什么不用-Click-事件"><a href="#5-为什么不用-Click-事件" class="headerlink" title="5. 为什么不用 Click 事件"></a>5. 为什么不用 Click 事件</h2><p>传统 WPF 可以这样写：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button Content=<span class="hljs-string">&quot;检查环境&quot;</span> Click=<span class="hljs-string">&quot;CheckEnvironment_Click&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
-
-<p>然后在窗口代码隐藏文件里写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">private void CheckEnvironment_Click(object sender, RoutedEventArgs e)<br>&#123;<br>    // 操作界面控件<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这种写法能用，但问题是：</p>
-<ul>
-<li>按钮逻辑写在窗口后台代码里。</li>
-<li>ViewModel 不容易单独测试。</li>
-<li>界面和业务逻辑容易绑在一起。</li>
-<li>以后按钮状态变化时，还要手动控制按钮是否可用。</li>
-</ul>
-<p>命令写法是：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>按钮只负责“我被点击了”，具体做什么由 ViewModel 的命令决定。</p>
-<p>这就是 MVVM 想要的方向：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">View 负责显示和输入<br>ViewModel 负责状态和动作<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="6-private-set-在这里的作用"><a href="#6-private-set-在这里的作用" class="headerlink" title="6. private set 在这里的作用"></a>6. private set 在这里的作用</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这里用 <code>private set</code> 的原因是：</p>
-<ul>
-<li>XAML 需要读取命令，所以 <code>get</code> 必须是 <code>public</code>。</li>
-<li>命令只应该在 ViewModel 构造函数里创建一次。</li>
-<li>不希望外部随便把命令替换掉。</li>
-</ul>
-<p>所以写成：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>而不是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public RelayCommand CheckEnvironmentCommand &#123; get; set; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这和你前面学的 <code>EnvironmentStatus</code> 的 <code>private set</code> 思路是一样的：</p>
-<blockquote>
-<p>对外可读，对内可写。</p>
-</blockquote>
-<hr>
-<h2 id="7-如果以后想让按钮变灰"><a href="#7-如果以后想让按钮变灰" class="headerlink" title="7. 如果以后想让按钮变灰"></a>7. 如果以后想让按钮变灰</h2><p><code>RelayCommand</code> 还可以接收第二个参数，用来判断“现在能不能执行”：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(<br>    CheckEnvironment,<br>    CanCheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">CanCheckEnvironment</span>()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> !<span class="hljs-built_in">string</span>.IsNullOrWhiteSpace(EnvironmentStatus);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>当 <code>CanExecute</code> 返回 <code>false</code> 时，按钮会自动变灰。</p>
-<p>现在这段代码没有写第二个参数，所以按钮默认一直可以点击。</p>
-<hr>
-<h2 id="8-最容易出错的几个地方"><a href="#8-最容易出错的几个地方" class="headerlink" title="8. 最容易出错的几个地方"></a>8. 最容易出错的几个地方</h2><h3 id="错误一：没有设置-DataContext"><a href="#错误一：没有设置-DataContext" class="headerlink" title="错误一：没有设置 DataContext"></a>错误一：没有设置 DataContext</h3><p>如果窗口没有：这个就特别的重要</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>那么 <code>&#123;Binding CheckEnvironmentCommand&#125;</code> 找不到命令，按钮点击就不会调用 ViewModel。</p>
-<h3 id="错误二：命令属性不是-public"><a href="#错误二：命令属性不是-public" class="headerlink" title="错误二：命令属性不是 public"></a>错误二：命令属性不是 public</h3><p>如果写成：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>XAML 绑定读不到它。</p>
-<h3 id="错误三：构造函数里没有创建命令"><a href="#错误三：构造函数里没有创建命令" class="headerlink" title="错误三：构造函数里没有创建命令"></a>错误三：构造函数里没有创建命令</h3><p>如果只写了属性，没有写：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-<p>那么命令是 <code>null</code>，按钮点击不会执行任何 ViewModel 方法。</p>
-<h3 id="错误四：方法名写错"><a href="#错误四：方法名写错" class="headerlink" title="错误四：方法名写错"></a>错误四：方法名写错</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">CheckEnvironmentCommand = new RelayCommand(CheckEnvironmentTypo);<br></code></pre></td></tr></table></figure>
-
-<p>但类里没有 <code>CheckEnvironmentTypo</code> 方法，编译就会报错。</p>
-<hr>
-<h2 id="9-你可以这样记"><a href="#9-你可以这样记" class="headerlink" title="9. 你可以这样记"></a>9. 你可以这样记</h2><p>把这三句话记住，命令就基本通了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">XAML 里的 Button 通过 Binding 找命令<br>ViewModel 在构造函数里创建命令<br>RelayCommand 在按钮点击时调用指定方法<br></code></pre></td></tr></table></figure>
-
-<p>再压缩成一句：</p>
-<blockquote>
-<p><strong>按钮不直接调用方法，按钮执行命令，命令再调用方法。</strong></p>
-</blockquote>
-<p>这和你前面学的属性通知可以连起来：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">命令负责“做事”<br>属性负责“保存状态”<br>Set 负责“通知界面”<br></code></pre></td></tr></table></figure>
-
-<p>三者合起来，就是一个完整的 MVVM 小闭环。</p>
-<p><span class="sy-block sy-block-success">到这里一套流程走下去 ，自己就突然明悟了很多 ，以后理解起来也会更加的方便了</span></p>
-]]></content>
-      <categories>
-        <category>WPF</category>
-      </categories>
-      <tags>
-        <tag>MVVM</tag>
         <tag>MVVMLight</tag>
       </tags>
   </entry>
@@ -2055,31 +1790,303 @@
       </tags>
   </entry>
   <entry>
-    <title>周末小记</title>
-    <url>/posts/2881.html</url>
-    <content><![CDATA[<p><span class="sy-block sy-block-warning">本周是双休：2026-11-13 - 2026-11-15</span></p>
-<p>不过是休一天工作一天再休一天这样子 ，庆幸的是明天是居家上班，所以会比较自在一些</p>
-<h3 id="第一天小记"><a href="#第一天小记" class="headerlink" title="第一天小记"></a>第一天小记</h3><p>按照昨天的计划是想着早起就准备去进行有氧然后吃饭学习的 ，结果就是因为自己懒床把许多的计划都需要往后移了 ，等下就准备爬坡去了 ，然后就是吃饭 ，学习 ，锻炼 ，这一天也挺简单的</p>
-<p>还有就是可能会继续修改下文章中对标思源笔记的一个样式</p>
-<p>等下就准备出门了 ，不过好在今天并没有下雨 ，去健身房的话是不用打伞的 ，下午的话可能会在周围转上一圈 ，好好放松下自己 ，听听音乐 ，差不多一天就可能结束了</p>
-<p>今天也是自己百天打卡的第一天 ，所以下午有时间自己会做一下规划 ，并适当的在打卡过程中给自己一些奖励让自己能够坚持下去！</p>
-<p>再就是<mark>今天是有计划学习AI</mark>的 ，这个一直被自己耽搁 ，感觉自己的拖延症好严重啊哈哈 ，然后再研究下博客怎么部署评论的 ，这个也需要看一下</p>
-<h3 id="第二天小记"><a href="#第二天小记" class="headerlink" title="第二天小记"></a>第二天小记</h3><p>昨天晚上是不应该喝咖啡的 ，还有就是不能够睡前打游戏的 ，否则结果就是凌晨两三点才睡着 ，七点多又醒了 ，整个人完全没啥精神 ，昨天的课程什么的也是没有学习的 ，我发现我折腾博客什么的都很亢奋 ，很积极 ，但是到了学习的时候我竟然有一种本能的抗拒 ，这个肯定是需要改下的</p>
-<p>现在才八点多整个人都没啥精神 ，好烦！</p>
-<p>今天还要值班 ，这个倒是没什么 ，问题就是坐的不太舒服 ，还有消息需要及时回复 ，这个倒是有点不太开心的 ，ε&#x3D;(´ο｀*)))唉</p>
-<p>今天基本什么没有做 ，天气也是不太好的 ，然后下午又很忙碌 ，<mark>有一天倒是需要注意下的，就是不能够漫无目的的消耗时间 ，像昨天一样完全不知道自己需要做什么</mark></p>
-<p>等到了晚上的时候才出门 ，外面已经起了好大的雾了这个时候 ，买了点东西，回去就打会儿游戏，洗漱睡觉了</p>
-<p>感觉这一天很是浪费对我来说</p>
-<h3 id="第三天小记"><a href="#第三天小记" class="headerlink" title="第三天小记"></a>第三天小记</h3><p>时间过得还是很快的 ，今天早早就醒了 ，不过看了会手机 ，差不多半个多小时之后才起床 ，<span data-type="text" class="sy-c-3">以后早上还是不能够看手机的啊 ，太耽搁效率了</span></p>
-<p>今天的话是周末的最后一天了 ，我准备按照自己原本计划的那样子去渡过 ，<span data-type="text" class="sy-bg-4">早上有氧 - 吃饭 - 学习 - 练背 - 学习 - 休息 </span>差不多就这样子的一个状态</p>
-<p>就先记录到这吧 ，等到了晚上的时候再去进行补充</p>
+    <title>WPF 命令绑定三件事：找命令、建命令、执行方法</title>
+    <url>/posts/a34.html</url>
+    <content><![CDATA[<p>我今天在看代码的时候 ，对WPF中命令的认知也是一知半解 ，所以就想要去进行搞懂这个WPF绑定的一个过程通过命令</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Margin</span>=<span class="hljs-string">&quot;0,16,0,0&quot;</span> <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>还有ViewModels下面的这个代码</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这段代码其实就是一条完整的“按钮点击链路”：</p>
+<blockquote>
+<p><strong>按钮只负责被点击，命令负责转交，真正做事的是 ViewModel 里的方法。</strong></p>
+</blockquote>
+<p>先看三个角色：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>代码</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>按钮</td>
+<td><code>&lt;Button ... /&gt;</code></td>
+<td>接收用户点击</td>
+</tr>
+<tr>
+<td>命令</td>
+<td><code>CheckEnvironmentCommand</code></td>
+<td>把点击转交给方法</td>
+</tr>
+<tr>
+<td>方法</td>
+<td><code>CheckEnvironment()</code></td>
+<td>真正修改状态、执行逻辑</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1-先看-XAML-这一行"><a href="#1-先看-XAML-这一行" class="headerlink" title="1. 先看 XAML 这一行"></a>1. 先看 XAML 这一行</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button<br>    Margin=<span class="hljs-string">&quot;0,16,0,0&quot;</span><br>    Command=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span><br>    Content=<span class="hljs-string">&quot;检查环境&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>拆开看：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Content=&quot;检查环境&quot;<br></code></pre></td></tr></table></figure>
+
+<p>这是按钮上显示的文字。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">Margin</span>=&quot;<span class="hljs-number">0</span>,<span class="hljs-number">16</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<p>这是按钮的外边距，顺序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">左 上 右 下<br>0  16 0  0<br></code></pre></td></tr></table></figure>
+
+<p>也就是按钮上方留 16 像素距离。</p>
+<p>最关键的是这一句：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Command=&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;<br></code></pre></td></tr></table></figure>
+
+<p>它的意思是：</p>
+<blockquote>
+<p>去当前窗口的 <code>DataContext</code> 里，找一个名字叫 <code>CheckEnvironmentCommand</code> 的属性，把它当作按钮的命令。</p>
+</blockquote>
+<p>因为窗口里设置了：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>所以按钮会去 <code>PreparationViewModel</code> 里面找：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>找到以后，按钮就知道：</p>
+<blockquote>
+<p>我被点击时，不应该直接执行某个后台方法，而应该执行这个命令对象。</p>
+</blockquote>
+<hr>
+<h2 id="2-命令属性是什么意思"><a href="#2-命令属性是什么意思" class="headerlink" title="2. 命令属性是什么意思"></a>2. 命令属性是什么意思</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这行代码定义了一个“命令属性”。</p>
+<p>它可以拆成三部分理解：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public<br></code></pre></td></tr></table></figure>
+
+<p>表示外部可以读取它。XAML 绑定需要访问这个属性，所以必须是 <code>public</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">RelayCommand<br></code></pre></td></tr></table></figure>
+
+<p>表示这个属性的类型是 <code>RelayCommand</code>。它不是普通字符串，也不是普通方法，而是一个“命令对象”。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&#123; get; private set; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>表示：</p>
+<ul>
+<li>外部可以读取这个命令。</li>
+<li>只有 <code>PreparationViewModel</code> 内部可以给它赋值。</li>
+</ul>
+<p>为什么不写普通方法，而要搞一个命令对象？</p>
+<p>因为 WPF 的按钮认识的是 <code>ICommand</code> 接口，不是随便一个普通方法。<code>RelayCommand</code> 就是 MvvmLight 帮你写好的 <code>ICommand</code> 实现。</p>
+<p>你可以把它理解成一个中间人：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">按钮<br>  ↓<br>RelayCommand<br>  ↓<br>CheckEnvironment()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-构造函数里做了什么"><a href="#3-构造函数里做了什么" class="headerlink" title="3. 构造函数里做了什么"></a>3. 构造函数里做了什么</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>PreparationViewModel()</code> 是构造函数。创建 ViewModel 时会执行一次：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>这时就会执行构造函数里的代码：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+<p>这行代码的意思是：</p>
+<blockquote>
+<p>创建一个 <code>RelayCommand</code> 对象，并告诉它：以后有人执行你时，你就去调用 <code>CheckEnvironment</code> 方法。</p>
+</blockquote>
+<p>注意，这里只是把方法“交给”命令对象，<strong>并没有立刻执行</strong> <strong><code>CheckEnvironment()</code></strong> 。</p>
+<p>可以把它想成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">把“检查环境”这个动作装进一个遥控器里<br></code></pre></td></tr></table></figure>
+
+<p>而不是现在就按下遥控器。</p>
+<p>更直白地写，它类似于：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(() =&gt; CheckEnvironment());<br></code></pre></td></tr></table></figure>
+
+<p>意思是：</p>
+<blockquote>
+<p>命令被执行时，调用 <code>CheckEnvironment()</code>。</p>
+</blockquote>
+<hr>
+<h2 id="4-真正做事的方法"><a href="#4-真正做事的方法" class="headerlink" title="4. 真正做事的方法"></a>4. 真正做事的方法</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个方法没有参数，也没有返回值，正好符合 <code>RelayCommand</code> 需要的 <code>Action</code> 形式。</p>
+<p>它里面只做一件事：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这行代码会进入你上一条问的 <code>private set</code>：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span><br>&#123;<br>    Set(<span class="hljs-keyword">ref</span> _environmentStatus, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(EnvironmentStatus));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后：</p>
+<ol>
+<li><code>Set</code> 更新 <code>_environmentStatus</code>。</li>
+<li><code>Set</code> 发出 <code>PropertyChanged</code> 通知。</li>
+<li>WPF 重新读取 <code>EnvironmentStatus</code>。</li>
+<li>界面上的文字刷新。</li>
+</ol>
+<p>所以按钮点击后的完整链路是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">用户点击按钮<br>    ↓<br>Button 执行 Command<br>    ↓<br>RelayCommand.Execute()<br>    ↓<br>CheckEnvironment()<br>    ↓<br>EnvironmentStatus = &quot;环境检查完成...&quot;<br>    ↓<br>private set 调用 Set(...)<br>    ↓<br>发出 PropertyChanged 通知<br>    ↓<br>界面重新显示新文字<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-为什么不用-Click-事件"><a href="#5-为什么不用-Click-事件" class="headerlink" title="5. 为什么不用 Click 事件"></a>5. 为什么不用 Click 事件</h2><p>传统 WPF 可以这样写：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button Content=<span class="hljs-string">&quot;检查环境&quot;</span> Click=<span class="hljs-string">&quot;CheckEnvironment_Click&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>然后在窗口代码隐藏文件里写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">private void CheckEnvironment_Click(object sender, RoutedEventArgs e)<br>&#123;<br>    // 操作界面控件<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种写法能用，但问题是：</p>
+<ul>
+<li>按钮逻辑写在窗口后台代码里。</li>
+<li>ViewModel 不容易单独测试。</li>
+<li>界面和业务逻辑容易绑在一起。</li>
+<li>以后按钮状态变化时，还要手动控制按钮是否可用。</li>
+</ul>
+<p>命令写法是：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>按钮只负责“我被点击了”，具体做什么由 ViewModel 的命令决定。</p>
+<p>这就是 MVVM 想要的方向：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">View 负责显示和输入<br>ViewModel 负责状态和动作<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-private-set-在这里的作用"><a href="#6-private-set-在这里的作用" class="headerlink" title="6. private set 在这里的作用"></a>6. private set 在这里的作用</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里用 <code>private set</code> 的原因是：</p>
+<ul>
+<li>XAML 需要读取命令，所以 <code>get</code> 必须是 <code>public</code>。</li>
+<li>命令只应该在 ViewModel 构造函数里创建一次。</li>
+<li>不希望外部随便把命令替换掉。</li>
+</ul>
+<p>所以写成：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>而不是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public RelayCommand CheckEnvironmentCommand &#123; get; set; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这和你前面学的 <code>EnvironmentStatus</code> 的 <code>private set</code> 思路是一样的：</p>
+<blockquote>
+<p>对外可读，对内可写。</p>
+</blockquote>
+<hr>
+<h2 id="7-如果以后想让按钮变灰"><a href="#7-如果以后想让按钮变灰" class="headerlink" title="7. 如果以后想让按钮变灰"></a>7. 如果以后想让按钮变灰</h2><p><code>RelayCommand</code> 还可以接收第二个参数，用来判断“现在能不能执行”：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(<br>    CheckEnvironment,<br>    CanCheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">CanCheckEnvironment</span>()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> !<span class="hljs-built_in">string</span>.IsNullOrWhiteSpace(EnvironmentStatus);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当 <code>CanExecute</code> 返回 <code>false</code> 时，按钮会自动变灰。</p>
+<p>现在这段代码没有写第二个参数，所以按钮默认一直可以点击。</p>
+<hr>
+<h2 id="8-最容易出错的几个地方"><a href="#8-最容易出错的几个地方" class="headerlink" title="8. 最容易出错的几个地方"></a>8. 最容易出错的几个地方</h2><h3 id="错误一：没有设置-DataContext"><a href="#错误一：没有设置-DataContext" class="headerlink" title="错误一：没有设置 DataContext"></a>错误一：没有设置 DataContext</h3><p>如果窗口没有：这个就特别的重要</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>那么 <code>&#123;Binding CheckEnvironmentCommand&#125;</code> 找不到命令，按钮点击就不会调用 ViewModel。</p>
+<h3 id="错误二：命令属性不是-public"><a href="#错误二：命令属性不是-public" class="headerlink" title="错误二：命令属性不是 public"></a>错误二：命令属性不是 public</h3><p>如果写成：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>XAML 绑定读不到它。</p>
+<h3 id="错误三：构造函数里没有创建命令"><a href="#错误三：构造函数里没有创建命令" class="headerlink" title="错误三：构造函数里没有创建命令"></a>错误三：构造函数里没有创建命令</h3><p>如果只写了属性，没有写：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+<p>那么命令是 <code>null</code>，按钮点击不会执行任何 ViewModel 方法。</p>
+<h3 id="错误四：方法名写错"><a href="#错误四：方法名写错" class="headerlink" title="错误四：方法名写错"></a>错误四：方法名写错</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">CheckEnvironmentCommand = new RelayCommand(CheckEnvironmentTypo);<br></code></pre></td></tr></table></figure>
+
+<p>但类里没有 <code>CheckEnvironmentTypo</code> 方法，编译就会报错。</p>
+<hr>
+<h2 id="9-你可以这样记"><a href="#9-你可以这样记" class="headerlink" title="9. 你可以这样记"></a>9. 你可以这样记</h2><p>把这三句话记住，命令就基本通了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">XAML 里的 Button 通过 Binding 找命令<br>ViewModel 在构造函数里创建命令<br>RelayCommand 在按钮点击时调用指定方法<br></code></pre></td></tr></table></figure>
+
+<p>再压缩成一句：</p>
+<blockquote>
+<p><strong>按钮不直接调用方法，按钮执行命令，命令再调用方法。</strong></p>
+</blockquote>
+<p>这和你前面学的属性通知可以连起来：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">命令负责“做事”<br>属性负责“保存状态”<br>Set 负责“通知界面”<br></code></pre></td></tr></table></figure>
+
+<p>三者合起来，就是一个完整的 MVVM 小闭环。</p>
+<p><span class="sy-block sy-block-success">到这里一套流程走下去 ，自己就突然明悟了很多 ，以后理解起来也会更加的方便了</span></p>
 ]]></content>
       <categories>
-        <category>闲聊杂谈</category>
+        <category>WPF</category>
       </categories>
       <tags>
-        <tag>随记</tag>
-        <tag>轻语</tag>
+        <tag>MVVM</tag>
+        <tag>MVVMLight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MainViewModel 像一个抽屉柜：WPF 多页签如何组织各自的 ViewModel</title>
+    <url>/posts/3415.html</url>
+    <content><![CDATA[<p>这个写法可以理解成一句话：</p>
+<blockquote>
+<p><code>MainWindow</code> 只负责拿一个“总数据源”，这个总数据源就是 <code>MainViewModel</code>；<code>MainViewModel</code> 里面再装着各个页面的小 ViewModel。</p>
+</blockquote>
+<p><strong>1.</strong>  <strong><code>this.DataContext = new MainViewModel();</code></strong>  <strong>做了什么</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MainWindow</span>()</span><br>&#123;<br>    InitializeComponent();<br>    <span class="hljs-keyword">this</span>.DataContext = <span class="hljs-keyword">new</span> MainViewModel();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以拆成两步看：</p>
+<ol>
+<li><code>new MainViewModel()</code>：创建 <code>MainViewModel</code> 对象，并立刻执行它的构造函数。</li>
+<li><code>this.DataContext = ...</code>：把这个对象交给当前窗口，作为窗口的绑定起点。</li>
+</ol>
+<p><code>DataContext</code> 可以理解成“界面去哪里找属性”。</p>
+<p>设置以后，窗口里的：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Text=&quot;&#123;Binding Preparation&#125;&quot;<br></code></pre></td></tr></table></figure>
+
+<p>就会去 <code>MainViewModel</code> 里找 <code>Preparation</code> 属性。</p>
+<p><code>this</code> 就是当前这个 <code>MainWindow</code>，写不写都一样。</p>
+<p><strong>2.</strong>  <strong><code>MainViewModel</code></strong> <strong>像一个抽屉柜</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MainViewModel</span> : <span class="hljs-title">ViewModelBase</span><br>&#123;<br>    <span class="hljs-keyword">public</span> PreparationViewModel Preparation &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> BaseClassesViewModel BaseClasses &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> CommandViewModel CommandDemo &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-keyword">public</span> MessengerPageViewModel Messenger &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MainViewModel</span>()</span><br>    &#123;<br>        Preparation = <span class="hljs-keyword">new</span> PreparationViewModel();<br>        BaseClasses = <span class="hljs-keyword">new</span> BaseClassesViewModel();<br>        CommandDemo = <span class="hljs-keyword">new</span> CommandViewModel();<br>        Messenger = <span class="hljs-keyword">new</span> MessengerPageViewModel();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以这样理解：</p>
+<ul>
+<li><code>MainViewModel</code> 是柜子。</li>
+<li><code>Preparation</code>、<code>BaseClasses</code>、<code>CommandDemo</code>、<code>Messenger</code> 是四个抽屉。</li>
+<li>每个抽屉里放一个页面自己的 ViewModel。</li>
+<li>窗口只认柜子，具体页签再打开对应的抽屉。</li>
+</ul>
+<p>程序启动时，<code>new MainViewModel()</code> 会执行构造函数，四个页面 ViewModel 就都创建好了。</p>
+<p><strong>3. 页签是怎么拿到自己的 ViewModel 的</strong></p>
+<p>比如第 1 个页签：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">TabItem</span> <span class="hljs-attr">Header</span>=<span class="hljs-string">&quot;1 框架准备&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">Grid</span> <span class="hljs-attr">DataContext</span>=<span class="hljs-string">&quot;&#123;Binding Preparation&#125;&quot;</span>&gt;</span><br>        ...<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">Grid</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">TabItem</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>执行顺序是：</p>
+<ol>
+<li>窗口的 <code>DataContext</code> 是 <code>MainViewModel</code>。</li>
+<li><code>&#123;Binding Preparation&#125;</code> 找到 <code>MainViewModel.Preparation</code>。</li>
+<li>这个 <code>Grid</code> 的 <code>DataContext</code> 就变成了 <code>PreparationViewModel</code>。</li>
+<li><code>Grid</code> 里面再写 <code>&#123;Binding 某个属性&#125;</code>，找的就是 <code>PreparationViewModel</code> 里的属性。</li>
+</ol>
+<p>所以每个页签都可以有自己的小世界，但它们都挂在同一个 <code>MainViewModel</code> 下面。</p>
+<p><strong>4. 为什么属性写</strong>  <strong><code>&#123; get; private set; &#125;</code></strong> </p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> PreparationViewModel Preparation &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>get</code>：XAML 可以读取这个属性。</li>
+<li><code>private set</code>：只有 <code>MainViewModel</code> 自己能在构造函数里赋值，外面不能随便替换。</li>
+<li>这些属性只在构造函数里赋值一次，之后不再变化，所以不需要 <code>Set(...)</code> 通知。</li>
+</ul>
+<p>如果以后你要在运行过程中替换某个页面 ViewModel，才需要给它加属性通知。</p>
+<p><strong>5. 为什么不直接</strong> <strong><code>new PreparationViewModel()</code></strong> </p>
+<p>如果窗口只有一个页面，直接写：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>也能用。</p>
+<p>但窗口有多个页签时，写一个 <code>MainViewModel</code> 来组合它们更清楚。否则窗口只能认一个页面，其他页签就没有统一入口了。</p>
+<p><strong>6. 一个小提醒</strong></p>
+<p>你贴的代码里：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> BaseClassesViewMode BaseClasses &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里 <code>BaseClassesViewMode</code> 少了一个 <code>l</code>。如果类名是 <code>BaseClassesViewModel</code>，这里要写成一样的名字，否则会报“找不到类型”。</p>
+<p>这部分已经补进笔记第 2 章的 <code>6.1</code> 到 <code>6.3</code>：</p>
+<p><code>C:\Users\North\Desktop\WPFStudy\MvvmLight入门学习笔记.md:295</code></p>
+<p>笔记已重新生成，示例项目仍然是 0 个错误、0 个警告，自测 9 项全部通过。</p>
+]]></content>
+      <categories>
+        <category>WPF</category>
+      </categories>
+      <tags>
+        <tag>MVVM</tag>
+        <tag>MVVMLight</tag>
       </tags>
   </entry>
 </search>
