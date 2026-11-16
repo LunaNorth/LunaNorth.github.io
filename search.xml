@@ -1,84 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
-    <url>/posts/dcdb.html</url>
-    <content><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><span data-type="text" style="color: var(--b3-font-color8);">问题描述</span></h3><p>建议：如果是刚开始写WinForm项目 ，建议刚开始就去进行一个替换 ，要不然后面会很麻烦的 ，不仅要计算size 还要去 计算 location 的值</p>
-<p>昨天碰到了这个问题 ，当时设置完之后界面就非常的模糊 ，虽然说界面变大了 ，但是看着异常难受 ，很模糊</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a><span data-type="text" style="color: var(--b3-font-color8);">解决方案</span></h3><ol>
-<li><p>新建​<code>应用程序清单文件（Application Manifest File）</code>​ ， 保持默认名称 ​<code>app.manifest</code>，点击添加。</p>
-</li>
-<li><p>找到这段代码：</p>
-<p><img src="https://img2024.cnblogs.com/blog/3509019/202510/3509019-20251004072422062-1722481762.png" alt="image"></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>替换DPI相关配置：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true/pm<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Windows 10 1703+ 支持 Per-Monitor v2 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAwareness</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>permonitorv2,permonitor<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAwareness</span>&gt;</span><br>     <span class="hljs-comment">&lt;!-- 保留长路径支持（如果需要） --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">longPathAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">longPathAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
-</li>
-<li><p>保存文件，重新生成项目即可生效。</p>
-</li>
-</ol>
-<h3 id="替换方案-尺寸不一致解决方案"><a href="#替换方案-尺寸不一致解决方案" class="headerlink" title="替换方案(尺寸不一致解决方案)"></a><span data-type="text" style="color: var(--b3-font-color8);">替换方案(尺寸不一致解决方案)</span></h3><p>因为你刚替换完 ，尺寸与原来的是不一致的 ，所以就需要进一步的替换原先的尺寸</p>
-<hr>
-<p>在 DPI 感知的应用程序中，当系统缩放比例从 100% 变为 150% 时，界面元素的实际像素尺寸计算遵循   <strong>“逻辑尺寸 × 缩放比例 &#x3D; 实际像素尺寸”</strong>   的规则。以下是具体说明：</p>
-<p>假设在 100% 缩放时，某按钮的逻辑尺寸为宽度 100 像素、高度 30 像：</p>
-<ul>
-<li>100% 缩放（系数 1.0）：实际像素尺寸 = 100 × 1.0 = 100 像素（宽），30 × 1.0 = 30 像素（高）。</li>
-<li>150% 缩放（系数 1.5）：实际像素尺寸 = 100 × 1.5 = 150 像素（宽），30 × 1.5 = 45 像素（高）。</li>
-</ul>
-<p><span data-type="text" style="color: var(--b3-font-color3);">举例说明：尺寸计算表（基准：89 × 31）</span></p>
-<table>
-<thead>
-<tr>
-<th>缩放比例</th>
-<th>缩放系数</th>
-<th>实际宽度（像素）</th>
-<th>实际高度（像素）</th>
-<th>计算逻辑</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>100%</td>
-<td>1.0</td>
-<td>89</td>
-<td>31</td>
-<td>89 × 1.0 = 89；31 × 1.0 = 31</td>
-</tr>
-<tr>
-<td>150%</td>
-<td>1.5</td>
-<td>133.5</td>
-<td>46.5</td>
-<td>89 × 1.5 = 133.5；31 × 1.5 = 46.5</td>
-</tr>
-</tbody></table>
-<hr>
-<p>在 WinForms 应用中开启 DPI 感知后，系统缩放比例从 100% 变为 150% 时，​<code>Location</code>​（控件位置，即 X、Y 坐标）的计算核心遵循   <strong>“基准逻辑坐标 × 缩放系数（150%</strong>     <strong>&#x3D;</strong>   <strong>1.5）&#x3D;</strong>   <strong>实际像素坐标”</strong>   规则，同时需结合 WinForms 的 DPI 适配机制（尤其是 .NET Framework 4.6+ 或 .NET Core 3.0+ 的高 DPI 支持），具体细节如下：</p>
-<p>一、核心计算逻辑（手动计算场景）</p>
-<p>若需手动计算 ​<code>Location</code>，需明确两个前提：</p>
-<ol>
-<li><strong>基准坐标</strong>​：100% 缩放时，控件在代码中定义的 ​<code>Location</code>​（如 ​<code>new Point(20, 30)</code>​，即 X=20，Y=30），这是 “逻辑坐标”，对应 100% 缩放时的实际像素。</li>
-<li><strong>缩放系数</strong>​：系统缩放比例对应的系数（100% = 1.0，150% = 1.5）。</li>
-</ol>
-<p>计算公式：：实际像素坐标（150% 缩放）&#x3D; 基准逻辑坐标 × 1.5</p>
-<p>示例：</p>
-<p>假设 100% 缩放时控件基准 ​<code>Location</code>​ 为 ​<code>(14, 6)</code>​（X=14，Y=6）：</p>
-<ul>
-<li>100% 缩放（系数 1.0）：实际坐标 = ​<code>(14×1.0, 6×1.0)</code>​ = ​<code>(14, 6)</code>（像素）。</li>
-<li>150% 缩放（系数 1.5）：实际坐标 = ​<code>(14×1.5, 6×1.5)</code>​ = ​<code>(21, 9)</code>（像素）。</li>
-</ul>
-<hr>
-<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>当然还有像这种自动适配的 ，不需要手动计算 ，就比如DPI自动缩放功能 ，但是我目前还不会这个 ，想着项目刚开始 ，就先以最简单的开始做起 ，也避免了代码中诸多的麻烦所在</p>
-<p>‍</p>
-]]></content>
-      <categories>
-        <category>WinForm</category>
-      </categories>
-      <tags>
-        <tag>问题记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2026-11-12-碎碎念</title>
     <url>/posts/2eec.html</url>
     <content><![CDATA[<p>今天是本周上班的最后一天 ，然后最近做什么事情都提不起很大的兴趣 ，算了 ，想到什么就说什么吧</p>
@@ -149,6 +71,13 @@
 </div>
         </div>
       </div><h2 class="tl-month-anchor" id="tl-2026-11">2026-11</h2><div class='timeline-item'>
+        <div class='timeline-item-title'>
+          <div class='item-circle'><p>2026-11-16 15:27</p>
+</div>
+        </div>
+        <div class='timeline-item-content'><p>休息下 ，然后继续开始准备学习了  </p>
+</div>
+      </div><div class='timeline-item'>
         <div class='timeline-item-title'>
           <div class='item-circle'><p>2026-11-16 10:00</p>
 </div>
@@ -430,6 +359,23 @@
       </tags>
   </entry>
   <entry>
+    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
+    <url>/posts/c433.html</url>
+    <content><![CDATA[<p>世界越来越美了</p>
+<p>我独自一人 ，却很自在</p>
+<p>我别无所求 ，只想被阳光晒透</p>
+<p>我渴望程序 ，准备好死去 ，准备好重生</p>
+<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
+<p>‍</p>
+]]></content>
+      <categories>
+        <category>月影墨书</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>博客重构随记</title>
     <url>/posts/56b9.html</url>
     <content><![CDATA[<p>博客之初当时是因为兴趣 ，看到别人的博客非常的好看 ，于是自己也加入到了魔改博客的队伍中去 ，一点点的跟着教程慢慢去搭建的 ，到后面自己接触AI之后开始让AI慢慢的去进行修改自己的博客 ，同时也构造出了好多有意思的页面</p>
@@ -476,20 +422,58 @@
       </tags>
   </entry>
   <entry>
-    <title>敬我 , 敬人生 , 敬短暂而炽热的夏天</title>
-    <url>/posts/c433.html</url>
-    <content><![CDATA[<p>世界越来越美了</p>
-<p>我独自一人 ，却很自在</p>
-<p>我别无所求 ，只想被阳光晒透</p>
-<p>我渴望程序 ，准备好死去 ，准备好重生</p>
-<p>赫尔曼·黑塞《克林索尔的最后夏天》</p>
-<p>‍</p>
+    <title>RaisePropertyChanged的作用</title>
+    <url>/posts/6a08.html</url>
+    <content><![CDATA[<p><code>RaisePropertyChanged</code> 的作用可以理解成一句话：</p>
+<blockquote>
+<p>主动告诉 WPF：“<code>HelloCountText</code> 这个属性的值变了，请重新读取它，并刷新绑定了它的界面。”</p>
+</blockquote>
+<p>完整代码：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> GalaSoft.MvvmLight;<br><span class="hljs-keyword">using</span> GalaSoft.MvvmLight.Command;<br><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">using</span> System.Collections.Generic;<br><span class="hljs-keyword">using</span> System.Linq;<br><span class="hljs-keyword">using</span> System.Text;<br><span class="hljs-keyword">using</span> System.Threading.Tasks;<br><br><span class="hljs-keyword">namespace</span> _009_入门<span class="hljs-title">MVVMLight.ViewModels</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CommandViewModel</span> : <span class="hljs-title">ViewModelBase</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _helloCount;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _greeting = <span class="hljs-string">&quot;你好，MvvmLight&quot;</span>;<br><br>        <span class="hljs-keyword">public</span> RelayCommand SayHelloCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommandViewModel</span>()</span><br>        &#123;<br>            SayHelloCommand = <span class="hljs-keyword">new</span> RelayCommand(ExecuteSayHello);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ExecuteSayHello</span>()</span><br>        &#123;<br>            HelloCount++;<br>            RaisePropertyChanged(<span class="hljs-keyword">nameof</span>(HelloCountText));<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> HelloCountText<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;已发送问候：&quot;</span> + HelloCount + <span class="hljs-string">&quot; 次&quot;</span>; &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Greeting<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _greeting; &#125;<br>            <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _greeting, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(Greeting)); &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> HelloCount<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _helloCount; &#125;<br>            <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _helloCount, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(HelloCount)); &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>先看这段代码在做什么</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ExecuteSayHello</span>()</span><br>&#123;<br>    HelloCount++;<br>    RaisePropertyChanged(<span class="hljs-keyword">nameof</span>(HelloCountText));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>HelloCount++</code> 会修改计数，但界面上的统计文字绑定的是 <code>HelloCountText</code>：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> HelloCountText<br>&#123;<br>    <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;已发送问候：&quot;</span> + HelloCount + <span class="hljs-string">&quot; 次&quot;</span>; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>HelloCountText</code> 没有自己的字段，也没有 setter。它是每次被读取时，临时用 <code>HelloCount</code> 拼出来的。所以 <code>HelloCount</code> 变了，WPF 并不会自动知道 <code>HelloCountText</code> 也要跟着变。</p>
+<p><strong>完整流程</strong></p>
+<ol>
+<li>用户点击按钮。</li>
+<li>命令调用 <code>ExecuteSayHello()</code>。</li>
+<li><code>HelloCount++</code> 修改计数值。</li>
+<li><code>HelloCount</code> 的 setter 里调用了 <code>Set(...)</code>，所以 WPF 会刷新所有绑定 <code>HelloCount</code> 的地方。</li>
+<li>但绑定 <code>HelloCountText</code> 的文字控件没有收到通知，仍然显示旧文字。</li>
+<li>调用 <code>RaisePropertyChanged(nameof(HelloCountText))</code>，WPF 收到通知后重新执行 <code>HelloCountText</code> 的 getter，拿到新字符串，界面才更新。</li>
+</ol>
+<p><strong>为什么这里不用</strong> <strong><code>Set</code></strong></p>
+<p><code>Set</code> 一般用在有字段、有 setter 的属性里，例如：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> HelloCount<br>&#123;<br>    <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _helloCount; &#125;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _helloCount, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(HelloCount)); &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>Set</code> 会帮你做三件事：比较新旧值、赋值、发出属性变更通知。</p>
+<p>但 <code>HelloCountText</code> 是只读的计算属性，没有 <code>_helloCountText</code> 字段，也没有 setter，所以不能用 <code>Set</code>。这种属性变化时，只能手动调用 <code>RaisePropertyChanged</code>。</p>
+<p><strong><code>nameof(HelloCountText)</code></strong>  <strong>是什么</strong></p>
+<p>它会在编译时变成字符串 <code>&quot;HelloCountText&quot;</code>。这样写的好处是：</p>
+<ul>
+<li>不怕手写字符串拼错。</li>
+<li>以后重命名属性时，编译器会一起改。</li>
+<li>比直接写 <code>RaisePropertyChanged(&quot;HelloCountText&quot;)</code> 更安全。</li>
+</ul>
+<p><strong>一句话记住</strong></p>
+<ul>
+<li><code>Set(...)</code>：属性自己有字段和 setter 时，用它自动通知。</li>
+<li><code>RaisePropertyChanged(...)</code>：属性是计算出来的，或者你想手动通知某个属性时，用它。</li>
+<li>通知必须写在值改完之后，否则 WPF 重新读到的还是旧值。</li>
+</ul>
+<p>这段代码在笔记的 <code>C:\Users\North\Desktop\WPFStudy\MvvmLight入门学习笔记.md:1477</code> 附近。你可以把它理解成“改完数据后，再补一声广播”，界面才会跟着变。</p>
 ]]></content>
       <categories>
-        <category>月影墨书</category>
+        <category>WPF</category>
       </categories>
       <tags>
-        <tag>摘抄</tag>
+        <tag>MVVM</tag>
+        <tag>MVVMLight</tag>
       </tags>
   </entry>
   <entry>
@@ -712,6 +696,258 @@
         <category>WPF</category>
       </categories>
       <tags>
+        <tag>MVVMLight</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>周末小记</title>
+    <url>/posts/2881.html</url>
+    <content><![CDATA[<p><span class="sy-block sy-block-warning">本周是双休：2026-11-13 - 2026-11-15</span></p>
+<p>不过是休一天工作一天再休一天这样子 ，庆幸的是明天是居家上班，所以会比较自在一些</p>
+<h3 id="第一天小记"><a href="#第一天小记" class="headerlink" title="第一天小记"></a>第一天小记</h3><p>按照昨天的计划是想着早起就准备去进行有氧然后吃饭学习的 ，结果就是因为自己懒床把许多的计划都需要往后移了 ，等下就准备爬坡去了 ，然后就是吃饭 ，学习 ，锻炼 ，这一天也挺简单的</p>
+<p>还有就是可能会继续修改下文章中对标思源笔记的一个样式</p>
+<p>等下就准备出门了 ，不过好在今天并没有下雨 ，去健身房的话是不用打伞的 ，下午的话可能会在周围转上一圈 ，好好放松下自己 ，听听音乐 ，差不多一天就可能结束了</p>
+<p>今天也是自己百天打卡的第一天 ，所以下午有时间自己会做一下规划 ，并适当的在打卡过程中给自己一些奖励让自己能够坚持下去！</p>
+<p>再就是<mark>今天是有计划学习AI</mark>的 ，这个一直被自己耽搁 ，感觉自己的拖延症好严重啊哈哈 ，然后再研究下博客怎么部署评论的 ，这个也需要看一下</p>
+<h3 id="第二天小记"><a href="#第二天小记" class="headerlink" title="第二天小记"></a>第二天小记</h3><p>昨天晚上是不应该喝咖啡的 ，还有就是不能够睡前打游戏的 ，否则结果就是凌晨两三点才睡着 ，七点多又醒了 ，整个人完全没啥精神 ，昨天的课程什么的也是没有学习的 ，我发现我折腾博客什么的都很亢奋 ，很积极 ，但是到了学习的时候我竟然有一种本能的抗拒 ，这个肯定是需要改下的</p>
+<p>现在才八点多整个人都没啥精神 ，好烦！</p>
+<p>今天还要值班 ，这个倒是没什么 ，问题就是坐的不太舒服 ，还有消息需要及时回复 ，这个倒是有点不太开心的 ，ε&#x3D;(´ο｀*)))唉</p>
+<p>今天基本什么没有做 ，天气也是不太好的 ，然后下午又很忙碌 ，<mark>有一天倒是需要注意下的，就是不能够漫无目的的消耗时间 ，像昨天一样完全不知道自己需要做什么</mark></p>
+<p>等到了晚上的时候才出门 ，外面已经起了好大的雾了这个时候 ，买了点东西，回去就打会儿游戏，洗漱睡觉了</p>
+<p>感觉这一天很是浪费对我来说</p>
+<h3 id="第三天小记"><a href="#第三天小记" class="headerlink" title="第三天小记"></a>第三天小记</h3><p>时间过得还是很快的 ，今天早早就醒了 ，不过看了会手机 ，差不多半个多小时之后才起床 ，<span data-type="text" class="sy-c-3">以后早上还是不能够看手机的啊 ，太耽搁效率了</span></p>
+<p>今天的话是周末的最后一天了 ，我准备按照自己原本计划的那样子去渡过 ，<span data-type="text" class="sy-bg-4">早上有氧 - 吃饭 - 学习 - 练背 - 学习 - 休息 </span>差不多就这样子的一个状态</p>
+<p>就先记录到这吧 ，等到了晚上的时候再去进行补充</p>
+]]></content>
+      <categories>
+        <category>闲聊杂谈</category>
+      </categories>
+      <tags>
+        <tag>轻语</tag>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WPF 命令绑定三件事：找命令、建命令、执行方法</title>
+    <url>/posts/a34.html</url>
+    <content><![CDATA[<p>我今天在看代码的时候 ，对WPF中命令的认知也是一知半解 ，所以就想要去进行搞懂这个WPF绑定的一个过程通过命令</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Margin</span>=<span class="hljs-string">&quot;0,16,0,0&quot;</span> <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>还有ViewModels下面的这个代码</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这段代码其实就是一条完整的“按钮点击链路”：</p>
+<blockquote>
+<p><strong>按钮只负责被点击，命令负责转交，真正做事的是 ViewModel 里的方法。</strong></p>
+</blockquote>
+<p>先看三个角色：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>代码</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>按钮</td>
+<td><code>&lt;Button ... /&gt;</code></td>
+<td>接收用户点击</td>
+</tr>
+<tr>
+<td>命令</td>
+<td><code>CheckEnvironmentCommand</code></td>
+<td>把点击转交给方法</td>
+</tr>
+<tr>
+<td>方法</td>
+<td><code>CheckEnvironment()</code></td>
+<td>真正修改状态、执行逻辑</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1-先看-XAML-这一行"><a href="#1-先看-XAML-这一行" class="headerlink" title="1. 先看 XAML 这一行"></a>1. 先看 XAML 这一行</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button<br>    Margin=<span class="hljs-string">&quot;0,16,0,0&quot;</span><br>    Command=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span><br>    Content=<span class="hljs-string">&quot;检查环境&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>拆开看：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Content=&quot;检查环境&quot;<br></code></pre></td></tr></table></figure>
+
+<p>这是按钮上显示的文字。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">Margin</span>=&quot;<span class="hljs-number">0</span>,<span class="hljs-number">16</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&quot;<br></code></pre></td></tr></table></figure>
+
+<p>这是按钮的外边距，顺序是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">左 上 右 下<br>0  16 0  0<br></code></pre></td></tr></table></figure>
+
+<p>也就是按钮上方留 16 像素距离。</p>
+<p>最关键的是这一句：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Command=&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;<br></code></pre></td></tr></table></figure>
+
+<p>它的意思是：</p>
+<blockquote>
+<p>去当前窗口的 <code>DataContext</code> 里，找一个名字叫 <code>CheckEnvironmentCommand</code> 的属性，把它当作按钮的命令。</p>
+</blockquote>
+<p>因为窗口里设置了：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>所以按钮会去 <code>PreparationViewModel</code> 里面找：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>找到以后，按钮就知道：</p>
+<blockquote>
+<p>我被点击时，不应该直接执行某个后台方法，而应该执行这个命令对象。</p>
+</blockquote>
+<hr>
+<h2 id="2-命令属性是什么意思"><a href="#2-命令属性是什么意思" class="headerlink" title="2. 命令属性是什么意思"></a>2. 命令属性是什么意思</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这行代码定义了一个“命令属性”。</p>
+<p>它可以拆成三部分理解：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public<br></code></pre></td></tr></table></figure>
+
+<p>表示外部可以读取它。XAML 绑定需要访问这个属性，所以必须是 <code>public</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">RelayCommand<br></code></pre></td></tr></table></figure>
+
+<p>表示这个属性的类型是 <code>RelayCommand</code>。它不是普通字符串，也不是普通方法，而是一个“命令对象”。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&#123; get; private set; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>表示：</p>
+<ul>
+<li>外部可以读取这个命令。</li>
+<li>只有 <code>PreparationViewModel</code> 内部可以给它赋值。</li>
+</ul>
+<p>为什么不写普通方法，而要搞一个命令对象？</p>
+<p>因为 WPF 的按钮认识的是 <code>ICommand</code> 接口，不是随便一个普通方法。<code>RelayCommand</code> 就是 MvvmLight 帮你写好的 <code>ICommand</code> 实现。</p>
+<p>你可以把它理解成一个中间人：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">按钮<br>  ↓<br>RelayCommand<br>  ↓<br>CheckEnvironment()<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-构造函数里做了什么"><a href="#3-构造函数里做了什么" class="headerlink" title="3. 构造函数里做了什么"></a>3. 构造函数里做了什么</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>PreparationViewModel()</code> 是构造函数。创建 ViewModel 时会执行一次：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>这时就会执行构造函数里的代码：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+<p>这行代码的意思是：</p>
+<blockquote>
+<p>创建一个 <code>RelayCommand</code> 对象，并告诉它：以后有人执行你时，你就去调用 <code>CheckEnvironment</code> 方法。</p>
+</blockquote>
+<p>注意，这里只是把方法“交给”命令对象，<strong>并没有立刻执行</strong> <strong><code>CheckEnvironment()</code></strong> 。</p>
+<p>可以把它想成：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">把“检查环境”这个动作装进一个遥控器里<br></code></pre></td></tr></table></figure>
+
+<p>而不是现在就按下遥控器。</p>
+<p>更直白地写，它类似于：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(() =&gt; CheckEnvironment());<br></code></pre></td></tr></table></figure>
+
+<p>意思是：</p>
+<blockquote>
+<p>命令被执行时，调用 <code>CheckEnvironment()</code>。</p>
+</blockquote>
+<hr>
+<h2 id="4-真正做事的方法"><a href="#4-真正做事的方法" class="headerlink" title="4. 真正做事的方法"></a>4. 真正做事的方法</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个方法没有参数，也没有返回值，正好符合 <code>RelayCommand</code> 需要的 <code>Action</code> 形式。</p>
+<p>它里面只做一件事：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这行代码会进入你上一条问的 <code>private set</code>：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span><br>&#123;<br>    Set(<span class="hljs-keyword">ref</span> _environmentStatus, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(EnvironmentStatus));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后：</p>
+<ol>
+<li><code>Set</code> 更新 <code>_environmentStatus</code>。</li>
+<li><code>Set</code> 发出 <code>PropertyChanged</code> 通知。</li>
+<li>WPF 重新读取 <code>EnvironmentStatus</code>。</li>
+<li>界面上的文字刷新。</li>
+</ol>
+<p>所以按钮点击后的完整链路是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">用户点击按钮<br>    ↓<br>Button 执行 Command<br>    ↓<br>RelayCommand.Execute()<br>    ↓<br>CheckEnvironment()<br>    ↓<br>EnvironmentStatus = &quot;环境检查完成...&quot;<br>    ↓<br>private set 调用 Set(...)<br>    ↓<br>发出 PropertyChanged 通知<br>    ↓<br>界面重新显示新文字<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-为什么不用-Click-事件"><a href="#5-为什么不用-Click-事件" class="headerlink" title="5. 为什么不用 Click 事件"></a>5. 为什么不用 Click 事件</h2><p>传统 WPF 可以这样写：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button Content=<span class="hljs-string">&quot;检查环境&quot;</span> Click=<span class="hljs-string">&quot;CheckEnvironment_Click&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>然后在窗口代码隐藏文件里写：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">private void CheckEnvironment_Click(object sender, RoutedEventArgs e)<br>&#123;<br>    // 操作界面控件<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种写法能用，但问题是：</p>
+<ul>
+<li>按钮逻辑写在窗口后台代码里。</li>
+<li>ViewModel 不容易单独测试。</li>
+<li>界面和业务逻辑容易绑在一起。</li>
+<li>以后按钮状态变化时，还要手动控制按钮是否可用。</li>
+</ul>
+<p>命令写法是：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>按钮只负责“我被点击了”，具体做什么由 ViewModel 的命令决定。</p>
+<p>这就是 MVVM 想要的方向：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">View 负责显示和输入<br>ViewModel 负责状态和动作<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-private-set-在这里的作用"><a href="#6-private-set-在这里的作用" class="headerlink" title="6. private set 在这里的作用"></a>6. private set 在这里的作用</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里用 <code>private set</code> 的原因是：</p>
+<ul>
+<li>XAML 需要读取命令，所以 <code>get</code> 必须是 <code>public</code>。</li>
+<li>命令只应该在 ViewModel 构造函数里创建一次。</li>
+<li>不希望外部随便把命令替换掉。</li>
+</ul>
+<p>所以写成：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>而不是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public RelayCommand CheckEnvironmentCommand &#123; get; set; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这和你前面学的 <code>EnvironmentStatus</code> 的 <code>private set</code> 思路是一样的：</p>
+<blockquote>
+<p>对外可读，对内可写。</p>
+</blockquote>
+<hr>
+<h2 id="7-如果以后想让按钮变灰"><a href="#7-如果以后想让按钮变灰" class="headerlink" title="7. 如果以后想让按钮变灰"></a>7. 如果以后想让按钮变灰</h2><p><code>RelayCommand</code> 还可以接收第二个参数，用来判断“现在能不能执行”：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(<br>    CheckEnvironment,<br>    CanCheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">CanCheckEnvironment</span>()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> !<span class="hljs-built_in">string</span>.IsNullOrWhiteSpace(EnvironmentStatus);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当 <code>CanExecute</code> 返回 <code>false</code> 时，按钮会自动变灰。</p>
+<p>现在这段代码没有写第二个参数，所以按钮默认一直可以点击。</p>
+<hr>
+<h2 id="8-最容易出错的几个地方"><a href="#8-最容易出错的几个地方" class="headerlink" title="8. 最容易出错的几个地方"></a>8. 最容易出错的几个地方</h2><h3 id="错误一：没有设置-DataContext"><a href="#错误一：没有设置-DataContext" class="headerlink" title="错误一：没有设置 DataContext"></a>错误一：没有设置 DataContext</h3><p>如果窗口没有：这个就特别的重要</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
+
+<p>那么 <code>&#123;Binding CheckEnvironmentCommand&#125;</code> 找不到命令，按钮点击就不会调用 ViewModel。</p>
+<h3 id="错误二：命令属性不是-public"><a href="#错误二：命令属性不是-public" class="headerlink" title="错误二：命令属性不是 public"></a>错误二：命令属性不是 public</h3><p>如果写成：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>XAML 绑定读不到它。</p>
+<h3 id="错误三：构造函数里没有创建命令"><a href="#错误三：构造函数里没有创建命令" class="headerlink" title="错误三：构造函数里没有创建命令"></a>错误三：构造函数里没有创建命令</h3><p>如果只写了属性，没有写：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
+
+<p>那么命令是 <code>null</code>，按钮点击不会执行任何 ViewModel 方法。</p>
+<h3 id="错误四：方法名写错"><a href="#错误四：方法名写错" class="headerlink" title="错误四：方法名写错"></a>错误四：方法名写错</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">CheckEnvironmentCommand = new RelayCommand(CheckEnvironmentTypo);<br></code></pre></td></tr></table></figure>
+
+<p>但类里没有 <code>CheckEnvironmentTypo</code> 方法，编译就会报错。</p>
+<hr>
+<h2 id="9-你可以这样记"><a href="#9-你可以这样记" class="headerlink" title="9. 你可以这样记"></a>9. 你可以这样记</h2><p>把这三句话记住，命令就基本通了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">XAML 里的 Button 通过 Binding 找命令<br>ViewModel 在构造函数里创建命令<br>RelayCommand 在按钮点击时调用指定方法<br></code></pre></td></tr></table></figure>
+
+<p>再压缩成一句：</p>
+<blockquote>
+<p><strong>按钮不直接调用方法，按钮执行命令，命令再调用方法。</strong></p>
+</blockquote>
+<p>这和你前面学的属性通知可以连起来：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">命令负责“做事”<br>属性负责“保存状态”<br>Set 负责“通知界面”<br></code></pre></td></tr></table></figure>
+
+<p>三者合起来，就是一个完整的 MVVM 小闭环。</p>
+<p><span class="sy-block sy-block-success">到这里一套流程走下去 ，自己就突然明悟了很多 ，以后理解起来也会更加的方便了</span></p>
+]]></content>
+      <categories>
+        <category>WPF</category>
+      </categories>
+      <tags>
+        <tag>MVVM</tag>
         <tag>MVVMLight</tag>
       </tags>
   </entry>
@@ -1762,310 +1998,81 @@
       </tags>
   </entry>
   <entry>
-    <title>WPF 命令绑定三件事：找命令、建命令、执行方法</title>
-    <url>/posts/a34.html</url>
-    <content><![CDATA[<p>我今天在看代码的时候 ，对WPF中命令的认知也是一知半解 ，所以就想要去进行搞懂这个WPF绑定的一个过程通过命令</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Margin</span>=<span class="hljs-string">&quot;0,16,0,0&quot;</span> <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>还有ViewModels下面的这个代码</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这段代码其实就是一条完整的“按钮点击链路”：</p>
-<blockquote>
-<p><strong>按钮只负责被点击，命令负责转交，真正做事的是 ViewModel 里的方法。</strong></p>
-</blockquote>
-<p>先看三个角色：</p>
+    <title>使用100%缩放比例重新启动Visual Studio 界面模糊的解决方案</title>
+    <url>/posts/dcdb.html</url>
+    <content><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><span data-type="text" style="color: var(--b3-font-color8);">问题描述</span></h3><p>建议：如果是刚开始写WinForm项目 ，建议刚开始就去进行一个替换 ，要不然后面会很麻烦的 ，不仅要计算size 还要去 计算 location 的值</p>
+<p>昨天碰到了这个问题 ，当时设置完之后界面就非常的模糊 ，虽然说界面变大了 ，但是看着异常难受 ，很模糊</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a><span data-type="text" style="color: var(--b3-font-color8);">解决方案</span></h3><ol>
+<li><p>新建​<code>应用程序清单文件（Application Manifest File）</code>​ ， 保持默认名称 ​<code>app.manifest</code>，点击添加。</p>
+</li>
+<li><p>找到这段代码：</p>
+<p><img src="https://img2024.cnblogs.com/blog/3509019/202510/3509019-20251004072422062-1722481762.png" alt="image"></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>替换DPI相关配置：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;urn:schemas-microsoft-com:asm.v3&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">windowsSettings</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span>true/pm<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAware</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Windows 10 1703+ 支持 Per-Monitor v2 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dpiAwareness</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>permonitorv2,permonitor<span class="hljs-tag">&lt;/<span class="hljs-name">dpiAwareness</span>&gt;</span><br>     <span class="hljs-comment">&lt;!-- 保留长路径支持（如果需要） --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">longPathAware</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">longPathAware</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">windowsSettings</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>保存文件，重新生成项目即可生效。</p>
+</li>
+</ol>
+<h3 id="替换方案-尺寸不一致解决方案"><a href="#替换方案-尺寸不一致解决方案" class="headerlink" title="替换方案(尺寸不一致解决方案)"></a><span data-type="text" style="color: var(--b3-font-color8);">替换方案(尺寸不一致解决方案)</span></h3><p>因为你刚替换完 ，尺寸与原来的是不一致的 ，所以就需要进一步的替换原先的尺寸</p>
+<hr>
+<p>在 DPI 感知的应用程序中，当系统缩放比例从 100% 变为 150% 时，界面元素的实际像素尺寸计算遵循   <strong>“逻辑尺寸 × 缩放比例 &#x3D; 实际像素尺寸”</strong>   的规则。以下是具体说明：</p>
+<p>假设在 100% 缩放时，某按钮的逻辑尺寸为宽度 100 像素、高度 30 像：</p>
+<ul>
+<li>100% 缩放（系数 1.0）：实际像素尺寸 = 100 × 1.0 = 100 像素（宽），30 × 1.0 = 30 像素（高）。</li>
+<li>150% 缩放（系数 1.5）：实际像素尺寸 = 100 × 1.5 = 150 像素（宽），30 × 1.5 = 45 像素（高）。</li>
+</ul>
+<p><span data-type="text" style="color: var(--b3-font-color3);">举例说明：尺寸计算表（基准：89 × 31）</span></p>
 <table>
 <thead>
 <tr>
-<th>角色</th>
-<th>代码</th>
-<th>作用</th>
+<th>缩放比例</th>
+<th>缩放系数</th>
+<th>实际宽度（像素）</th>
+<th>实际高度（像素）</th>
+<th>计算逻辑</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>按钮</td>
-<td><code>&lt;Button ... /&gt;</code></td>
-<td>接收用户点击</td>
+<td>100%</td>
+<td>1.0</td>
+<td>89</td>
+<td>31</td>
+<td>89 × 1.0 = 89；31 × 1.0 = 31</td>
 </tr>
 <tr>
-<td>命令</td>
-<td><code>CheckEnvironmentCommand</code></td>
-<td>把点击转交给方法</td>
-</tr>
-<tr>
-<td>方法</td>
-<td><code>CheckEnvironment()</code></td>
-<td>真正修改状态、执行逻辑</td>
+<td>150%</td>
+<td>1.5</td>
+<td>133.5</td>
+<td>46.5</td>
+<td>89 × 1.5 = 133.5；31 × 1.5 = 46.5</td>
 </tr>
 </tbody></table>
 <hr>
-<h2 id="1-先看-XAML-这一行"><a href="#1-先看-XAML-这一行" class="headerlink" title="1. 先看 XAML 这一行"></a>1. 先看 XAML 这一行</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button<br>    Margin=<span class="hljs-string">&quot;0,16,0,0&quot;</span><br>    Command=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span><br>    Content=<span class="hljs-string">&quot;检查环境&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
-
-<p>拆开看：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Content=&quot;检查环境&quot;<br></code></pre></td></tr></table></figure>
-
-<p>这是按钮上显示的文字。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">Margin</span>=&quot;<span class="hljs-number">0</span>,<span class="hljs-number">16</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&quot;<br></code></pre></td></tr></table></figure>
-
-<p>这是按钮的外边距，顺序是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">左 上 右 下<br>0  16 0  0<br></code></pre></td></tr></table></figure>
-
-<p>也就是按钮上方留 16 像素距离。</p>
-<p>最关键的是这一句：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml">Command=&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;<br></code></pre></td></tr></table></figure>
-
-<p>它的意思是：</p>
-<blockquote>
-<p>去当前窗口的 <code>DataContext</code> 里，找一个名字叫 <code>CheckEnvironmentCommand</code> 的属性，把它当作按钮的命令。</p>
-</blockquote>
-<p>因为窗口里设置了：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>所以按钮会去 <code>PreparationViewModel</code> 里面找：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>找到以后，按钮就知道：</p>
-<blockquote>
-<p>我被点击时，不应该直接执行某个后台方法，而应该执行这个命令对象。</p>
-</blockquote>
-<hr>
-<h2 id="2-命令属性是什么意思"><a href="#2-命令属性是什么意思" class="headerlink" title="2. 命令属性是什么意思"></a>2. 命令属性是什么意思</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这行代码定义了一个“命令属性”。</p>
-<p>它可以拆成三部分理解：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public<br></code></pre></td></tr></table></figure>
-
-<p>表示外部可以读取它。XAML 绑定需要访问这个属性，所以必须是 <code>public</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">RelayCommand<br></code></pre></td></tr></table></figure>
-
-<p>表示这个属性的类型是 <code>RelayCommand</code>。它不是普通字符串，也不是普通方法，而是一个“命令对象”。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&#123; get; private set; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>表示：</p>
-<ul>
-<li>外部可以读取这个命令。</li>
-<li>只有 <code>PreparationViewModel</code> 内部可以给它赋值。</li>
-</ul>
-<p>为什么不写普通方法，而要搞一个命令对象？</p>
-<p>因为 WPF 的按钮认识的是 <code>ICommand</code> 接口，不是随便一个普通方法。<code>RelayCommand</code> 就是 MvvmLight 帮你写好的 <code>ICommand</code> 实现。</p>
-<p>你可以把它理解成一个中间人：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">按钮<br>  ↓<br>RelayCommand<br>  ↓<br>CheckEnvironment()<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="3-构造函数里做了什么"><a href="#3-构造函数里做了什么" class="headerlink" title="3. 构造函数里做了什么"></a>3. 构造函数里做了什么</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PreparationViewModel</span>()</span><br>&#123;<br>    CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><code>PreparationViewModel()</code> 是构造函数。创建 ViewModel 时会执行一次：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>这时就会执行构造函数里的代码：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-<p>这行代码的意思是：</p>
-<blockquote>
-<p>创建一个 <code>RelayCommand</code> 对象，并告诉它：以后有人执行你时，你就去调用 <code>CheckEnvironment</code> 方法。</p>
-</blockquote>
-<p>注意，这里只是把方法“交给”命令对象，<strong>并没有立刻执行</strong> <strong><code>CheckEnvironment()</code></strong> 。</p>
-<p>可以把它想成：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">把“检查环境”这个动作装进一个遥控器里<br></code></pre></td></tr></table></figure>
-
-<p>而不是现在就按下遥控器。</p>
-<p>更直白地写，它类似于：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(() =&gt; CheckEnvironment());<br></code></pre></td></tr></table></figure>
-
-<p>意思是：</p>
-<blockquote>
-<p>命令被执行时，调用 <code>CheckEnvironment()</code>。</p>
-</blockquote>
-<hr>
-<h2 id="4-真正做事的方法"><a href="#4-真正做事的方法" class="headerlink" title="4. 真正做事的方法"></a>4. 真正做事的方法</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CheckEnvironment</span>()</span><br>&#123;<br>    EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这个方法没有参数，也没有返回值，正好符合 <code>RelayCommand</code> 需要的 <code>Action</code> 形式。</p>
-<p>它里面只做一件事：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">EnvironmentStatus = <span class="hljs-string">&quot;环境检查完成：按钮已经通过命令调用 ViewModel。&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>这行代码会进入你上一条问的 <code>private set</code>：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span><br>&#123;<br>    Set(<span class="hljs-keyword">ref</span> _environmentStatus, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(EnvironmentStatus));<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>然后：</p>
+<p>在 WinForms 应用中开启 DPI 感知后，系统缩放比例从 100% 变为 150% 时，​<code>Location</code>​（控件位置，即 X、Y 坐标）的计算核心遵循   <strong>“基准逻辑坐标 × 缩放系数（150%</strong>     <strong>&#x3D;</strong>   <strong>1.5）&#x3D;</strong>   <strong>实际像素坐标”</strong>   规则，同时需结合 WinForms 的 DPI 适配机制（尤其是 .NET Framework 4.6+ 或 .NET Core 3.0+ 的高 DPI 支持），具体细节如下：</p>
+<p>一、核心计算逻辑（手动计算场景）</p>
+<p>若需手动计算 ​<code>Location</code>，需明确两个前提：</p>
 <ol>
-<li><code>Set</code> 更新 <code>_environmentStatus</code>。</li>
-<li><code>Set</code> 发出 <code>PropertyChanged</code> 通知。</li>
-<li>WPF 重新读取 <code>EnvironmentStatus</code>。</li>
-<li>界面上的文字刷新。</li>
+<li><strong>基准坐标</strong>​：100% 缩放时，控件在代码中定义的 ​<code>Location</code>​（如 ​<code>new Point(20, 30)</code>​，即 X=20，Y=30），这是 “逻辑坐标”，对应 100% 缩放时的实际像素。</li>
+<li><strong>缩放系数</strong>​：系统缩放比例对应的系数（100% = 1.0，150% = 1.5）。</li>
 </ol>
-<p>所以按钮点击后的完整链路是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">用户点击按钮<br>    ↓<br>Button 执行 Command<br>    ↓<br>RelayCommand.Execute()<br>    ↓<br>CheckEnvironment()<br>    ↓<br>EnvironmentStatus = &quot;环境检查完成...&quot;<br>    ↓<br>private set 调用 Set(...)<br>    ↓<br>发出 PropertyChanged 通知<br>    ↓<br>界面重新显示新文字<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="5-为什么不用-Click-事件"><a href="#5-为什么不用-Click-事件" class="headerlink" title="5. 为什么不用 Click 事件"></a>5. 为什么不用 Click 事件</h2><p>传统 WPF 可以这样写：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">&lt;Button Content=<span class="hljs-string">&quot;检查环境&quot;</span> Click=<span class="hljs-string">&quot;CheckEnvironment_Click&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
-
-<p>然后在窗口代码隐藏文件里写：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">private void CheckEnvironment_Click(object sender, RoutedEventArgs e)<br>&#123;<br>    // 操作界面控件<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这种写法能用，但问题是：</p>
+<p>计算公式：：实际像素坐标（150% 缩放）&#x3D; 基准逻辑坐标 × 1.5</p>
+<p>示例：</p>
+<p>假设 100% 缩放时控件基准 ​<code>Location</code>​ 为 ​<code>(14, 6)</code>​（X=14，Y=6）：</p>
 <ul>
-<li>按钮逻辑写在窗口后台代码里。</li>
-<li>ViewModel 不容易单独测试。</li>
-<li>界面和业务逻辑容易绑在一起。</li>
-<li>以后按钮状态变化时，还要手动控制按钮是否可用。</li>
+<li>100% 缩放（系数 1.0）：实际坐标 = ​<code>(14×1.0, 6×1.0)</code>​ = ​<code>(14, 6)</code>（像素）。</li>
+<li>150% 缩放（系数 1.5）：实际坐标 = ​<code>(14×1.5, 6×1.5)</code>​ = ​<code>(21, 9)</code>（像素）。</li>
 </ul>
-<p>命令写法是：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">Content</span>=<span class="hljs-string">&quot;检查环境&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">Command</span>=<span class="hljs-string">&quot;&#123;Binding CheckEnvironmentCommand&#125;&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>按钮只负责“我被点击了”，具体做什么由 ViewModel 的命令决定。</p>
-<p>这就是 MVVM 想要的方向：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">View 负责显示和输入<br>ViewModel 负责状态和动作<br></code></pre></td></tr></table></figure>
-
 <hr>
-<h2 id="6-private-set-在这里的作用"><a href="#6-private-set-在这里的作用" class="headerlink" title="6. private set 在这里的作用"></a>6. private set 在这里的作用</h2><figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这里用 <code>private set</code> 的原因是：</p>
-<ul>
-<li>XAML 需要读取命令，所以 <code>get</code> 必须是 <code>public</code>。</li>
-<li>命令只应该在 ViewModel 构造函数里创建一次。</li>
-<li>不希望外部随便把命令替换掉。</li>
-</ul>
-<p>所以写成：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>而不是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">public RelayCommand CheckEnvironmentCommand &#123; get; set; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>这和你前面学的 <code>EnvironmentStatus</code> 的 <code>private set</code> 思路是一样的：</p>
-<blockquote>
-<p>对外可读，对内可写。</p>
-</blockquote>
-<hr>
-<h2 id="7-如果以后想让按钮变灰"><a href="#7-如果以后想让按钮变灰" class="headerlink" title="7. 如果以后想让按钮变灰"></a>7. 如果以后想让按钮变灰</h2><p><code>RelayCommand</code> 还可以接收第二个参数，用来判断“现在能不能执行”：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(<br>    CheckEnvironment,<br>    CanCheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">CanCheckEnvironment</span>()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> !<span class="hljs-built_in">string</span>.IsNullOrWhiteSpace(EnvironmentStatus);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>当 <code>CanExecute</code> 返回 <code>false</code> 时，按钮会自动变灰。</p>
-<p>现在这段代码没有写第二个参数，所以按钮默认一直可以点击。</p>
-<hr>
-<h2 id="8-最容易出错的几个地方"><a href="#8-最容易出错的几个地方" class="headerlink" title="8. 最容易出错的几个地方"></a>8. 最容易出错的几个地方</h2><h3 id="错误一：没有设置-DataContext"><a href="#错误一：没有设置-DataContext" class="headerlink" title="错误一：没有设置 DataContext"></a>错误一：没有设置 DataContext</h3><p>如果窗口没有：这个就特别的重要</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">DataContext = <span class="hljs-keyword">new</span> PreparationViewModel();<br></code></pre></td></tr></table></figure>
-
-<p>那么 <code>&#123;Binding CheckEnvironmentCommand&#125;</code> 找不到命令，按钮点击就不会调用 ViewModel。</p>
-<h3 id="错误二：命令属性不是-public"><a href="#错误二：命令属性不是-public" class="headerlink" title="错误二：命令属性不是 public"></a>错误二：命令属性不是 public</h3><p>如果写成：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> RelayCommand CheckEnvironmentCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br></code></pre></td></tr></table></figure>
-
-<p>XAML 绑定读不到它。</p>
-<h3 id="错误三：构造函数里没有创建命令"><a href="#错误三：构造函数里没有创建命令" class="headerlink" title="错误三：构造函数里没有创建命令"></a>错误三：构造函数里没有创建命令</h3><p>如果只写了属性，没有写：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#">CheckEnvironmentCommand = <span class="hljs-keyword">new</span> RelayCommand(CheckEnvironment);<br></code></pre></td></tr></table></figure>
-
-<p>那么命令是 <code>null</code>，按钮点击不会执行任何 ViewModel 方法。</p>
-<h3 id="错误四：方法名写错"><a href="#错误四：方法名写错" class="headerlink" title="错误四：方法名写错"></a>错误四：方法名写错</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">CheckEnvironmentCommand = new RelayCommand(CheckEnvironmentTypo);<br></code></pre></td></tr></table></figure>
-
-<p>但类里没有 <code>CheckEnvironmentTypo</code> 方法，编译就会报错。</p>
-<hr>
-<h2 id="9-你可以这样记"><a href="#9-你可以这样记" class="headerlink" title="9. 你可以这样记"></a>9. 你可以这样记</h2><p>把这三句话记住，命令就基本通了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">XAML 里的 Button 通过 Binding 找命令<br>ViewModel 在构造函数里创建命令<br>RelayCommand 在按钮点击时调用指定方法<br></code></pre></td></tr></table></figure>
-
-<p>再压缩成一句：</p>
-<blockquote>
-<p><strong>按钮不直接调用方法，按钮执行命令，命令再调用方法。</strong></p>
-</blockquote>
-<p>这和你前面学的属性通知可以连起来：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">命令负责“做事”<br>属性负责“保存状态”<br>Set 负责“通知界面”<br></code></pre></td></tr></table></figure>
-
-<p>三者合起来，就是一个完整的 MVVM 小闭环。</p>
-<p><span class="sy-block sy-block-success">到这里一套流程走下去 ，自己就突然明悟了很多 ，以后理解起来也会更加的方便了</span></p>
+<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>当然还有像这种自动适配的 ，不需要手动计算 ，就比如DPI自动缩放功能 ，但是我目前还不会这个 ，想着项目刚开始 ，就先以最简单的开始做起 ，也避免了代码中诸多的麻烦所在</p>
+<p>‍</p>
 ]]></content>
       <categories>
-        <category>WPF</category>
+        <category>WinForm</category>
       </categories>
       <tags>
-        <tag>MVVM</tag>
-        <tag>MVVMLight</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>周末小记</title>
-    <url>/posts/2881.html</url>
-    <content><![CDATA[<p><span class="sy-block sy-block-warning">本周是双休：2026-11-13 - 2026-11-15</span></p>
-<p>不过是休一天工作一天再休一天这样子 ，庆幸的是明天是居家上班，所以会比较自在一些</p>
-<h3 id="第一天小记"><a href="#第一天小记" class="headerlink" title="第一天小记"></a>第一天小记</h3><p>按照昨天的计划是想着早起就准备去进行有氧然后吃饭学习的 ，结果就是因为自己懒床把许多的计划都需要往后移了 ，等下就准备爬坡去了 ，然后就是吃饭 ，学习 ，锻炼 ，这一天也挺简单的</p>
-<p>还有就是可能会继续修改下文章中对标思源笔记的一个样式</p>
-<p>等下就准备出门了 ，不过好在今天并没有下雨 ，去健身房的话是不用打伞的 ，下午的话可能会在周围转上一圈 ，好好放松下自己 ，听听音乐 ，差不多一天就可能结束了</p>
-<p>今天也是自己百天打卡的第一天 ，所以下午有时间自己会做一下规划 ，并适当的在打卡过程中给自己一些奖励让自己能够坚持下去！</p>
-<p>再就是<mark>今天是有计划学习AI</mark>的 ，这个一直被自己耽搁 ，感觉自己的拖延症好严重啊哈哈 ，然后再研究下博客怎么部署评论的 ，这个也需要看一下</p>
-<h3 id="第二天小记"><a href="#第二天小记" class="headerlink" title="第二天小记"></a>第二天小记</h3><p>昨天晚上是不应该喝咖啡的 ，还有就是不能够睡前打游戏的 ，否则结果就是凌晨两三点才睡着 ，七点多又醒了 ，整个人完全没啥精神 ，昨天的课程什么的也是没有学习的 ，我发现我折腾博客什么的都很亢奋 ，很积极 ，但是到了学习的时候我竟然有一种本能的抗拒 ，这个肯定是需要改下的</p>
-<p>现在才八点多整个人都没啥精神 ，好烦！</p>
-<p>今天还要值班 ，这个倒是没什么 ，问题就是坐的不太舒服 ，还有消息需要及时回复 ，这个倒是有点不太开心的 ，ε&#x3D;(´ο｀*)))唉</p>
-<p>今天基本什么没有做 ，天气也是不太好的 ，然后下午又很忙碌 ，<mark>有一天倒是需要注意下的，就是不能够漫无目的的消耗时间 ，像昨天一样完全不知道自己需要做什么</mark></p>
-<p>等到了晚上的时候才出门 ，外面已经起了好大的雾了这个时候 ，买了点东西，回去就打会儿游戏，洗漱睡觉了</p>
-<p>感觉这一天很是浪费对我来说</p>
-<h3 id="第三天小记"><a href="#第三天小记" class="headerlink" title="第三天小记"></a>第三天小记</h3><p>时间过得还是很快的 ，今天早早就醒了 ，不过看了会手机 ，差不多半个多小时之后才起床 ，<span data-type="text" class="sy-c-3">以后早上还是不能够看手机的啊 ，太耽搁效率了</span></p>
-<p>今天的话是周末的最后一天了 ，我准备按照自己原本计划的那样子去渡过 ，<span data-type="text" class="sy-bg-4">早上有氧 - 吃饭 - 学习 - 练背 - 学习 - 休息 </span>差不多就这样子的一个状态</p>
-<p>就先记录到这吧 ，等到了晚上的时候再去进行补充</p>
-]]></content>
-      <categories>
-        <category>闲聊杂谈</category>
-      </categories>
-      <tags>
-        <tag>轻语</tag>
-        <tag>随记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RaisePropertyChanged的作用</title>
-    <url>/posts/6a08.html</url>
-    <content><![CDATA[<p><code>RaisePropertyChanged</code> 的作用可以理解成一句话：</p>
-<blockquote>
-<p>主动告诉 WPF：“<code>HelloCountText</code> 这个属性的值变了，请重新读取它，并刷新绑定了它的界面。”</p>
-</blockquote>
-<p>完整代码：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> GalaSoft.MvvmLight;<br><span class="hljs-keyword">using</span> GalaSoft.MvvmLight.Command;<br><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">using</span> System.Collections.Generic;<br><span class="hljs-keyword">using</span> System.Linq;<br><span class="hljs-keyword">using</span> System.Text;<br><span class="hljs-keyword">using</span> System.Threading.Tasks;<br><br><span class="hljs-keyword">namespace</span> _009_入门<span class="hljs-title">MVVMLight.ViewModels</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CommandViewModel</span> : <span class="hljs-title">ViewModelBase</span><br>    &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> _helloCount;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> _greeting = <span class="hljs-string">&quot;你好，MvvmLight&quot;</span>;<br><br>        <span class="hljs-keyword">public</span> RelayCommand SayHelloCommand &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommandViewModel</span>()</span><br>        &#123;<br>            SayHelloCommand = <span class="hljs-keyword">new</span> RelayCommand(ExecuteSayHello);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ExecuteSayHello</span>()</span><br>        &#123;<br>            HelloCount++;<br>            RaisePropertyChanged(<span class="hljs-keyword">nameof</span>(HelloCountText));<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> HelloCountText<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;已发送问候：&quot;</span> + HelloCount + <span class="hljs-string">&quot; 次&quot;</span>; &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Greeting<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _greeting; &#125;<br>            <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _greeting, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(Greeting)); &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> HelloCount<br>        &#123;<br>            <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _helloCount; &#125;<br>            <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _helloCount, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(HelloCount)); &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<p><strong>先看这段代码在做什么</strong></p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ExecuteSayHello</span>()</span><br>&#123;<br>    HelloCount++;<br>    RaisePropertyChanged(<span class="hljs-keyword">nameof</span>(HelloCountText));<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><code>HelloCount++</code> 会修改计数，但界面上的统计文字绑定的是 <code>HelloCountText</code>：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> HelloCountText<br>&#123;<br>    <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;已发送问候：&quot;</span> + HelloCount + <span class="hljs-string">&quot; 次&quot;</span>; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><code>HelloCountText</code> 没有自己的字段，也没有 setter。它是每次被读取时，临时用 <code>HelloCount</code> 拼出来的。所以 <code>HelloCount</code> 变了，WPF 并不会自动知道 <code>HelloCountText</code> 也要跟着变。</p>
-<p><strong>完整流程</strong></p>
-<ol>
-<li>用户点击按钮。</li>
-<li>命令调用 <code>ExecuteSayHello()</code>。</li>
-<li><code>HelloCount++</code> 修改计数值。</li>
-<li><code>HelloCount</code> 的 setter 里调用了 <code>Set(...)</code>，所以 WPF 会刷新所有绑定 <code>HelloCount</code> 的地方。</li>
-<li>但绑定 <code>HelloCountText</code> 的文字控件没有收到通知，仍然显示旧文字。</li>
-<li>调用 <code>RaisePropertyChanged(nameof(HelloCountText))</code>，WPF 收到通知后重新执行 <code>HelloCountText</code> 的 getter，拿到新字符串，界面才更新。</li>
-</ol>
-<p><strong>为什么这里不用</strong> <strong><code>Set</code></strong></p>
-<p><code>Set</code> 一般用在有字段、有 setter 的属性里，例如：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> HelloCount<br>&#123;<br>    <span class="hljs-keyword">get</span> &#123; <span class="hljs-keyword">return</span> _helloCount; &#125;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span> &#123; Set(<span class="hljs-keyword">ref</span> _helloCount, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">nameof</span>(HelloCount)); &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><code>Set</code> 会帮你做三件事：比较新旧值、赋值、发出属性变更通知。</p>
-<p>但 <code>HelloCountText</code> 是只读的计算属性，没有 <code>_helloCountText</code> 字段，也没有 setter，所以不能用 <code>Set</code>。这种属性变化时，只能手动调用 <code>RaisePropertyChanged</code>。</p>
-<p><strong><code>nameof(HelloCountText)</code></strong>  <strong>是什么</strong></p>
-<p>它会在编译时变成字符串 <code>&quot;HelloCountText&quot;</code>。这样写的好处是：</p>
-<ul>
-<li>不怕手写字符串拼错。</li>
-<li>以后重命名属性时，编译器会一起改。</li>
-<li>比直接写 <code>RaisePropertyChanged(&quot;HelloCountText&quot;)</code> 更安全。</li>
-</ul>
-<p><strong>一句话记住</strong></p>
-<ul>
-<li><code>Set(...)</code>：属性自己有字段和 setter 时，用它自动通知。</li>
-<li><code>RaisePropertyChanged(...)</code>：属性是计算出来的，或者你想手动通知某个属性时，用它。</li>
-<li>通知必须写在值改完之后，否则 WPF 重新读到的还是旧值。</li>
-</ul>
-<p>这段代码在笔记的 <code>C:\Users\North\Desktop\WPFStudy\MvvmLight入门学习笔记.md:1477</code> 附近。你可以把它理解成“改完数据后，再补一声广播”，界面才会跟着变。</p>
-]]></content>
-      <categories>
-        <category>WPF</category>
-      </categories>
-      <tags>
-        <tag>MVVM</tag>
-        <tag>MVVMLight</tag>
+        <tag>问题记录</tag>
       </tags>
   </entry>
 </search>
