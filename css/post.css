@@ -466,23 +466,26 @@ figure.highlight .highlight-tools {
   padding-inline-start: 0;
 }
 
+/* 任务项：方框绝对定位挂在左边，正文按普通行内流排。
+   这里**不能用 grid / flex**：一旦父元素是 grid，li 里每个子元素和每一段文字
+   都会变成独立的网格项，排到不同格子里 —— 带行内代码时就会变成
+   「方框 / 代码块 / 继承 / 代码块 / 。」竖着叠下来（`- [ ]` 里写 `\`code\`` 时必现）。
+   绝对定位不影响行内流，行内代码还是跟文字同一行。 */
 #article-container ul > li:has(> input[type="checkbox"]) {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
+  position: relative;
+  display: block;
+  min-height: 1.6em;
+  padding-left: 24px;
   list-style: none;
 }
 
-/* 任务项里的段落、嵌套列表也归到第二列，跟首行文字同一条竖线 */
-#article-container li:has(> input[type="checkbox"]) > :is(p, ul, ol) {
-  grid-column: 2;
-}
-
-/* 只钉位置：方框尺寸 / 描边 / 圆角 / 勾全在 custom.css。
-   右边 8px 与标签的 margin-right 对齐，两套的间距才是同一个数。 */
+/* 方框尺寸 / 描边 / 圆角 / 勾全在 custom.css，这里只钉位置：
+   24px = 方框 16 + 间距 8，和原来第二列那条竖线对齐；top .5em 与首行文字居中。 */
 #article-container li:has(> input[type="checkbox"]) > input[type="checkbox"] {
-  grid-column: 1;
-  margin: .5em 8px 0 0;
+  position: absolute;
+  left: 0;
+  top: .5em;
+  margin: 0;
 }
 
 #article-container li:has(> input[type="checkbox"]):has(> input[type="checkbox"]:is(:checked, [checked])) {
