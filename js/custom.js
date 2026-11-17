@@ -109,13 +109,14 @@
       ? rgbToHex([Math.min(r + 50, 255), Math.min(g + 50, 255), Math.min(b + 50, 255)])
       : color
 
-    // 悬停时的文字色要跟着染色底走：
-    // 底偏暗（比如深蓝封面、深色头图）就用白字，底偏亮才用深字。
-    // 之前一直是 --btf-nav-hover-text（暗色下是 #1b1c20），
-    // 碰到深一点的封面色就成了「深字压深底」，糊成一片看不清。
+    // 悬停时的文字色：除「接近白」的封面色之外，一律用白字。
+    // 阈值定在 200 而不是 150：150 这一档会把浅蓝、浅绿这种仍在中等明度的
+    // 封面色判成「亮底」，翻成深字，结果白底黑字一样反差不足还显脏
+    // （MvvmLight 那篇的浅蓝封面就是 151，正好卡在线上）。
+    // 只有亮度 200 以上（接近白 / 米白）才用深字，那种底白字会真的看不见。
     const [ar, ag, ab] = adjusted.match(/[0-9a-f]{2}/gi).map(part => parseInt(part, 16))
     const tintBrightness = Math.round((ar * 299 + ag * 587 + ab * 114) / 1000)
-    header.style.setProperty('--btf-nav-hover-text', tintBrightness >= 150 ? '#1b1c20' : '#ffffff')
+    header.style.setProperty('--btf-nav-hover-text', tintBrightness >= 200 ? '#1b1c20' : '#ffffff')
 
     header.style.setProperty('--btf-header-theme', adjusted)
     header.style.setProperty('--btf-header-theme-op', `${adjusted}23`)
