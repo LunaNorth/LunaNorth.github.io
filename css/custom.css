@@ -1809,6 +1809,19 @@
   color: var(--btf-theme);
 }
 
+/* 目录隐藏滚动条：保留滚轮 / 触控板 / 触摸滚动，只是不显示轨道 */
+#aside-content #card-toc .toc-content {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* 旧版 Edge / IE */
+}
+
+#aside-content #card-toc .toc-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome / Edge / Safari */
+}
+
 #aside-content .site-data a:hover div,
 #aside-content .aside-list .content .title:hover,
 #aside-content .aside-list .content .name:hover {
