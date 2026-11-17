@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lunanorth.github.io/posts/acdd.html</loc>
+    
+    <lastmod>2026-11-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lunanorth.github.io/posts/1b2d.html</loc>
     
     <lastmod>2026-11-17</lastmod>
@@ -263,14 +272,14 @@
 
   
   <url>
-    <loc>https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/</loc>
+    <loc>https://lunanorth.github.io/tags/%E6%97%A5%E5%BF%97/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/tags/%E6%97%A5%E5%BF%97/</loc>
+    <loc>https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -320,6 +329,13 @@
   
   <url>
     <loc>https://lunanorth.github.io/tags/IOC/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunanorth.github.io/tags/CommunityToolkit/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
