@@ -30,17 +30,13 @@
   var settings = {
     // 日期分组标题（今天 周六 / 11月4日 周三），默认不显示
     showDateGroup: rawSettings.showDateGroup === true,
-    // 列表布局：1 单栏平铺 / 2 双栏瀑布流 / 3 三栏瀑布流 / 4 朋友圈时间线
-    columns: Math.max(1, Math.min(4, Math.round(Number(rawSettings.columns) || 1))),
+    // 列表布局：1 单栏平铺 / 2 双栏瀑布流 / 3 三栏瀑布流
+    columns: Math.max(1, Math.min(3, Math.round(Number(rawSettings.columns) || 1))),
     // 每页条数，0 = 不分页
     pageSize: Math.max(0, Math.round(Number(rawSettings.pageSize) || 0))
   };
 
-  // 全局昵称 / 头像，供朋友圈样式使用（每条笔记可单独覆盖）
-  var profile = (payload && payload.profile) ? payload.profile : {};
-  var profileNickname = profile.nickname ? String(profile.nickname) : '';
-  var profileAvatar = profile.avatar ? String(profile.avatar) : '';
-
+  // 全局昵称 / 头像由页面模板直接渲染到侧栏，脚本侧不再读取
   var MOBILE_MAX = 820;
 
   var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
@@ -67,12 +63,6 @@
 
   function hm(d) {
     return pad2(d.getHours()) + ':' + pad2(d.getMinutes());
-  }
-
-  // 中文日期：2026年11月1日 18:15（朋友圈样式用）
-  function cnDateTime(d, hasTime) {
-    var s = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
-    return hasTime ? s + ' ' + hm(d) : s;
   }
 
   function startOfDay(d) {
@@ -139,10 +129,7 @@
       images: normalizeImages(item.images != null ? item.images : item.image),
       hasTime: /\d{1,2}:\d{1,2}/.test(dateSource),
       location: String(item.location == null ? '' : item.location).trim(),
-      pinned: !!item.pinned,
-      // 朋友圈样式用：昵称 / 头像可按条覆盖，不写就用全局配置
-      nickname: String(item.nickname == null ? '' : item.nickname).trim(),
-      avatar: String(item.avatar == null ? '' : item.avatar).trim()
+      pinned: !!item.pinned
     };
   }).filter(Boolean);
 
@@ -528,46 +515,6 @@
       '</div>';
   }
 
-  /* ---------- 朋友圈样式（columns: 4） ---------- */
-
-  // 朋友圈风格：头像在左，右侧依次是昵称、正文、图片、时间
-  // 结构与插件的 .north-luna-moments-item 一致
-  function momentHtml(note) {
-    var nickname = note.nickname || profileNickname;
-    var avatar = note.avatar || profileAvatar;
-    var body = highlight(note.content, true).replace(/\n/g, '<br>');
-
-    var avatarHtml = avatar
-      ? '<img class="lumina-moment-avatar" src="' + escapeHtml(avatar) + '" alt="' + escapeHtml(nickname) + '" loading="lazy">'
-      : '<span class="lumina-moment-avatar lumina-moment-avatar-fallback">' + escapeHtml(nickname.slice(0, 1)) + '</span>';
-
-    // 标签单独一行放在卡片底部（正文 / 图片 / 时间之后）
-    var tags = note.tags.map(function (tag) {
-      return '<span class="lumina-tag" data-tag="' + escapeHtml(tag) + '">#' + escapeHtml(tag) + '</span>';
-    }).join(' ');
-
-    // meta 行：地点 → 时间，用「·」分隔
-    var metaParts = [];
-    if (note.location) {
-      metaParts.push('<span class="lumina-moment-item">' + escapeHtml(note.location) + '</span>');
-    }
-    metaParts.push('<span class="lumina-moment-item">' + escapeHtml(cnDateTime(note.date, note.hasTime)) + '</span>');
-
-    return '<article class="lumina-moment" data-id="' + note.id + '">' +
-      avatarHtml +
-      '<div class="lumina-moment-content">' +
-      '<div class="lumina-moment-name">' + escapeHtml(nickname) +
-      (note.pinned ? '<span class="lumina-note-pinned">置顶</span>' : '') +
-      '</div>' +
-      '<div class="lumina-moment-text">' + body + '</div>' +
-      imageGrid(note.images) +
-      '<div class="lumina-moment-meta">' +
-      '<span class="lumina-moment-meta-tags">' + metaParts.join('') + '</span>' +
-      '</div>' +
-      (tags ? '<div class="lumina-moment-tags">' + tags + '</div>' : '') +
-      '</div></article>';
-  }
-
   function barHtml() {
     if (state.month) {
       var parts = state.month.split('-');
@@ -654,7 +601,7 @@
 
   // 当前瀑布流状态（供图片加载完后重新配平）
   var masonry = null;
-  var MASONRY_GAP = 16;
+  var MASONRY_GAP = 10; // 与 lumina.css 的 --lumina-masonry-gap 保持同值，配平才准确
 
   // 移动端强制单栏
   function effectiveColumns() {
@@ -792,13 +739,6 @@
 
     pageTotal = totalPages;
     var pager = size > 0 ? pagerHtml(totalPages, state.page) : '';
-
-    // columns: 4 —— 朋友圈样式（单列时间线，窄屏也保持同样版式）
-    if (settings.columns === 4) {
-      els.list.innerHTML = html + list.map(momentHtml).join('') + pager;
-      applyLightbox();
-      return;
-    }
 
     if (cols > 1) {
       // 多栏时不做日期分组（卡片自带日期，分组标题会打断瀑布流）
