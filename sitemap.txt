@@ -34,10 +34,10 @@ https://lunanorth.github.io/tags/%E6%8F%92%E4%BB%B6/
 https://lunanorth.github.io/tags/%E9%9A%8F%E8%AE%B0/
 https://lunanorth.github.io/tags/%E6%97%A5%E5%BF%97/
 https://lunanorth.github.io/tags/%E6%91%98%E6%8A%84/
+https://lunanorth.github.io/tags/IOC/
 https://lunanorth.github.io/tags/MVVM/
 https://lunanorth.github.io/tags/MVVMLight/
 https://lunanorth.github.io/tags/CommunityToolkit/
-https://lunanorth.github.io/tags/IOC/
 https://lunanorth.github.io/categories/%E9%97%B2%E8%81%8A%E6%9D%82%E8%B0%88/
 https://lunanorth.github.io/categories/WinForm/
 https://lunanorth.github.io/categories/%E6%80%9D%E6%BA%90%E7%AC%94%E8%AE%B0/
