@@ -1,0 +1,445 @@
+/* ==========================================================================
+   书屿页（/books/）
+   结构 includes/page/books.pug，筛选 source/js/books.js
+
+   卡片形态：一张 3:4 封面铺满整格，书名 / 评分压在底部渐层上，
+   左上角一个类型图标、右上角一个字（分类或状态）。
+   鼠标移上去封面轻微推近、整张压暗并模糊，浮出摘句与「查看详情」。
+
+   设计约定（跟站内其他自定义页一致）：
+     - 颜色全走 --btf-* 令牌，只补状态色，深浅主题各自取值
+     - 不上外边框、不上外阴影（站点约定），压在照片上的字固定白色 + 渐层，
+       换任何封面图都不会糊
+     - 没封面时按书名生成文字封面：色相由书名算出（模板内联 --bk-h）
+   ========================================================================== */
+
+.books-page {
+  --bk-blue: #425aef;
+  --bk-green: #2e8f6e;
+  --bk-star: #ffc848;
+  /* 压在封面图上，不跟随主题反色 */
+  --bk-on-img: #ffffff;
+  --bk-on-img-soft: rgba(255, 255, 255, .78);
+  --bk-text-shadow: 0 1px 6px rgba(0, 0, 0, .5);
+  /* 文字封面的明度，深色主题再压暗一档 */
+  --bk-l1: 45%;
+  --bk-l2: 30%;
+}
+
+[data-theme="dark"] .books-page {
+  --bk-blue: #8b9bff;
+  --bk-green: #86d3ae;
+  --bk-star: #ffc848;
+  --bk-l1: 39%;
+  --bk-l2: 26%;
+}
+
+/* 和其他自定义页一致：去外层卡片框、压掉顶部留白 */
+body:has(.books-page) #page {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#body-wrap.type-books #content-inner.layout {
+  max-width: var(--btf-layout-width);
+}
+
+#body-wrap.type-books #content-inner.layout > #page.nc {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* 横幅：这张图是 16:9 的，铺到通栏宽度会被裁掉大半，
+   往下压一点，屋檐的翘角和红叶才都还在画里；宽屏再多给两指高度 */
+#body-wrap.type-books .luna-banner {
+  background-position: center 55%;
+}
+
+@media screen and (min-width: 769px) {
+  #body-wrap.type-books .luna-banner {
+    --luna-banner-height: 21rem;
+  }
+}
+
+/* ---------- 分组 ---------- */
+/* 分组标题是 h3，字号 / 配色 / 点标识由 post.css 的标题体系统一管（见那里的 .books-page） */
+.bk-section + .bk-section {
+  margin-top: .4rem;
+}
+
+.bk-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+}
+
+.books-page .bk-section-head h3 {
+  margin-bottom: .65rem;
+}
+
+/* 第一组紧着横幅，不要顶上再空出一大块 */
+.books-page .bk-section:first-child .bk-section-head h3 {
+  margin-top: .2rem;
+}
+
+.bk-section-count {
+  flex: none;
+  color: var(--btf-second-text);
+  font-size: .72rem;
+  font-variant-numeric: tabular-nums;
+  opacity: .6;
+}
+
+/* ---------- 网格 ---------- */
+.bk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 1.5rem 1.1rem;
+  align-items: start;
+}
+
+/* ---------- 卡片：整张就是封面 ---------- */
+.bk-card {
+  position: relative;
+  /* 3:4 是书封的常规比例，一排摆下来不会一高一低 */
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--btf-radius-sm);
+  background: var(--btf-second-bg-strong);
+  /* 深浅封面都能立住的一道内描边 */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06);
+}
+
+/* 有外链的卡片整张可点，没链接的不给手型，免得骗人 */
+.bk-card[data-href] {
+  cursor: pointer;
+}
+
+.bk-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s cubic-bezier(.2, .7, .3, 1);
+}
+
+/* 没有封面时的文字封面：一个大字压底，颜色由书名算出来 */
+.bk-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 18%;
+  background: linear-gradient(158deg,
+      hsl(var(--bk-h) 34% var(--bk-l1)),
+      hsl(var(--bk-h) 40% var(--bk-l2)));
+  transition: transform .55s cubic-bezier(.2, .7, .3, 1);
+}
+
+.bk-mono {
+  color: rgba(255, 255, 255, .9);
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .22);
+}
+
+/* hover 时封面轻微推近：不上浮、不加阴影 */
+.bk-card:hover .bk-img,
+.bk-card:hover .bk-face {
+  transform: scale(1.06);
+}
+
+/* 右上角分类（不写就显示状态） */
+.bk-tip {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  color: var(--bk-on-img-soft);
+  font-size: .66rem;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  text-shadow: var(--bk-text-shadow);
+  transition: opacity .25s ease;
+}
+
+/* 顶部压一层很浅的暗色：白字图标和分类压在浅色海报上也读得清 */
+.bk-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 78px;
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, .42) 0%,
+      rgba(0, 0, 0, .2) 46%,
+      rgba(0, 0, 0, 0) 100%);
+  content: "";
+  pointer-events: none;
+  transition: opacity .22s ease;
+}
+
+/* 文字封面本身就是深底，不需要再压一层，平色块上加渐变反而看得出边 */
+.bk-card:has(.bk-face)::before {
+  display: none;
+}
+
+/* ---------- 底部渐层 + 书名 ---------- */
+.bk-shade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 38px 10px 9px;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, .88) 0%,
+      rgba(0, 0, 0, .58) 42%,
+      rgba(0, 0, 0, .18) 72%,
+      rgba(0, 0, 0, 0) 100%);
+  color: var(--bk-on-img);
+  transition: opacity .22s ease;
+}
+
+.bk-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: .84rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-shadow: var(--bk-text-shadow);
+}
+
+.bk-author {
+  margin-top: 1px;
+  overflow: hidden;
+  color: var(--bk-on-img-soft);
+  font-size: .64rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bk-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 14px;
+  margin-top: 3px;
+}
+
+.bk-score {
+  flex: none;
+  color: var(--bk-on-img);
+  font-size: .72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--bk-text-shadow);
+}
+
+.bk-date {
+  color: var(--bk-on-img-soft);
+  font-size: .64rem;
+  opacity: .85;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--bk-text-shadow);
+}
+
+/* ---------- 星级 ---------- */
+.bk-stars {
+  position: relative;
+  display: inline-flex;
+  line-height: 1;
+}
+
+.bk-stars-bg,
+.bk-stars-fill {
+  display: flex;
+  gap: 1px;
+}
+
+.bk-stars-bg i {
+  color: rgba(255, 255, 255, .32);
+  font-size: 10px;
+}
+
+/* 上层只露被评分覆盖的那一截，所以 4.5 会停在第五颗星的一半 */
+.bk-stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.bk-stars-fill i {
+  flex: 0 0 auto;
+  color: var(--bk-star);
+  font-size: 10px;
+}
+
+/* ---------- 悬停层：模糊 + 摘句 ---------- */
+.bk-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 14px;
+  background: rgba(14, 14, 18, .58);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  backdrop-filter: blur(12px) saturate(1.1);
+  color: var(--bk-on-img);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.bk-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+  margin: 0;
+  font-size: .74rem;
+  line-height: 1.75;
+  text-align: center;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .45);
+  /* 两行时把字数摊匀，避免最后一行只剩一两个字 */
+  text-wrap: balance;
+  /* 文字比背景晚一点落下，形成两段节奏，比一起淡入自然 */
+  opacity: 0;
+  transform: translateY(9px);
+  transition: transform .45s cubic-bezier(.22, .68, .32, 1), opacity .3s ease;
+}
+
+/* 没写摘句时的兜底：书名一行、作者一行，别让书名被挤断 */
+.bk-desc.is-plain {
+  display: block;
+}
+
+.bk-desc-name,
+.bk-desc-author {
+  display: block;
+  text-wrap: balance;
+}
+
+.bk-desc-name {
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.bk-desc-author {
+  margin-top: 3px;
+  font-size: .66rem;
+  opacity: .72;
+}
+
+/* 展开条件：鼠标悬停 / 触屏点开（books.js 加 is-open）/ 键盘 Tab 到里面的按钮 */
+.bk-card:hover .bk-hover,
+.bk-card.is-open .bk-hover,
+.bk-card:focus-within .bk-hover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bk-card:hover .bk-desc,
+.bk-card.is-open .bk-desc,
+.bk-card:focus-within .bk-desc {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: .06s;
+}
+
+.bk-card:hover .bk-shade,
+.bk-card.is-open .bk-shade,
+.bk-card:focus-within .bk-shade,
+.bk-card:hover .bk-tip,
+.bk-card.is-open .bk-tip,
+.bk-card:focus-within .bk-tip {
+  opacity: 0;
+}
+
+/* 顶部压暗层也跟着退，不然模糊层上会透出一条深色带 */
+.bk-card:hover::before,
+.bk-card.is-open::before,
+.bk-card:focus-within::before {
+  opacity: 0;
+}
+
+/* ---------- 空状态 ---------- */
+.bk-empty {
+  margin: 2.2rem 0 0;
+  color: var(--btf-second-text);
+  font-size: .82rem;
+  text-align: center;
+}
+
+/* ---------- 窄屏 ---------- */
+@media screen and (max-width: 768px) {
+  .bk-grid {
+    grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+    gap: 1.15rem .8rem;
+  }
+
+  .bk-name {
+    font-size: .78rem;
+  }
+
+  .bk-author {
+    display: none;
+  }
+
+  .bk-mono {
+    font-size: 2rem;
+  }
+
+  .bk-hover {
+    padding: 14px 11px;
+  }
+
+  .bk-desc {
+    font-size: .7rem;
+    line-height: 1.65;
+    -webkit-line-clamp: 6;
+  }
+}
+
+/* 触屏没有 hover，靠点一下展开；展开后不再需要 hover 那套推近 */
+@media (hover: none) {
+  .bk-card:hover .bk-img,
+  .bk-card:hover .bk-face {
+    transform: none;
+  }
+}
+
+/* 系统里开了「减弱动态效果」就只留淡入，不做推近和位移 */
+@media (prefers-reduced-motion: reduce) {
+  .bk-img,
+  .bk-face,
+  .bk-hover,
+  .bk-desc,
+  .bk-shade {
+    transition: none;
+  }
+
+  .bk-card:hover .bk-img,
+  .bk-card:hover .bk-face {
+    transform: none;
+  }
+
+  .bk-desc {
+    transform: none;
+  }
+}
