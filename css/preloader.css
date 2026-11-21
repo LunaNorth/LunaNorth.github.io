@@ -4,7 +4,12 @@
  * 变量换成本站 Butterfly 的 --btf-*，以便跟随浅色 / 深色模式
  */
 
+/* 自身也立一个高层级：这样即使内部 .loading-bg 的 z-index 发生变化，
+   整个遮罩仍然压在页面上方，不会被头部 / 正文盖住。
+   高度为 0（子元素是 fixed），不占位也不拦截点击。 */
 #loading-box {
+  position: relative;
+  z-index: 1001;
   user-select: none;
 }
 
@@ -18,8 +23,13 @@
   background: var(--btf-card-bg);
   z-index: 1001;
   opacity: 1;
+  visibility: visible;
   overflow: hidden;
-  transition: .2s;
+  /* 显示方向不需要过渡：pjax 切页时立刻盖住，避免新页面内容先闪一下。
+     注意这里不能写成 transition: .2s（等于 all .2s）——
+     z-index 会跟着一起平滑降档，淡出中途遮罩沉到页面内容底下，
+     透过透明区域露出半截头像，看起来就像「loading 嵌进了页面里」。 */
+  transition: none;
 }
 
 #loading-box .loading-bg::-webkit-scrollbar {
@@ -33,10 +43,12 @@
   margin: auto;
   border: 4px solid var(--btf-card-border);
   object-fit: cover;
-  animation-duration: .2s;
-  animation-name: btfLoadingAction;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+  /* 原来是 0.2s 的透明度交替，等于每秒 2.5 次明暗硬闪，像灯管接触不良。
+     换成 1.8s 的呼吸：极轻的缩放 + 透明度浮动，
+     幅度小、节奏慢，才像「在这儿安静等你一下」 */
+  animation: btfLoadingBreathe 1.8s ease-in-out infinite;
+  box-shadow: 0 10px 30px -16px rgba(20, 24, 32, .3);
+  will-change: transform, opacity;
 }
 
 #loading-box .loading-image-dot {
@@ -51,17 +63,42 @@
   transform: translate(18px, 24px);
 }
 
+/* 收起：只让透明度淡出，z-index 始终留在 1001。
+   以前这里靠 z-index: -1000 把遮罩沉到页面下面来让出点击，
+   但 z-index 是参与过渡的，淡出那 0.2s 里它会掉成负数，
+   遮罩被头部和正文盖住、只在背景透明的缝隙里露出半张脸。
+   改用 visibility + pointer-events 让出交互，视觉上就是纯粹的白幕淡出。 */
 #loading-box.loaded .loading-bg {
   opacity: 0;
-  z-index: -1000;
+  visibility: hidden;
+  pointer-events: none;
+  /* 比原来多给 60ms：白幕消失得慢一点，和呼吸的节奏更搭 */
+  transition: opacity .26s ease, visibility 0s linear .26s;
 }
 
-@keyframes btfLoadingAction {
-  0% {
-    opacity: 1;
+@keyframes btfLoadingBreathe {
+
+  0%,
+  100% {
+    opacity: .88;
+    transform: scale(.975);
   }
 
-  100% {
-    opacity: .4;
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+/* 深色下投影要重一点才看得见，浅色下太重会显脏 */
+[data-theme="dark"] #loading-box .loading-img {
+  box-shadow: 0 10px 32px -16px rgba(0, 0, 0, .68);
+}
+
+/* 系统开了「减弱动态效果」就只留静帧，别强行给人家呼吸 */
+@media (prefers-reduced-motion: reduce) {
+
+  #loading-box .loading-img {
+    animation: none;
   }
 }

@@ -5,7 +5,12 @@
    选哪一套由 _config.butterfly.yml 的 font.preset 控制，
    scripts/font-preset.js 会把对应字体栈写进 --site-font-family 变量。
 
-   font-display: swap 让字体加载期间先显示系统字体，避免正文空白。
+   font-display 的取舍：
+     - 主字体（文楷）用 block：给最多 3 秒的阻塞期，等字体到位再渲染文字。
+       字体文件已按「GB2312 全集 + 站内用字」做过子集（9.7MB → 1.8MB），
+       正常情况下首屏加载遮罩还没撤，字体就已经就绪，用户看不到任何换字过程。
+     - 兜底字体（HarmonyOS）用 swap：它只在主字体不可用时才被用到，
+       这时候可读性优先，不该跟着一起等。
    ========================================================================== */
 
 /* ---------- HarmonyOS Sans SC（简体中文版） ----------
@@ -37,6 +42,9 @@
   font-family: "LXGW WenKai Screen";
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  /* 不要换成 swap：swap 会先铺一层兜底黑体、字体到了再整页换字，
+     那一跳比多等几十毫秒明显得多。
+     字体本身已子集到 1.8MB（见文件头说明），block 期通常来得及。 */
+  font-display: block;
   src: url("../fonts/LXGWWenKaiScreen/LXGWWenKaiScreen.woff2") format("woff2");
 }

@@ -350,6 +350,7 @@
       state.view = 'all';
       state.month = '';
       state.page = 1;
+      exitSearch();
       updateMenu();
       renderArchive();
       renderHeatmap();
@@ -414,6 +415,7 @@
     state.month = '';
     state.quick = '';
     state.page = 1;
+    exitSearch();
     if (view === 'daily') state.reviewDay = randomReviewDay();
     updateMenu();
     renderArchive();
@@ -516,6 +518,14 @@
   }
 
   function barHtml() {
+    // 搜索状态优先：搜索会把其他筛选清空，两者互斥
+    if (state.keyword) {
+      return '<div class="lumina-bar">' +
+        '<div class="lumina-bar-left"><i class="fa-solid fa-magnifying-glass"></i><span>搜索「' + escapeHtml(state.keyword) + '」· 共 ' + visibleNotes().length + ' 条</span></div>' +
+        '<div class="lumina-bar-center">轻语里与这个词有关的记录</div>' +
+        '<div class="lumina-bar-actions"><button class="lumina-bar-btn" type="button" data-act="clear-search">清除</button></div>' +
+        '</div>';
+    }
     if (state.month) {
       var parts = state.month.split('-');
       var monthCount = visibleNotes().length;
@@ -773,6 +783,279 @@
   // 兜底：外部 CDN 可能加载较慢，页面资源全就绪后再挂一次
   window.addEventListener('load', applyLightbox);
 
+  /* ---------- 搜索（浮层 + 结果定位） ---------- */
+
+  // 搜索是一项「重来」的操作：顺手清掉日期 / 标签 / 快捷筛选，
+  // 否则容易和旧筛选叠加成空列表，看起来像「搜不到」
+  function applySearch(keyword) {
+    state.keyword = String(keyword == null ? '' : keyword).trim();
+    state.view = 'all';
+    state.tag = '';
+    state.day = '';
+    state.month = '';
+    state.quick = '';
+    state.page = 1;
+    updateMenu();
+    renderArchive();
+    renderHeatmap();
+    renderList();
+    resetScrollState();
+    syncSearchToggle();
+  }
+
+  function getSearchToggle() {
+    return document.getElementById('lumina-search-toggle');
+  }
+
+  // 点标签 / 月份 / 热力图 / 切视图，都算「离开搜索」：
+  // 搜索态和这些筛选叠加会让人分不清列表为什么长这样
+  function exitSearch() {
+    if (!state.keyword) return;
+    state.keyword = '';
+    syncSearchToggle();
+  }
+
+  // 搜索生效时，右下角那颗按钮保持选中色，提示「现在看到的是搜索结果」
+  function syncSearchToggle() {
+    var btn = getSearchToggle();
+    if (btn) btn.classList.toggle('is-on', !!state.keyword);
+  }
+
+  function snippet(text, keyword) {
+    var plain = String(text == null ? '' : text).replace(/\s+/g, ' ').trim();
+    var cut = function (s) {
+      return s.length > 64 ? s.slice(0, 64) + '…' : s;
+    };
+    if (!keyword) return cut(plain);
+    var idx = plain.toLowerCase().indexOf(keyword.toLowerCase());
+    if (idx < 0) return cut(plain);
+    var start = Math.max(0, idx - 16);
+    var end = Math.min(plain.length, idx + keyword.length + 30);
+    return (start > 0 ? '…' : '') + plain.slice(start, end) + (end < plain.length ? '…' : '');
+  }
+
+  function markKeyword(text, keyword) {
+    var safe = escapeHtml(text);
+    if (!keyword) return safe;
+    var re = new RegExp('(' + escapeReg(escapeHtml(keyword)) + ')', 'gi');
+    return safe.replace(re, '<mark class="lumina-hl">$1</mark>');
+  }
+
+  var searchUi = null;      // { modal, input, list, hint, count }
+  var searchRows = [];      // 当前结果（note 对象）
+  var searchActive = -1;    // 键盘选中项下标
+  var SEARCH_LIMIT = 50;    // 浮层里最多渲染多少条，够用又不卡
+
+  function buildSearchModal() {
+    var modal = document.createElement('div');
+    modal.className = 'lumina-search-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', '搜索轻语内容');
+    modal.innerHTML =
+      '<div class="lumina-search-panel">' +
+      '<div class="lumina-search-field">' +
+      '<i class="fa-solid fa-magnifying-glass lumina-search-icon" aria-hidden="true"></i>' +
+      '<input class="lumina-search-input" type="text" autocomplete="off" spellcheck="false" placeholder="搜索轻语里的内容…" aria-label="搜索轻语里的内容">' +
+      '<button class="lumina-search-cancel" type="button" title="关闭（Esc）" aria-label="关闭搜索"><i class="fa-solid fa-xmark"></i></button>' +
+      '</div>' +
+      '<div class="lumina-search-body">' +
+      '<div class="lumina-search-hint">最近的记录</div>' +
+      '<div class="lumina-search-list" role="listbox"></div>' +
+      '</div>' +
+      '<div class="lumina-search-foot">' +
+      '<span class="lumina-search-keys"><kbd>↑</kbd><kbd>↓</kbd> 选择<kbd>↵</kbd> 定位<kbd>Esc</kbd> 关闭</span>' +
+      '<span class="lumina-search-count"></span>' +
+      '</div>' +
+      '</div>';
+    app.appendChild(modal);
+
+    var input = modal.querySelector('.lumina-search-input');
+    var list = modal.querySelector('.lumina-search-list');
+
+    searchUi = {
+      modal: modal,
+      input: input,
+      list: list,
+      hint: modal.querySelector('.lumina-search-hint'),
+      count: modal.querySelector('.lumina-search-count')
+    };
+
+    input.addEventListener('input', function () {
+      runSearch(input.value);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        moveSearchActive(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        moveSearchActive(-1);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        commitSearch();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeSearch();
+      }
+    });
+
+    list.addEventListener('click', function (e) {
+      var item = e.target.closest('.lumina-search-item');
+      if (!item) return;
+      searchActive = parseInt(item.getAttribute('data-index'), 10);
+      commitSearch();
+    });
+
+    // 鼠标划过就跟键盘选中保持一致，避免出现两个高亮
+    list.addEventListener('mousemove', function (e) {
+      var item = e.target.closest('.lumina-search-item');
+      if (!item) return;
+      var idx = parseInt(item.getAttribute('data-index'), 10);
+      if (idx === searchActive || isNaN(idx)) return;
+      searchActive = idx;
+      paintSearchActive();
+    });
+
+    // 只有点遮罩本身才关，点面板内部不关
+    modal.addEventListener('mousedown', function (e) {
+      if (e.target === modal) closeSearch();
+    });
+
+    modal.querySelector('.lumina-search-cancel').addEventListener('click', closeSearch);
+  }
+
+  function runSearch(rawKeyword) {
+    if (!searchUi) return;
+    var keyword = String(rawKeyword == null ? '' : rawKeyword).trim();
+    var source = keyword
+      ? notes.filter(function (note) { return matchKeyword(note, keyword); })
+      : notes.slice(0, 12);
+
+    searchRows = source.slice(0, SEARCH_LIMIT);
+    searchActive = searchRows.length ? 0 : -1;
+
+    if (!searchRows.length) {
+      searchUi.hint.textContent = keyword ? '没有匹配的记录' : '最近还没有记录';
+      searchUi.list.innerHTML = '<div class="lumina-search-empty"><i class="fa-solid fa-feather-pointed"></i><p>没有找到「' + escapeHtml(keyword) + '」</p><small>换个关键词试试，比如某个标签或一句话</small></div>';
+      searchUi.count.textContent = '';
+      return;
+    }
+
+    searchUi.hint.textContent = keyword ? '搜索结果' : '最近的记录';
+    searchUi.list.innerHTML = searchRows.map(function (note, index) {
+      var tags = note.tags.map(function (tag) { return '#' + tag; }).join(' ');
+      return '<button class="lumina-search-item' + (index === searchActive ? ' active' : '') + '" type="button" role="option" data-index="' + index + '">' +
+        '<span class="lumina-search-item-head">' +
+        '<span class="lumina-search-item-date">' + ymd(note.date) + (note.hasTime ? ' ' + hm(note.date) : '') + '</span>' +
+        (tags ? '<span class="lumina-search-item-tags">' + escapeHtml(tags) + '</span>' : '') +
+        '</span>' +
+        '<span class="lumina-search-item-text">' + markKeyword(snippet(note.content, keyword), keyword) + '</span>' +
+        '</button>';
+    }).join('');
+
+    searchUi.count.textContent = keyword
+      ? '共 ' + source.length + ' 条' + (source.length > SEARCH_LIMIT ? '，显示前 ' + SEARCH_LIMIT + ' 条' : '')
+      : '';
+  }
+
+  function paintSearchActive() {
+    if (!searchUi) return;
+    var items = searchUi.list.querySelectorAll('.lumina-search-item');
+    Array.prototype.forEach.call(items, function (el, index) {
+      el.classList.toggle('active', index === searchActive);
+    });
+    var current = items[searchActive];
+    if (current) current.scrollIntoView({ block: 'nearest' });
+  }
+
+  function moveSearchActive(step) {
+    if (!searchRows.length) return;
+    searchActive = (searchActive + step + searchRows.length) % searchRows.length;
+    paintSearchActive();
+  }
+
+  // 应用到列表后，把命中的那条滚进视野并闪一下边框
+  function focusNote(noteId) {
+    var pool = visibleNotes();
+    var index = -1;
+    for (var i = 0; i < pool.length; i++) {
+      if (pool[i].id === noteId) {
+        index = i;
+        break;
+      }
+    }
+    if (index < 0) return;
+
+    var size = settings.pageSize;
+    if (size > 0) {
+      var page = Math.floor(index / size) + 1;
+      if (page !== state.page) {
+        state.page = page;
+        renderList();
+      }
+    }
+
+    // 等一帧，确保翻页后的卡片已经挂进 DOM
+    window.setTimeout(function () {
+      var card = els.list.querySelector('.lumina-note-card[data-id="' + noteId + '"]');
+      if (!card) return;
+      card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      card.classList.add('is-flash');
+      window.setTimeout(function () { card.classList.remove('is-flash'); }, 1800);
+    }, 40);
+  }
+
+  function commitSearch() {
+    if (!searchUi) return;
+    var keyword = searchUi.input.value.trim();
+    if (!keyword) {
+      closeSearch();
+      return;
+    }
+    var target = searchActive >= 0 && searchRows[searchActive] ? searchRows[searchActive] : null;
+    closeSearch();
+    applySearch(keyword);
+    if (target) focusNote(target.id);
+  }
+
+  function openSearch() {
+    if (!searchUi) buildSearchModal();
+    if (!searchUi) return;
+    searchUi.modal.classList.add('open');
+    searchUi.input.value = state.keyword || '';
+    runSearch(searchUi.input.value);
+    window.setTimeout(function () {
+      if (!searchUi) return;
+      searchUi.input.focus();
+      searchUi.input.select();
+    }, 60);
+  }
+
+  function closeSearch() {
+    if (!searchUi) return;
+    searchUi.modal.classList.remove('open');
+    searchUi.input.blur();
+  }
+
+  function onDocClickSearchToggle(e) {
+    if (!e.target || typeof e.target.closest !== 'function') return;
+    if (!e.target.closest('#lumina-search-toggle')) return;
+    e.preventDefault();
+    openSearch();
+  }
+
+  function onDocKeydownSearch(e) {
+    if (e.key !== 'Escape') return;
+    if (!searchUi || !searchUi.modal.classList.contains('open')) return;
+    e.preventDefault();
+    closeSearch();
+  }
+
+  document.addEventListener('click', onDocClickSearchToggle);
+  document.addEventListener('keydown', onDocKeydownSearch);
+
   /* ---------- 事件绑定 ---------- */
 
   // 侧栏收起 / 展开。
@@ -841,6 +1124,7 @@
       state.tag = '';
       state.month = '';
       state.page = 1;
+      exitSearch();
       updateMenu();
       renderArchive();
       renderHeatmap();
@@ -869,6 +1153,7 @@
       state.day = '';
       state.tag = '';
       state.page = 1;
+      exitSearch();
       updateMenu();
       renderArchive();
       renderHeatmap();
@@ -885,6 +1170,7 @@
     state.day = '';
     state.month = '';
     state.page = 1;
+    exitSearch();
     updateMenu();
     renderArchive();
     renderHeatmap();
@@ -899,6 +1185,7 @@
       var act = btn.getAttribute('data-act');
       if (act === 'home') setView('all');
       else if (act === 'shuffle') setView('daily');
+      else if (act === 'clear-search') applySearch('');
       else if (act === 'all-time') {
         state.month = '';
         state.page = 1;
@@ -946,6 +1233,7 @@
   updateMenu();
   renderAll();
   bindHeatmap();
+  syncSearchToggle();
 
   // pjax 离开时清掉挂在 body 上的浮层与监听
   function cleanup() {
@@ -955,6 +1243,10 @@
     els.list.removeEventListener('load', onListImageLoad, true);
     window.removeEventListener('resize', onResize);
     document.removeEventListener('click', onDocClickRsideToggle);
+    document.removeEventListener('click', onDocClickSearchToggle);
+    document.removeEventListener('keydown', onDocKeydownSearch);
+    if (searchUi && searchUi.modal.parentNode) searchUi.modal.parentNode.removeChild(searchUi.modal);
+    searchUi = null;
     window.removeEventListener('load', applyLightbox);
     document.removeEventListener('pjax:send', cleanup);
   }
