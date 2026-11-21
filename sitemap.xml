@@ -355,20 +355,6 @@
   </url>
   
   <url>
-    <loc>https://lunanorth.github.io/tags/Prism/</loc>
-    <lastmod>2026-11-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lunanorth.github.io/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2026-11-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lunanorth.github.io/tags/CommunityToolkit/</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -377,6 +363,20 @@
   
   <url>
     <loc>https://lunanorth.github.io/tags/IOC/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunanorth.github.io/tags/Prism/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunanorth.github.io/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
