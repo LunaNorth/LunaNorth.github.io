@@ -78,6 +78,21 @@
     box.style.display = 'block'
   }
 
+  // 「忘记已保存的密钥」由插件插在正文最前面（#article-container 里），
+  // 位置和正文混在一起。这里挪到文章头部那一行（原创 / 分类 / 标签），
+  // 跟元信息同一视觉层。只有"用记住的密码自动解锁"时插件才创建这个按钮，
+  // 手动输密码进来的页面没有它，挪动自然不会发生。
+  function relocateForget () {
+    var forget = document.querySelector('.hbe-forget')
+    if (!forget || forget.classList.contains('hbe-forget--header')) return
+
+    var line = document.querySelector('#post-firstinfo .meta-firstline')
+    if (!line) return
+
+    line.appendChild(forget)
+    forget.classList.add('hbe-forget--header')
+  }
+
   function jumpTo (link) {
     var id = link.dataset.id
     var target = id && document.getElementById(id)
@@ -104,5 +119,8 @@
     jumpTo(link)
   })
 
-  window.addEventListener('hexo-blog-decrypt', buildToc)
+  window.addEventListener('hexo-blog-decrypt', function () {
+    relocateForget()
+    buildToc()
+  })
 })()

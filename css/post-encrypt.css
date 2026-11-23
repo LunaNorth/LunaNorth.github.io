@@ -166,3 +166,75 @@
 #hexo-blog-encrypt.hbe-decrypted-content {
   padding: 0;
 }
+
+/* --------------------------------------------------------------------------
+   「忘记已保存的密钥」挪到文章头部之后
+
+   位置由 post-encrypt.js 决定（追加进 #post-firstinfo .meta-firstline），
+   这里只负责让它和「原创 / 闲聊杂谈」那排胶囊同一套视觉：
+   32px 高、pill 圆角、半透明底、跟随那一行的文字色。
+
+   两套配色是因为头部有两种形态：有封面图时是白字压在图上，没封面时是
+   浅底深字。默认规则跟随 currentColor，封面规则再把白字套回来。
+   -------------------------------------------------------------------------- */
+
+#post-firstinfo .meta-firstline .hbe-forget {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0 20px;
+  text-align: left;
+}
+
+/* 无封面时的兜底：跟随头部文字色 */
+#post-firstinfo .meta-firstline .hbe-forget-button {
+  height: 32px;
+  margin: 0;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 32px;
+  color: inherit;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  border: none;
+  border-radius: var(--btf-radius-pill);
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+#post-firstinfo .meta-firstline .hbe-forget-button:hover,
+#post-firstinfo .meta-firstline .hbe-forget-button:focus-visible {
+  background: color-mix(in srgb, currentColor 26%, transparent);
+  outline: none;
+}
+
+/* 有封面图：与「原创 / 闲聊杂谈」的胶囊完全一致 */
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline .hbe-forget-button {
+  color: var(--btf-white);
+  background: var(--btf-header-white-op);
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline .hbe-forget-button:hover,
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline .hbe-forget-button:focus-visible {
+  color: var(--btf-header-theme);
+  background: var(--btf-white);
+}
+
+/* 点完之后按钮消失，原地留下「已忘记已保存的密钥.」 */
+#post-firstinfo .meta-firstline .hbe-forget [role="status"] {
+  color: inherit;
+  font-size: 13px;
+  line-height: 32px;
+  opacity: .75;
+}
+
+.post #page-header.post-bg:not(.not-top-img) #post-firstinfo .meta-firstline .hbe-forget [role="status"] {
+  color: var(--btf-white);
+}
+
+/* 插件用 script 给它 focus()，鼠标点完会多出一个方框，压掉；
+   role="status" 本身仍然会让读屏软件播报这条提示 */
+#post-firstinfo .meta-firstline .hbe-forget [role="status"]:focus,
+#post-firstinfo .meta-firstline .hbe-forget [role="status"]:focus-visible {
+  outline: none;
+}
