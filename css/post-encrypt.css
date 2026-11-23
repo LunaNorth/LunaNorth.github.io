@@ -1,0 +1,168 @@
+/* ==========================================================================
+   加密文章外观（hexo-blog-encrypt 4.x）
+
+   插件自带 default 主题是透明输入框 + 蓝色渐变按钮，跟本站在用的
+   --btf-* 令牌体系不搭；这里只覆盖配色与排版，不动解密逻辑。
+
+   选择器统一带 #hexo-blog-encrypt 前缀：
+     1. 压过插件自带的单类规则，不依赖 CSS 加载顺序；
+     2. 只作用于加密容器，不影响正文。
+   深色模式跟随站点 data-theme，而不是插件的 prefers-color-scheme。
+   ========================================================================== */
+
+#hexo-blog-encrypt.hbe-container {
+  margin: 0 auto;
+  padding: 8px 0 28px;
+}
+
+#hexo-blog-encrypt .hbe-content {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 0;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+#hexo-blog-encrypt .hbe-form {
+  align-items: stretch;
+}
+
+/* 输入区：DOM 里是 input + label，反转后让「请输入密码」落在输入框上方 */
+#hexo-blog-encrypt .hbe-input,
+#hexo-blog-encrypt .hbe-input-default {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 14px;
+  overflow: visible;
+}
+
+#hexo-blog-encrypt .hbe-input-field,
+#hexo-blog-encrypt .hbe-input-field-default {
+  float: none;
+  width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  opacity: 1;
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--btf-font-color);
+  background: var(--btf-second-bg);
+  border: 1px solid var(--btf-card-border);
+  border-radius: var(--btf-radius-sm);
+  transition: border-color var(--btf-transition), background var(--btf-transition);
+}
+
+#hexo-blog-encrypt .hbe-input-field:focus,
+#hexo-blog-encrypt .hbe-input-field-default:focus {
+  outline: none;
+  background: var(--btf-card-bg);
+  border-color: var(--btf-theme);
+}
+
+#hexo-blog-encrypt .hbe-input-label,
+#hexo-blog-encrypt .hbe-input-label-default {
+  position: static;
+  float: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-align: left;
+  color: var(--btf-second-text);
+  pointer-events: none;
+}
+
+/* default 主题靠这两层伪元素做下划线动画，这里不需要 */
+#hexo-blog-encrypt .hbe-input-label-default::before,
+#hexo-blog-encrypt .hbe-input-label-default::after {
+  content: none;
+}
+
+#hexo-blog-encrypt .hbe-input-label-content,
+#hexo-blog-encrypt .hbe-input-label-content-default {
+  padding: 0;
+  font-size: 1em;
+  font-weight: 400;
+  color: var(--btf-second-text);
+  transform: none;
+}
+
+#hexo-blog-encrypt .hbe-button {
+  align-self: center;
+  margin: 0;
+  padding: 8px 24px;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--btf-nav-hover-text);
+  background: var(--btf-theme);
+  border: none;
+  border-radius: var(--btf-radius-pill);
+  cursor: pointer;
+  transition: opacity var(--btf-transition);
+}
+
+#hexo-blog-encrypt .hbe-button:hover,
+#hexo-blog-encrypt .hbe-button:focus {
+  background: var(--btf-theme);
+  opacity: 0.85;
+  box-shadow: none;
+}
+
+#hexo-blog-encrypt .hbe-button[aria-busy="true"] {
+  opacity: 0.7;
+}
+
+#hexo-blog-encrypt .hbe-error {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  border-radius: var(--btf-radius-sm);
+}
+
+[data-theme="light"] #hexo-blog-encrypt .hbe-error {
+  color: #c0392b;
+}
+
+[data-theme="light"] #hexo-blog-encrypt .hbe-error:not(:empty) {
+  background: rgba(192, 57, 43, 0.08);
+}
+
+[data-theme="dark"] #hexo-blog-encrypt .hbe-error {
+  color: #ff8a8a;
+}
+
+[data-theme="dark"] #hexo-blog-encrypt .hbe-error:not(:empty) {
+  background: rgba(255, 138, 138, 0.12);
+}
+
+/* 用记住的密码自动解锁时，正文上方会出现「忘记已保存的密钥」 */
+#hexo-blog-encrypt .hbe-forget {
+  margin: 0 0 12px;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--btf-second-text);
+  text-align: right;
+}
+
+#hexo-blog-encrypt .hbe-forget-button {
+  padding: 2px 10px;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--btf-second-text);
+  background: transparent;
+  border: 1px solid var(--btf-card-border);
+  border-radius: var(--btf-radius-pill);
+  cursor: pointer;
+}
+
+#hexo-blog-encrypt.hbe-decrypted-content {
+  padding: 0;
+}
