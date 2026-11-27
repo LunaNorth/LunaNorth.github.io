@@ -40,9 +40,6 @@
   --btf-layout-width: calc(var(--btf-main-width) + var(--btf-aside-width) + var(--btf-layout-gutter));
   /* Post header cover width (right side of the post top image). */
   --btf-header-cover-width: 300px;
-  /* 文章头图底部的白色过渡弧线。
-     半径和高度要保持一致，否则弧线会被盒子高度压成扁椭圆。 */
-  --btf-post-header-curve: 20px;
   /* Navigation buttons: keep the hit area and icon size in one place. */
   --btf-nav-button-size: 35px;
   --btf-nav-icon-size: 22px;
@@ -3044,8 +3041,8 @@ html.search-open {
   bottom: 0;
   left: 0;
   z-index: 2;
-  height: var(--btf-post-header-curve);
-  border-radius: var(--btf-post-header-curve) var(--btf-post-header-curve) 0 0;
+  height: 10px;
+  border-radius: var(--btf-radius) var(--btf-radius) 0 0;
   background: var(--btf-background);
   pointer-events: none;
 }
