@@ -311,6 +311,29 @@ div#swiper_container {
     background:var(--btn-bg);
     height:30px
 }
+
+/* ---------- 暗色模式下的轮播圆点 ----------
+   亮色模式没问题：未选中 = #858585 / 20%（白底上算出来是 #e7e7e7），
+   选中 = --btn-bg（淡蓝 #edf0f7），一眼就能看出当前是哪一篇。
+
+   暗色模式就废了：
+   · 底色变成 #202020 之后，20% 的灰点只剩 #343434，和底色几乎融在一起；
+   · 选中的 --btn-bg 在暗色下被统一改成 rgba(0,0,0,.1)，等于完全看不见；
+   · 再叠上黑色线稿，更是雪上加霜。
+
+   所以暗色下单独给一套：未选中用半透明白做浅色玻璃点，
+   选中用站点主题色（亮金 #ffc848），都加一圈暗描边，
+   就算压在黑色线稿上也一眼能分辨。 */
+[data-theme='dark'] .blog-slider__pagination .swiper-pagination-bullet {
+    background:#fff;
+    opacity:.38;
+    box-shadow:0 0 0 1px rgba(0, 0, 0, .45)
+}
+[data-theme='dark'] .blog-slider__pagination .swiper-pagination-bullet-active {
+    background:var(--btf-theme);
+    opacity:1;
+    box-shadow:0 0 0 1px rgba(0, 0, 0, .45), 0 0 12px rgba(255, 200, 72, .45)
+}
 @media screen and (max-width:600px) {
     .blog-slider__pagination {
         -webkit-transform:translateX(-50%);

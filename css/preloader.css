@@ -1,5 +1,5 @@
 /**
- * 页面加载动画（全屏遮罩 + 头像呼吸 + 绿色圆点）
+ * 页面加载动画（全屏遮罩 + 头像呼吸 + 旋转进度环 + 绿点）
  * 移植自 AnZhiYu 主题 source/css/_global/loading.styl
  * 变量换成本站 Butterfly 的 --btf-*，以便跟随浅色 / 深色模式
  */
@@ -15,12 +15,19 @@
 
 #loading-box .loading-bg {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  background: var(--btf-card-bg);
+  /* 遮罩底色用「整站底色」而不是「卡片底色」。
+     暗色模式下 --btf-card-bg 被改成了 rgba(0,0,0,.34)（卡片统一 10% 黑那套），
+     拿它当遮罩就等于半透明：底下已经渲染好的页面会整片透出来，
+     头像变成「浮在正文正中间的一个头像」，完全看不出是在加载 —— 尤其暗色。
+     换成不透明的整站底色，加载页就是一块干净的幕布，一眼看出在加载。 */
+  background: var(--btf-background);
   z-index: 1001;
   opacity: 1;
   visibility: visible;
@@ -32,15 +39,49 @@
   transition: none;
 }
 
-#loading-box .loading-bg::-webkit-scrollbar {
-  display: none;
+/* 暗色模式 + 开启背景图案时，遮罩跟整站背景画成完全一样：
+   同样的底色 + 同样的线稿平铺（同一个 opacity 旋钮）。
+   这样遮罩揭开的一瞬间背景不会「跳」一下，像整块页面在原地变亮。 */
+html.has-dark-bg-pattern #loading-box .loading-bg {
+  background-color: var(--btf-dark-bg-color, #202020);
+}
+
+html.has-dark-bg-pattern #loading-box .loading-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--btf-dark-bg-pattern, none);
+  background-repeat: repeat;
+  background-size: auto;
+  background-position: center center;
+  opacity: var(--btf-dark-bg-opacity, 1);
+  pointer-events: none;
+}
+
+/* 居中那一摞：头像 + 标题 + 提示语。
+   z-index:1 是为了压在上面那层线稿（::before）之上。 */
+#loading-box .loading-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#loading-box .loading-avatar-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 112px;
 }
 
 #loading-box .loading-img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin: auto;
   border: 4px solid var(--btf-card-border);
   object-fit: cover;
   /* 原来是 0.2s 的透明度交替，等于每秒 2.5 次明暗硬闪，像灯管接触不良。
@@ -51,16 +92,45 @@
   will-change: transform, opacity;
 }
 
+/* 头像外圈那段会转的弧 —— 加载页里最直观的「正在加载」信号。
+   做法是 conic-gradient 画一段渐隐的扇形，再用 radial-gradient 遮罩抠成细环。 */
+#loading-box .loading-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 190deg, var(--btf-theme) 330deg, transparent 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  animation: btfLoadingSpin 1.2s linear infinite;
+}
+
+/* 右下角的小绿点（在线状态那种）。
+   描边用「头像边框色」而不是卡片底色：卡片底色在暗色模式下是半透明的，
+   当描边用会在图案背景上糊出一个突兀的实色圆环。 */
 #loading-box .loading-image-dot {
   width: 30px;
   height: 30px;
   background: #6bdf8f;
   position: absolute;
+  right: 6px;
+  bottom: 6px;
   border-radius: 50%;
-  border: 6px solid var(--btf-card-bg);
-  top: 50%;
-  left: 50%;
-  transform: translate(18px, 24px);
+  border: 5px solid var(--btf-card-border);
+  box-sizing: border-box;
+}
+
+#loading-box .loading-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--btf-font-color);
+}
+
+#loading-box .loading-text {
+  font-size: 12px;
+  letter-spacing: .28em;
+  text-indent: .28em;
+  color: var(--btf-second-text);
 }
 
 /* 收起：只让透明度淡出，z-index 始终留在 1001。
@@ -90,6 +160,12 @@
   }
 }
 
+@keyframes btfLoadingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* 深色下投影要重一点才看得见，浅色下太重会显脏 */
 [data-theme="dark"] #loading-box .loading-img {
   box-shadow: 0 10px 32px -16px rgba(0, 0, 0, .68);
@@ -100,5 +176,9 @@
 
   #loading-box .loading-img {
     animation: none;
+  }
+
+  #loading-box .loading-ring {
+    animation-duration: 2.4s;
   }
 }
