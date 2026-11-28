@@ -46,6 +46,15 @@ html.siyuan-code {
 
   /* 语言名 */
   --sy-code-lang: rgba(0, 0, 0, .45);
+
+  /* 折叠时代码底部那段「淡出」的渐变。
+     start = 从代码块下方百分之几开始淡；
+     mid   = 过渡点的黑度（越大越透明）；
+     mid-at= 过渡点落在百分之几。
+     想要更短的淡出，就调大 start；想要更干脆的切口，就调小 mid。 */
+  --sy-code-fade-start: 90%;
+  --sy-code-fade-mid: .55;
+  --sy-code-fade-mid-at: 96%;
 }
 
 html.siyuan-code[data-theme='dark'] {
@@ -219,11 +228,16 @@ html.siyuan-code .container figure.highlight .highlight-tools .expand {
      2. 展开条本身完全透明，只留一枚双箭头图标浮在淡出的位置上
    遮罩只在「有折叠条、而且还没展开」时生效：
    短代码块（没到高度上限）根本没有折叠条，不能被淡出；
-   展开之后也恢复原样。 */
-html.siyuan-code .container figure.highlight:has(> .code-expand-btn):not(.expand-done) > table,
-html.siyuan-code .container figure.highlight:has(> .code-expand-btn):not(.expand-done) > pre {
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, .35) 90%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, .35) 90%, transparent 100%);
+   展开之后也恢复原样。
+
+   注意判断条件要写在「折叠条」身上，不能写在 figure 身上 ——
+   主题的 expand-done 类是加在 .code-expand-btn 这个按钮上的。
+   之前写成 figure:not(.expand-done)，按钮展开后遮罩却一直挂着，
+   结果展开之后代码尾部还是被盖住。 */
+html.siyuan-code .container figure.highlight:has(> .code-expand-btn:not(.expand-done)) > table,
+html.siyuan-code .container figure.highlight:has(> .code-expand-btn:not(.expand-done)) > pre {
+  -webkit-mask-image: linear-gradient(to bottom, #000 var(--sy-code-fade-start), rgba(0, 0, 0, var(--sy-code-fade-mid)) var(--sy-code-fade-mid-at), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 var(--sy-code-fade-start), rgba(0, 0, 0, var(--sy-code-fade-mid)) var(--sy-code-fade-mid-at), transparent 100%);
 }
 
 html.siyuan-code .container figure.highlight .code-expand-btn {

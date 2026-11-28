@@ -242,6 +242,18 @@
   pointer-events: none;
 }
 
+/* 暗色模式下的折角：
+   亮色模式维持主题原本的样子（主题色淡染的小方块）。
+   暗色下那块主题色是土黄，落在中性灰底 + 黑线稿上很突兀，
+   所以换成参考图那种「实心折页」：
+     · 折页底色 = 白 12% 叠在卡片上，比卡片本身明显亮一档；
+     · 右边缘 / 下边缘留一道 22% 的内描边，折痕是硬边，不是渐变；
+     · 几何完全沿用主题原本的 clip-path 切角 + 18×18 方块。 */
+[data-theme='dark'] .post-content blockquote::before {
+  background-color: rgba(255, 255, 255, .12);
+  box-shadow: 0 0 0 .5px rgba(255, 255, 255, .22) inset;
+}
+
 /* 引用块里的最后一段不留底部边距，避免撑出多余空白 */
 .post-content blockquote > :last-child {
   margin-bottom: 0;

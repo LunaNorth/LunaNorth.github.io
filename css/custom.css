@@ -334,6 +334,26 @@ html.has-dark-bg-pattern #web_bg::after {
   pointer-events: none;
 }
 
+/* ---------- 关掉背景的 4 秒淡入（关键） ----------
+   主题开了 enter_transitions，会给 #web_bg 挂一条
+   `animation: to_show 4s`（opacity 0 → 1）。
+   线稿图案是画在 #web_bg 的 ::after 上的，属于同一个元素，
+   所以整块背景连着图案一起淡入：
+
+     加载遮罩撤掉的那一瞬间  → #web_bg 才淡到 30%~50%
+                            → 满屏线稿是「半亮」的灰
+     再过 3 秒              → 图案才完全变深
+
+   看起来就是「加载完先灰一下，然后再慢慢恢复正常」。
+   （实测：#web_bg 处于 50% 时线稿是 rgb(25)，
+     正常状态是 rgb(14)，底色两边都是 rgb(36) 不变。）
+
+   加载页本身已经有淡出过渡了，这里直接关掉这条淡入，
+   图案一上来就是最终浓度。 */
+html.has-dark-bg-pattern #web_bg {
+  animation: none !important;
+}
+
 /* 正文卡片：只压 10% 黑，和 Astro 的 .article-content rgba(0,0,0,.1) 同一思路，
    线稿能原样透出来，不会像实色卡片那样把图案洗淡。 */
 html.has-dark-bg-pattern #post {
@@ -446,6 +466,12 @@ html.has-dark-bg-pattern {
      10 = 10%，也就是 rgba(0,0,0,0.1)。 */
   --btf-surface-alpha: 0.1;
   --btf-dialog-alpha: 0.15;
+  /* 正文字色：主题暗色默认是 #f7f7fa，在深灰底 + 线稿上偏亮（发白），
+     压到 #E6E6E6 观感更协调。值来自配置 dark_background.font_color，
+     由 /js/dark-background.js 以内联变量 --btf-dark-font-color 写进来。
+     注意这条规则挂在 has-dark-bg-pattern 上，
+     所以切回浅色模式、或关掉背景图案时都不会影响。 */
+  --btf-font-color: var(--btf-dark-font-color, #E6E6E6);
   /* 自定义令牌（custom.css 里的深色令牌）全部改成半透明 */
   --btf-card-bg: rgba(0, 0, 0, 0.34);
   --btf-sidebar-bg: rgba(0, 0, 0, 0.34);
@@ -581,13 +607,35 @@ html.has-dark-bg-pattern .container code:not([class*='language-']):not(.hljs) {
 
 /* 引用块 */
 html.has-dark-bg-pattern blockquote {
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(0, 0, 0, var(--btf-surface-alpha, 0.1)) !important;
 }
 
-/* 表格：让表头 / 单元格也是半透明，图案能透上来 */
+/* 表格：单元格跟站内其它卡片一样，统一 10% 黑，线稿能透上来 */
 html.has-dark-bg-pattern .container table td:not(.gutter):not(.code),
 html.has-dark-bg-pattern .container table th {
-  background-color: rgba(0, 0, 0, 0.28) !important;
+  background-color: rgba(0, 0, 0, var(--btf-surface-alpha, 0.1)) !important;
+}
+
+/* 表头原本叠了两层底色：
+   .container table thead { background: var(--btf-second-bg) } 本身就是一层黑，
+   th 自己又来一层 28% 黑 —— 叠出来表头比表体还黑一大截。
+   这里把 thead 拆掉，头部改用一条更亮的下边线来区分，
+   底色还是跟表体一样的 10%。 */
+html.has-dark-bg-pattern .container table thead {
+  background-color: transparent !important;
+}
+
+html.has-dark-bg-pattern .container table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, .22) !important;
+  font-weight: 700;
+}
+
+/* 网格线原来用的是主题暗色边框令牌（带一点紫调），
+   在中性灰底 + 黑线稿上看着发紫。换成中性白。 */
+html.has-dark-bg-pattern .container table,
+html.has-dark-bg-pattern .container th,
+html.has-dark-bg-pattern .container td {
+  border-color: rgba(255, 255, 255, .12) !important;
 }
 
 .layout {

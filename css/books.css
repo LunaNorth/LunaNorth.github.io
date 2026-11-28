@@ -297,9 +297,17 @@ body:has(.books-page) #page {
   align-items: center;
   justify-content: center;
   padding: 18px 14px;
-  background: rgba(14, 14, 18, .58);
-  -webkit-backdrop-filter: blur(12px) saturate(1.1);
-  backdrop-filter: blur(12px) saturate(1.1);
+  /* 压暗和模糊合成同一个滤镜层。
+     原来这里是「半透明黑底 + backdrop-filter 模糊」两层画在同一张卡上，
+     Chromium 裁剪滤镜层和裁剪普通背景用的是不同的亚像素取整，
+     卡片右边那一列就会漏出 1px「没压暗的亮线」。
+     rgba(0,0,0,.58) 等价于把颜色乘 0.42，写成 brightness(.42) 就只剩一层，
+     边界不会再错开。 */
+  -webkit-backdrop-filter: blur(12px) saturate(1.1) brightness(.42);
+  backdrop-filter: blur(12px) saturate(1.1) brightness(.42);
+  /* 跟卡片同样的圆角，自己先裁一刀，模糊也不会溢出到圆角外面 */
+  border-radius: inherit;
+  overflow: hidden;
   color: var(--bk-on-img);
   opacity: 0;
   pointer-events: none;
@@ -324,6 +332,12 @@ body:has(.books-page) #page {
   transition: transform .45s cubic-bezier(.22, .68, .32, 1), opacity .3s ease;
 }
 
+/* 浏览器不支持 backdrop-filter 时，退回半透明底色（观感略平，但不会露馅） */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .bk-hover {
+    background: rgba(14, 14, 18, .58);
+  }
+}
 /* 没写摘句时的兜底：书名一行、作者一行，别让书名被挤断 */
 .bk-desc.is-plain {
   display: block;

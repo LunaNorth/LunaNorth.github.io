@@ -57,6 +57,7 @@
     if (!isDark) {
       root.classList.remove(PATTERN_CLASS)
       root.style.removeProperty('--btf-dark-bg-pattern')
+      root.style.removeProperty('--btf-dark-font-color')
       return
     }
 
@@ -68,6 +69,12 @@
 
     // color 留空 = 沿用主题暗色底色；填 #202020 就是 Astro/Stalux 同款中性灰
     root.style.setProperty('--btf-dark-bg-color', config.color || '#202020')
+
+    // 暗色模式下的正文字色。主题默认是 #f7f7fa，在深灰底 + 线稿上偏亮，
+    // 这里压到 #E6E6E6。单独用一个变量名（--btf-dark-font-color）是故意的：
+    // CSS 那边只在 has-dark-bg-pattern 生效时才拿它去覆盖 --btf-font-color，
+    // 所以切回浅色模式时不会把浅色主题的文字颜色也一起改掉。
+    root.style.setProperty('--btf-dark-font-color', config.font_color || '#E6E6E6')
   }
 
   // 主题切换时 data-theme 会变化，监听后重新铺图
