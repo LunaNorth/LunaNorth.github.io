@@ -299,6 +299,289 @@
   display: none !important;
 }
 
+/* ---------- 暗色模式背景图案 ----------
+   由 _config.butterfly.yml 的 dark_background 段控制。
+
+   开关类 has-dark-bg-pattern 由 /js/dark-background.js 在
+   「暗色模式 + enable: true」时挂到 <html> 上。下面所有规则都以它为前提，
+   所以 enable: false（或者 JS 没加载）时，主题默认的紫色暗色底完全不受影响。
+
+   效果对齐 Astro + Stalux：中性灰底 #202020 + 纯黑线稿铺满整屏，
+   正文卡片只压 10% 黑，线稿原样透出。 */
+
+/* 整站底色：把主题的紫色暗色底换成中性灰 */
+html.has-dark-bg-pattern body {
+  background-color: var(--btf-dark-bg-color, #202020) !important;
+}
+
+html.has-dark-bg-pattern #web_bg {
+  background-color: var(--btf-dark-bg-color, #202020) !important;
+  /* 图案要平铺，不能用主题默认的 cover + no-repeat */
+  background-size: auto !important;
+  background-repeat: repeat !important;
+  background-position: center center !important;
+}
+
+html.has-dark-bg-pattern #web_bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--btf-dark-bg-pattern, none);
+  background-repeat: repeat;
+  background-size: auto;
+  background-position: center center;
+  opacity: var(--btf-dark-bg-opacity, 1);
+  pointer-events: none;
+}
+
+/* 正文卡片：只压 10% 黑，和 Astro 的 .article-content rgba(0,0,0,.1) 同一思路，
+   线稿能原样透出来，不会像实色卡片那样把图案洗淡。 */
+html.has-dark-bg-pattern #post {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 侧边栏卡片（作者卡 / 公告 / 目录 / 标签…）：原来是 34% 黑，
+   比正文卡片重一大截，整条侧栏看起来像一块块深色面板。
+   这里统一成和正文卡片一样的 10% 黑，侧栏和正文就是同一层底子。 */
+html.has-dark-bg-pattern #aside-content .card-widget,
+html.has-dark-bg-pattern #recent-posts .recent-post-item {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ---------- 轻语页（type-lumina）----------
+   轻语页是 Flomo 式的「应用块」，它自己带一套不透明底色：
+     .lumina-app        背景是 var(--global-bg) = #18171d（实色，把线稿全挡住了）
+     .lumina-note-card  color-mix(--lumina-card-surface 30%, transparent)
+   所以整页看起来是一大块深色面板，和其它页面的「灰底 + 线稿」完全两样。
+
+   这里在「暗色模式 + 开启背景图案」时做两件事：
+     1. 把卡片表面基色换成纯黑 —— 轻语.css 里所有
+        color-mix(card-surface, N%, transparent) 就都变成「N% 黑」，
+        和整站卡片 10% 黑是同一套算法；
+     2. 应用块底色改成透明 —— 线稿图案从下面原样透上来。
+   浅色模式不受影响。 */
+html.has-dark-bg-pattern .lumina-app {
+  --lumina-bg: transparent;
+  --lumina-card-bg: transparent;
+  --lumina-card-surface: #000000;
+  background: transparent !important;
+}
+
+/* 便签卡片：原来 30% 黑，比正文卡片重，降到和正文一样的 10% 黑 */
+html.has-dark-bg-pattern .lumina-note-card {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 移动端的统计条同理 */
+html.has-dark-bg-pattern .lumina-stats {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ---------- 首页 ----------
+   1) 轻语速览条（#bbTimeList）：底色写的是 var(--btf-card-bg)，
+      暗色下就是 34% 黑。在整站「10% 黑」的基调里，它又厚又闷，
+      和下方文章卡片明显不是一个层级 —— 统一降到 10% 黑。
+   2) 文章分页按钮（.page-number / .extend.next）：同样是 34% 黑。 */
+html.has-dark-bg-pattern #bbTimeList {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ---------- 文章头图区（.post-bg）----------
+   头图区原本被一整块「封面主色」铺满 470px（封面取色后拿到的实色），
+   暗色模式下就是一整块饱和色，和整站「中性灰 + 线稿」的底子完全割裂开，
+   头图下沿还会多出一条 #18171d 的色带。
+
+   这里在「暗色模式 + 开启背景图案」时改成：
+   头图区自身透明、上面那层遮罩也完全透明 →
+   线稿图案原样透上来，和下方正文区的底子一模一样，
+   头图和正文之间不再有一道深浅分界（和 Astro / Stalux 一个观感）。
+   浅色模式不受影响，仍然是原来的主色块。 */
+
+/* ---------- 首页头图（index-banner）----------
+   首页顶部那张「雨窗」照片（images/index-banner.jpg）是整站最后一处
+   还用实拍图当背景的地方，和「中性灰底 + 黑色线稿」的观感完全割裂。
+
+   它的背景是三层叠出来的：
+     1. background-image  —— 照片本身
+     2. background-color  —— 蓝色主色 #4260ef，垫在照片下面
+     3. ::before          —— 60% 黑的压暗层（Butterfly 给图片头图加的）
+
+   暗色模式 + 开启背景图案时，三层全部去掉：
+   头图区自身透明 → 固定定位的线稿图案直接铺满这 500px，
+   和下方正文、侧边栏是同一层底子。浅色模式保持原来的照片。 */
+html.has-dark-bg-pattern #page-header.full_page.fixed {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+html.has-dark-bg-pattern #page-header.full_page.fixed::before {
+  background-color: transparent !important;
+}
+
+html.has-dark-bg-pattern[data-theme='dark'] .post #page-header.post-bg:not(.not-top-img) {
+  background-color: transparent !important;
+}
+
+html.has-dark-bg-pattern[data-theme='dark'] .post #page-header.post-bg:not(.not-top-img)::before {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* 头图下沿那道圆角小台阶：原来是主题暗色底（#18171d），会露出一条异色带。
+   头图透明之后它也跟着透明，色带自然消失。 */
+html.has-dark-bg-pattern[data-theme='dark'] .post #page-header.post-bg:not(.not-top-img) .post-radius-bottom {
+  background: transparent !important;
+}
+
+/* ---------- 组件半透明化 ----------
+   暗色模式默认的卡片 / 代码块是实色（#121212、#2c2c2c），
+   会把背景图案整块挡住。这里统一改成半透明，让线稿从卡片底下透出来，
+   观感就和 Astro 的 Stalux 一致：图案铺满整屏，卡片只是一层淡淡的暗色玻璃。 */
+
+html.has-dark-bg-pattern {
+  /* 自定义令牌（custom.css 里的深色令牌）全部改成半透明 */
+  --btf-card-bg: rgba(0, 0, 0, 0.34);
+  --btf-sidebar-bg: rgba(0, 0, 0, 0.34);
+  --btf-blockquote-bg: rgba(0, 0, 0, 0.3);
+  --btf-second-bg: rgba(0, 0, 0, 0.26);
+  --btf-second-bg-strong: rgba(0, 0, 0, 0.3);
+  /* 右侧悬浮按钮（主题切换 / 设置 / 回到顶部…）和页脚整条 */
+  --btf-card-btn-bg: rgba(0, 0, 0, 0.1);
+  --btf-footer-bg: rgba(0, 0, 0, 0.1);
+  /* 侧边栏卡片（作者卡、目录、公告、归档…） */
+  --card-bg: rgba(0, 0, 0, 0.1);
+  --sidebar-bg: rgba(0, 0, 0, 0.1);
+  /* 引用块 */
+  --blockquote-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- 所有卡片表面统一 10% 黑 ----------
+   --btf-card-bg 这个令牌本身不能改成 0.1：calendar.css 里有几处
+   把它当「文字色」在用，rgba(0,0,0,0.1) 当颜色几乎看不见。
+   所以令牌保持 0.34 不动，这里改成把「拿它当背景用」的各类卡片
+   逐个覆盖成 10% 黑 —— 整站所有卡片就都是同一层底子了。
+
+   刻意保留原值的（它们不是「卡片」，压太狠会丢信息）：
+     - 行内代码背景：要保证代码文字可读
+     - 日历 / 进度条轨道：必须比卡片深，否则和 10% 黑的卡片糊在一起看不出来 */
+html.has-dark-bg-pattern :is(
+  #sidebar-menus .menus_items,
+  .gallery-group,
+  .layout .pagination > *:not(.space):not(.current),
+  .search-dialog,
+  .flink-card,
+  .habit-card,
+  .fit-card,
+  .stats-kpi,
+  .stats-panel,
+  .tag-cloud-list a
+) {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 分页按钮的悬停态原本也是 34% 黑，跟着一起降 */
+html.has-dark-bg-pattern .layout .pagination > *:not(.space):not(.current):hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ---------- 暗色模式的代码块配色令牌 ----------
+   代码块必须是「实心卡片」，不能是半透明 —— 半透明会让背景线稿透进代码区，
+   字和图案叠在一起根本没法读。
+
+   这里用 html[data-theme='dark'] 而不是 html.has-dark-bg-pattern：
+   前者特异性 (0,1,1)，比 source/css/code-vs.css 里的 [data-theme="dark"] (0,1,0)
+   高，所以能盖住它；而且不依赖背景图案开关，关掉图案后代码块外观也不变。
+   四个值对应 Astro / Stalux 那一套：代码区 #1b1b1b、行号栏 #161616、
+   顶部工具条 #262626，展开按钮的渐变也用同一个底色。 */
+html[data-theme='dark'] {
+  --hl-bg: #1b1b1b;
+  --hltools-bg: #262626;
+  --hlnumber-bg: #161616;
+  --hlexpand-bg: linear-gradient(180deg, rgba(27, 27, 27, 0.7), rgba(27, 27, 27, 0.95));
+}
+
+/* 主栏容器本身不铺色，交给里面的卡片（#post / 文章条目）决定，
+   否则两层半透明叠在一起会过暗。 */
+html.has-dark-bg-pattern .layout > div:first-child:not(.nc) {
+  background: transparent !important;
+}
+
+/* 代码块：改成 Astro / Stalux 那种「实心深色卡片」。
+   半透明会让背景线稿透进代码区，字和图案叠在一起根本看不清代码，
+   所以代码块这里改回实色，靠圆角 + 顶部工具条把边界划清楚。
+   注意作用域用 [data-theme='dark']（而不是 has-dark-bg-pattern），
+   这样即使把背景图案开关关掉，暗色下的代码块外观也保持一致。 */
+[data-theme='dark'] #article-container figure.highlight,
+[data-theme='dark'] .container figure.highlight,
+[data-theme='dark'] #article-container figure.highlight .hljs,
+[data-theme='dark'] .container figure.highlight .hljs {
+  background-color: #1b1b1b !important;
+}
+
+[data-theme='dark'] .container figure.highlight {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 顶部工具条：mac 三色点 + 语言名 + 复制按钮。
+   底色比代码区亮一档，卡片层次就出来了。 */
+[data-theme='dark'] .container figure.highlight .highlight-tools {
+  height: auto;
+  min-height: 34px;
+  padding: 0 12px;
+  background-color: #262626 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='dark'] .container figure.highlight .highlight-tools .code-lang {
+  color: #cfd6dd;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+[data-theme='dark'] .container figure.highlight .highlight-tools i {
+  color: #9aa4ae;
+}
+
+[data-theme='dark'] .container figure.highlight .highlight-tools i:hover {
+  color: #fff;
+}
+
+/* 左侧行号栏：比代码区更暗一点，中间用一条极淡的竖线分隔 */
+[data-theme='dark'] .container figure.highlight .gutter,
+[data-theme='dark'] .container figure.highlight .gutter pre {
+  background-color: #161616 !important;
+  color: rgba(255, 255, 255, 0.32);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .container figure.highlight table {
+  border: none !important;
+}
+
+/* 行内代码 */
+html.has-dark-bg-pattern .container code {
+  background-color: rgba(0, 0, 0, 0.34) !important;
+}
+
+/* 行内代码 */
+html.has-dark-bg-pattern .container code {
+  background-color: rgba(0, 0, 0, 0.34) !important;
+}
+
+/* 引用块 */
+html.has-dark-bg-pattern blockquote {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 表格：让表头 / 单元格也是半透明，图案能透上来 */
+html.has-dark-bg-pattern .container table td:not(.gutter):not(.code),
+html.has-dark-bg-pattern .container table th {
+  background-color: rgba(0, 0, 0, 0.28) !important;
+}
+
 .layout {
   max-width: var(--btf-layout-width);
   padding: 20px 15px;
@@ -2320,7 +2603,9 @@
 .search-dialog #search-results .search-result-item {
   width: 100%;
   padding-left: 0;
-  font-weight: 700;
+  /* 原来这里是 700（加粗），在暗色底上白字加粗特别刺眼，
+     跟文章正文的观感完全不一样。改成 400，跟正文一个粗细。 */
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -2331,6 +2616,7 @@
   padding: 3px 0;
   overflow: hidden;
   color: var(--btf-font-color);
+  font-weight: 400;
   white-space: nowrap;
   text-overflow: ellipsis;
   transition: color .2s ease-in-out;
@@ -2809,8 +3095,9 @@ html.search-open {
 }
 
 .post #page-header.post-bg:not(.not-top-img) .post-meta-original:hover {
-  background: var(--btf-white);
-  color: var(--btf-header-theme);
+  /* 悬停同样把「白底 + 主题色字」换成「主题色底 + 白字」 */
+  background: var(--btf-header-theme);
+  color: var(--btf-white);
 }
 
 .post #page-header.post-bg:not(.not-top-img) span.post-meta-categories {
@@ -2818,11 +3105,11 @@ html.search-open {
 }
 
 .post #page-header.post-bg:not(.not-top-img) span.post-meta-categories:hover {
-  background: var(--btf-white);
+  background: var(--btf-header-theme);
 }
 
 .post #page-header.post-bg:not(.not-top-img) span.post-meta-categories:hover a.post-meta-categories {
-  color: var(--btf-header-theme);
+  color: var(--btf-white);
 }
 
 .post #page-header.post-bg:not(.not-top-img) a.post-meta-categories {
@@ -2951,10 +3238,13 @@ html.search-open {
   transition: background-color .3s ease-out, color .3s ease-out;
 }
 
+/* 悬停：底色和文字颜色之前是「反着」的 ——
+   白底 + 主题色字，改成主题色底 + 白字，
+   跟站内其它按钮的悬停效果（主题色底、白字）保持一致。 */
 .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > span:hover,
 .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline > a.post-meta-pv:hover {
-  background: var(--btf-white);
-  color: var(--btf-header-theme);
+  background: var(--btf-header-theme);
+  color: var(--btf-white);
 }
 
 .post #page-header.post-bg:not(.not-top-img) #post-info .meta-secondline .post-meta-separator,
@@ -3624,4 +3914,156 @@ html.search-open {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+
+/* ==========================================================================
+   目录（TOC）适配 Astro / Stalux 风格
+   --------------------------------------------------------------------------
+   目标样式（Stalux 文章页目录）：
+     1. 标题栏「≡ 目录」+ 右上角一个斜体数字（这里放目录条目总数）
+     2. 条目行距宽松，字号偏大
+     3. 当前所在的小节 = 蓝色实心圆角块 + 白色文字
+   数值（条目总数）由 /js/toc-style.js 写入 .toc-percentage，
+   对应的滚动百分比已在 _config.butterfly.yml 里关掉（toc.scroll_percent: false）。
+   ========================================================================== */
+
+/* 标题栏：图标 + 「目录」 + 右侧数字 */
+#aside-content #card-toc .item-headline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 10px;
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
+#aside-content #card-toc .item-headline span {
+  margin-left: 0;
+}
+
+/* 右上角的条目数：斜体、放大，跟 Stalux 一样 */
+#aside-content #card-toc .toc-percentage {
+  float: right;
+  margin-left: auto;
+  margin-top: 0;
+  color: var(--btf-font-color);
+  font-style: italic;
+  font-size: 140%;
+  font-weight: 600;
+}
+
+/* 列表：留白更松，文字不挤在一起 */
+#aside-content #card-toc .toc-content {
+  padding-bottom: 8px;
+}
+
+#aside-content #card-toc .toc-content .toc-link {
+  padding: 4px 10px;
+  margin: 2px 0;
+  border-radius: 8px;
+  font-size: 0.95em;
+  line-height: 1.7;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 悬停：淡灰底 + 主色字 */
+#aside-content #card-toc .toc-content .toc-link:hover {
+  background-color: rgba(127, 127, 127, 0.12);
+  color: var(--btf-theme);
+}
+
+/* 当前小节：蓝色实心圆角块 + 白字（对齐 Stalux） */
+#aside-content #card-toc .toc-content .toc-link.active {
+  background: #425aef;
+  color: #fff;
+  font-weight: 600;
+}
+
+#aside-content #card-toc .toc-content .toc-link.active:hover {
+  background: #425aef;
+  color: #fff;
+}
+
+/* ==========================================================================
+   4.20 搜索弹窗：适配「中性灰底 + 黑色线稿」的暗色模式
+   --------------------------------------------------------------------------
+   问题：主题原本的搜索遮罩是 85% 黑，弹窗本身又是一块实色，
+        在这套线稿背景里就成了一个死黑的方盒子，把线稿全挡住了。
+
+   现在的做法：
+     · 遮罩压到 35% 黑 —— 页面只暗一档，线稿照旧透出来
+     · 弹窗面板 15% 黑（比正文卡片略深一点，好跟背景分开）
+     · 面板加一层轻微的背景模糊 —— 正文文字不会从弹窗底下透上来抢视线
+     · 建议标签、结果条目统一 10% 黑的小卡片，跟站内其它卡片同一套
+   ========================================================================== */
+
+html.has-dark-bg-pattern #search-mask {
+  background: rgba(0, 0, 0, .35) !important;
+}
+
+/* 选择器带 #local-search 是为了压过前面那条 :is(...) 批量规则 ——
+   :is() 取的是参数里最具体的那个（.layout .pagination > *:not()...），
+   权重比这里的类选择器高，不加 id 的话这条根本轮不到生效。 */
+html.has-dark-bg-pattern #local-search .search-dialog {
+  background: rgba(0, 0, 0, .15) !important;
+  border-color: rgba(255, 255, 255, .12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
+  backdrop-filter: blur(8px) saturate(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+}
+
+/* 搜索框：比面板再深一档，输入区要能跟背景分开 */
+html.has-dark-bg-pattern .search-dialog .search-box input,
+html.has-dark-bg-pattern .search-dialog .local-search-input input,
+html.has-dark-bg-pattern .search-dialog #algolia-search-input input,
+html.has-dark-bg-pattern .search-dialog .ais-SearchBox-input {
+  background: rgba(0, 0, 0, .28);
+  border-color: rgba(255, 255, 255, .12);
+}
+
+/* 热门搜索标签：10% 黑的小胶囊，文字压暗一档，不再是一排白按钮 */
+html.has-dark-bg-pattern .search-dialog #search-suggestions .tag-list {
+  color: var(--btf-second-text);
+  background: rgba(0, 0, 0, .1);
+  border-color: rgba(255, 255, 255, .12);
+}
+
+html.has-dark-bg-pattern .search-dialog #search-suggestions .tag-list:hover,
+html.has-dark-bg-pattern .search-dialog #search-suggestions .tag-list:focus-visible {
+  color: var(--btf-white);
+  background: var(--btf-theme);
+  border-color: var(--btf-theme);
+}
+
+/* 搜索结果：每条一个小卡片，悬停才亮起来 */
+html.has-dark-bg-pattern .search-dialog #search-results .search-result-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background-color .2s ease;
+}
+
+html.has-dark-bg-pattern .search-dialog #search-results .search-result-item:hover {
+  background: rgba(0, 0, 0, .1);
+}
+
+html.has-dark-bg-pattern .search-dialog #search-results .search-result-title {
+  color: var(--btf-font-color);
+}
+
+/* 底部那行「找到 N 条结果」别太暗，之前几乎看不见 */
+html.has-dark-bg-pattern .search-dialog #search-tips .search-result-count {
+  color: var(--btf-second-text);
+}
+
+/* 分页按钮：10% 黑 */
+html.has-dark-bg-pattern .search-dialog #search-pagination .pagination-button {
+  background: rgba(0, 0, 0, .1);
+  border-color: rgba(255, 255, 255, .12);
+}
+
+html.has-dark-bg-pattern .search-dialog #search-pagination .pagination-button.select {
+  background: var(--btf-theme);
+  border-color: var(--btf-theme);
+  color: var(--btf-white);
 }

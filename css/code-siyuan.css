@@ -1,0 +1,263 @@
+/* ==========================================================================
+   思源风格代码块
+   --------------------------------------------------------------------------
+   开关：_config.butterfly.yml -> code_blocks.siyuan_style
+       true  → 思源观感（半透明卡片 / 语言名左上 / 按钮右上 / 行号与代码同底色）
+       false → 回到 Butterfly 原样（红黄绿圆点 + 语言名工具条）
+
+   整份文件只在 <html class="siyuan-code"> 时生效，
+   所以关掉开关就等于这份文件不存在，不会影响原来的样子。
+
+   只改「外壳」，不动语法配色：
+   .hljs-* 的颜色仍旧由 code-vs.css 负责 —— 亮色是官方 vs.css，
+   暗色是 VS Code Dark+ 那套，一个色值都没改。
+
+   观感取自思源笔记（v3.8）里的代码块：
+     · 卡片是半透明的，站点的背景线稿能透过来（思源最关键的一点）
+     · 顶部没有工具条底色，语言名单独待在左上角，按钮在右上角
+     · 复制 / 折叠是两枚独立的小方钮，不合成一条药丸
+     · 行号列和代码区共用同一块底色，中间不画分隔竖线
+     · 行号压得很淡，只用来定位
+   ========================================================================== */
+
+/* ---------- 令牌 ---------- */
+
+html.siyuan-code {
+  --sy-code-radius: 10px;
+
+  /* 顶部那一条预留高度：语言名 + 按钮都待在里面 */
+  --sy-code-head-h: 31px;
+
+  /* 行号颜色 */
+  --sy-code-gutter: rgba(0, 0, 0, .38);
+
+  /* 卡片底色。默认是实色 —— 跟思源「没有背景图」那一档一致，
+     实色下代码最清楚，线稿不会来捣乱 */
+  --sy-code-bg: #ffffff;
+  --sy-code-border: rgba(0, 0, 0, .1);
+
+  /* 右上角按钮 */
+  --sy-code-btn: rgba(0, 0, 0, .5);
+  --sy-code-btn-bg: rgba(0, 0, 0, .06);
+  --sy-code-btn-border: rgba(0, 0, 0, .12);
+
+  --sy-code-btn-hover: rgba(0, 0, 0, .8);
+
+
+  /* 语言名 */
+  --sy-code-lang: rgba(0, 0, 0, .45);
+}
+
+html.siyuan-code[data-theme='dark'] {
+  --sy-code-gutter: rgba(255, 255, 255, .26);
+
+  /* 暗色下没开背景图案：实心深色，跟现在的代码块一个色 */
+  --sy-code-bg: #1b1b1b;
+  --sy-code-border: rgba(255, 255, 255, .09);
+
+  --sy-code-btn: rgba(255, 255, 255, .5);
+  --sy-code-btn-bg: rgba(255, 255, 255, .07);
+  --sy-code-btn-border: rgba(255, 255, 255, .14);
+
+  --sy-code-btn-hover: rgba(255, 255, 255, .95);
+
+
+  --sy-code-lang: rgba(255, 255, 255, .38);
+}
+
+/* 暗色 + 开了背景图案：卡片换成半透明，线稿透得上来。
+   对应思源「有背景图」的那一档 —— 思源有背景图时代码块也是透的，
+   没有背景图时才回到实色。
+   透明度跟站内其它卡片保持一致（10% 黑），整站看起来是一套的。 */
+html.siyuan-code.has-dark-bg-pattern[data-theme='dark'] {
+  --sy-code-bg: rgba(0, 0, 0, .10);
+}
+
+/* ---------- 卡片外壳 ---------- */
+
+html.siyuan-code .container figure.highlight {
+  overflow: hidden;
+  padding-top: var(--sy-code-head-h);
+  border: 1px solid var(--sy-code-border);
+  border-radius: var(--sy-code-radius);
+  background-color: var(--sy-code-bg) !important;
+  box-shadow: none;
+}
+
+/* 底色只留卡片这一层。
+   里面的 <code> / <pre> / <table> 默认都自带一层实色底（--hl-bg 或行内代码色），
+   不清掉的话代码区会浮在卡片中间、颜色比两侧深一截，像贴了块黑胶布。
+   所以：卡片负责画底，里面全部透明。 */
+html.siyuan-code .container figure.highlight pre,
+html.siyuan-code .container figure.highlight .hljs,
+html.siyuan-code .container figure.highlight table {
+  background-color: transparent !important;
+}
+
+/* custom.css 里那几条带 #article-container 的规则带了 id 选择器，
+   权重比类选择器高，所以同样内容要再写一份带 id 的才压得住 */
+html.siyuan-code[data-theme='dark'] #article-container figure.highlight {
+  background-color: var(--sy-code-bg) !important;
+}
+
+html.siyuan-code[data-theme='dark'] #article-container figure.highlight .hljs,
+html.siyuan-code[data-theme='dark'] .container figure.highlight .hljs {
+  background-color: transparent !important;
+}
+
+/* ---------- 行号列：跟代码共用底色，不画分隔线 ---------- */
+
+html.siyuan-code .container figure.highlight .gutter,
+html.siyuan-code .container figure.highlight .gutter pre {
+  background-color: transparent !important;
+  border-right: 0 !important;
+  color: var(--sy-code-gutter) !important;
+}
+
+/* 行号左边留出呼吸位（不然数字会贴着卡片边框），右边也留一点 */
+html.siyuan-code .container figure.highlight .gutter pre {
+  padding-left: 14px;
+  padding-right: 16px;
+}
+
+html.siyuan-code .container figure.highlight .code pre {
+  padding-left: 16px;
+}
+
+/* 主题给 <pre> 加了 8px 的上下内边距，
+   顶部这 8px 会把第一行代码推得离语言名很远。
+   这里去掉上内边距，第一行代码紧跟在语言名下面，
+   「语言名 → 代码」和「语言名 → 代码块顶边」的距离就一致了。 */
+html.siyuan-code .container figure.highlight pre {
+  padding-top: 0 !important;
+}
+
+/* ---------- 顶部：语言名在左，按钮在右，中间不画任何东西 ---------- */
+
+html.siyuan-code .container figure.highlight .highlight-tools {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  height: var(--sy-code-head-h);
+  min-height: 0;
+  padding: 0 12px;
+  overflow: visible;
+  border: 0;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+
+/* mac 三色圆点：思源里没有，去掉 */
+html.siyuan-code .container figure.highlight .highlight-tools .macStyle {
+  display: none;
+}
+
+/* 语言名：贴左上角，字号比正文小一点但看得清。
+   它跟第一行代码之间的距离 = 它跟代码块顶边之间的距离，
+   这样左上角不会空出一大块，也不至于挤到代码上。 */
+html.siyuan-code .container figure.highlight .highlight-tools .code-lang {
+  order: 1;
+  margin-right: auto;
+  padding: 6px 0 0 10px;
+  color: var(--sy-code-lang) !important;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+
+/* 复制 / 折叠：两枚图标，本身不带底色 */
+html.siyuan-code .container figure.highlight .highlight-tools i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  width: 22px;
+  height: 22px;
+  margin: 8px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--sy-code-btn) !important;
+  font-size: 14px;
+  opacity: .7;
+  transition: opacity .2s ease, background-color .2s ease;
+}
+
+html.siyuan-code .container figure.highlight:hover .highlight-tools i {
+  opacity: 1;
+}
+
+html.siyuan-code .container figure.highlight .highlight-tools i:hover {
+  background-color: rgba(127, 127, 127, .22);
+  color: var(--sy-code-btn-hover) !important;
+}
+
+/* 胶囊里的顺序：语言名 → 复制 → 折叠 */
+html.siyuan-code .container figure.highlight .highlight-tools .copy-button {
+  order: 2;
+}
+
+html.siyuan-code .container figure.highlight .highlight-tools .expand {
+  order: 3;
+  /* 两枚图标稍微叠一点，紧凑地挤在药丸里（Neo 也是这么做的） */
+  margin-left: -4px;
+}
+
+/* ---------- 折叠展开条（长代码底部那根） ---------- */
+
+/* 主题原版是一条厚重的黑色渐变带（--hlexpand-bg），压在半透明卡片上
+   就成了一块突兀的黑胶布，而且还会跟卡片底色叠出两层暗色。
+   思源笔记里没有这根条，代码是直接淡出结尾的。
+   所以这里改成两件事：
+     1. 代码底部用遮罩（mask）淡出，文字自己溶进卡片 —— 没有额外的色块
+     2. 展开条本身完全透明，只留一枚双箭头图标浮在淡出的位置上
+   遮罩只在「有折叠条、而且还没展开」时生效：
+   短代码块（没到高度上限）根本没有折叠条，不能被淡出；
+   展开之后也恢复原样。 */
+html.siyuan-code .container figure.highlight:has(> .code-expand-btn):not(.expand-done) > table,
+html.siyuan-code .container figure.highlight:has(> .code-expand-btn):not(.expand-done) > pre {
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, .35) 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, rgba(0, 0, 0, .35) 90%, transparent 100%);
+}
+
+html.siyuan-code .container figure.highlight .code-expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  background: transparent !important;
+  text-align: center;
+}
+
+html.siyuan-code .container figure.highlight .code-expand-btn i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--sy-code-btn) !important;
+  font-size: 16px;
+  opacity: .75;
+  animation: none;
+  transition: color .2s ease, opacity .2s ease;
+}
+
+html.siyuan-code .container figure.highlight .code-expand-btn i:hover {
+  color: var(--sy-code-btn-hover) !important;
+  opacity: 1;
+}
+
+/* 展开后箭头朝上，位置别跳动 */
+html.siyuan-code .container figure.highlight .code-expand-btn.expand-done i {
+  transform: rotate(180deg);
+}
